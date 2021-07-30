@@ -53,24 +53,25 @@ pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
 
 ```{r}
 # Source supporting functions
-source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/R/all_functions.R", local = knitr::knit_global())
+source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/R/all_functions.R", local = knitr::knit_global())
 
 # Load supporting lookup data
 
 # 1. Gambit openings - to enable analysis of gambits and gambit-lovers
-gambits <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/lookup/gambits.csv")
+gambits <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/gambits.csv")
+# gambits <- read.csv("data/lookup/gambits.csv")
 
 # 2. FIDE performance rating lookup values
 # 2-column table with tournament performance scores and rating differences
 # Compiled from https://handbook.fide.com/chapter/B022017
 # Required for calculating player performance ratings using FIDE's method 
-fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/lookup/fide_tpr_lookup.csv")
+fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/fide_tpr_lookup.csv")
 
 # 3. Accounts banned from the Lichess4545 leagues
 # Sourced from a local text file - last updated on 2021-07-12 from the original 4545 ban log
 # All games involving banned players are removed before any stats are processed.
 # banned <- read.csv("C:/Users/rahul/Documents/Github/4545-stats/data/players_booted_from_lichess4545.txt", header = F)
-banned <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/lookup/lichess4545_banned_players.csv")
+banned <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/lichess4545_banned_players.csv")
 
 ```
 
@@ -136,11 +137,11 @@ if(league == "lonewolf"){
 }
 
 # Load (tidied) games data
-games <- readRDS(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/games_", league_load_label, "_s", season, ".rds"))
+games <- readRDS(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/games_", league_load_label, "_s", season, ".rds"))
 
 # Load season pairings and positions data
-pairings <- rio::import(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/pairings_", league_load_label, "_s", season, ".csv"))
-positions <- rio::import(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/positions_", league_load_label, "_s", season, ".csv"))
+pairings <- rio::import(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/pairings_", league_load_label, "_s", season, ".csv"))
+positions <- rio::import(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/positions_", league_load_label, "_s", season, ".csv"))
 
 # Final tidying of games data
 # Add gambits data
@@ -1337,7 +1338,7 @@ reactable(gambiteers,
 
 Click on the image below to see an explorable sunburst plot of all openings played in the season.
 
-[![Opening star placeholder](C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/images/opening_star_placeholder.png)](http://www.google.com)
+[![Opening star placeholder](C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/images/opening_star_placeholder.png)](http://www.google.com)
 
 
 ### Player awards
@@ -2046,7 +2047,7 @@ reactable(awards,
             Image = colDef(name = "Award", 
                            cell = function(value, index) {
                              award_name <- awards$Award[index]
-                             image <- img(src = sprintf("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/images/%s.png", award_name), height = "60px", alt = award_name)
+                             image <- img(src = sprintf("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/images/%s.png", award_name), height = "60px", alt = award_name)
               tagList(
                 div(style = list(display = "inline-block", width = "60px"), image)
                 )

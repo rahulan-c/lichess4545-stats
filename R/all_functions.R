@@ -41,13 +41,13 @@
 # ---- User-defined parameters ------------------------------------------------
 
 # Directory where 4545/LW season data should be saved
-path_savedata <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/"
+path_savedata <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/"
 
 # Directory where season stats R Markdown file is saved
-path_loadrmd <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/R/"
+path_loadrmd <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/R/"
 
 # Directory where final season stats reports should be saved
-path_savereport <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/reports/"
+path_savereport <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/reports/"
 
 # Name of R Markdown file that produces the stats (eg "index" for index.Rmd)
 stats_rmd_filename <- "produce_season_stats"
