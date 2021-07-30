@@ -1,3 +1,3 @@
-# rahulan-c.github.io
+# lichess4545-stats
 
-Lichess4545 stats by league/season.
+What it sounds like: Lichess4545 league stats.
