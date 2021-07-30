@@ -44,13 +44,13 @@
 path_savedata <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/"
 
 # Directory where season stats R Markdown file is saved
-path_loadrmd <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/"
+path_loadrmd <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/R/"
 
 # Directory where final season stats reports should be saved
-path_savereport <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/"
+path_savereport <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/reports/"
 
 # Name of R Markdown file that produces the stats (eg "index" for index.Rmd)
-stats_rmd_filename <- "index"
+stats_rmd_filename <- "produce_season_stats"
 
 # Lichess API token
 token <- Sys.getenv("LICHESS_TOKEN")
