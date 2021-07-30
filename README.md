@@ -1,17 +1,9 @@
 # lichess4545-stats
 
-This stuff produces HTML reports summarising Lichess4545 Team and LoneWolf league seasons.
+Stats for previous Lichess4545 Team and LoneWolf seasons, published [here](https://rahulan-c.github.io/lichess4545-stats/). Originally produced for the [Lichess4545 Ledger](https://www.lichess4545.com/team4545/document/ledger-144/). 
 
-Each report provides a high-level overview of the season (when games were played, how many were won by White etc) but also gives detailed stats on popular openings, performance by board / rating band, and player statistics on a wide range of measures including relative performance rating, move times, average centipawn loss...
+## How to replicate
 
-## What's in the repo? 
+*NOTE: it's impossible to perfectly replicate the stats on the website, as the script that produces the final report for a given season first excludes any player that's been banned by Lichess for ToS violations, even if they were banned after the season ended. The script does this by referring to a dataset that cannot be made public, for obvious reasons. This is the only non-replicable aspect of the process.*
 
-TBC.
-
-## Will I get the same results if I run this code?
-
-No...but only because after extracting data on games/pairings for a given season, the code excludes all players who were banned from the Lichess4545 leagues for violating Lichess's Terms of Service. It does this by referring to non-public data which shouldn't be exposed here. Sorry about that.
-
-In all other respects, you should be able to replicate the stats reports by doing the following:
-
-- TBC
+TBC
