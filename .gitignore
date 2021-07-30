@@ -3,6 +3,6 @@
 .RData
 .Ruserdata
 # Ignore data folder (will be too big once all seasons are done)
-data
+data/**
 # Ignore reports folder (HTML files are too large)
-reports
+reports/**

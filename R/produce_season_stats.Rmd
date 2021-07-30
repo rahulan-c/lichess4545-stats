@@ -1337,7 +1337,7 @@ reactable(gambiteers,
 
 Click on the image below to see an explorable sunburst plot of all openings played in the season.
 
-[![Opening star placeholder](images/opening_star_placeholder.png)](http://www.google.com)
+[![Opening star placeholder](C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/images/opening_star_placeholder.png)](http://www.google.com)
 
 
 ### Player awards
@@ -2046,7 +2046,7 @@ reactable(awards,
             Image = colDef(name = "Award", 
                            cell = function(value, index) {
                              award_name <- awards$Award[index]
-                             image <- img(src = sprintf("images/%s.png", award_name), height = "60px", alt = award_name)
+                             image <- img(src = sprintf("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/images/%s.png", award_name), height = "60px", alt = award_name)
               tagList(
                 div(style = list(display = "inline-block", width = "60px"), image)
                 )
