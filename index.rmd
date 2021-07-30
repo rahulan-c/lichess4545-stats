@@ -30,7 +30,7 @@ completed <- completed %>%
   mutate(Seasons = paste0("[", season, "]", "(", "https://rahulan-c.github.io/lichess4545-stats/reports/stats_", season, ".html", ")")) %>% 
   select(Seasons)
 
-knitr::kable(completed)
+knitr::kable(completed, format = "simple")
 
 ```
 

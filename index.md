@@ -8,37 +8,25 @@ Here are links to the stats for the seasons completed so far.
 
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-Seasons
-</th>
+<tr class="header">
+<th style="text-align: left;">Seasons</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-[4545_s08](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s08.html)
-</td>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s08.html">4545_s08</a></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-[4545_s09](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s09.html)
-</td>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s09.html">4545_s09</a></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-[4545_s10](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s10.html)
-</td>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s10.html">4545_s10</a></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-[4545_s13](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s13.html)
-</td>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s13.html">4545_s13</a></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-[4545_s14](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s14.html)
-</td>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s14.html">4545_s14</a></td>
 </tr>
 </tbody>
 </table>
