@@ -2,5 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+# Ignore data folder (will be too big once all seasons are done)
 data
-lichess4545_banned_players.csv
+# Ignore reports folder (HTML files are too large)
+reports
