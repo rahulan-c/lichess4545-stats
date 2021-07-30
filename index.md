@@ -6,7 +6,29 @@ leagues, you’re in the right place.
 
 Here are links to the stats for the seasons completed so far.
 
-| Seasons                                                                               |
-|:--------------------------------------------------------------------------------------|
-| [4545_s08](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s08.html) |
-| [4545_s09](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s09.html) |
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Seasons
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+[4545_s08](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s08.html)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[4545_s09](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s09.html)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[4545_s10](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s10.html)
+</td>
+</tr>
+</tbody>
+</table>
