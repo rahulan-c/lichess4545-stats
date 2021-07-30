@@ -1,10 +1,11 @@
 ---
 output:
   html_document:
-    theme: default
+    theme: sandstone
     dev: svglite
     toc: yes
     toc_depth: 3
+    toc_float: true
 title: "`r paste0('Season summary: ', ifelse(league == 'lonewolf', 'LoneWolf', '4545 League'), ifelse(lw_section == 'open', ' (Open)', ifelse(lw_section == 'u1800', ' (U1800)', '')), ', Season ', s)`"
 ---
 
