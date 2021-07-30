@@ -4,7 +4,7 @@ output:
     theme: sandstone
     dev: svglite
     toc: yes
-    toc_depth: 3
+    toc_depth: 4
     toc_float: true
 title: "`r paste0('Season summary: ', ifelse(league == 'lonewolf', 'LoneWolf', '4545 League'), ifelse(lw_section == 'open', ' (Open)', ifelse(lw_section == 'u1800', ' (U1800)', '')), ', Season ', s)`"
 ---
@@ -54,7 +54,7 @@ pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
 
 ```{r}
 # Source supporting functions
-source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/R/all_functions.R", local = knitr::knit_global())
+source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/scripts/all_functions.R", local = knitr::knit_global())
 
 # Load supporting lookup data
 
@@ -339,7 +339,7 @@ reactable(winners,
 
 #### Story of the season
 
-```{r position_tracker, out.width="75%"}
+```{r position_tracker, out.width="75%", fig.align="center"}
 # Team/player position tracker
 
 if(league == "team4545"){
@@ -501,7 +501,7 @@ tbl_bperfs
 
 
 
-```{r, out.width = "75%", eval = ifelse(league == "team4545", TRUE, FALSE)}
+```{r, out.width = "75%", eval = ifelse(league == "team4545", TRUE, FALSE), fig.align="center"}
 # Plot distribution of match results
 games %>% 
   select(match, team_w, team_b, gp_w, gp_b) %>% 
@@ -527,7 +527,7 @@ games %>%
 
 #### When were games played?
 
-```{r games_by_day, fig.show="hold", out.width = "50%"}
+```{r games_by_day, fig.show="hold", out.width = "50%", fig.align="center"}
 
 # Create summary table with info for heatmap
 games_by_day_time <- plyr::ddply(games, c("hour", "wday"),
@@ -568,7 +568,7 @@ heat_dayhour
 
 #### How long did games take?
 
-```{r hists, fig.show="hold", out.width = "50%"}
+```{r hists, fig.show="hold", out.width = "50%", fig.align="center"}
 # Number of moves histogram
 moves_hist <- games %>% 
   ggplot(aes(num_moves)) +
@@ -707,7 +707,7 @@ reactable(longest_duration,
 
 #### ACPLs / blunder rates
 
-```{r wins_by_col_by_board, fig.show="hold", out.width = "50%", eval = ifelse(league == "team4545", TRUE, FALSE)}
+```{r wins_by_col_by_board, fig.show="hold", out.width = "50%", eval = ifelse(league == "team4545", TRUE, FALSE), fig.align="center"}
 # Plot wins by colour by board
 # Plot ACPL by board
 
@@ -815,7 +815,7 @@ plot_acpl_by_board
 ```
 
 
-```{r error_rates_by_rating_band, eval = ifelse(league == "team4545", FALSE, TRUE)}
+```{r error_rates_by_rating_band, eval = ifelse(league == "team4545", FALSE, TRUE), fig.align="center"}
 # Calculate error rates for summary stats
 
 # Plot errors by rating band
@@ -1339,7 +1339,9 @@ reactable(gambiteers,
 
 **Not functional yet.** When it works, you'll be able to click on the image below to see an explorable sunburst plot of all openings played in the season. Currently, it just takes you to the Lichess homepage.
 
-[![Opening star placeholder](images/opening_star_placeholder.png)](http://www.lichess.org)
+<center>
+[![Opening star placeholder](images/opening_star_placeholder.png)](`r paste0("openings_", ifelse(league_load_label == "team4545", "4545", league_load_label), "_s", season, ".html")`)
+</center>
 
 ### Player awards
 
