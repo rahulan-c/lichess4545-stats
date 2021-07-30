@@ -25,10 +25,14 @@ completed <- list.files(path = "reports/", pattern = "^stats_(.*)\\.html$") %>%
   str_remove_all("\\.html") %>% 
   sort()
 
-# Convert to URLs
-completed_links <- paste0("[", completed, "]", "(", "https://rahulan-c.github.io/lichess4545-stats/reports/stats_", completed, ".html", ")")
+completed <- tibble("season" = completed)
 
-knitr::kable(completed_links)
+# Convert to URLs
+completed <- completed %>% 
+  mutate(Seasons = paste0("[", season, "]", "(", "https://rahulan-c.github.io/lichess4545-stats/reports/stats_", season, ".html", ")")) %>% 
+  select(Seasons)
+
+knitr::kable(completed)
 
 ```
 
