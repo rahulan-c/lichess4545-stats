@@ -1,11 +1,11 @@
 
 # Lichess4545 Statistics and Player Awards
 
-Statistical reports for the Lichess4545 Team (45+45) and LoneWolf (30+30) online chess leagues.
+Statistical reports for the [Lichess4545](https://www.lichess4545.com/) [Team](https://www.lichess4545.com/team4545/) (45+45) and [LoneWolf](https://www.lichess4545.com/lonewolf/) (30+30) online chess leagues.
 
-Links to tables: [4545](#4545) | [LW Open](#lwopen) | [LW U1800](#lwu1800)
+Links to tables: [4545](#team) / [LW Open](#lwopen) / [LW U1800](#lwu1800)
 
-## 4545 League {#4545}
+## 4545 League {#team}
 
 Season | Started | Standings | Stats
 :-----:|:-----:|:-----:
