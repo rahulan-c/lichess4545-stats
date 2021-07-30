@@ -8,12 +8,12 @@ A collection of stuff. Under construction.
 Season | Started | Standings | Stats
 :-----:|:-----:|:-----:
 S27 | Aug 2021 | n/a | n/a
-S26 | May 2021 | tbc | tbc
-S25 | x |tbc | tbc
-S24 | x | tbc | tbc
-S23 | x | tbc | tbc
-S13 | x | tbc | [stats](reports/stats_4545_s13.html)
-S2 | x | tbc | tbc
+S26 | May 2021 | [standings](https://www.lichess4545.com/team4545/season/26/standings/) | tbc
+S25 | x |[standings](https://www.lichess4545.com/team4545/season/25/standings/) | tbc
+S24 | x | [standings](https://www.lichess4545.com/team4545/season/24/standings/) | tbc
+S23 | x | [standings](https://www.lichess4545.com/team4545/season/23/standings/) | tbc
+S13 | x | [standings](https://www.lichess4545.com/team4545/season/13/standings/) | tbc
+S2 | x | [standings](https://www.lichess4545.com/team4545/season/2/standings/) | tbc
 
 ## LoneWolf League
 
