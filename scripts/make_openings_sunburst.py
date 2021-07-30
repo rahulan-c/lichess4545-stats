@@ -17,7 +17,7 @@ import chess_graph
 pgn_path = "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/games.pgn"
 
 # Produce openings sunburst plot
-chess_graph.graph(pgn_path, depth=6, shade = False, 
+chess_graph.graph(pgn_path, depth=16, shade = False, 
                   # color = 'black', name = 'izzie26',
                   fragmentation_percentage=0.002, 
                   should_defragment = True, custom_branching=False, 

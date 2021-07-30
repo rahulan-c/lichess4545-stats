@@ -16,7 +16,7 @@ S24 | Nov 2020 | [standings](https://www.lichess4545.com/team4545/season/24/stan
 S23 | Aug 2020 | [standings](https://www.lichess4545.com/team4545/season/23/standings/) | tbc
 S22 | Jun 2020 | [standings](https://www.lichess4545.com/team4545/season/22/standings/) | tbc
 S21 | Apr 2020 | [standings](https://www.lichess4545.com/team4545/season/21/standings/) | tbc
-S20 | Feb 2020 | [standings](https://www.lichess4545.com/team4545/season/20/standings/) | tbc
+S20 | Feb 2020 | [standings](https://www.lichess4545.com/team4545/season/20/standings/) | [stats](reports/stats_4545_s20.html)
 S19 | Nov 2019 | [standings](https://www.lichess4545.com/team4545/season/19/standings/) | tbc
 S18 | Aug 2019 | [standings](https://www.lichess4545.com/team4545/season/18/standings/) | tbc
 S17 | May 2019 | [standings](https://www.lichess4545.com/team4545/season/17/standings/) | tbc

@@ -501,7 +501,10 @@ tbl_bperfs
 
 
 
-```{r, out.width = "75%", eval = ifelse(league == "team4545", TRUE, FALSE), fig.align="center"}
+```{r, out.width = "75%", eval = FALSE, fig.align="center"}
+
+# eval = ifelse(league == "team4545", TRUE, FALSE)
+
 # Plot distribution of match results
 games %>% 
   select(match, team_w, team_b, gp_w, gp_b) %>% 
@@ -527,7 +530,7 @@ games %>%
 
 #### When were games played?
 
-```{r games_by_day, fig.show="hold", out.width = "50%", fig.align="center"}
+```{r games_by_day, fig.show="hold", out.width = "50%"}
 
 # Create summary table with info for heatmap
 games_by_day_time <- plyr::ddply(games, c("hour", "wday"),
@@ -568,7 +571,7 @@ heat_dayhour
 
 #### How long did games take?
 
-```{r hists, fig.show="hold", out.width = "50%", fig.align="center"}
+```{r hists, fig.show="hold", out.width = "50%"}
 # Number of moves histogram
 moves_hist <- games %>% 
   ggplot(aes(num_moves)) +
@@ -1922,8 +1925,8 @@ alt_runnerup <- alts %>%
 single_fig_acpl_players <- minacpl_players %>% select(player) %>% pull()
 giri_winners <- drawers %>% select(player) %>% pull()
 giri_value <- drawers %>% select(n) %>% distinct() %>% pull()
-alt_winners <- alt_award %>% select(player) %>% pull()
-alt_value <- alt_award %>% select(teams) %>% pull()
+alt_winners <- alt_award %>% select(player) %>% pull() %>% str_c(collapse = ", ")
+alt_value <- alt_award %>% select(teams) %>% pull() %>% unique()
 alt_runnerup_names <- alt_runnerup %>% select(player) %>% pull()
 alt_runnerup_value <- alt_runnerup %>% select(teams) %>% distinct() %>% pull() 
 

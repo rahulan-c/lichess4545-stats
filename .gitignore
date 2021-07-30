@@ -5,6 +5,8 @@
 .Ruserdata
 .Renviron
 
-# Ignore extracted data (games, pairings, positions)
-# Too big
+# Ignore extracted data (games, pairings, positions) - too big
 data/**
+
+# Ignore troubleshooting code
+scripts/scratchpad.R
