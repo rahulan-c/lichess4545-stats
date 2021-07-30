@@ -41,7 +41,7 @@
 # ---- User-defined parameters ------------------------------------------------
 
 # Directory where 4545/LW season data should be saved
-path_savedata <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/"
+path_savedata <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/"
 
 # Directory where season stats R Markdown file is saved
 path_loadrmd <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/"

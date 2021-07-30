@@ -70,7 +70,7 @@ fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io
 # Sourced from a local text file - last updated on 2021-07-12 from the original 4545 ban log
 # All games involving banned players are removed before any stats are processed.
 # banned <- read.csv("C:/Users/rahul/Documents/Github/4545-stats/data/players_booted_from_lichess4545.txt", header = F)
-banned <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/lookup/lichess4545_banned_players_210716.csv")
+banned <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/rahulan-c.github.io/data/lookup/lichess4545_banned_players.csv")
 
 ```
 
