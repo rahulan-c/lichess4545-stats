@@ -2,5 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-# Ignore data folder (will be too big once all seasons are done)
+
 data/**
