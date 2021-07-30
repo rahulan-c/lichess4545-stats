@@ -4,8 +4,26 @@ If you’re looking for stats covering previous seasons of the
 [LoneWolf](https://www.lichess4545.com/lonewolf/) (30+30) online chess
 leagues, you’re in the right place.
 
-Here’s a list of the seasons covered so far:
+Here are links to the stats for the seasons completed so far.
 
-| League/Season | Links                                                                             |
-|:--------------|:----------------------------------------------------------------------------------|
-| 4545_s20      | [Link](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s20.html) |
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+x
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+[4545_s08](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s08.html)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[4545_s09](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s09.html)
+</td>
+</tr>
+</tbody>
+</table>

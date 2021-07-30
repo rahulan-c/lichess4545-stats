@@ -1552,5 +1552,9 @@ instareport <- function(league, season){
   
   toc(log = TRUE)
   
-}
+  # Render index.rmd
+  rmarkdown::render(paste0(path_root, "index.rmd"))
+  print("index.md updated")
+
+  }
 

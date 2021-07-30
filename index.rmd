@@ -1,13 +1,13 @@
 ---
-title: "Intro"
-date: "30/07/2021"
+title: "Lichess4545 stats homepage"
 output:
   md_document:
     variant: markdown_github
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr)
 
@@ -15,26 +15,20 @@ pacman::p_load(tidyverse, knitr)
 
 If you're looking for stats covering previous seasons of the [Lichess4545](https://www.lichess4545.com/) [Team](https://www.lichess4545.com/team4545/) (45+45) and [LoneWolf](https://www.lichess4545.com/lonewolf/) (30+30) online chess leagues, you're in the right place.
 
-Here's a list of the seasons covered so far:
+Here are links to the stats for the seasons completed so far.
 
-```{r}
+```{r, message=FALSE}
 
-# Old code
-completed_seasons <- c("4545_s20")
+# Identify all seasons for which stats reports have been compiled 
+completed <- list.files(path = "reports/", pattern = "^stats_(.*)\\.html$") %>% 
+  str_remove_all("stats_") %>% 
+  str_remove_all("\\.html") %>% 
+  sort()
 
-# New code - look for all files starting with stats_ in the reports directory
-filenames <- Sys.glob("*.dbf")
+# Convert to URLs
+completed_links <- paste0("[", completed, "]", "(", "https://rahulan-c.github.io/lichess4545-stats/reports/stats_", completed, ".html", ")")
 
-files <- list.files(path = "reports/", pattern = "\\.html$") %>% 
-  grepl("stats_")
-
-completed <- tibble("League/Season" = completed_seasons)
-
-completed <- completed %>% 
-  mutate(Links = paste0("[", "Link", "]", "(", "https://rahulan-c.github.io/lichess4545-stats/reports/stats_", completed_seasons, ".html", ")"))
-
-knitr::kable(completed)
-
+knitr::kable(completed_links)
 
 ```
 
