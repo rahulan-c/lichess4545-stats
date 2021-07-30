@@ -1339,8 +1339,7 @@ reactable(gambiteers,
 
 **Not functional yet.** When it works, you'll be able to click on the image below to see an explorable sunburst plot of all openings played in the season. Currently, it just takes you to the Lichess homepage.
 
-[![Opening star placeholder](https://rahulan-c.github.io/lichess4545-stats/reports/opening_star_placeholder.png)](http://www.lichess.org)
-
+[![Opening star placeholder](images/opening_star_placeholder.png)](http://www.lichess.org)
 
 ### Player awards
 
@@ -2048,7 +2047,7 @@ reactable(awards,
             Image = colDef(name = "Award", 
                            cell = function(value, index) {
                              award_name <- awards$Award[index]
-                             image <- img(src = sprintf("https://rahulan-c.github.io/lichess4545-stats/reports/images/%s.png", award_name), height = "60px", alt = award_name)
+                             image <- img(src = sprintf("images/%s.png", award_name), height = "60px", alt = award_name)
               tagList(
                 div(style = list(display = "inline-block", width = "60px"), image)
                 )

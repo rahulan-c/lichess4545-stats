@@ -44,7 +44,7 @@
 path_savedata <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/"
 
 # Directory where season stats R Markdown file is saved
-path_loadrmd <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/R/"
+path_loadrmd <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/reports/"
 
 # Directory where final season stats reports should be saved
 path_savereport <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/reports/"
