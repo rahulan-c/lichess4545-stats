@@ -19,7 +19,14 @@ Here's a list of the seasons covered so far:
 
 ```{r}
 
+# Old code
 completed_seasons <- c("4545_s20")
+
+# New code - look for all files starting with stats_ in the reports directory
+filenames <- Sys.glob("*.dbf")
+
+files <- list.files(path = "reports/", pattern = "\\.html$") %>% 
+  grepl("stats_")
 
 completed <- tibble("League/Season" = completed_seasons)
 
@@ -27,5 +34,7 @@ completed <- completed %>%
   mutate(Links = paste0("[", "Link", "]", "(", "https://rahulan-c.github.io/lichess4545-stats/reports/stats_", completed_seasons, ".html", ")"))
 
 knitr::kable(completed)
+
+
 ```
 

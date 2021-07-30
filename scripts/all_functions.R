@@ -40,36 +40,51 @@
 
 # ---- User-defined parameters ------------------------------------------------
 
-# Directory where 4545/LW season data should be saved
-path_savedata <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/"
+# Path to root folder
+path_root <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/"
 
-# Directory where season stats R Markdown file is saved
-path_loadrmd <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/reports/"
+# Path to Python environment
+path_python <- "C:/Users/rahul/anaconda3/python.exe"
 
-# Directory where final season stats reports should be saved
-path_savereport <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/reports/"
-
-# Name of R Markdown file that produces the stats (eg "index" for index.Rmd)
-stats_rmd_filename <- "produce_season_stats"
-
-# Directory where season games PGN (without evals and clock times) should be saved
-# This step is required before creating the openings sunburst plot (using a Python script)
-path_savepgn <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/games.pgn"
-
-# Directories where the original opening sunburst plots are saved by make_openings_sunburst.py
-# and where you want to transfer them to be able to show them in the stats reports
-path_sunburst_original <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/scripts/"
-path_sunburst_new <- path_loadrmd
 
 # Lichess API token
 token <- Sys.getenv("LICHESS_TOKEN")
 # token <- "my_token"
 
+
+# ---- Directory paths (do not change) ----------------------------------------
+
+# Directory where this functions script is saved
+path_scripts <- paste0(path_root, "scripts/")
+
+# Directory where 4545/LW season data is saved
+path_savedata <- paste0(path_root, "data/")
+
+# Directory where season stats R Markdown file is saved
+path_loadrmd <- paste0(path_root, "reports/")
+
+# Name of season stats R Markdown file
+stats_rmd_filename <- "produce_season_stats"
+
+# Directory where season stats HTML reports will be saved
+path_savereport <- paste0(path_root, "reports/")
+
+# Directory where season games PGN (without evals and clock times) will be saved
+# Required for openings sunburst plot
+path_savepgn <- paste0(path_root, "data/games.pgn")
+
+# Directory where openings sunburst plots will be saved initially
+path_sunburst_original <- path_scripts
+
+# Directory where openings sunburst plots will be copied to
+path_sunburst_new <- path_loadrmd
+
+
 # ---- Required packages ------------------------------------------------------
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
-               rvest, ndjson, reshape2, utf8, lubridate, tictoc)
+               rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate)
 
 
 # ---- Functions --------------------------------------------------------------
@@ -1262,7 +1277,7 @@ report_season_stats <- function(league_choice, seasons){
                                                   ""),
                                            "_",
                                            "s", 
-                                           s, 
+                                           sprintf("%02d", s), 
                                            ".html"))
     print(paste0("Produced report for ", 
                  ifelse(league == "team4545", "4545 S", "LoneWolf S"),
@@ -1500,9 +1515,42 @@ move_sunburst <- function(path_orig, path_new, league, season){
   
   if(league == "team4545"){league_var <- "4545"} else {league_var <- league}
   
-  # Copy file
-  file.copy(from = paste0(path_orig, "sunburst.html"),
+  # Copy sunburst HTML to reports folder
+  file.copy(from = paste0(path_root, "sunburst.html"),
             to   = paste0(path_new, "openings_", league_var, "_s", season, ".html"))
-  # Remove original file
-  file.remove(paste0(path_orig, "sunburst.html"))
+  
+  # Remove original sunburst (as well as the PGN it was based on) 
+  file.remove(paste0(path_root, "sunburst.html"))
+  file.remove(paste0(path_savedata, "games.pgn"))
 }
+
+# Make a stats report from scratch
+# Requests and saves season data, requests PGN for openings sunburst, makes 
+# sunburst, then compiles and saves season stats HTML report.
+# TODO update index.rmd so that index.md auto-updates to show all available
+# reports.
+instareport <- function(league, season){
+  
+  tic("Make stats report incl. sunburst from scratch")
+  
+  # 1. Save season data
+  save_season_data(league, season)
+  
+  # 2. Save season PGN
+  save_season_pgn(league, season)
+  
+  # 3. Make openings sunburst
+  use_python(path_python)
+  import_from_path("chess_graph", path = path_python, convert = TRUE)
+  source_python(paste0(path_scripts, "make_openings_sunburst.py"))
+  
+  # 4. Transfer and rename sunburst HTML file
+  move_sunburst(path_sunburst_original, path_sunburst_new, league, season)
+  
+  # 5. Produce season report
+  report_season_stats(league, season)
+  
+  toc(log = TRUE)
+  
+}
+

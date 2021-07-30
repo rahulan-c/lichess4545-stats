@@ -1,12 +1,10 @@
-# Ignore R stuff
+
 .Rproj.user
+.Rproj
 .Rhistory
 .RData
 .Ruserdata
 .Renviron
 
-# Ignore extracted data (games, pairings, positions) - too big
 data/**
-
-# Ignore troubleshooting code
 scripts/scratchpad.R
