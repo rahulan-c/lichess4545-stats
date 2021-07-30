@@ -23,7 +23,7 @@ S17 | May 2019 | [standings](https://www.lichess4545.com/team4545/season/17/stan
 S16 | Feb 2019 | [standings](https://www.lichess4545.com/team4545/season/16/standings/) | tbc
 S15 | Nov 2018 | [standings](https://www.lichess4545.com/team4545/season/15/standings/) | tbc
 S14 | Sep 2018 | [standings](https://www.lichess4545.com/team4545/season/14/standings/) | tbc
-S13 | Jul 2018 | [standings](https://www.lichess4545.com/team4545/season/13/standings/) | [stats](reports/stats_4545_s13.html)
+S13 | Jul 2018 | [standings](https://www.lichess4545.com/team4545/season/13/standings/) | stats
 S12 | Apr 2018 | [standings](https://www.lichess4545.com/team4545/season/12/standings/) | tbc
 S11 | Feb 2018 | [standings](https://www.lichess4545.com/team4545/season/11/standings/) | tbc
 S10 | Nov 2017 | [standings](https://www.lichess4545.com/team4545/season/10/standings/) | tbc
