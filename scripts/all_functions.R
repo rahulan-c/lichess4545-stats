@@ -1568,6 +1568,7 @@ update_repo <- function(){
 # 2) redo_season_reports(): run instareport() for all seasons, starting from the most recent, 
 #    and run update_repo after every 3 seasons or so. 
 # 3) rebuild_season_reports(): combine 1 and 2
+# Random line to force a commit :)
 
 wipe_all_stats <- function(){
   
