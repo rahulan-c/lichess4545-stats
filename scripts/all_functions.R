@@ -1555,16 +1555,10 @@ instareport <- function(league, season){
 
 # Update the index.md file that renders the Lichess4545 stats homepage to show
 # all completed season reports. Should be run after instareport().
-update_stats_homepage <- function(){
-  # Render index.rmd
+update_repo <- function(){
+  # Render lichess4545-stats homepage
   rmarkdown::render(input = paste0(path_root, "index.rmd"),
                     rmarkdown::md_document(variant = "markdown_github"))
-  print("index.md updated!")
+  # Push changes to repo
+  source(paste0(path_scripts, "update_repo.R"))
 }
-
-# Commit new changes to lichess4545-stats repo
-# Avoids need to manually commit stuff within RStudio
-auto_push <- function(){
-  
-}
-
