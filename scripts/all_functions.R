@@ -322,9 +322,9 @@ tidy_lichess_games <- function(games){
 print("Starting tidying process...")
 tic("Tidying games data")
   
-# # Only include analysed games
-# games <- games %>% filter(!(is.na(players.white.analysis.acpl)))
-# print("Games without Lichess analysis excluded...")
+# Only include analysed games
+games <- games %>% filter(!(is.na(players.white.analysis.acpl)))
+print("Games without Lichess analysis excluded...")
 
 # Add 'white' and 'black' fields to make it easier to refer to the players
 games <- games %>% 
@@ -1109,12 +1109,12 @@ save_season_data <- function(league_choice, seasons){
     lw_u1800 <- FALSE
   }
   
-  if(league_choice == "lw_open"){
+  if(league_choice == "lwopen"){
     league <- "lonewolf"
     lw_u1800 <- FALSE
   }
   
-  if(league_choice == "lw_u1800"){
+  if(league_choice == "lwu1800"){
     league <- "lonewolf"
     lw_u1800 <- TRUE
   }
@@ -1251,11 +1251,11 @@ report_season_stats <- function(league_choice, seasons){
     league <- "team4545"
     lw_u1800_choice <- FALSE
     }
-  if(league_choice == "lw_open"){
+  if(league_choice == "lwopen"){
     league <- "lonewolf"
     lw_u1800_choice <- FALSE 
   }
-  if(league_choice == "lw_u1800"){
+  if(league_choice == "lwu1800"){
     league <- "lonewolf"
     lw_u1800_choice <- TRUE 
   }
@@ -1556,7 +1556,7 @@ instareport <- function(league, season){
   # Render index.rmd
   rmarkdown::render(input = paste0(path_root, "index.rmd"),
                     rmarkdown::md_document(variant = "markdown_github"))
-  print("index.md updated")
+  print("index.md <- <-  updated")
 
   }
 

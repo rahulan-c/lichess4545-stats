@@ -1,7 +1,8 @@
 ---
 output:
   html_document:
-    theme: yeti
+    css: style.css
+    theme: flatly
     dev: svglite
     toc: yes
     toc_depth: 4
@@ -48,7 +49,8 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
                ggrepel, ggridges, reactable, htmltools, httr, jsonlite, xml2, rvest, ndjson,
-               reshape2, utf8, lubridate, tictoc, cowplot, sunburstR, d3r, webshot, plotly)  
+               reshape2, utf8, lubridate, tictoc, cowplot, plotly, tippy)
+
 ```
 
 
@@ -116,7 +118,7 @@ options(reactable.theme = reactableTheme(
     stripedColor = "#f6f8fa",
     highlightColor = "#f0f5f9",
     cellPadding = "8px 12px",
-    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"),
+    # style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"),
     searchInputStyle = list(width = "100%"),
     headerStyle = list(
       "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
@@ -211,12 +213,32 @@ pairings <- pairings %>%
   filter(!(white %in% str_to_lower(cheats))) %>% 
   filter(!(black %in% str_to_lower(cheats)))
 
-# # Test - just get games with banned players
-# games_banned <- games %>% 
-#   filter(white %in% banned | black %in% banned) %>% 
-#   select(id, white, black, result)
+```
+
+```{r}
+
+# Identify whether there are valid move times in the games data.
+# Since the earliest 4545/LW game with PGN clock times was played on 28 March 2017,
+# we need to see if the most recent game in our dataset happened after this date. 
+# If it did, we should assume that there are no valid movetimes in the games data, 
+# and therefore not to present movetime-related stats and player awards.
+
+movetimes_exist <- TRUE
+if(max(games$started) <= lubridate::ymd("2017-03-28")){movetimes_exist <- FALSE}
+
+no_movetimes_print <- "Not available for seasons that began before April 2018."
 
 ```
+
+
+```{r echo=FALSE}
+# Hide team-based stuff from LW reports and vice versa
+lw_hide <- FALSE
+# team_hide <- FALSE
+if(league != "team4545"){lw_hide <- TRUE}
+# if(league == "team4545"){team_hide <- TRUE}
+```
+
 
 ### Overview
 
@@ -257,23 +279,20 @@ ended <- games %>%
   mutate(status = replace(status, status == "stalemate", "stalemate")) %>%
   arrange(desc(n))
 
+# Identify season summary URL
+summary_url <- paste0("https://www.lichess4545.com/",
+                        league, "/season/",
+                        season, 
+                        ifelse(lw_u1800, "u1800", ""),
+                        "/summary/")
+
 ```
 
-- The season ran from `r season_dates`.
+- The `r paste0("[season]", "(", summary_url, ")")` ran from `r season_dates`.
 - `r formatC(length(unique(c(unique(games$white), unique(games$black)))), big.mark = ",")` players took part, playing `r formatC(nrow(games), big.mark = ",")` games in total. `r formatC(forfeits, big.mark = ",")` games were either forfeited or set as scheduling draws.
 - Across the season, White won `r formatC(games_w, big.mark=",")` games (`r round(perc_w*100, 1)`%), `r formatC(games_d, big.mark=",")` games (`r round(perc_d*100, 1)`%) were drawn, and Black won `r formatC(games_b, big.mark=",")` games (`r round(perc_b*100, 1)`%).
 - `r formatC(ended$n[ended$status == "resign"], big.mark=",")` games ended with a resignation, `r formatC(ended$n[ended$status == "mate"], big.mark=",")` games by checkmate, `r formatC(ended$n[ended$status == "out of time"], big.mark=",")` games by time running out, and `r formatC(ended$n[ended$status == "stalemate"], big.mark=",")` games by stalemate.
 
-### Standings
-
-```{r}
-standings_url <- paste0("https://www.lichess4545.com/",
-                        league, "/season/",
-                        season, "/standings/")
-```
-
-
-Link: `r standings_url`
 
 #### Final podium
 
@@ -335,11 +354,120 @@ reactable(winners,
           })
 ```
 
+```{r}
+# Identify top 3 teams (4545) or players (LW)
 
+if(league == "team4545"){
+  # 1st place
+  first <- read_html(summary_url) %>% 
+    html_element(".first-place .team-link") %>% 
+    html_text()
+  
+  first_link <- read_html(summary_url) %>% 
+    html_element(".first-place .team-link") %>%
+    html_attr("href")
+  
+  first_link <- paste0("https://www.lichess4545.com", first_link)
+  
+  # 2nd place
+  second <- read_html(summary_url) %>% 
+    html_element(".second-place .team-link") %>% 
+    html_text()
+  
+  second_link <- read_html(summary_url) %>% 
+    html_element(".second-place .team-link") %>%
+    html_attr("href")
+  
+  second_link <- paste0("https://www.lichess4545.com", second_link)
+  
+  # 3rd place
+  third <- read_html(summary_url) %>% 
+    html_element(".third-place .team-link") %>% 
+    html_text()
+  
+  third_link <- read_html(summary_url) %>% 
+    html_element(".third-place .team-link") %>%
+    html_attr("href")
+  
+  third_link <- paste0("https://www.lichess4545.com", third_link)
+
+  } else {
+  
+  # 1st place
+  first <- read_html(summary_url) %>% 
+    html_element(".first-place .player-link") %>% 
+    html_text()
+  
+  first_link <- read_html(summary_url) %>% 
+    html_element(".first-place .player-link") %>%
+    html_attr("href")
+  
+  first_link <- paste0("https://www.lichess4545.com", first_link)
+  
+  # 2nd place
+  second <- read_html(summary_url) %>% 
+    html_element(".second-place .player-link") %>% 
+    html_text()
+  
+  second_link <- read_html(summary_url) %>% 
+    html_element(".second-place .player-link") %>%
+    html_attr("href")
+  
+  second_link <- paste0("https://www.lichess4545.com", second_link)
+  
+  # 3rd place
+  third <- read_html(summary_url) %>% 
+    html_element(".third-place .player-link") %>% 
+    html_text()
+  
+  third_link <- read_html(summary_url) %>% 
+    html_element(".third-place .player-link") %>%
+    html_attr("href")
+  
+  third_link <- paste0("https://www.lichess4545.com", third_link)
+  
+}
+
+```
+
+
+
+:::first
+Winner:
+<p style="font-size:32pt; font-weight: 900;">
+    `r paste0("[", first, "]", "(", first_link, ")")`
+</p>
+<p style="font-size:12pt; font-weight: 900;">
+    <!-- `r ifelse(league == "team4545", str_c(winners$Gold, collapse = ", "), "")` -->
+</p>
+:::
+
+:::::: {style="display: flex;"}
+
+:::second
+Runner up:
+<p style="font-size:20pt; font-weight: 600;">
+    `r paste0("[", second, "]", "(", second_link, ")")`
+</p>
+<p style="font-size:12pt; font-weight: 900;">
+    <!-- `r ifelse(league == "team4545", str_c(winners$Silver, collapse = ", "), "")` -->
+</p>
+:::
+
+Third place:
+<p style="font-size:20pt; font-weight: 600;">
+    `r paste0("[", third, "]", "(", third_link, ")")`
+</p>
+<p style="font-size:12pt; font-weight: 900;">
+    <!-- `r ifelse(league == "team4545", str_c(winners$Bronze, collapse = ", "), "")` -->
+</p>
+:::
+
+::::::
 
 #### Story of the season
 
-```{r position_tracker, out.width="75%", fig.align="center"}
+```{r position_tracker, out.width="85%", fig.align="center"}
 # Team/player position tracker
 
 if(league == "team4545"){
@@ -347,7 +475,7 @@ if(league == "team4545"){
 top_places <- positions %>% 
   filter(round == 8) %>% 
   arrange(rank) %>% 
-  filter(rank <= 3) %>% 
+  filter(rank <= 5) %>% 
   pull(team)
   
 position_tracker <- positions %>% 
@@ -364,11 +492,13 @@ position_tracker <- positions %>%
                              label_params = list(size = 4, 
                                                  nudge_x = -1, 
                                                  nudge_y = -15, 
-                                                 direction = "y")) +
+                                                 direction = "y",
+                                                 fill = c("#b2cefe", "#cd7f32", "#b2cefe", "#c0c0c0", "#ffd700"),
+                                                 colour = "black")) +
   labs(x = "Round",
        y = "Rank after each round") +
   theme(legend.position = "right") +
-  scale_color_manual(values = c("#ffd700", "#c0c0c0", "#cd7f32"),
+  scale_color_manual(values = c("#ffd700", "#c0c0c0", "#cd7f32", "#b2cefe", "#b2cefe"),
                        breaks = c(top_places),
                        labels = c(top_places))
 
@@ -413,9 +543,13 @@ if(league == "lonewolf"){
 ```
 
 
-#### Top performers by board
 
-*Only shown for 4545 stats*
+```{r results='asis', echo=FALSE}
+# Hide board perfs tables from LW reports
+if(lw_hide){cat("<!---")}
+```
+
+#### Top performers by board
 
 ```{r bperfs, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Board perf ratings
@@ -494,11 +628,20 @@ tbl_bperfs
 
 ```
 
+```{r results='asis', echo=FALSE}
+# Stop hiding stuff from LW reports
+if(lw_hide){cat("-->")}
+```
 
-### Summary charts {.tabset}
+
+### Summary charts {.tabset .tabset-fade .tabset-pills}
+
+```{r results='asis', echo=FALSE}
+# Hide match results tab from LW reports
+if (lw_hide) {cat("<!---")}
+```
 
 #### Match results (4545 only)
-
 
 
 ```{r, out.width = "75%", eval = FALSE, fig.align="center"}
@@ -527,6 +670,10 @@ games %>%
   scale_x_continuous(breaks = integer_breaks())
 ```
 
+```{r results='asis', echo=FALSE}
+# Stop hiding stuff from LW reports
+if (lw_hide) {cat("-->")}
+```
 
 #### When were games played?
 
@@ -597,7 +744,7 @@ duration_hist
 ```
 
 
-### Longest games {.tabset}
+### Longest games {.tabset .tabset-fade .tabset-pills}
 
 #### By moves
 
@@ -706,7 +853,7 @@ reactable(longest_duration,
 
 ```
 
-### Stats by board / rating band {.tabset}
+### Stats by board / rating band {.tabset .tabset-fade .tabset-pills}
 
 #### Score / ACPL
 
@@ -1030,7 +1177,7 @@ reactable(lowest_acpl_games_decisive,
 
 ```
 
-### Openings {.tabset}
+### Openings {.tabset .tabset-fade .tabset-pills}
 
 
 
@@ -1061,15 +1208,15 @@ reactable(openings_exclvar,
           resizable = TRUE,
           searchable = TRUE,
            columns = list(
-             rank = colDef(name = "Rank", align = "center"),
+             rank = colDef(name = "Rank", minWidth = 70, align = "center"),
     opening.broad = colDef(name = "Opening", minWidth = 200),
-    games = colDef(name = "Games"),
-    perc_w = colDef(name = "White's score (%)", format = colFormat(digits = 0)),
-    white_wins = colDef(name = "White wins (%)", format = colFormat(digits = 0)),
-    draws = colDef(name = "Draws (%)", format = colFormat(digits = 0)),
-    black_wins = colDef(name = "Black wins (%)", format = colFormat(digits = 0)),
-    mean_eval_after_15 = colDef(name = "Mean eval after 15 moves", format = colFormat(digits = 2)),
-    mean_rating = colDef(name = "Avg rating", format = colFormat(digits = 0))),
+    games = colDef(name = "Games", minWidth = 100, align = "center"),
+    perc_w = colDef(name = "White %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
+    white_wins = colDef(name = "1-0 %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
+    draws = colDef(name = "Draw %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
+    black_wins = colDef(name = "0-1 %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
+    mean_eval_after_15 = colDef(name = "Mean Eval", minWidth = 100, align = "center", format = colFormat(digits = 2)),
+    mean_rating = colDef(name = "Avg Rating", minWidth = 100, align = "center", format = colFormat(digits = 0))),
     compact = T)
 ```
 
@@ -1103,13 +1250,13 @@ reactable(openings_inclvar,
            columns = list(
              rank = colDef(name = "Rank", align = "center", footer = "Total"),
     opening.name = colDef(name = "Opening", minWidth = 300),
-    games = colDef(name = "Games"),
-    perc_w = colDef(name = "White's score (%)", format = colFormat(digits = 0)),
-    white_wins = colDef(name = "White wins (%)", format = colFormat(digits = 0)),
-    draws = colDef(name = "Draws (%)", format = colFormat(digits = 0)),
-    black_wins = colDef(name = "Black wins (%)", format = colFormat(digits = 0)),
-    mean_eval_after_15 = colDef(name = "Mean eval after 15 moves", format = colFormat(digits = 2)),
-    mean_rating = colDef(name = "Avg rating", 
+    games = colDef(name = "Games", minWidth = 100, align = "center"),
+    perc_w = colDef(name = "White %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
+    white_wins = colDef(name = "1-0 %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
+    draws = colDef(name = "Draw %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
+    black_wins = colDef(name = "0-1 %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
+    mean_eval_after_15 = colDef(name = "Mean Eval", minWidth = 100, align = "center", format = colFormat(digits = 2)),
+    mean_rating = colDef(name = "Avg Rating", minWidth = 100, align = "center", 
                          format = colFormat(digits = 0))),
     defaultColDef = colDef(footerStyle = list(fontWeight = "bold")),
     compact = T)
@@ -1290,7 +1437,9 @@ reactable(gambits,
 
 #### Gambiteers
 
-The players who enjoyed the most success when playing gambits (min 50% score).
+The players who enjoyed the most success when playing gambits. 
+
+*Shows all players who scored at least 50% playing gambits in the season (min. games: 2).*
 
 ```{r}
 # Gambit lovers
@@ -1314,10 +1463,21 @@ gambiteers <- games %>%
   group_by(player) %>% 
   summarise(games = n(),
             success = sum(gambit_score) / games) %>%
-  # filter(games > 1, success >= 0.5) %>%
-  arrange(desc(success), desc(games)) %>% 
-  mutate(rank = seq(1:nrow(.))) %>% 
-  select(rank, player, games, success)
+  filter(games > 1, success >= 0.5)
+
+if(nrow(gambiteers) > 0){
+  gambiteer_award <- TRUE
+  gambiteers <- gambiteers %>% 
+    arrange(desc(success), desc(games)) %>% 
+    mutate(rank = seq(1:nrow(.))) %>% 
+    select(rank, player, games, success)
+} else {
+  gambiteer_award <- FALSE
+  gambiteers <- tibble("rank" = "",
+                       "player" = "",
+                       "games" = "",
+                       "success" = "")
+}
 
 
 # gambiteers
@@ -1346,7 +1506,7 @@ Click on the image below to see a sunburst plot of all openings played in the se
 [![Opening star placeholder](images/opening_star_placeholder.png)](`r paste0("openings_", ifelse(league_load_label == "team4545", "4545", league_load_label), "_s", season, ".html")`)
 </center>
 
-### Player awards
+### End of season "awards"
 
 ```{r relative_perfs}
 perfs_w <- pairings %>% 
@@ -1454,6 +1614,15 @@ minacpl_players <- minacpl_players %>%
   group_by(player) %>% 
   tally() %>% 
   filter(n>1)
+
+if(nrow(minacpl_players > 0)){
+  minacpl_players <- minacpl_players %>% 
+    arrange(desc(n)) %>% 
+    slice_max(n)
+}
+  
+
+
 ```
 
 ```{r}
@@ -1589,34 +1758,6 @@ upset_specialists <- upsets %>%
 ```
 
 
-```{r, eval = FALSE}
-# Players with most total pawn moves
-pawn_moves <- tibble("id" = games$id,
-                       "white" = games$white,
-                       "pawn_moves_w" = rep(NA, nrow(games)),
-                       "black" = games$black,
-                       "pawn_moves_b" = rep(NA, nrow(games)))
-
-for(i in seq(1:nrow(games))){
-  pawn_moves$pawn_moves_w[i] <- sum(str_count(str_sub(str_extract_all(games$moves[i], "[:graph:]+(\\s|$)")[[1]], 1, 1), "[:lower:]")[c(T,F)])
-  pawn_moves$pawn_moves_b[i] <- sum(str_count(str_sub(str_extract_all(games$moves[i], "[:graph:]+(\\s|$)")[[1]], 1, 1), "[:lower:]")[c(F,T)])
-}
-
-pawn_moves <- pawn_moves %>% 
-  mutate(combined = pawn_moves_w + pawn_moves_b) %>% 
-  arrange(desc(combined))
-
-pawn_moves_collated <- rbind(tibble("player" = pawn_moves$white, "moves" = pawn_moves$pawn_moves_w),
-                             tibble("player" = pawn_moves$black, "moves" = pawn_moves$pawn_moves_b)) %>%
-  group_by(player) %>% 
-  summarise(moves = sum(moves)) %>% 
-  arrange(desc(moves)) %>% 
-  mutate("rank" = seq(1:nrow(.))) %>% 
-  select(rank, player, moves) %>% 
-  filter(moves >= 10)
-```
-
-
 ```{r}
 # Other Grischuk Award: least time left after move 10
 dawdlers <- data.table::rbindlist(games$evals) %>% 
@@ -1642,6 +1783,13 @@ dawdlers <- left_join(dawdlers, games, by = c("game_id" = "id")) %>%
   mutate(time_print = sprintf('%2dm %2ds', lubridate::minute(time_left_2), lubridate::second(time_left_2))) %>% 
   select(rank, player, time_print, outcome, url) %>% 
   head(100)
+
+if(dawdlers$time_print[1] == "NAm NAs"){
+  dawdler_award <- FALSE
+} else{
+  dawdler_award <- TRUE
+}
+
 ```
 
 ```{r}
@@ -1650,14 +1798,19 @@ dawdlers <- left_join(dawdlers, games, by = c("game_id" = "id")) %>%
 instamovers <- data.table::rbindlist(games$evals) %>% 
   filter(time_spent < 1)
 
-instamovers <- left_join(instamovers, games, by = c("game_id" = "id")) %>% 
-  select("id" = game_id, ply, time_spent, white, black, result) %>% 
-  mutate(player = if_else(ply %% 2 == 1, black, white)) %>% 
-  group_by(player) %>% 
-  summarise(instamoves = n()) %>% 
-  arrange(desc(instamoves)) %>% 
-  mutate("rank" = seq(1:nrow(.))) %>% 
-  select(rank, player, instamoves)
+if(nrow(instamovers) > 0){
+  instamovers <- left_join(instamovers, games, by = c("game_id" = "id")) %>% 
+    select("id" = game_id, ply, time_spent, white, black, result) %>% 
+    mutate(player = if_else(ply %% 2 == 1, black, white)) %>% 
+    group_by(player) %>% 
+    summarise(instamoves = n()) %>% 
+    arrange(desc(instamoves)) %>% 
+    mutate("rank" = seq(1:nrow(.))) %>% 
+    select(rank, player, instamoves)
+} else {
+  instamovers <- tibble("rank" = 1, "player" = "n/a", "instamoves" = "n/a")
+}
+
 ```
 
 
@@ -1727,6 +1880,8 @@ savedbythebell <- all_moves %>%
 
 ```{r}
 # Highest % of moves in time trouble (<60s)
+
+if(season > 2){
 timetrouble <- all_moves %>% 
   filter(time_left < 60) %>% 
   group_by(player) %>% 
@@ -1737,6 +1892,7 @@ timetrouble <- all_moves %>%
   mutate(rank = seq(1:nrow(.))) %>% 
   filter(moves > 100) %>% # min threshold 100 moves
   select(rank, player, moves, tt_moves, tt_pc)
+}
 ```
 
 ```{r radjabov_award}
@@ -1856,6 +2012,12 @@ team_points <- positions %>%
 
 team_data <- left_join(team_data, team_points, by = c("team"))
 
+team_data <- team_data %>% 
+  mutate(blunder_pc = blunder_pc * 100) %>%
+  arrange(rank) %>% 
+  select(rank, team, games, points, pts_nonforf, wins, draws, losses, players,
+         avg_moves, acpl, blunder_pc)
+
 # Get lowest team ACPL for awards
 team_accuracy_award <- team_data %>% 
   arrange(acpl) %>% 
@@ -1920,15 +2082,20 @@ alt_runnerup <- alts %>%
 
 ```
 
-```{r player_awards}
+<!-- Player awards code: 1st table for 4545, 2nd table for LW -->
+
+```{r player_awards_4545, eval = ifelse(league == "team4545", TRUE, FALSE)}
 
 single_fig_acpl_players <- minacpl_players %>% select(player) %>% pull()
 giri_winners <- drawers %>% select(player) %>% pull()
 giri_value <- drawers %>% select(n) %>% distinct() %>% pull()
+
+if(league == "team4545"){
 alt_winners <- alt_award %>% select(player) %>% pull() %>% str_c(collapse = ", ")
 alt_value <- alt_award %>% select(teams) %>% pull() %>% unique()
 alt_runnerup_names <- alt_runnerup %>% select(player) %>% pull()
 alt_runnerup_value <- alt_runnerup %>% select(teams) %>% distinct() %>% pull() 
+}
 
 awards <- tibble("Image" = c(rep("x", 18)),
                  "Award" = c("Gambit Guru",
@@ -1947,14 +2114,14 @@ awards <- tibble("Image" = c(rep("x", 18)),
                              "Saved by the Bell",
                              "Radjabov Award",
                              "David Award",
-                             ifelse(league == "team4545", "Awesome Alt", NA),
-                             ifelse(league == "team4545", "Team Accuracy", NA)
+                             ifelse(league == "team4545", "Awesome Alt", ""),
+                             ifelse(league == "team4545", "Team Accuracy", "")
                              ),
                  
                  "Definition" = c("Best score playing gambits",
                                   "Best performance rating relative to initial rating",
                                   "Lowest ACPL",
-                                  "Achieved single-figure ACPLs more than once",
+                                  "Most games < 10 ACPL",
                                   "Most time spent per move (after move 10)",
                                   "Most draws",
                                   "Biggest comebacks",
@@ -1967,67 +2134,67 @@ awards <- tibble("Image" = c(rep("x", 18)),
                                   "Most moves made with < 5s left before winning",
                                   "Securing a draw from the jaws of victory",
                                   "Faced the strongest schedule (in terms of their opponents' collective record)",
-                                  "Played for the most teams during the season",
-                                  "Lowest team ACPL"),
+                                  ifelse(league == "team4545", "Played for the most teams during the season", ""),
+                                  ifelse(league == "team4545", "Lowest team ACPL", "")),
                  
                  "Winner" = c(gambiteers$player[1],
                               relative_perfs$player[1],
                               lowest_acpls$player[1],
                               str_c(single_fig_acpl_players, collapse = ", "),
-                              avg_think_times$player[1],
+                              ifelse(movetimes_exist, avg_think_times$player[1], ""),
                               str_c(giri_winners, collapse = ", "),
                               comebacks_2$player[1],
                               upsets$player[1],
                               upset_specialists$player[1],
-                              dawdlers$player[1],
-                              instamovers$player[1],
-                              movetimes$player[1],
-                              timetrouble$player[1],
-                              savedbythebell$player[1],
+                              ifelse(movetimes_exist, dawdlers$player[1], ""),
+                              ifelse(movetimes_exist, instamovers$player[1], ""),
+                              ifelse(movetimes_exist, movetimes$player[1], ""),
+                              ifelse(movetimes_exist, timetrouble$player[1], ""),
+                              ifelse(movetimes_exist, savedbythebell$player[1], ""),
                               radjabov$player[1],
                               david$player[1],
-                              str_c(alt_winners, collapse = ", "),
-                              team_accuracy_award$team[1]
+                              ifelse(league == "team4545", str_c(alt_winners, collapse = ", "), ""),
+                              ifelse(league == "team4545", team_accuracy_award$team[1], "")
                               ),
                  
-                 "Details" = c(paste0(round(gambiteers$success[1] * 100), "% from ", gambiteers$games[1], " games"),
+                 "Details" = c(ifelse(gambiteer_award, paste0(round(gambiteers$success[1] * 100), "% from ", gambiteers$games[1], " games"), "Can't be awarded"),
                               paste0("Perf. rating: ", round(relative_perfs$perf_rating[1], 0), ", Initial rating: ",
                                      relative_perfs$initial_rating[1]),
                               paste0(round(lowest_acpls$season_acpl[1], 1), " (", lowest_acpls$total_moves[1], ")"),
-                              "",
-                              paste0(avg_think_times$duration_print[1]),
-                              "",
+                              paste0(minacpl_players$n[1], " games"),
+                              ifelse(movetimes_exist, paste0(avg_think_times$duration_print[1]), "Can't be awarded"),
+                              paste0(giri_value, " draws"),
                               "",
                               paste0("Beat an opponent ", upsets$rating_gap[1], " points higher rated"),
                               paste0(upset_specialists$upsets[1], " upsets (", "biggest: ", upset_specialists$max_rating_gap[1], " pts)"),
-                              paste0("Had ", dawdlers$time_print[1], " left in ", dawdlers$url[1], " (eventual ", dawdlers$outcome[1], ")"),
-                              instamovers$instamoves[1],
-                              paste0("Spent ", movetimes$time_spent[1], " on ", movetimes$url[1]),
-                              paste0(round(timetrouble$tt_pc[1]*100, 1), "% (", timetrouble$tt_moves[1], "/", timetrouble$moves[1], ")"),
-                              paste0(savedbythebell$panic_moves[1], " move(s) in ", savedbythebell$url[1]),
+                              ifelse(movetimes_exist, paste0("Had ", dawdlers$time_print[1], " left in ", dawdlers$url[1], " (eventual ", dawdlers$outcome[1], ")"), "Can't be awarded"),
+                              ifelse(movetimes_exist, instamovers$instamoves[1], "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0("Spent ", movetimes$time_spent[1], " on ", movetimes$url[1]), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0(round(timetrouble$tt_pc[1]*100, 1), "% (", timetrouble$tt_moves[1], "/", timetrouble$moves[1], ")"), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0(savedbythebell$panic_moves[1], " move(s) in ", savedbythebell$url[1]), "Can't be awarded"),
                               "",
                              paste0("Opponents' record: ", david$opp_points[1], "/", david$opp_games[1]),
-                             paste0("Played for ", alt_value, " different teams"),
-                             paste0("Team ACPL: ", round(team_accuracy_award$acpl[1], 1))
+                             ifelse(league == "team4545", paste0("Played for ", alt_value, " different teams"), ""),
+                             ifelse(league == "team4545", paste0("Team ACPL: ", round(team_accuracy_award$acpl[1], 1)), "")
                              ),
                  
-                 "Mentions" = c(str_c(gambiteers$player[2:3], collapse = ", "),
+                 "Mentions" = c(ifelse(gambiteer_award, str_c(gambiteers$player[2:3], collapse = ", "), ""),
                               str_c(relative_perfs$player[2:3], collapse = ", "),
                               str_c(lowest_acpls$player[2:3], collapse = ", "),
                               "",
-                              str_c(avg_think_times$player[2:3], collapse = ", "),
-                              paste0("Achieved ", giri_value, " draws"),
+                              ifelse(movetimes_exist, str_c(avg_think_times$player[2:3], collapse = ", "), ""),
+                              "",
                               str_c(comebacks_2$player[2:3], collapse = ", "),
                               str_c(upsets$player[2:3], collapse = ", "),
                               str_c(upset_specialists$player[2:3], collapse = ", "),
-                              str_c(dawdlers$player[2:3], collapse = ", "),
-                              str_c(instamovers$player[2:3], collapse = ", "),
-                              str_c(movetimes$player[2:3], collapse = ", "),
-                              str_c(timetrouble$player[2:3], collapse = ", "),
-                              str_c(savedbythebell$player[2:3], collapse = ", "),
+                              ifelse(movetimes_exist, str_c(dawdlers$player[2:3], collapse = ", "), ""),
+                              ifelse(movetimes_exist, str_c(instamovers$player[2:3], collapse = ", "), ""),
+                              ifelse(movetimes_exist, str_c(movetimes$player[2:3], collapse = ", "), ""),
+                              ifelse(movetimes_exist, str_c(timetrouble$player[2:3], collapse = ", "), ""),
+                              ifelse(movetimes_exist, str_c(savedbythebell$player[2:3], collapse = ", "), ""),
                               str_c(radjabov$player[2:3], collapse = ", "),
                               str_c(david$player[2:3], collapse = ", "),
-                              paste0(str_c(alt_runnerup_names, collapse = ", "), " (", alt_runnerup_value, ")"),
+                              ifelse(league == "team4545", paste0(str_c(alt_runnerup_names, collapse = ", "), " (", alt_runnerup_value, ")"), ""),
                               "")
                  
                  )
@@ -2067,7 +2234,8 @@ reactable(awards,
                                div(style = list(fontSize = 12), definition)
                                )
                              }),
-            Winner = colDef(name = "Winner", minWidth = 200),
+            Winner = colDef(name = "Winner", minWidth = 200,
+                            style = list(background = "rgba(0, 0, 0, 0.03)")),
             Definition = colDef(show = F),
             Details = colDef(name = "Details", minWidth = 200),
             Mentions = colDef(name = "Honourable mentions", minWidth = 150)
@@ -2076,25 +2244,238 @@ reactable(awards,
 
 ```
 
-### Appendix
+```{r player_awards_lw, eval = ifelse(league == "team4545", FALSE, TRUE)}
+
+single_fig_acpl_players <- minacpl_players %>% select(player) %>% pull()
+giri_winners <- drawers %>% select(player) %>% pull()
+giri_value <- drawers %>% select(n) %>% distinct() %>% pull()
+
+awards <- tibble("Image" = c(rep("x", 16)),
+                 "Award" = c("Gambit Guru",
+                             "MVP Award",
+                             "Archbishop of Accuracy",
+                             "Primates of Precision",
+                             "Tetrarch of Time",
+                             "Giri Award",
+                             "Houdini Award",
+                             "Tarjan Award",
+                             "Slingshot Specialist",
+                             "Grischuk's Cousin",
+                             "Bullet Boss",
+                             "Musing or Snoozing",
+                             "Intimate with Increment",
+                             "Saved by the Bell",
+                             "Radjabov Award",
+                             "David Award"
+                             ),
+                 
+                 "Definition" = c("Best score playing gambits",
+                                  "Best performance rating relative to initial rating",
+                                  "Lowest ACPL",
+                                  "Most games < 10 ACPL",
+                                  "Most time spent per move (after move 10)",
+                                  "Most draws",
+                                  "Biggest comebacks",
+                                  "Biggest upset in a single game",
+                                  "Biggest upsets overall",
+                                  "Least time remaining after 10th move",
+                                  "Most moves made in under 0.5s",
+                                  "Longest time spent on a move",
+                                  "Highest percentage of moves played with < 1 min left",
+                                  "Most moves made with < 5s left before winning",
+                                  "Securing a draw from the jaws of victory",
+                                  "Faced the strongest schedule (in terms of their opponents' collective record)"),
+                 
+                 "Winner" = c(gambiteers$player[1],
+                              relative_perfs$player[1],
+                              lowest_acpls$player[1],
+                              str_c(single_fig_acpl_players, collapse = ", "),
+                              ifelse(movetimes_exist, avg_think_times$player[1], ""),
+                              str_c(giri_winners, collapse = ", "),
+                              comebacks_2$player[1],
+                              upsets$player[1],
+                              upset_specialists$player[1],
+                              ifelse(movetimes_exist, dawdlers$player[1], ""),
+                              ifelse(movetimes_exist, instamovers$player[1], ""),
+                              ifelse(movetimes_exist, movetimes$player[1], ""),
+                              ifelse(movetimes_exist, timetrouble$player[1], ""),
+                              ifelse(movetimes_exist, savedbythebell$player[1], ""),
+                              radjabov$player[1],
+                              david$player[1]),
+                 
+                 "Details" = c(ifelse(gambiteer_award, paste0(round(gambiteers$success[1] * 100), "% from ", gambiteers$games[1], " games"), "Can't be awarded"),
+                              paste0("Perf. rating: ", round(relative_perfs$perf_rating[1], 0), ", Initial rating: ",
+                                     relative_perfs$initial_rating[1]),
+                              paste0(round(lowest_acpls$season_acpl[1], 1), " (", lowest_acpls$total_moves[1], ")"),
+                              paste0(minacpl_players$n[1], " games"),
+                              ifelse(movetimes_exist, paste0(avg_think_times$duration_print[1]), "Can't be awarded"),
+                              paste0(giri_value, " draws"),
+                              "",
+                              paste0("Beat an opponent ", upsets$rating_gap[1], " points higher rated"),
+                              paste0(upset_specialists$upsets[1], " upsets (", "biggest: ", upset_specialists$max_rating_gap[1], " pts)"),
+                              ifelse(movetimes_exist, paste0("Had ", dawdlers$time_print[1], " left in ", dawdlers$url[1], " (eventual ", dawdlers$outcome[1], ")"), "Can't be awarded"),
+                              ifelse(movetimes_exist, instamovers$instamoves[1], "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0("Spent ", movetimes$time_spent[1], " on ", movetimes$url[1]), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0(round(timetrouble$tt_pc[1]*100, 1), "% (", timetrouble$tt_moves[1], "/", timetrouble$moves[1], ")"), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0(savedbythebell$panic_moves[1], " move(s) in ", savedbythebell$url[1]), "Can't be awarded"),
+                              "",
+                             paste0("Opponents' record: ", david$opp_points[1], "/", david$opp_games[1])
+                             ),
+                 
+                 "Mentions" = c(ifelse(gambiteer_award, str_c(gambiteers$player[2:3], collapse = ", "), ""),
+                              str_c(relative_perfs$player[2:3], collapse = ", "),
+                              str_c(lowest_acpls$player[2:3], collapse = ", "),
+                              "",
+                              ifelse(movetimes_exist, str_c(avg_think_times$player[2:3], collapse = ", "), ""),
+                              "",
+                              str_c(comebacks_2$player[2:3], collapse = ", "),
+                              str_c(upsets$player[2:3], collapse = ", "),
+                              str_c(upset_specialists$player[2:3], collapse = ", "),
+                              ifelse(movetimes_exist, str_c(dawdlers$player[2:3], collapse = ", "), ""),
+                              ifelse(movetimes_exist, str_c(instamovers$player[2:3], collapse = ", "), ""),
+                              ifelse(movetimes_exist, str_c(movetimes$player[2:3], collapse = ", "), ""),
+                              ifelse(movetimes_exist, str_c(timetrouble$player[2:3], collapse = ", "), ""),
+                              ifelse(movetimes_exist, str_c(savedbythebell$player[2:3], collapse = ", "), ""),
+                              str_c(radjabov$player[2:3], collapse = ", "),
+                              str_c(david$player[2:3], collapse = ", ")
+                 ))
+
+# Re-arrange columns
+awards <- awards %>% 
+  select(Image, Award, Definition, Winner, Details, Mentions) %>% 
+  arrange(Award) %>% 
+  filter(!(is.na(Award)))
+
+# Show player awards table
+reactable(awards,
+          pagination = F,
+          highlight = F,
+          striped = T,
+          searchable = F,
+          fullWidth = T,
+          resizable = T,
+          outlined = T,
+          compact = F,
+          columns = list(
+            Image = colDef(name = "Award", 
+                           cell = function(value, index) {
+                             award_name <- awards$Award[index]
+                             image <- img(src = sprintf("images/%s.png", award_name), height = "60px", alt = award_name)
+              tagList(
+                div(style = list(display = "inline-block", width = "60px"), image)
+                )
+              }),
+            Award = colDef(name = "Description", minWidth = 150,
+                           # Show award definition/criteria under each name
+                           cell = function(value, index) {
+                             definition <- awards$Definition[index]
+                             definition <- if (!is.na(definition)) definition else "n/a"
+                             tagList(
+                               div(style = list(fontWeight = 600), value),
+                               div(style = list(fontSize = 12), definition)
+                               )
+                             }),
+            Winner = colDef(name = "Winner", minWidth = 150,
+                             style = list(background = "rgba(0, 0, 0, 0.03)")),
+            Definition = colDef(show = F),
+            Details = colDef(name = "Details", minWidth = 200),
+            Mentions = colDef(name = "Honourable mentions", minWidth = 200)
+          )
+)
+
+```
+
+### More tables
+
+All the following tables are sortable and searchable.
+
+```{r results='asis', echo=FALSE}
+# Hide team stats section from LW reports
+if (lw_hide) {cat("<!---")}
+```
 
 
-#### Best performance ratings / highest accuracy  {.tabset}
+#### Team statistics
 
-The following five sections present various player-based statistics. See if you can spot your name in the tables. Most tables are sortable and searchable, but also have specified inclusion criteria.
+```{r team_stats_appendix, eval = ifelse(league == "team4545", TRUE, FALSE)}
+# Show team stats table in appendix
+
+# data <- as_tibble(mtcars[1:6, ], rownames = "car") %>%
+#   select(car:hp)
+
+# Custom tooltips
+with_tooltip <- function(value, tooltip, ...) {
+  div(style = "text-decoration: underline; text-decoration-style: dotted; cursor: help",
+      tippy(value, tooltip, ...))
+}
+
+# Show team data
+reactable(
+  team_data, pagination = T, searchable = T, fullWidth = T, resizable = T,
+  compact = T,
+  columns = list(
+    team = colDef(minWidth = 200,
+                  name = "Team"),
+    players = colDef(minWidth = 50,
+                     align = "center",
+                     header = with_tooltip("Size", "# players who played for the team through the season")),
+    games = colDef(minWidth = 50,
+                   align = "center",
+                   header = with_tooltip("G", "Team games, excl. forfeits")),
+    pts_nonforf = colDef(minWidth = 50,
+                         align = "center",
+                   header = with_tooltip("P", "Team points, excl. forfeits")),
+    wins = colDef(minWidth = 50,
+                  align = "center",
+                   header = with_tooltip("W", "Wins, excl. forfeits")),
+    draws = colDef(minWidth = 50,
+                   align = "center",
+                   header = with_tooltip("D", "Draws, excl. forfeits")),
+    losses = colDef(minWidth = 50,
+                   header = with_tooltip("L", "Losses, excl. forfeits")),
+    acpl = colDef(minWidth = 50, name = "ACPL",
+                  align = "center",
+                  format = colFormat(digits = 1)),
+    blunder_pc = colDef(minWidth = 50,
+                        align = "center",
+                        format = colFormat(digits = 1),
+                        header = with_tooltip("B", "Team blunder rate (%)")),
+    rank = colDef(minWidth = 50,
+                  align = "center",
+                  header = with_tooltip("Rank", "Final rank (ignoring tiebreaks)")),
+    points = colDef(minWidth = 50,
+                    align = "center",
+                    header = with_tooltip("GP", "Total game points")),
+    avg_moves = colDef(minWidth = 50,
+                       align = "center",
+                       format = colFormat(digits = 1),
+                       header = with_tooltip("M", "Average moves per game"))
+    )
+  )
+```
+
+```{r results='asis', echo=FALSE}
+# End hiding stuff from LW reports
+if(lw_hide){cat("-->")}
+```
+
+#### Best performances / highest accuracy {.tabset .tabset-fade .tabset-pills} 
+
 
 ##### Best relative perfs
 
-Shows all players who achieved a performance rating (over a minimum of 5 games) that exceeded their initial rating.  
+Shows players' *relative* performance ratings: season performance rating minus initial rating.^[The season performance ratings presented in this report may differ slightly from the figures given by the Lichess4545 website. Both figures are based on FIDE's preferred calculation method and exclude unplayed games (such as forfeit wins/losses and scheduling draws.]
 
-*For some reason, these performance ratings tend to differ slightly from the values that are shown on players' Lichess4545 season profile pages. I don't know why they're different, but they're similar enough that it doesn't matter. For what it's worth, I use FIDE's method (which the website does too), and I ignore all unplayed games such as forfeits and scheduling draws.*
+*Includes all players with a positive relative performance rating over at least five games.*
+
+
 
 
 ```{r}
 # Table for report
 reactable(relative_perfs,
           pagination = TRUE, 
-          fullWidth = FALSE,
+          fullWidth = TRUE,
           resizable = TRUE,
           searchable = TRUE,
            columns = list(
@@ -2113,7 +2494,7 @@ reactable(relative_perfs,
 
 ##### Lowest ACPL
 
-*Only the top 100 players are shown. Min. 100 moves played.*
+*Includes the 100 players with the lowest ACPL (min. 100 moves played).*
 
 ```{r show_lowest_acpls}
 reactable(lowest_acpls,
@@ -2129,29 +2510,17 @@ reactable(lowest_acpls,
     compact = TRUE)
 ```
 
-##### Multiple single-figure ACPLs
-
-Players with single-figure ACPLs in more than one game over the season.
-
-```{r accurate_players}
-reactable(minacpl_players, fullWidth = F, compact = T,
-          columns = list(
-            player = colDef(name = "Player", minWidth = 150),
-            n = colDef(name = "Games", align = "center")
-          ))
-
-```
 
 
-
-#### Time spent, comebacks and upsets {.tabset}
+#### Time spent, comebacks and upsets {.tabset .tabset-fade .tabset-pills} 
 
 ##### Time spent
 
-The top 50 players by total clock time spent over the season.
+*Includes the 50 players who spent the most clock time over the season.*
 
-```{r}
+```{r, comment = ""}
 
+if(movetimes_exist){
 reactable(season_think,
           pagination = TRUE, 
           fullWidth = FALSE,
@@ -2163,15 +2532,18 @@ reactable(season_think,
     games = colDef(name = "Games", align = "center"),
     duration_print = colDef(name = "Total time spent")),
     compact = TRUE)
+} else {
+  print(no_movetimes_print)
+}
 
 ```
 
 ##### Time spent per move (after move 10)
 
-*This table shows everyone who played at least three games during the season.*
+*Includes everyone who played at least three games.*
 
-```{r thinkers}
-
+```{r thinkers, comment=""}
+if(movetimes_exist){
 reactable(avg_think_times,
           pagination = TRUE, 
           fullWidth = FALSE,
@@ -2185,38 +2557,19 @@ reactable(avg_think_times,
     duration_print = colDef(name = "Time spent per move", minWidth = 150),
     prank = colDef(name = "Percentile", align = "center")),
     compact = TRUE)
-  
+} else {
+  print(no_movetimes_print)
+}
 
 ```
 
 
 
-#### Draws, comebacks, upsets {.tabset}
-##### Most draws
-
-The players who had the most draws over the season.
-
-```{r giri_award}
-reactable(drawers, fullWidth = F, compact = TRUE,
-          columns = list(
-            player = colDef(name = "Player", minWidth = 170),
-            n = colDef(name = "Draws", align = "center")
-          ))
-
-```
-
+#### Comebacks and upsets {.tabset .tabset-fade .tabset-pills} 
 
 ##### Comebacks
 
-Originally suggested by **Lou-E**. 
-
-This table shows players ranked by the size and number of comebacks achieved over the course of the season.
-
-For this purpose, the size of a comeback has been defined as the difference between a player's final score in a game (0, 0.5, or 1) and the worst evaluation during the game that they faced (which is then converted into a rough win probability for their opponent).
-
-For example, if I were to win a game after Lichess's server analysis gave my opponent a 75% chance of winning in a certain position, then I would have earned 1.75 comeback "points" from the game. My opponent of course would have earned zero points. If the game had been drawn, I would have instead earned only 0.75 comeback "points".
-
-*Only those who played at least three games in the season and who have a positive average comeback margin are included.*
+*Includes players with a positive average "comeback margin" that played at least three games.*^[Originally suggested by **Lou-E**. This table shows players ranked by the size and number of comebacks achieved over the course of the season. For this purpose, the size of a comeback has been defined as the difference between a player's final score in a game (0, 0.5, or 1) and the worst evaluation during the game that they faced (which is then converted into a rough win probability for their opponent). For example, if I were to win a game after Lichess's server analysis gave my opponent a 75% chance of winning in a certain position, then I would have earned 1.75 comeback "points" from the game. My opponent of course would have earned zero points. If the game had been drawn, I would have instead earned only 0.75 comeback "points".]
 
 ```{r comebacks}
 
@@ -2282,7 +2635,7 @@ reactable(upset_specialists,
 
 
 
-#### Dawdlers and instant movers  {.tabset}
+#### Dawdlers and instant movers {.tabset .tabset-fade .tabset-pills} 
 
 ##### Least time left after move 10
 
@@ -2292,8 +2645,8 @@ Shows the players who had the least time remaining after their 10th move in a ga
 
 *Includes the 100 top instances by this measure.*
 
-```{r other_grischuk}
-
+```{r other_grischuk, comment = ""}
+if(movetimes_exist){
 reactable(dawdlers,
           pagination = TRUE,
           searchable = TRUE,
@@ -2313,7 +2666,9 @@ reactable(dawdlers,
             sprintf('<a href="%s" target="_blank">%s</a>', dawdlers$url[index], value)
           }),
           outcome = colDef(name = "Result", align = "center")))
-
+} else {
+  print(no_movetimes_print)
+}
 ```
 
 
@@ -2324,8 +2679,8 @@ The players who made the most moves over the season while taking less than 0.5 s
 
 *Includes all players who made at least one such move.*
 
-```{r instamoves}
-
+```{r instamoves, comment = ""}
+if(movetimes_exist){
 reactable(instamovers,
           pagination = TRUE,
           searchable = TRUE,
@@ -2337,10 +2692,12 @@ reactable(instamovers,
             player = colDef(name = "Player", minWidth = 150),
             instamoves = colDef(name = "Instant moves", align = "center")
           ))
-    
+} else {
+  print(no_movetimes_print)
+}   
 ```
 
-#### Longest thinks, time trouble addicts, and lucky escapes {.tabset}
+#### Longest thinks, time trouble addicts, and lucky escapes {.tabset .tabset-fade .tabset-pills} 
 
 ##### Longest thinks
 
@@ -2348,7 +2705,8 @@ The longest times spent on a single move.
 
 *Top 100 shown.*
 
-```{r}
+```{r, comment = ""}
+if(movetimes_exist){
 reactable(movetimes,
           pagination = TRUE, 
           fullWidth = FALSE,
@@ -2367,7 +2725,9 @@ reactable(movetimes,
             sprintf('<a href="%s" target="_blank">%s</a>', movetimes$url[index], value)
           })),
     compact = TRUE)
-
+} else {
+  print(no_movetimes_print)
+}
 ```
 
 ##### Time trouble addicts
@@ -2376,8 +2736,9 @@ Shows players by proportion of moves made in time trouble (defined as having les
 
 *Includes everyone who played at least 100 moves over the season while making at least one move in time trouble.*
 
-```{r}
+```{r, comment = ""}
 
+if(movetimes_exist){
 reactable(timetrouble,
           pagination = TRUE, 
           fullWidth = FALSE,
@@ -2392,16 +2753,17 @@ reactable(timetrouble,
                    align = "center",
                    format = colFormat(digits = 1, percent = TRUE))),
     compact = TRUE)
-
-
-# format = colFormat(digits = 2)
+} else {
+  print(no_movetimes_print)
+}
 ```
 
 ##### Saved by the bell
 
 Games where a player moved with only 5 seconds left on their clock...and still won!
 
-```{r}
+```{r, comment = ""}
+if(movetimes_exist){
 reactable(savedbythebell,
           fullWidth = FALSE,
           resizable = TRUE,
@@ -2415,25 +2777,16 @@ reactable(savedbythebell,
                            cell = function(value, index){
             sprintf('<a href="%s" target="_blank">%s</a>', savedbythebell$url[index], value)
           })))
+} else {
+  print(no_movetimes_print)
+}
 
 ```
 
 
 
 
-
-
-
-#### Team stats (4545 only)
-
-```{r team_stats_appendix, eval = ifelse(league == "team4545", TRUE, FALSE)}
-# Show team stats table in appendix
-team_data
-```
-
-
-
-####  Misc. facts {.tabset}
+####  Misc. facts {.tabset .tabset-fade .tabset-pills} 
 
 ##### Lesser spotted mates
 
@@ -2661,20 +3014,20 @@ game_latest_capture <- latest_first_capture %>%
 - Latest-occurring first capture: ply `r max(latest_first_capture$first_capture)` in  `r game_latest_capture`
 
 
-### About  
+### About this report 
 
 - This report was compiled on `r format(Sys.time(), '%d %B %Y')`.
-- It uses data on player/team pairings and results from the Lichess4545 website combined with game data provided by Lichess. 
-- Note that the data excludes all players who are currently banned by Lichess for violating their Terms of Service (at the time the report was compiled). This can mean that players who are listed in the final standings on the Lichess4545 website are missing from the statistics presented here.
-- Although tournament performance ratings have been calculated using FIDE's method, they may differ slightly from figures published on the Lichess4545 website.
-- Currently, ties are not properly handled when determining player awards, which may cause errors.
-- Also, the code that produces the stats does not implement tiebreaks to determine the top three 4545 teams. This usually works out fine, but it can lead to errors in seasons where the top positions were determined by tiebreaks -- most notably in Season 11.
+- Games involving players who were later banned by Lichess for violating their Terms of Service were excluded prior to analysis. This also applies to players who were banned after the season ended.
+- Extremely short games of under 5 plies were also excluded, eg https://lichess.org/Cg4Lxjpb. 
+- Tournament performance ratings have been calculated using FIDE's preferred method.
+- Ties are not properly handled when determining player awards, which may cause errors.
+- Other than game points, tiebreaks were not used to determine final player/team rankings for the purpose of the report. Where the top three teams or players had to be determined by tiebreak -- eg 4545 Season 11 -- this is likely to lead to an error in the report.
 - Icons for player awards: [Noun Project](https://thenounproject.com/)
 
 ```{=html}
 &nbsp;
 <hr />
-<p style="text-align: center;">Stats produced by <a href="https://lichess.org/@/izzie26">izzie26</a></p>
+<p style="text-align: center;"><a href="https://github.com/rahulan-c/lichess4545-stats">Lichess4545 Statistics</a> (<a href="https://github.com/rahulan-c/lichess4545-stats">source code</a>)</p>
 <p style="text-align: center;"><span style="color: #808080;"><em>Want to help with the ledger? Ask in #lichessledger</em></span></p>
 
 &nbsp;

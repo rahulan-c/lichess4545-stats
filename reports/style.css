@@ -1,0 +1,58 @@
+/* -----------div tips------------- */
+
+  div.first, div.fyi, div.demo, div.note {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #2c3e50;
+    background-color: #ffe976;
+    border: solid 5px #ffd700;
+    background-image: url("images/trophy-1.png");
+  }
+  
+  div.second, div.fyi, div.demo, div.note {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #2c3e50;
+    background-color: #c0c0c0;
+    border: solid 5px #7b7b7b;
+    background-image: url("images/trophy-2.svg");
+  }
+  
+  div.third, div.fyi, div.demo, div.note {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #2c3e50;
+    background-color: #d99d61;
+    border: solid 5px #cd7f32;
+    background-image: url("images/trophy-3.svg");
+  }
+  
+  div.prizewinner, div.fyi, div.demo, div.note {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #2c3e50;
+    background-color: #b1d7f7;
+    border: solid 5px #7bbcf2;
+    background-image: url("images/lw_prize.png");
+  }
+  
