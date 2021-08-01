@@ -95,7 +95,7 @@ pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2,
 get_league_games <- function(league_choice, seasons_choice,
                              lw_u1800_choice){
   
-  tic("Get game IDs")
+  tic("Obtained game data")
   
   # Max number of game IDs allowed per Lichess API query
   max_ids_per_request <- 300
@@ -135,10 +135,10 @@ get_league_games <- function(league_choice, seasons_choice,
         # Add returned game data to season game IDs list
         season_data[[i]] <- res
         
-        print(paste0("Obtained game IDs for ", 
-                     ifelse(league_choice == "team4545", "4545 S",
-                            ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-                     seasons_choice[[i]]))
+        # print(paste0("Obtained game IDs for ", 
+        #              ifelse(league_choice == "team4545", "4545 S",
+        #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
+        #              seasons_choice[[i]]))
         
       }
       
@@ -183,17 +183,17 @@ get_league_games <- function(league_choice, seasons_choice,
         # # Add round game IDs to season game IDs list
         # season_ids[[j]] <- tibble("id" = round_ids)
         
-        print(paste0("Obtained game IDs for ", 
-                     ifelse(league_choice == "team4545", "4545 S",
-                            ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-                     seasons_choice[[i]]))
+        # print(paste0("Obtained game IDs for ", 
+        #              ifelse(league_choice == "team4545", "4545 S",
+        #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
+        #              seasons_choice[[i]]))
         
       }
     
-    print(paste0("Obtained all game IDs for ", 
-                 ifelse(league_choice == "team4545", "4545 S",
-                        ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-                 seasons_choice[[i]]))
+    # print(paste0("Obtained all game IDs for ", 
+    #              ifelse(league_choice == "team4545", "4545 S",
+    #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
+    #              seasons_choice[[i]]))
 
     all_data[[i]] <- bind_rows(season_data)
     
@@ -207,9 +207,6 @@ get_league_games <- function(league_choice, seasons_choice,
     select(game_id) %>% 
     dplyr::pull()
   all_ids <- split(all_ids, ceiling(seq_along(all_ids)/max_ids_per_request))
-  
-  toc(log = TRUE) # report time taken to get ids
-  tic("Get games data")
   
   # Get data on requested games
   all_games <- list(rep(NA, length(all_ids)))
@@ -316,12 +313,10 @@ get_user_games <- function(username, since, until, perfs){
 # Eg tidied_games <- tidy_lichess_games(games)
 tidy_lichess_games <- function(games){
 
-print("Starting tidying process...")
-tic("Tidying games data")
+tic("Tidied game data")
   
 # Only include analysed games
 games <- games %>% filter(!(is.na(players.white.analysis.acpl)))
-print("Games without Lichess analysis excluded...")
 
 # Add 'white' and 'black' fields to make it easier to refer to the players
 games <- games %>% 
@@ -337,7 +332,6 @@ games <- games %>%
     status == "stalemate" ~ "1/2-1/2",
     TRUE ~ NA_character_
   ))
-print("Tidied results field...")
 
 # Add game scores for both colours
 games <- games %>% 
@@ -355,14 +349,12 @@ games <- games %>%
       result == "1/2-1/2" ~ 0.5,
       TRUE ~ NA_real_
     ))
-print("Added player points...")
 
 # Add average rating for each game
 games <- games %>% 
   mutate(rating_w = players.white.rating,
          rating_b = players.black.rating,
          mean_rating = (rating_w + rating_b) / 2)
-print("Added average game ratings...")
 
 # Fix foreign characters in openings names
 games$opening.name <- games$opening.name %>% 
@@ -370,7 +362,6 @@ games$opening.name <- games$opening.name %>%
   str_replace_all("Ã¶", "ö") %>% 
   str_replace_all("Ã³", "ó") %>% 
   str_replace_all("Ã©", "é")
-print("Corrected misprinted characters in opening names...")
 
 # Add broad opening names to data
 # Creates another column that takes the Lichess opening name but: 
@@ -383,12 +374,10 @@ games <- games %>%
   mutate(opening.broad = str_replace_all(opening.broad, "(?<=,).*$", "")) %>% 
   mutate(opening.broad = if_else(str_detect(opening.broad, ","), str_replace(opening.broad, ",", ""), opening.broad)) %>% 
   mutate(opening.broad = if_else(opening.broad == "Guioco Piano", "Italian Game", opening.broad))
-print("Added stem opening names...")
 
 # Make game creation times more readable
 games$started <- lubridate::as_datetime(games$createdAt / 1000)
 games$ended <- lubridate::as_datetime(games$lastMoveAt / 1000)
-print("Made game start and finish times human-readable...")
 
 # Add year, month, day of week and hour to data
 games$year <- lubridate::year(games$started)
@@ -400,24 +389,18 @@ games$week <- lubridate::week(games$started)
 # games$minute <- lubridate::minute(games$started)
 games$date <- lubridate::date(games$started)
 
-print("Added game year, month, day and hour...")
-
 # Add first moves to games data
 games <- games %>% 
   mutate(first_moves = str_extract(moves, "^[:graph:]+\\s[:graph:]+")) %>% 
   mutate(first_move_w = str_extract(moves, "^[:graph:]+")) %>% 
   mutate(first_move_b = str_trim(str_extract(moves, "\\s[:graph:]+")))
-print("Added first moves...")
 
 # Add number of moves per game to data
 games$num_moves <- ifelse(str_count(games$moves, "\\s") %% 2 == 1,
                           (str_count(games$moves, "\\s") / 2) + 0.5,
                           (str_count(games$moves, "\\s") / 2) + 1)
-print("Added number of moves...")
 
 # Add move times to data
-
-
 
 # Compute move times
 times <- map(str_extract_all(games$pgn, "(?<=clk\\s)[0-1]\\:[0-5][0-9]\\:[0-5][0-9]"), lubridate::hms) %>% 
@@ -499,10 +482,8 @@ games <- games %>%
          perc_total_clock_b = duration_b / (duration_w + duration_b)) %>% 
   mutate(clock_used_after_move10_w = map_dbl(times, ~ sum(.x[c(T,F)][-c(1:10)],  na.rm = T))) %>% 
   mutate(clock_used_after_move10_b = map_dbl(times, ~ sum(.x[c(F,T)][-c(1:10)],  na.rm = T)))
-print("Added game durations and player clock usage totals (in seconds)...")
 
 # Add evals data
-print("About to add Lichess evaluations and move times...")
 
 # Nest evals data
 nested_evals <- evals %>% 
@@ -549,8 +530,6 @@ games <- games %>%
   # Add eval after 15 moves to data
   mutate(eval_after_15 = unlist(map(evals, ~ .x$capped_eval[30])))
 
-print("Finished adding evaluation and move time data")
-
 # Remove evals and clock times from PGN (to allow for openings sunburst plots)
 games$pgn_noevals <- str_replace_all(games$pgn, "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", "") %>% 
   str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
@@ -559,14 +538,19 @@ games$pgn_noevals <- str_replace_all(games$pgn, "\\{ \\[%eval [:graph:]{1,}\\] \
   str_replace_all("\\s(?=1/2)", "") %>% 
   str_replace_all("\\s(?=0-1)", "")
 
+# Save no evals PGN data as a single PGN
+pgn_noevals <- str_c(games$pgn_noevals, collapse = "")
+
+fileConn <- file(paste0(path_savepgn))
+writeLines(pgn_noevals, fileConn)
+close(fileConn)
+
 # Remove unnecessary variables from data
 games <- games %>% 
   select(-starts_with("analysis")) %>% 
   select(-c(clock.totalTime, createdAt, lastMoveAt))
 
-print("Finished tidying games data :)")
 toc(log = TRUE)
-
 
 return(games)
 
@@ -578,6 +562,8 @@ return(games)
 # Eg 2 positions <- get_league_data("team4545", 25, c(1:8), F, 10)[[2]]
 get_league_data <- function(league_choice, seasons_choice, rounds_choice, 
                             lw_u1800_choice, boards_per_team_choice){
+  
+  tic("Extracted pairing/rank data")
   
   # If only one round's games are required, repeat positions data extraction over the season to date
   all_pairings <- list()
@@ -781,10 +767,10 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         # Add team points data to the collated list
         all_positions[[j]] <- teams_all
         
-        print(paste0("Extracted pairings and positions for ", 
-                     ifelse(league_choice == "team4545", "4545 S",
-                            ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-                     seasons_choice[[i]], " R", j))
+        # print(paste0("Extracted pairings and positions for ", 
+        #              ifelse(league_choice == "team4545", "4545 S",
+        #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
+        #              seasons_choice[[i]], " R", j))
         
         
       }
@@ -929,10 +915,10 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         # Add positions data to the collated list
         all_positions[[j]] <- positions
         
-        print(paste0("Extracted pairings and positions for ", 
-                     ifelse(league_choice == "team4545", "4545 S",
-                            ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-                     seasons_choice[[i]], " R", j))
+        # print(paste0("Extracted pairings and positions for ", 
+        #              ifelse(league_choice == "team4545", "4545 S",
+        #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
+        #              seasons_choice[[i]], " R", j))
         
       }
       
@@ -1007,6 +993,8 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
     all_positions <- bind_rows(round_standings)
     
   }
+  
+  toc(log = TRUE)
   
   return(list(all_pairings, all_positions))
   # return(list(all_pairings, collated_positions))
@@ -1101,6 +1089,8 @@ get_games_from_urls <- function(links){
 #    save_season_data("lw_open", c(12:15))
 #    save_season_data("lw_u1800", c(12:15))
 save_season_data <- function(league_choice, seasons){
+  
+  tic("Obtained all season data")
   
   # Get correct rounds parameter
   if(league_choice == "team4545"){rounds <- c(1:8)} else {rounds <- c(1:11)}
@@ -1244,6 +1234,8 @@ save_season_data <- function(league_choice, seasons){
     
   }
   
+  toc(log = TRUE)
+  
 }
 
 # Report season stats and player awards for a range of seasons
@@ -1251,6 +1243,8 @@ save_season_data <- function(league_choice, seasons){
 #    report_season_stats("lw_open", c(18:20))
 #    report_season_stats("lw_u1800", c(18))
 report_season_stats <- function(league_choice, seasons){
+  
+  tic("Produced season stats report")
   
   if(league_choice == "team4545"){
     league <- "team4545"
@@ -1284,10 +1278,13 @@ report_season_stats <- function(league_choice, seasons){
                                            "_",
                                            "s", 
                                            sprintf("%02d", s), 
-                                           ".html"))
+                                           ".html"),
+                      quiet = TRUE)
     print(paste0("Produced report for ", 
                  ifelse(league == "team4545", "4545 S", "LoneWolf S"),
                  s))
+    
+    toc(log = TRUE)
     
   }
 }
@@ -1332,22 +1329,17 @@ instareport_season <- function(league, season){
   # 1. Save season data
   save_season_data(league, season)
   
-  # 2. Get all season games in a single PGN without clock or eval times
-  # Individual game PGN data already converted to suitable format in tidy_lichess_games()
-  # Just need to construct and save a single PGN file with all season games
-  fileConn <- file(paste0(path_savepgn))
-  writeLines(str_c(games$pgn_noevals, collapse = ""), fileConn)
-  close(fileConn)
-  
-  # 3. Make openings sunburst
+  # 2. Make openings sunburst
+  tic("Made openings sunburst plot")
   use_python(path_python)
   import_from_path("chess_graph", path = path_python, convert = TRUE)
   source_python(paste0(path_scripts, "make_openings_sunburst.py"))
   
-  # 4. Transfer and rename sunburst HTML file
+  # 3. Transfer and rename sunburst HTML file
   move_sunburst(path_sunburst_original, path_sunburst_new, league, season)
+  toc(log = TRUE)
   
-  # 5. Produce season report
+  # 4. Produce season report
   report_season_stats(league, season)
   toc(log = TRUE)
 }
@@ -1358,7 +1350,8 @@ instareport_season <- function(league, season){
 update_repo <- function(){
   # Render lichess4545-stats homepage
   rmarkdown::render(input = paste0(path_root, "index.rmd"),
-                    rmarkdown::md_document(variant = "gfm"))
+                    rmarkdown::md_document(variant = "gfm"),
+                    quiet = TRUE)
   # Push changes to repo
   source(paste0(path_scripts, "update_repo.R"))
 }
@@ -1441,9 +1434,6 @@ build_season_reports <- function(wipe_stats_first = TRUE,
 }
 
 # # Call build_season_reports()
-# build_season_reports(wipe_stats_first = FALSE,
-#                      team_range = 13, 
-#                      lwopen_range = 12, 
-#                      lwu1800_range = 12)
+build_season_reports(wipe_stats_first = T, lwu1800_range = 10)
 
 

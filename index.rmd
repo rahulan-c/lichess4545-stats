@@ -23,23 +23,38 @@ Coming soon.
 
 # Identify all seasons for which stats reports have been compiled 
 
-completed_4545 <- list.files(path = "reports/", pattern = "^stats_4545(.*)\\.html$") %>% 
-  str_remove_all("stats_4545_s") %>% 
-  str_remove_all("\\.html") %>% 
-  sort(decreasing = T) %>% 
-  paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s", ., ".html)")
+# 4545
+completed_4545 <- list.files(path = "reports/", pattern = "^stats_4545(.*)\\.html$") 
+any_4545 <- ifelse(length(completed_4545) > 0, T, F)
+if(length(completed_4545) > 0){
+  completed_4545 <- completed_4545 %>% 
+    str_remove_all("stats_4545_s") %>% 
+    str_remove_all("\\.html") %>% 
+    sort(decreasing = T) %>% 
+    paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s", ., ".html)")
+}
 
-completed_lwopen <- list.files(path = "reports/", pattern = "^stats_lwopen(.*)\\.html$") %>% 
-  str_remove_all("stats_lwopen_s") %>% 
-  str_remove_all("\\.html") %>% 
-  sort(decreasing = T) %>% 
-  paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s", ., ".html)")
+# LW Open
+completed_lwopen <- list.files(path = "reports/", pattern = "^stats_lwopen(.*)\\.html$")
+any_lwopen <- ifelse(length(completed_lwopen) > 0, T, F)
+if(length(completed_lwopen) > 0){
+  completed_lwopen <- completed_lwopen %>% 
+    str_remove_all("stats_lwopen_s") %>% 
+    str_remove_all("\\.html") %>% 
+    sort(decreasing = T) %>% 
+    paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s", ., ".html)")
+}
 
-completed_lwu1800 <- list.files(path = "reports/", pattern = "^stats_lwu1800(.*)\\.html$") %>% 
-  str_remove_all("stats_lwu1800_s") %>% 
-  str_remove_all("\\.html") %>% 
-  sort(decreasing = T) %>% 
-  paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s", ., ".html)")
+# LW U1800
+completed_lwu1800 <- list.files(path = "reports/", pattern = "^stats_lwu1800(.*)\\.html$")
+any_lwu1800 <- ifelse(length(completed_lwu1800) > 0, T, F)
+if(length(completed_lwu1800) > 0){
+ completed_lwu1800 <- completed_lwu1800 %>%  
+   str_remove_all("stats_lwu1800_s") %>% 
+   str_remove_all("\\.html") %>% 
+   sort(decreasing = T) %>% 
+   paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s", ., ".html)")
+}
 
 # Make sure all completed season vectors are the same length
 most_completed <- max(c(length(completed_4545), 
@@ -58,11 +73,15 @@ if(length(completed_lwu1800) < most_completed){
   completed_lwu1800 <- c(completed_lwu1800, rep("", most_completed - length(completed_lwu1800)))
 }
 
+# Make league cols empty if there are no completed seasons
+if(any_4545 == F){completed_4545 <- rep("", most_completed)}
+if(any_lwopen == F){completed_lwopen <- rep("", most_completed)}
+if(any_lwu1800 == F){completed_lwu1800 <- rep("", most_completed)}
 
+# Construct and show table of league reports by season
 completed <- tibble("team4545" = completed_4545,
                     "lwopen" = completed_lwopen,
                     "lwu1800" = completed_lwu1800)
-
 knitr::kable(completed, format = "simple", col.names = c("Lichess4545 League", "Lichess LoneWolf (Open)", "Lichess LoneWolf (U1800)"))
 
 ```

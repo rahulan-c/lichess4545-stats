@@ -23,4 +23,4 @@ chess_graph.graph(pgn_path, depth=16, shade = False,
                   should_download = True, download_format = 'html', 
                   download_name = 'sunburst')
 
-print("Produced openings sunburst plot!")
+# print("Produced openings sunburst plot!")
