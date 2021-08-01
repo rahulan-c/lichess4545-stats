@@ -1550,13 +1550,21 @@ instareport <- function(league, season){
   
   # 5. Produce season report
   report_season_stats(league, season)
-  
   toc(log = TRUE)
-  
+}
+
+# Update the index.md file that renders the Lichess4545 stats homepage to show
+# all completed season reports. Should be run after instareport().
+update_stats_homepage <- function(){
   # Render index.rmd
   rmarkdown::render(input = paste0(path_root, "index.rmd"),
                     rmarkdown::md_document(variant = "markdown_github"))
-  print("index.md <- <-  updated")
+  print("index.md updated!")
+}
 
-  }
+# Commit new changes to lichess4545-stats repo
+# Avoids need to manually commit stuff within RStudio
+auto_push <- function(){
+  
+}
 
