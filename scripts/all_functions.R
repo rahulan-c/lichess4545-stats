@@ -1565,20 +1565,26 @@ update_repo <- function(){
 # Delete all stats reports and sunburst plots in reports/
 wipe_all_stats <- function(){
   # Delete any directories in reports/ that aren't images/
-  dir_info(path_savereport) %>% 
+  dirs_to_delete <- dir_info(path_savereport) %>% 
     filter(type == "directory") %>% 
-    filter(!(str_detect(path, "images"))) %>% 
-    select(path) %>% 
-    pull() %>% 
-    dir_delete(.)
+    filter(!(str_detect(path, "images")))
+  if(nrow(dirs_to_delete) > 0){
+    dirs_to_delete %>% 
+      select(path) %>% 
+      pull() %>% 
+      dir_delete(.)
+    }
   # Delete any files in reports/ that aren't style.css or produce_season_stats.Rmd
-  dir_info(path_savereport) %>% 
+  files_to_delete <- dir_info(path_savereport) %>% 
     filter(type == "file") %>% 
     filter(!(str_detect(path, "produce_season_stats.Rmd"))) %>% 
-    filter(!(str_detect(path, "style.css"))) %>% 
-    select(path) %>% 
-    pull() %>% 
-    file_delete(.)
+    filter(!(str_detect(path, "style.css")))
+  if(nrow(files_to_delete) > 0){
+    files_to_delete %>% 
+      select(path) %>% 
+      pull() %>% 
+      file_delete(.)
+    }
   # Update repo
   update_repo()
 }
