@@ -1639,9 +1639,9 @@ build_season_reports <- function(wipe_stats_first = TRUE,
   toc(log = TRUE)
 }
 
-# Call build_season_reports()
-build_season_reports(team_range = 13, 
-                     lwopen_range = 12, 
-                     lwu1800_range = 12)
+# # Call build_season_reports()
+# build_season_reports(team_range = 13, 
+#                      lwopen_range = 12, 
+#                      lwu1800_range = 12)
 
 
