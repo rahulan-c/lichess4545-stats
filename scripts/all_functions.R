@@ -85,7 +85,7 @@ path_sunburst_new <- path_loadrmd
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
-               rmarkdown, fs)
+               rmarkdown, fs, stringi)
 
 
 # ---- Functions --------------------------------------------------------------
