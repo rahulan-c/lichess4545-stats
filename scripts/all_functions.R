@@ -551,6 +551,14 @@ games <- games %>%
 
 print("Finished adding evaluation and move time data")
 
+# Remove evals and clock times from PGN (to allow for openings sunburst plots)
+games$pgn_noevals <- str_replace_all(games$pgn, "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", "") %>% 
+  str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
+  str_replace_all("\\s(?=\\d+\\.)", "") %>% 
+  str_replace_all("\\s(?=1-0)", "") %>% 
+  str_replace_all("\\s(?=1/2)", "") %>% 
+  str_replace_all("\\s(?=0-1)", "")
+
 # Remove unnecessary variables from data
 games <- games %>% 
   select(-starts_with("analysis")) %>% 
@@ -1298,211 +1306,6 @@ save_and_report_stats <- function(league_choice, season_range){
   print("Finished crunching stats!")
 }
 
-# Save season games as a single PGN without any clock or eval data
-# Required for running Python script to make openings sunburst plot
-save_season_pgn <- function(league, season){
-  
-  if(league == "team4545"){
-    league_choice <- league
-    seasons_choice <- season
-    lw_u1800_choice <- F
-  }
-  else if(league == "lwopen"){
-    league_choice <- "lonewolf"
-    seasons_choice <- season
-    lw_u1800_choice <- F} 
-  else if(league == "lwu1800"){
-    league_choice <- "lonewolf"
-    seasons_choice <- season
-    lw_u1800_choice <- T
-  }
-  
-  # Define simpler form of get_league_games() to get season games data without evals
-  get_league_games_noevals <- function(league_choice, seasons_choice,
-                                       lw_u1800_choice){
-    
-    tic("Get game IDs")
-    
-    # Max number of game IDs allowed per Lichess API query
-    max_ids_per_request <- 300
-    
-    # # Define increment parameter
-    # if(league_choice == "team4545"){increment_choice <- 45}
-    # if(league_choice == "lonewolf"){increment_choice <- 30}
-    
-    all_data <- list()
-    
-    for(i in seq(1:length(seasons_choice))){
-      
-      # Lists to store season pairings data
-      season_data <- list()
-      
-      
-      # Extracting pairing data for 4545
-      if(league_choice == "team4545"){
-        
-        r <- httr::GET(
-          url = "https://www.lichess4545.com/api/get_season_games/",
-          query = list(league = league_choice,
-                       season = seasons_choice[[i]])
-        )
-        
-        # Stop if there's an error
-        if(r$status_code != 200){
-          print("Error!")
-          print(http_status(r)$message)}
-        
-        # Extract season data as tibble
-        res <- r %>% 
-          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
-          jsonlite::fromJSON() %>% 
-          purrr::pluck("games")
-        
-        # Add returned game data to season game IDs list
-        season_data[[i]] <- res
-        
-        print(paste0("Obtained game IDs for ", 
-                     ifelse(league_choice == "team4545", "4545 S",
-                            ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-                     seasons_choice[[i]]))
-        
-      }
-      
-      
-      # Extracting pairings and game IDs for LoneWolf
-      if(league_choice == "lonewolf"){
-        
-        # Amend season parameter for U1800 requests
-        if(lw_u1800_choice){
-          seasons_choice_u1800 <- paste0(seasons_choice[[i]], "u1800")
-          
-          r <- httr::GET(
-            url = "https://www.lichess4545.com/api/get_season_games/",
-            query = list(league = league_choice,
-                         season = seasons_choice_u1800)
-          )
-          
-        } else {
-          
-          r <- httr::GET(
-            url = "https://www.lichess4545.com/api/get_season_games/",
-            query = list(league = league_choice,
-                         season = seasons_choice[[i]])
-          )
-          
-        }
-        
-        # Stop if there's an error
-        if(r$status_code != 200){
-          print("Error!")
-          print(http_status(r)$message)}
-        
-        # Extract season data as tibble
-        res <- r %>% 
-          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
-          jsonlite::fromJSON() %>% 
-          purrr::pluck("games")
-        
-        # Add returned game data to season game IDs list
-        season_data[[i]] <- res
-        
-        # # Add round game IDs to season game IDs list
-        # season_ids[[j]] <- tibble("id" = round_ids)
-        
-        print(paste0("Obtained game IDs for ", 
-                     ifelse(league_choice == "team4545", "4545 S",
-                            ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-                     seasons_choice[[i]]))
-        
-      }
-      
-      print(paste0("Obtained all game IDs for ", 
-                   ifelse(league_choice == "team4545", "4545 S",
-                          ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-                   seasons_choice[[i]]))
-      
-      all_data[[i]] <- bind_rows(season_data)
-      
-    } # end season loop
-    
-    # Once all seasons have been checked...
-    
-    # Combine all game IDs, and split into list elements of size 300
-    all_data <- bind_rows(all_data)
-    all_ids <- all_data %>% 
-      select(game_id) %>% 
-      dplyr::pull()
-    all_ids <- split(all_ids, ceiling(seq_along(all_ids)/max_ids_per_request))
-    
-    toc(log = TRUE) # report time taken to get ids
-    tic("Get games data")
-    
-    # Get data on requested games
-    all_games <- list(rep(NA, length(all_ids)))
-    
-    for(l in seq(1:length(all_ids))){
-      
-      # Pause between batches of IDs
-      if(l > 1){Sys.sleep(5)}
-      
-      batch_ids <- all_ids[[l]] %>% str_c(collapse = ",")
-      
-      query <- httr::POST(
-        url = "https://lichess.org",
-        path = paste0("/games/export/_ids"),
-        body = batch_ids,
-        query = list(moves = "true",
-                     tags = "true",
-                     clocks = "false",
-                     evals = "false",
-                     opening = "true",
-                     pgnInJson = "true"),
-        httr::add_headers(`Authorization` = sprintf("Bearer %s", token)),
-        accept("application/x-ndjson"))
-      
-      # Stop if there's an error
-      if(query$status_code != 200){
-        print("Error!")
-        print(http_status(query)$message)
-        Sys.sleep(20)
-        break}
-      
-      # Then convert the response into NDJSON
-      game_data <- query %>% 
-        httr::content("text", encoding = "UTF-8") %>% 
-        read_lines() %>% 
-        ndjson::flatten()
-      
-      all_games[[l]] <- game_data
-      print(paste0("Obtained game data batch ", l, "/", length(all_ids)))
-      
-    }
-    
-    # Combine game data across batches into single df
-    all_games <- bind_rows(all_games)
-    
-    print(paste0("Obtained all game data (", nrow(all_games), " games)"))
-    
-    toc(log = TRUE) # how long to get games data from Lichess
-    
-    return(all_games)
-    
-  }
-  
-  
-  # Get games
-  games <- get_league_games_noevals(league_choice, seasons_choice, lw_u1800_choice)
-  
-  # Convert all games' PGN data into a single value
-  pgn <- str_c(games$pgn, collapse = "")
-  
-  # Save PGN
-  fileConn<-file(paste0(path_savepgn))
-  writeLines(pgn, fileConn)
-  close(fileConn)
-  
-}
-
 # Renames and moves the openings sunburst HTML file created by 
 # make_openings_sunburst.py to the reports folder, so it can be linked in
 # the finals seasons stats reports
@@ -1529,8 +1332,12 @@ instareport_season <- function(league, season){
   # 1. Save season data
   save_season_data(league, season)
   
-  # 2. Save season PGN
-  save_season_pgn(league, season)
+  # 2. Get all season games in a single PGN without clock or eval times
+  # Individual game PGN data already converted to suitable format in tidy_lichess_games()
+  # Just need to construct and save a single PGN file with all season games
+  fileConn <- file(paste0(path_savepgn))
+  writeLines(str_c(games$pgn_noevals, collapse = ""), fileConn)
+  close(fileConn)
   
   # 3. Make openings sunburst
   use_python(path_python)
@@ -1603,7 +1410,7 @@ build_season_reports <- function(wipe_stats_first = TRUE,
     team_range <- split(team_range, ceiling(seq_along(team_range)/update_repo_after))
     for(i in seq(1:length(team_range))){
       for(j in seq(1:length(team_range[[i]]))){
-        instareport("team4545", team_range[[i]][j])
+        instareport_season("team4545", team_range[[i]][j])
       }
       update_repo() # push changes to repo after every <update_repo_after> seasons
     }
@@ -1614,7 +1421,7 @@ build_season_reports <- function(wipe_stats_first = TRUE,
     lwopen_range <- split(lwopen_range, ceiling(seq_along(lwopen_range)/update_repo_after))
     for(i in seq(1:length(lwopen_range))){
       for(j in seq(1:length(lwopen_range[[i]]))){
-        instareport("lwopen", lwopen_range[[i]][j])
+        instareport_season("lwopen", lwopen_range[[i]][j])
       }
       update_repo()
     }
@@ -1625,7 +1432,7 @@ build_season_reports <- function(wipe_stats_first = TRUE,
     lwu1800_range <- split(lwu1800_range, ceiling(seq_along(lwu1800_range)/update_repo_after))
     for(i in seq(1:length(lwu1800_range))){
       for(j in seq(1:length(lwu1800_range[[i]]))){
-        instareport("lwu1800", lwu1800_range[[i]][j])
+        instareport_season("lwu1800", lwu1800_range[[i]][j])
       }
       update_repo()
     }
