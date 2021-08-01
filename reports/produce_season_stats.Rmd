@@ -194,7 +194,7 @@ cheat_reasons <- c("Marked as using computer assistance on lichess",
 cheats <- banned %>% 
   filter(Reason %in% cheat_reasons) %>% 
   filter(Other.Notes != "mark reversed and readmitted") %>% 
-  pull(name)
+  dplyr::pull(name)
 
 games_incl_banned <- games
 pairings_incl_banned <- pairings
@@ -264,12 +264,12 @@ wdl <- games %>%
   tally() %>%
   mutate(perc = n/nrow(games))
 
-games_w <- wdl %>% filter(result == "1-0") %>% pull(n)
-perc_w <- wdl %>% filter(result == "1-0") %>% pull(perc)
-games_b <- wdl %>% filter(result == "0-1") %>% pull(n)
-perc_b <- wdl %>% filter(result == "0-1") %>% pull(perc)
-games_d <- wdl %>% filter(result == "1/2-1/2") %>% pull(n)
-perc_d <- wdl %>% filter(result == "1/2-1/2") %>% pull(perc)
+games_w <- wdl %>% filter(result == "1-0") %>% dplyr::pull(n)
+perc_w <- wdl %>% filter(result == "1-0") %>% dplyr::pull(perc)
+games_b <- wdl %>% filter(result == "0-1") %>% dplyr::pull(n)
+perc_b <- wdl %>% filter(result == "0-1") %>% dplyr::pull(perc)
+games_d <- wdl %>% filter(result == "1/2-1/2") %>% dplyr::pull(n)
+perc_d <- wdl %>% filter(result == "1/2-1/2") %>% dplyr::pull(perc)
 
 # How games ended
 ended <- games %>% 
@@ -311,9 +311,9 @@ players_teams <- rbind(tibble("player" = games$white, "team" = games$team_w, "ro
   summarise(games = n()) %>% 
   arrange(desc(games))
 
-players_gold <- players_teams %>% filter(team == top_3$team[top_3$rank == 1]) %>% arrange(desc(games)) %>% pull(player)
-players_silver <- players_teams %>% filter(team == top_3$team[top_3$rank == 2]) %>% arrange(desc(games)) %>% pull(player)
-players_bronze <- players_teams %>% filter(team == top_3$team[top_3$rank == 3]) %>% arrange(desc(games)) %>% pull(player)
+players_gold <- players_teams %>% filter(team == top_3$team[top_3$rank == 1]) %>% arrange(desc(games)) %>% dplyr::pull(player)
+players_silver <- players_teams %>% filter(team == top_3$team[top_3$rank == 2]) %>% arrange(desc(games)) %>% dplyr::pull(player)
+players_bronze <- players_teams %>% filter(team == top_3$team[top_3$rank == 3]) %>% arrange(desc(games)) %>% dplyr::pull(player)
 
 # Identify length of longest team list
 longest_team <- max(c(length(players_gold), 
@@ -476,7 +476,7 @@ top_places <- positions %>%
   filter(round == 8) %>% 
   arrange(rank) %>% 
   filter(rank <= 5) %>% 
-  pull(team)
+  dplyr::pull(team)
   
 position_tracker <- positions %>% 
   mutate(round = as.factor(round)) %>% 
@@ -512,7 +512,7 @@ if(league == "lonewolf"){
     filter(round == 12) %>% 
     arrange(pos) %>% 
     filter(pos <= 3) %>%  
-    pull(player)
+    dplyr::pull(player)
   
   position_tracker <- positions %>% 
     filter(!(is.na(pos))) %>% 
@@ -2086,15 +2086,15 @@ alt_runnerup <- alts %>%
 
 ```{r player_awards_4545, eval = ifelse(league == "team4545", TRUE, FALSE)}
 
-single_fig_acpl_players <- minacpl_players %>% select(player) %>% pull()
-giri_winners <- drawers %>% select(player) %>% pull()
-giri_value <- drawers %>% select(n) %>% distinct() %>% pull()
+single_fig_acpl_players <- minacpl_players %>% select(player) %>% dplyr::pull()
+giri_winners <- drawers %>% select(player) %>% dplyr::pull()
+giri_value <- drawers %>% select(n) %>% distinct() %>% dplyr::pull()
 
 if(league == "team4545"){
-alt_winners <- alt_award %>% select(player) %>% pull() %>% str_c(collapse = ", ")
-alt_value <- alt_award %>% select(teams) %>% pull() %>% unique()
-alt_runnerup_names <- alt_runnerup %>% select(player) %>% pull()
-alt_runnerup_value <- alt_runnerup %>% select(teams) %>% distinct() %>% pull() 
+alt_winners <- alt_award %>% select(player) %>% dplyr::pull() %>% str_c(collapse = ", ")
+alt_value <- alt_award %>% select(teams) %>% dplyr::pull() %>% unique()
+alt_runnerup_names <- alt_runnerup %>% select(player) %>% dplyr::pull()
+alt_runnerup_value <- alt_runnerup %>% select(teams) %>% distinct() %>% dplyr::pull() 
 }
 
 awards <- tibble("Image" = c(rep("x", 18)),
@@ -2246,9 +2246,9 @@ reactable(awards,
 
 ```{r player_awards_lw, eval = ifelse(league == "team4545", FALSE, TRUE)}
 
-single_fig_acpl_players <- minacpl_players %>% select(player) %>% pull()
-giri_winners <- drawers %>% select(player) %>% pull()
-giri_value <- drawers %>% select(n) %>% distinct() %>% pull()
+single_fig_acpl_players <- minacpl_players %>% select(player) %>% dplyr::pull()
+giri_winners <- drawers %>% select(player) %>% dplyr::pull()
+giri_value <- drawers %>% select(n) %>% distinct() %>% dplyr::pull()
 
 awards <- tibble("Image" = c(rep("x", 16)),
                  "Award" = c("Gambit Guru",
@@ -2819,13 +2819,13 @@ pawn_mate_games <- mates %>%
   filter(!(mating_piece %in% c("Q", "R", "B", "N"))) %>% 
   mutate(url = paste0("https://lichess.org/", id)) %>% 
   select(url) %>% 
-  pull()
+  dplyr::pull()
 
 knight_mate_games <- mates %>% 
   filter(mating_piece == "N") %>% 
   mutate(url = paste0("https://lichess.org/", id)) %>% 
   select(url) %>% 
-  pull()
+  dplyr::pull()
 
 ```
 
@@ -2866,7 +2866,7 @@ underpromotions <- promotions %>%
 most_promotions <- promotions %>% 
   slice_max(promotions) %>% 
   select(url) %>% 
-  pull()
+  dplyr::pull()
 
 ```
 
@@ -2990,11 +2990,11 @@ capture_streaks <- capture_streaks %>%
 
 check_streaks_games <- check_streaks %>% 
   select(url) %>% 
-  pull()
+  dplyr::pull()
 
 capture_streaks_games <- capture_streaks %>% 
   select(url) %>% 
-  pull()
+  dplyr::pull()
 
 # Find game with latest first capture
 latest_first_capture <- captures %>%
@@ -3004,7 +3004,7 @@ latest_first_capture <- captures %>%
   slice_max(first_capture)
 
 game_latest_capture <- latest_first_capture %>% 
-  select(url) %>% pull()
+  select(url) %>% dplyr::pull()
 
 ```
 

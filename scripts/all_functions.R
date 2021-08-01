@@ -85,7 +85,7 @@ path_sunburst_new <- path_loadrmd
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
-               rmarkdown, fs, stringi)
+               rmarkdown, fs, stringi, git2r)
 
 
 # ---- Functions --------------------------------------------------------------
@@ -128,7 +128,7 @@ get_league_games <- function(league_choice, seasons_choice,
         
         # Extract season data as tibble
         res <- r %>% 
-          httr::content("text", encoding = stringi::stri_enc_detect(content(r, "raw"))[[1]][1,1]) %>% 
+          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
           jsonlite::fromJSON() %>% 
           purrr::pluck("games")
         
@@ -173,7 +173,7 @@ get_league_games <- function(league_choice, seasons_choice,
         
         # Extract season data as tibble
         res <- r %>% 
-          httr::content("text", encoding = stringi::stri_enc_detect(content(r, "raw"))[[1]][1,1]) %>% 
+          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
           jsonlite::fromJSON() %>% 
           purrr::pluck("games")
         
@@ -205,10 +205,7 @@ get_league_games <- function(league_choice, seasons_choice,
   all_data <- bind_rows(all_data)
   all_ids <- all_data %>% 
     select(game_id) %>% 
-    pull() %>% 
-    str_c(collapse = ",") %>% 
-    str_split(",") %>% 
-    unlist()
+    dplyr::pull()
   all_ids <- split(all_ids, ceiling(seq_along(all_ids)/max_ids_per_request))
   
   toc(log = TRUE) # report time taken to get ids
@@ -1357,7 +1354,7 @@ save_season_pgn <- function(league, season){
         
         # Extract season data as tibble
         res <- r %>% 
-          httr::content("text", encoding = stringi::stri_enc_detect(content(r, "raw"))[[1]][1,1]) %>% 
+          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
           jsonlite::fromJSON() %>% 
           purrr::pluck("games")
         
@@ -1402,7 +1399,7 @@ save_season_pgn <- function(league, season){
         
         # Extract season data as tibble
         res <- r %>% 
-          httr::content("text", encoding = stringi::stri_enc_detect(content(r, "raw"))[[1]][1,1]) %>% 
+          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
           jsonlite::fromJSON() %>% 
           purrr::pluck("games")
         
@@ -1434,10 +1431,7 @@ save_season_pgn <- function(league, season){
     all_data <- bind_rows(all_data)
     all_ids <- all_data %>% 
       select(game_id) %>% 
-      pull() %>% 
-      str_c(collapse = ",") %>% 
-      str_split(",") %>% 
-      unlist()
+      dplyr::pull()
     all_ids <- split(all_ids, ceiling(seq_along(all_ids)/max_ids_per_request))
     
     toc(log = TRUE) # report time taken to get ids
@@ -1571,7 +1565,7 @@ wipe_all_stats <- function(){
   if(nrow(dirs_to_delete) > 0){
     dirs_to_delete %>% 
       select(path) %>% 
-      pull() %>% 
+      dplyr::pull() %>% 
       dir_delete(.)
     }
   # Delete any files in reports/ that aren't style.css or produce_season_stats.Rmd
@@ -1582,7 +1576,7 @@ wipe_all_stats <- function(){
   if(nrow(files_to_delete) > 0){
     files_to_delete %>% 
       select(path) %>% 
-      pull() %>% 
+      dplyr::pull() %>% 
       file_delete(.)
     }
   # Update repo
@@ -1640,7 +1634,8 @@ build_season_reports <- function(wipe_stats_first = TRUE,
 }
 
 # # Call build_season_reports()
-# build_season_reports(team_range = 13, 
+# build_season_reports(wipe_stats_first = FALSE,
+#                      team_range = 13, 
 #                      lwopen_range = 12, 
 #                      lwu1800_range = 12)
 
