@@ -1528,9 +1528,7 @@ move_sunburst <- function(path_orig, path_new, league, season){
 # Make a stats report from scratch
 # Requests and saves season data, requests PGN for openings sunburst, makes 
 # sunburst, then compiles and saves season stats HTML report.
-# TODO update index.rmd so that index.md auto-updates to show all available
-# reports.
-instareport <- function(league, season){
+instareport_season <- function(league, season){
   
   tic("Make stats report incl. sunburst from scratch")
   
@@ -1553,12 +1551,24 @@ instareport <- function(league, season){
   toc(log = TRUE)
 }
 
-# Update the index.md file that renders the Lichess4545 stats homepage to show
-# all completed season reports. Should be run after instareport().
+# Updates index.md so https://rahulan-c.github.io/lichess4545-stats/ shows all
+# seasons that have completed season stats reports, then pushes all updates to
+# the public Github repo, so the website will be updated.
 update_repo <- function(){
   # Render lichess4545-stats homepage
   rmarkdown::render(input = paste0(path_root, "index.rmd"),
                     rmarkdown::md_document(variant = "markdown_github"))
   # Push changes to repo
   source(paste0(path_scripts, "update_repo.R"))
+}
+
+# TODO: 
+# 1) wipe_season_reports(): delete everything in reports/ other than reports/images/,
+#    style.css and produce_season_stats.Rmd...and then update repo.
+# 2) redo_season_reports(): run instareport() for all seasons, starting from the most recent, 
+#    and run update_repo after every 3 seasons or so. 
+# 3) rebuild_season_reports(): combine 1 and 2
+
+wipe_all_stats <- function(){
+  
 }
