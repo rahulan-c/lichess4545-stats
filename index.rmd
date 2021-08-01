@@ -11,13 +11,18 @@ pacman::p_load(tidyverse, knitr)
 
 ```
 
-If you're looking for stats covering previous seasons of the [Lichess4545](https://www.lichess4545.com/) [Team](https://www.lichess4545.com/team4545/) (45+45) and [LoneWolf](https://www.lichess4545.com/lonewolf/) (30+30) online chess leagues, you're in the right place.
+Statistical reports for the [Lichess4545](https://www.lichess4545.com/) [Team](https://www.lichess4545.com/team4545/) (45+45) and [LoneWolf](https://www.lichess4545.com/lonewolf/) (30+30) online chess leagues.
 
-Here are links to the stats for the seasons completed so far.
+## All time records
+
+Coming soon.
+
+## Season statistics and awards
 
 ```{r, message=FALSE}
 
 # Identify all seasons for which stats reports have been compiled 
+
 completed_4545 <- list.files(path = "reports/", pattern = "^stats_4545(.*)\\.html$") %>% 
   str_remove_all("stats_4545_s") %>% 
   str_remove_all("\\.html") %>% 
@@ -35,6 +40,24 @@ completed_lwu1800 <- list.files(path = "reports/", pattern = "^stats_lwu1800(.*)
   str_remove_all("\\.html") %>% 
   sort(decreasing = T) %>% 
   paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s", ., ".html)")
+
+# Make sure all completed season vectors are the same length
+most_completed <- max(c(length(completed_4545), 
+                      length(completed_lwopen), 
+                      length(completed_lwu1800)))
+
+if(length(completed_4545) < most_completed){
+  completed_4545 <- c(completed_4545, rep("", most_completed - length(completed_4545)))
+}
+
+if(length(completed_lwopen) < most_completed){
+  completed_lwopen <- c(completed_lwopen, rep("", most_completed - length(completed_lwopen)))
+}
+
+if(length(completed_lwu1800) < most_completed){
+  completed_lwu1800 <- c(completed_lwu1800, rep("", most_completed - length(completed_lwu1800)))
+}
+
 
 completed <- tibble("team4545" = completed_4545,
                     "lwopen" = completed_lwopen,
