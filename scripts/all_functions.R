@@ -85,7 +85,7 @@ path_sunburst_new <- path_loadrmd
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
-               rmarkdown)
+               rmarkdown, fs)
 
 
 # ---- Functions --------------------------------------------------------------
@@ -1562,14 +1562,80 @@ update_repo <- function(){
   source(paste0(path_scripts, "update_repo.R"))
 }
 
-# TODO: 
-# 1) wipe_season_reports(): delete everything in reports/ other than reports/images/,
-#    style.css and produce_season_stats.Rmd...and then update repo.
-# 2) redo_season_reports(): run instareport() for all seasons, starting from the most recent, 
-#    and run update_repo after every 3 seasons or so. 
-# 3) rebuild_season_reports(): combine 1 and 2
-# Random line to force a commit :)
-
+# Delete all stats reports and sunburst plots in reports/
 wipe_all_stats <- function(){
-  
+  # Delete any directories in reports/ that aren't images/
+  dir_info(path_savereport) %>% 
+    filter(type == "directory") %>% 
+    filter(!(str_detect(path, "images"))) %>% 
+    select(path) %>% 
+    pull() %>% 
+    dir_delete(.)
+  # Delete any files in reports/ that aren't style.css or produce_season_stats.Rmd
+  dir_info(path_savereport) %>% 
+    filter(type == "file") %>% 
+    filter(!(str_detect(path, "produce_season_stats.Rmd"))) %>% 
+    filter(!(str_detect(path, "style.css"))) %>% 
+    select(path) %>% 
+    pull() %>% 
+    file_delete(.)
+  # Update repo
+  update_repo()
 }
+
+build_season_reports <- function(wipe_stats_first = TRUE, 
+                                 team_range = NULL, 
+                                 lwopen_range = NULL, 
+                                 lwu1800_range = NULL, 
+                                 update_repo_after = 3){
+  
+  tic("Building season reports")
+  
+  # First, wipe all previously produced season stats reports
+  if(wipe_stats_first){wipe_all_stats()}
+  
+  # Then split requested seasons into chunks according to user's desired update frequency
+  # Create season reports and push regularly to repo
+  
+  # 4545
+  if(!(is.null(team_range))){
+    team_range <- sort(team_range, decreasing = T)
+    team_range <- split(team_range, ceiling(seq_along(team_range)/update_repo_after))
+    for(i in seq(1:length(team_range))){
+      for(j in seq(1:length(team_range[[i]]))){
+        instareport("team4545", team_range[[i]][j])
+      }
+      update_repo() # push changes to repo after every <update_repo_after> seasons
+    }
+  }
+  # LW Open
+  if(!(is.null(lwopen_range))){
+    lwopen_range <- sort(lwopen_range, decreasing = T)
+    lwopen_range <- split(lwopen_range, ceiling(seq_along(lwopen_range)/update_repo_after))
+    for(i in seq(1:length(lwopen_range))){
+      for(j in seq(1:length(lwopen_range[[i]]))){
+        instareport("lwopen", lwopen_range[[i]][j])
+      }
+      update_repo()
+    }
+  }
+  # LW U1800
+  if(!(is.null(lwu1800_range))){
+    lwu1800_range <- sort(lwu1800_range, decreasing = T)
+    lwu1800_range <- split(lwu1800_range, ceiling(seq_along(lwu1800_range)/update_repo_after))
+    for(i in seq(1:length(lwu1800_range))){
+      for(j in seq(1:length(lwu1800_range[[i]]))){
+        instareport("lwu1800", lwu1800_range[[i]][j])
+      }
+      update_repo()
+    }
+  }
+  toc(log = TRUE)
+}
+
+# Call build_season_reports()
+build_season_reports(team_range = 13, 
+                     lwopen_range = 12, 
+                     lwu1800_range = 12)
+
+
