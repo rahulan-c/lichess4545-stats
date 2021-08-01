@@ -1557,7 +1557,7 @@ instareport_season <- function(league, season){
 update_repo <- function(){
   # Render lichess4545-stats homepage
   rmarkdown::render(input = paste0(path_root, "index.rmd"),
-                    rmarkdown::md_document(variant = "markdown_github"))
+                    rmarkdown::md_document(variant = "gfm"))
   # Push changes to repo
   source(paste0(path_scripts, "update_repo.R"))
 }
