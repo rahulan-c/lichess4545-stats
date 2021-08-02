@@ -11,6 +11,8 @@ pacman::p_load(tidyverse, knitr)
 
 ```
 
+Lichess4545 stats.
+
 ## All time records
 
 Coming soon.

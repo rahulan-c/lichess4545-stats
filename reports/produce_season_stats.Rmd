@@ -432,111 +432,75 @@ plt_wins_by_col
 </div>
 </div>
 
-
-#### Final podium
-
-```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
-# Produce table of all players for the top 3 teams in the final standings
-
-# Identify top 3 teams
-top_3 <- positions %>% 
-  filter(round == max(positions$round)) %>% 
-  filter(rank %in% c(1:3))
-
-# Identify everyone who played for the top 3 teams
-players_teams <- rbind(tibble("player" = games$white, "team" = games$team_w, "round" = games$round),
-                       tibble("player" = games$black, "team" = games$team_b, "round" = games$round)) %>% 
-  group_by(player, team) %>% 
-  summarise(games = n()) %>% 
-  arrange(desc(games))
-
-players_gold <- players_teams %>% filter(team == top_3$team[top_3$rank == 1]) %>% arrange(desc(games)) %>% dplyr::pull(player)
-players_silver <- players_teams %>% filter(team == top_3$team[top_3$rank == 2]) %>% arrange(desc(games)) %>% dplyr::pull(player)
-players_bronze <- players_teams %>% filter(team == top_3$team[top_3$rank == 3]) %>% arrange(desc(games)) %>% dplyr::pull(player)
-
-# Identify length of longest team list
-longest_team <- max(c(length(players_gold), 
-                      length(players_silver), 
-                      length(players_bronze)))
-
-if(length(players_gold) < longest_team){
-  players_gold <- c(players_gold, rep("", longest_team - length(players_gold)))
-}
-
-if(length(players_silver) < longest_team){
-  players_silver <- c(players_silver, rep("", longest_team - length(players_silver)))
-}
-
-if(length(players_bronze) < longest_team){
-  players_bronze <- c(players_bronze, rep("", longest_team - length(players_bronze)))
-}
-
-# Create final table of players
-winners <- tibble("Gold" = c(top_3$team[top_3$rank == 1], players_gold),
-                  "Silver" = c(top_3$team[top_3$rank == 2], players_silver),
-                  "Bronze" = c(top_3$team[top_3$rank == 3], players_bronze))
-
-# Show final players data as reactable table
-reactable(winners,
-          fullWidth = TRUE,
-          resizable = TRUE,
-          compact = TRUE,
-          pagination = FALSE,
-          columns = list(
-            Gold = colDef(name = "1st place", align = "center", minWidth = 250),
-            Silver = colDef(name = "2nd place", align = "center", minWidth = 250),
-            Bronze = colDef(name = "3rd place", align = "center", minWidth = 250)),
-          rowStyle = function(index) {
-            if (index == 1) {
-              list(background = "rgba(0, 0, 0, 0.05)")
-            }
-          })
-```
-
 ```{r}
 # Identify top 3 teams (4545) or players (LW)
 
 if(league == "team4545"){
-  # 1st place
+  
+  # For 4545...
+  
+  # 1st place team name
   first <- read_html(summary_url) %>% 
     html_element(".first-place .team-link") %>% 
     html_text()
-  
+  # 1st place team link
   first_link <- read_html(summary_url) %>% 
     html_element(".first-place .team-link") %>%
     html_attr("href")
-  
   first_link <- paste0("https://www.lichess4545.com", first_link)
+  # 1st place team players
+  first_players <- read_html(summary_url) %>% 
+    html_element(".first-place") %>% 
+    html_text() %>% 
+    str_replace_all("[\r\n]" , "") %>% 
+    str_replace_all(first, "") %>% 
+    str_squish()
   
-  # 2nd place
+  
+  # 2nd place team name
   second <- read_html(summary_url) %>% 
     html_element(".second-place .team-link") %>% 
     html_text()
-  
+  # 2nd place team link
   second_link <- read_html(summary_url) %>% 
     html_element(".second-place .team-link") %>%
     html_attr("href")
-  
   second_link <- paste0("https://www.lichess4545.com", second_link)
+  # 2nd place team players
+  second_players <- read_html(summary_url) %>% 
+    html_element(".second-place") %>% 
+    html_text() %>% 
+    str_replace_all("[\r\n]" , "") %>% 
+    str_replace_all(second, "") %>% 
+    str_squish()
   
-  # 3rd place
+  # 3rd place team name
   third <- read_html(summary_url) %>% 
     html_element(".third-place .team-link") %>% 
     html_text()
-  
+  # 3rd place team link
   third_link <- read_html(summary_url) %>% 
     html_element(".third-place .team-link") %>%
     html_attr("href")
-  
   third_link <- paste0("https://www.lichess4545.com", third_link)
-
-  } else {
+  # 3rd place team players
+  third_players <- read_html(summary_url) %>% 
+    html_element(".third-place") %>% 
+    html_text() %>% 
+    str_replace_all("[\r\n]" , "") %>% 
+    str_replace_all(third, "") %>% 
+    str_squish()
   
-  # 1st place
+  } else {
+    
+  # For LW
+  
+  # 1st place team
   first <- read_html(summary_url) %>% 
     html_element(".first-place .player-link") %>% 
     html_text()
   
+  # Link to 1st place team profile
   first_link <- read_html(summary_url) %>% 
     html_element(".first-place .player-link") %>%
     html_attr("href")
@@ -570,20 +534,67 @@ if(league == "team4545"){
 ```
 
 
+```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
+# Produce table of all players for the top 3 teams in the final standings
+
+# Identify top 3 teams
+top_3 <- positions %>% 
+  filter(round == max(positions$round)) %>% 
+  filter(rank %in% c(1:3))
+
+# Identify everyone who played for the top 3 teams
+players_teams <- rbind(tibble("player" = games$white, "team" = games$team_w, "round" = games$round),
+                       tibble("player" = games$black, "team" = games$team_b, "round" = games$round)) %>% 
+  group_by(player, team) %>% 
+  summarise(games = n()) %>% 
+  arrange(desc(games))
+
+players_gold <- players_teams %>% filter(team == top_3$team[top_3$rank == 1]) %>% arrange(desc(games)) %>% dplyr::pull(player)
+players_silver <- players_teams %>% filter(team == top_3$team[top_3$rank == 2]) %>% arrange(desc(games)) %>% dplyr::pull(player)
+players_bronze <- players_teams %>% filter(team == top_3$team[top_3$rank == 3]) %>% arrange(desc(games)) %>% dplyr::pull(player)
+
+# Identify length of longest team list
+longest_team <- max(c(length(players_gold), 
+                      length(players_silver), 
+                      length(players_bronze)))
+
+players_gold <- sort(players_gold)
+if(length(players_gold) < longest_team){
+  players_gold <- c(players_gold, rep("", longest_team - length(players_gold)))
+}
+
+players_silver <- sort(players_silver)
+if(length(players_silver) < longest_team){
+  players_silver <- c(players_silver, rep("", longest_team - length(players_silver)))
+}
+
+players_bronze <- sort(players_bronze)
+if(length(players_bronze) < longest_team){
+  players_bronze <- c(players_bronze, rep("", longest_team - length(players_bronze)))
+}
+
+# Create final table of players
+winners <- tibble("Gold" = players_gold,
+                  "Silver" = players_silver,
+                  "Bronze" = players_bronze)
+```
 
 
 <!-- A different approach, based on https://holtzy.github.io/Pimp-my-rmd/#several_columns -->
 
 <div class = "row">
   
-<div class = "col-md-5">
+<div class = "col-md-4">
 
 :::first
+<p style="font-size:12pt; font-weight: 900;">
+1st place
+<br>
+</p>
 <p style="font-size:16pt; font-weight: 900;">
     `r paste0("[", first, "]", "(", first_link, ")")`
 </p>
 <p style="font-size:12pt; font-weight: 900;">
-    <!-- `r ifelse(league == "team4545", str_c(winners$Gold, collapse = ", "), "")` -->
 </p>
 :::
 
@@ -592,24 +603,30 @@ if(league == "team4545"){
 <div class = "col-md-4">
 
 :::second
-<p style="font-size:12pt; font-weight: 600;">
+<p style="font-size:12pt; font-weight: 900;">
+2nd place
+<br>
+</p>
+<p style="font-size:14pt; font-weight: 600;">
     `r paste0("[", second, "]", "(", second_link, ")")`
 </p>
 <p style="font-size:12pt; font-weight: 900;">
-    <!-- `r ifelse(league == "team4545", str_c(winners$Silver, collapse = ", "), "")` -->
 </p>
 :::
 
 </div>
 
-<div class = "col-md-3">
+<div class = "col-md-4">
 
 :::third
-<p style="font-size:12pt; font-weight: 600;">
+<p style="font-size:12pt; font-weight: 900;">
+3rd place
+<br>
+</p>
+<p style="font-size:14pt; font-weight: 600;">
     `r paste0("[", third, "]", "(", third_link, ")")`
 </p>
 <p style="font-size:12pt; font-weight: 900;">
-    <!-- `r ifelse(league == "team4545", str_c(winners$Bronze, collapse = ", "), "")` -->
 </p>
 :::
 
@@ -617,9 +634,25 @@ if(league == "team4545"){
 
 </div>
 
+```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
+# Show 4545 podium team players in a reactable table
+reactable(winners,
+          fullWidth = TRUE,
+          resizable = FALSE,
+          compact = TRUE,
+          pagination = FALSE,
+          outlined = FALSE,
+          borderless = TRUE,
+          columns = list(
+            Gold = colDef(header = NULL, align = "center", minWidth = 250,
+                          style = list(background = "#fff2b1")),
+            Silver = colDef(header = NULL, align = "center", minWidth = 250),
+            Bronze = colDef(header = NULL, align = "center", minWidth = 250)))
+```
+
 #### Story of the season
 
-```{r position_tracker, out.width="85%", fig.align="center"}
+```{r position_tracker, out.width="90%", fig.align="center"}
 # Team/player position tracker
 
 if(league == "team4545"){
@@ -639,21 +672,21 @@ position_tracker <- positions %>%
   # scale_y_reverse(limits = c(20, 1), breaks = integer_breaks()) +
   scale_y_reverse(limits = c(max(positions$rank), 1), breaks = c(max(positions$rank), 1)) +
   scale_x_discrete(expand = expansion(add = c(0.5, 0.5))) +
+  scale_color_manual(values = c("#ffd700", "#c0c0c0", "#cd7f32", "#b2cefe", "#b2cefe"),
+                       breaks = c(top_places),
+                       labels = c(top_places)) +
   gghighlight::gghighlight(team %in% top_places, use_direct_label = T,
                              unhighlighted_params = list(colour = alpha("grey", 0.1)),
                              label_params = list(size = 4, 
                                                  nudge_x = -1, 
                                                  nudge_y = -15, 
                                                  direction = "y",
-                                                 fill = c("#b2cefe", "#cd7f32", "#b2cefe", "#c0c0c0", "#ffd700"),
+                                                 fill = "white",
                                                  colour = "black")) +
   labs(x = "Round",
        y = "Rank after each round") +
-  theme(legend.position = "right") +
-  scale_color_manual(values = c("#ffd700", "#c0c0c0", "#cd7f32", "#b2cefe", "#b2cefe"),
-                       breaks = c(top_places),
-                       labels = c(top_places))
-
+  theme(legend.position = "right")
+  
 position_tracker
 
 }
@@ -701,7 +734,7 @@ if(league == "lonewolf"){
 if(lw_hide){cat("<!---")}
 ```
 
-#### Top performers by board
+#### Top of the boards
 
 ```{r bperfs, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Board perf ratings
@@ -761,7 +794,7 @@ bperfs <- bperfs %>%
 
 # Show board rankings in a table
 tbl_bperfs <- reactable(bperfs, groupBy = "board",
-          fullWidth = FALSE,
+          fullWidth = TRUE,
           resizable = TRUE,
           compact = T,
           columns = list(
@@ -769,10 +802,11 @@ tbl_bperfs <- reactable(bperfs, groupBy = "board",
                           align = "center",
                           minWidth = 100),
             player = colDef(name = "Player",
-                           minWidth = 175),
-            games = colDef(name = "Games", minWidth = 75),
-            points = colDef(name = "Points", minWidth =  75),
-            bperf_rating = colDef(name = "Board Perf.", minWidth = 100,
+                           minWidth = 200),
+            games = colDef(name = "Games", minWidth = 75, align = "center"),
+            points = colDef(name = "Points", minWidth =  75, align = "center"),
+            bperf_rating = colDef(name = "Board Perf.", minWidth = 100, 
+                                  align = "center",
                                   format = colFormat(digits = 0))
           )
           )
@@ -786,40 +820,11 @@ if(lw_hide){cat("-->")}
 ```
 
 
-### Summary charts {.tabset .tabset-fade .tabset-pills}
+### Summary charts and tables {.tabset .tabset-fade .tabset-pills}
 
 ```{r results='asis', echo=FALSE}
 # Hide match results tab from LW reports
 if (lw_hide) {cat("<!---")}
-```
-
-#### Match results (4545 only)
-
-
-```{r, out.width = "75%", eval = FALSE, fig.align="center"}
-
-# eval = ifelse(league == "team4545", TRUE, FALSE)
-
-# Plot distribution of match results
-games %>% 
-  select(match, team_w, team_b, gp_w, gp_b) %>% 
-  mutate(gp_1 = pmax(gp_w, gp_b),
-         gp_2 = pmin(gp_w, gp_b),
-         team_1 = pmin(team_w, team_b),
-         team_2 = pmax(team_w, team_b),
-         match = paste0(team_1, " vs ", team_2)) %>%
-  distinct(match, .keep_all = T) %>% 
-  select(gp_1, gp_2) %>% 
-  mutate(margin = gp_1 - gp_2) %>% 
-  group_by(margin) %>% 
-  summarise(games = n()) %>% 
-  arrange(desc(margin)) %>% 
-  ggplot(aes(margin, games)) +
-  geom_col() +
-  theme_cowplot() +
-  labs(x = "Winning margin (game points)",
-       y = "Matches") +
-  scale_x_continuous(breaks = integer_breaks())
 ```
 
 ```{r results='asis', echo=FALSE}
@@ -895,10 +900,7 @@ moves_hist
 duration_hist
 ```
 
-
-### Longest games {.tabset .tabset-fade .tabset-pills}
-
-#### By moves
+#### Longest games (moves)
 
 *Includes games ranked at or above the 90th percentile by number of moves.*
 
@@ -951,7 +953,7 @@ reactable(longest_moves,
 
 ```
 
-#### By total time
+#### Longest games
 
 *Includes games ranked at or above the 90th percentile by total time.*
 
@@ -1007,14 +1009,10 @@ reactable(longest_duration,
 
 ### Stats by board / rating band {.tabset .tabset-fade .tabset-pills}
 
-#### Score / ACPL
+#### ACPL
 
-```{r wins_by_col_by_board, fig.show="hold", out.width = "50%", eval = ifelse(league == "team4545", TRUE, FALSE)}
-# Plot wins by colour by board
+```{r acpl_by_board, fig.out = "75%", eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Plot ACPL by board
-  
-# c("#383838", "#6c6c6c", "#b5b5b5")
-plt_wins_by_col
 
 # Compute errors by board
 error_rates_w <- games %>% 
@@ -1151,7 +1149,7 @@ lowest_acpl_games_all <- games %>%
 reactable(lowest_acpl_games_all,
           pagination = FALSE,
           searchable = FALSE,
-          fullWidth = FALSE,
+          fullWidth = TRUE,
           resizable = TRUE,
           compact = T,
           columns = list(
@@ -1185,7 +1183,7 @@ lowest_acpl_games_all <- games %>%
 reactable(lowest_acpl_games_all,
           pagination = FALSE,
           searchable = FALSE,
-          fullWidth = FALSE,
+          fullWidth = TRUE,
           resizable = TRUE,
           compact = T,
           columns = list(
@@ -1229,7 +1227,7 @@ lowest_acpl_games_decisive <- games %>%
 reactable(lowest_acpl_games_decisive,
           pagination = FALSE,
           searchable = FALSE,
-          fullWidth = FALSE,
+          fullWidth = TRUE,
           resizable = TRUE,
           compact = T,
           columns = list(
@@ -1262,7 +1260,7 @@ lowest_acpl_games_decisive <- games %>%
 reactable(lowest_acpl_games_decisive,
           pagination = FALSE,
           searchable = FALSE,
-          fullWidth = FALSE,
+          fullWidth = TRUE,
           resizable = TRUE,
           compact = T,
           columns = list(
@@ -1281,7 +1279,7 @@ reactable(lowest_acpl_games_decisive,
 
 ```
 
-### Openings {.tabset .tabset-fade .tabset-pills}
+### Openings - tables {.tabset .tabset-fade .tabset-pills}
 
 
 
@@ -1602,7 +1600,7 @@ reactable(gambiteers,
 ```
 
 
-#### Sunburst
+### Openings - sunburst
 
 Click on the image below to see a sunburst plot of all openings played in the season.
 
@@ -1612,7 +1610,7 @@ Click on the image below to see a sunburst plot of all openings played in the se
 </center>
 
 
-### End of season awards
+### Awards
 
 ```{r relative_perfs}
 perfs_w <- pairings %>% 
@@ -2072,10 +2070,6 @@ david <- rbind(tibble("player" = david$white,
 ```{r team_stats, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Compute team stats
 
-# Gather team-specific data
-# team_data_from_pairings <- pairings %>% 
-#   select(match, round, board, white, black, result, team_w, team_b, gp_w, gp_b, team_res_w, team_res_b)
-
 team_data <- games %>% 
   select(season, round, board, id, white, black, result, num_moves, score_w, 
          score_b, team_w, team_b, gp_w, gp_b,
@@ -2085,7 +2079,11 @@ team_data <- games %>%
          "blunders_b" = players.black.analysis.blunder,
          duration, duration_w, duration_b, eval_after_15, evals,
          match
-         )
+         ) %>% 
+  # Games played with the wrong colours can't be assigned teams (currently)
+  # Excluding these prevents the appearance of any NA rows in the final team data
+  filter(!(is.na(team_w))) %>% 
+  filter(!(is.na(team_b)))
 
 team_data_w <- tibble("team" = team_data$team_w, "player" = team_data$white,
                       "score" = team_data$score_w, "board" = team_data$board,
@@ -2235,8 +2233,8 @@ awards <- tibble("Image" = c(rep("x", 18)),
                                   "Spent the most clock time across the season",
                                   "Most draws",
                                   "Biggest comebacks",
-                                  "Biggest upset in a single game",
-                                  "Biggest upsets overall",
+                                  "Achieved the biggest upset",
+                                  "Achieved the most upsets across the season",
                                   "Least time remaining after 10th move",
                                   "Most moves made in under 0.5s",
                                   "Longest time spent on a move",
@@ -2275,7 +2273,7 @@ awards <- tibble("Image" = c(rep("x", 18)),
                               ifelse(movetimes_exist, paste0(season_think$duration_print[1]), "Can't be awarded"),
                               paste0(giri_value, " draws"),
                               "",
-                              paste0("Beat an opponent ", upsets$rating_gap[1], " points higher rated"),
+                              paste0("Won despite being outrated by ", upsets$rating_gap[1], " points"),
                               paste0(upset_specialists$upsets[1], " upsets (", "biggest: ", upset_specialists$max_rating_gap[1], " pts)"),
                               ifelse(movetimes_exist, paste0("Had ", dawdlers$time_print[1], " left after 10 moves"), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0(instamovers$instamoves[1], " moves"), "Can't be awarded"),
@@ -2385,8 +2383,8 @@ awards <- tibble("Image" = c(rep("x", 16)),
                                   "Spent the most clock time across the season",
                                   "Most draws",
                                   "Biggest comebacks",
-                                  "Biggest upset in a single game",
-                                  "Biggest upsets overall",
+                                  "Achieved the biggest upset",
+                                  "Achieved the most upsets across the season",
                                   "Least time remaining after 10th move",
                                   "Most moves made in under 0.5s",
                                   "Longest time spent on a move",
@@ -2420,7 +2418,7 @@ awards <- tibble("Image" = c(rep("x", 16)),
                               ifelse(movetimes_exist, paste0(season_think$duration_print[1]), "Can't be awarded"),
                               paste0(giri_value, " draws"),
                               "",
-                              paste0("Beat an opponent ", upsets$rating_gap[1], " points higher rated"),
+                              paste0("Won despite being outrated by ", upsets$rating_gap[1], " points"),
                               paste0(upset_specialists$upsets[1], " upsets (", "biggest: ", upset_specialists$max_rating_gap[1], " pts)"),
                               ifelse(movetimes_exist, paste0("Had ", dawdlers$time_print[1], " left after 10 moves"), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0(instamovers$instamoves[1], " moves"), "Can't be awarded"),
@@ -2589,7 +2587,7 @@ reactable(relative_perfs,
           searchable = TRUE,
            columns = list(
              perf_rank = colDef(name = "#", align = "center", minWidth = 40),
-    player = colDef(name = "Player", minWidth = 250),
+    player = colDef(name = "Player", minWidth = 200),
     games = colDef(name = "Games", align = "center", minWidth = 60),
     wins = colDef(name = "W", align = "center", minWidth = 40),
     draws = colDef(name = "D", align = "center", minWidth = 40),
@@ -2715,7 +2713,7 @@ reactable(comebacks_2,
           compact = TRUE,
            columns = list(
              rank = colDef(name = "Rank", align = "center", minWidth = 50),
-    player = colDef(name = "Player", minWidth = 150),
+    player = colDef(name = "Player", minWidth = 200),
     avg_cb = colDef(name = "Average Comeback Margin", format = colFormat(digits = 2), align = "center"),
     total_cb = colDef(name = "Total Comeback Margin", format = colFormat(digits = 2), align = "center")
     )
@@ -2737,7 +2735,7 @@ reactable(upsets,
           compact = TRUE,
            columns = list(
              rank = colDef(name = "Rank", align = "center", minWidth = 50),
-    player = colDef(name = "Player", minWidth = 100),
+    player = colDef(name = "Player", minWidth = 200),
     rating_gap = colDef(name = "Upset Margin", align = "center")
     )
 )
@@ -2757,7 +2755,7 @@ reactable(upset_specialists,
           compact = TRUE,
            columns = list(
              rank = colDef(name = "Rank", align = "center", minWidth = 50),
-    player = colDef(name = "Player", minWidth = 150),
+    player = colDef(name = "Player", minWidth = 200),
     upset_pts = colDef(name = "Total Upset Margin", align = "center"),
     upsets = colDef(name = "Upsets", align = "center"),
     mean_rating_gap = colDef(name = "Avg Upset Margin", align = "center", format = colFormat(digits = 1)),
@@ -2787,7 +2785,7 @@ reactable(dawdlers,
             rank = colDef(name = "Rank",
                           align = "center",
                           minWidth = 50),
-            player = colDef(name = "Player", minWidth = 150),
+            player = colDef(name = "Player", minWidth = 200),
             time_print = colDef(name = "Time left after 10 moves", minWidth = 120),
             url = colDef(name = "Link",
                            minWidth = 250,
@@ -2819,7 +2817,7 @@ reactable(instamovers,
           compact = TRUE,
           columns = list(
             rank = colDef(name = "Rank", align = "center", minWidth = 50),
-            player = colDef(name = "Player", minWidth = 150),
+            player = colDef(name = "Player", minWidth = 200),
             instamoves = colDef(name = "Instant moves", align = "center")
           ))
 } else {
@@ -2844,7 +2842,7 @@ reactable(movetimes,
           searchable = TRUE,
            columns = list(
              rank = colDef(name = "#", align = "center"),
-    player = colDef(name = "Player", minWidth = 250),
+    player = colDef(name = "Player", minWidth = 200),
     time_spent = colDef(name = "Time spent"),
     colour = colDef(name = "Colour", align = "center"),
     move = colDef(name = "Move", align = "center"),
@@ -2876,7 +2874,7 @@ reactable(timetrouble,
           searchable = TRUE,
            columns = list(
              rank = colDef(name = "#", align = "center"),
-    player = colDef(name = "Player", minWidth = 250),
+    player = colDef(name = "Player", minWidth = 200),
     moves = colDef(name = "All moves", align = "center"),
     tt_moves = colDef(name = "With < 1min left", align = "center"),
     tt_pc = colDef(name = "Time Trouble %",
@@ -2899,7 +2897,7 @@ reactable(savedbythebell,
           resizable = TRUE,
           compact = TRUE,
           columns = list(
-            player = colDef(name = "Player", minWidth = 150),
+            player = colDef(name = "Player", minWidth = 200),
             panic_moves = colDef(name = "Moves with under 5s left", align = "center", minWidth = 110),
             url = colDef(name = "Link",
                            minWidth = 250,
@@ -3150,24 +3148,16 @@ game_latest_capture <- latest_first_capture %>%
 - Most consecutive captures: `r max(capture_streaks$streak)` (`r capture_streaks_games`)
 - Latest-occurring first capture: ply `r max(latest_first_capture$first_capture)` in  `r game_latest_capture`
 
+### About
 
-### About this report 
-
+:::about
 - This report was compiled on `r format(Sys.time(), '%d %B %Y')`.
-- Games involving players who were later banned by Lichess for violating their Terms of Service were excluded prior to analysis. This also applies to players who were banned after the season ended.
-- Extremely short games of under 5 plies were also excluded, eg https://lichess.org/Cg4Lxjpb. 
-- Tournament performance ratings have been calculated using FIDE's preferred method.
-- Ties are not properly handled when determining player awards, which may cause errors.
-- Other than game points, tiebreaks were not used to determine final player/team rankings for the purpose of the report. Where the top three teams or players had to be determined by tiebreak -- eg 4545 Season 11 -- this is likely to lead to an error in the report.
-- Icons for player awards: [Noun Project](https://thenounproject.com/)
-
-```{=html}
-&nbsp;
-<hr />
-<p style="text-align: center;"><a href="https://github.com/rahulan-c/lichess4545-stats">Lichess4545 Statistics</a> (<a href="https://github.com/rahulan-c/lichess4545-stats">source code</a>)</p>
-<p style="text-align: center;"><span style="color: #808080;"><em>Want to help with the ledger? Ask in #lichessledger</em></span></p>
-
-&nbsp;
-```
+- The stats on this page are presented purely for general interest. They are not guaranteed to be comprehensive, complete, accurate, or up to date. 
+- They do not account for games involving players who were banned by Lichess (at any point up to `r format(Sys.time(), '%d %B %Y')`) or games with fewer than 5 plies. 
+- Ties are not robustly handled when determining player awards, which may lead to the occasional mistake :)
+- Source code: https://github.com/rahulan-c/lichess4545-stats
+- Stats homepage: https://rahulan-c.github.io/lichess4545-stats/
+- Acknowledgements: [Noun Project](https://thenounproject.com/) (award icons)
+:::
 
 
