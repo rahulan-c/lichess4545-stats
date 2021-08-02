@@ -48,10 +48,11 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 # Load all required packages, incl. for functions
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
-               ggrepel, ggridges, reactable, htmltools, httr, jsonlite, xml2, rvest, ndjson,
-               reshape2, utf8, lubridate, tictoc, cowplot, webshot, tippy)
+               ggrepel, ggridges, reactable, htmltools, httr, jsonlite, xml2, 
+               rvest, ndjson, reshape2, utf8, lubridate, tictoc, cowplot, webshot, 
+               tippy, patchwork, magick, ggpubr, grid)
 
-# webshot::install_phantomjs()
+# Remove ggpubr if ggpubr::background_image() isn't used to produce checkmate images
 
 ```
 
@@ -290,10 +291,146 @@ summary_url <- paste0("https://www.lichess4545.com/",
 
 ```
 
+```{r}
+# Plot wins by colour by board (4545) or rating band (LW)
+
+if(league == "team4545"){
+  
+  wins_by_col <- games %>% 
+      select(board, result) %>% 
+      add_count(board, name = "n_board") %>% 
+      add_count(board, result, name = "n_board_result") %>% 
+      mutate(perc = n_board_result / n_board) %>% 
+      distinct() %>% 
+    mutate(cat = case_when(
+      result == "1-0" ~ "cat1",
+      result == "1/2-1/2" ~ "cat2",
+      result == "0-1" ~ "cat3",
+      TRUE ~ NA_character_
+    )) %>%
+    group_by(board) %>% 
+    arrange(desc(cat)) %>% 
+    # Get the % labels positioned right
+    mutate(pos_label = ifelse(cat == "cat3",
+                              # White wins
+                              perc / 2, 
+                              ifelse(cat == "cat2",
+                                     # Draws
+                                     lag(perc) + (perc/2), 
+                                     ifelse(cat == "cat1",
+                                            # Black wins
+                                            lag(perc, 2) + lag(perc) + (perc/2), 
+                                            0)))) %>% 
+    ungroup()
+    
+    plt_wins_by_col <- ggplot(wins_by_col, aes(x = board, y = n_board_result, fill = cat)) +
+      geom_bar(stat = "identity", position = "fill", colour = "#ffffff") +
+      theme_cowplot() +
+      scale_x_continuous(trans = "reverse", 
+                         labels = paste0("B",as.character(wins_by_col$board)), 
+                         breaks = wins_by_col$board) +
+      scale_y_continuous(trans = "reverse", labels = scales::percent, breaks = waiver()) +
+      geom_text(aes(y = pos_label, label = paste0(round(perc*100, 0), "%")), colour = "white") +
+      labs(x = "", y = "") +
+      theme(legend.justification = "centre",
+            legend.position = "bottom",
+            legend.title = element_blank(),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.ticks.y = element_blank(),
+            axis.line.x = element_blank(),
+            axis.line.y = element_blank()) +
+      scale_fill_manual(values = c("#b5b5b5", "#6c6c6c", "#383838"), 
+                        labels = c("1-0", "1/2-1/2", "0-1")) +
+      coord_flip()
+  
+} else {
+  
+  # LW plot
+  
+  # Make average ratings bins
+  games$rating_group <- cut(games$mean_rating, 
+                                breaks=c(800, 1000, 1200, 1400, 1600, 1800, 2000,
+                                         2200, 2400, 2600),
+                                labels = c("800-1000", "1000-1200",
+                                           "1200-1400", "1400-1600", "1600-1800",
+                                           "1800-2000", "2000-2200",
+                                           "2200-2400", "2400-2600"),
+                                include.lowest=TRUE, dig.lab = 4)
+  
+  wins_by_col <- games %>% 
+      select(rating_group, result) %>% 
+      add_count(rating_group, name = "n_group") %>% 
+      add_count(rating_group, result, name = "n_group_result") %>% 
+      mutate(perc = n_group_result / n_group) %>% 
+      distinct() %>% 
+    mutate(cat = case_when(
+      result == "1-0" ~ "cat1",
+      result == "1/2-1/2" ~ "cat2",
+      result == "0-1" ~ "cat3",
+      TRUE ~ NA_character_
+    )) %>%
+    group_by(rating_group) %>% 
+    arrange(desc(cat)) %>% 
+    # Get the % labels positioned right
+    mutate(pos_label = ifelse(cat == "cat3",
+                              # White wins
+                              perc / 2, 
+                              ifelse(cat == "cat2",
+                                     # Draws
+                                     lag(perc) + (perc/2), 
+                                     ifelse(cat == "cat1",
+                                            # Black wins
+                                            lag(perc, 2) + lag(perc) + (perc/2), 
+                                            0)))) %>% 
+    ungroup()
+    
+    plt_wins_by_col <- ggplot(wins_by_col, aes(x = rating_group, y = n_group_result, fill = cat)) +
+      geom_bar(stat = "identity", position = "fill", colour = "#ffffff") +
+      theme_cowplot() +
+      # scale_x_continuous(trans = "reverse", 
+      #                    labels = paste0("B",as.character(wins_by_col$rating_group)), 
+      #                    breaks = wins_by_col$rating_group) +
+      scale_y_continuous(trans = "reverse", labels = scales::percent, breaks = waiver()) +
+      geom_text(aes(y = pos_label, label = paste0(round(perc*100, 0), "%")), colour = "white") +
+      labs(x = "", y = "") +
+      theme(legend.justification = "centre",
+            legend.position = "bottom",
+            legend.title = element_blank(),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.ticks.y = element_blank(),
+            axis.line.x = element_blank(),
+            axis.line.y = element_blank()) +
+      scale_fill_manual(values = c("#b5b5b5", "#6c6c6c", "#383838"), 
+                        labels = c("1-0", "1/2-1/2", "0-1")) +
+      coord_flip()
+  
+}
+```
+
+
+<div class = "row">
+  
+<div class = "col-md-7">
+
+<br>
+
 - The `r paste0("[season]", "(", summary_url, ")")` ran from `r season_dates`.
 - `r formatC(length(unique(c(unique(games$white), unique(games$black)))), big.mark = ",")` players took part, playing `r formatC(nrow(games), big.mark = ",")` games in total. `r formatC(forfeits, big.mark = ",")` games were either forfeited or set as scheduling draws.
 - Across the season, White won `r formatC(games_w, big.mark=",")` games (`r round(perc_w*100, 1)`%), `r formatC(games_d, big.mark=",")` games (`r round(perc_d*100, 1)`%) were drawn, and Black won `r formatC(games_b, big.mark=",")` games (`r round(perc_b*100, 1)`%).
 - `r formatC(ended$n[ended$status == "resign"], big.mark=",")` games ended with a resignation, `r formatC(ended$n[ended$status == "mate"], big.mark=",")` games by checkmate, `r formatC(ended$n[ended$status == "out of time"], big.mark=",")` games by time running out, and `r formatC(ended$n[ended$status == "stalemate"], big.mark=",")` games by stalemate.
+
+</div>
+  
+<div class = "col-md-5">
+<br>
+```{r}
+# ggplot( mtcars, aes(x=mpg)) + geom_histogram(fill="skyblue", alpha=0.5) + theme_minimal()
+plt_wins_by_col
+```
+</div>
+</div>
 
 
 #### Final podium
@@ -434,9 +571,15 @@ if(league == "team4545"){
 
 
 
+
+<!-- A different approach, based on https://holtzy.github.io/Pimp-my-rmd/#several_columns -->
+
+<div class = "row">
+  
+<div class = "col-md-5">
+
 :::first
-Winner:
-<p style="font-size:32pt; font-weight: 900;">
+<p style="font-size:16pt; font-weight: 900;">
     `r paste0("[", first, "]", "(", first_link, ")")`
 </p>
 <p style="font-size:12pt; font-weight: 900;">
@@ -444,11 +587,12 @@ Winner:
 </p>
 :::
 
-:::::: {style="display: flex;"}
+</div>
+  
+<div class = "col-md-4">
 
 :::second
-Runner up:
-<p style="font-size:20pt; font-weight: 600;">
+<p style="font-size:12pt; font-weight: 600;">
     `r paste0("[", second, "]", "(", second_link, ")")`
 </p>
 <p style="font-size:12pt; font-weight: 900;">
@@ -456,8 +600,12 @@ Runner up:
 </p>
 :::
 
-Third place:
-<p style="font-size:20pt; font-weight: 600;">
+</div>
+
+<div class = "col-md-3">
+
+:::third
+<p style="font-size:12pt; font-weight: 600;">
     `r paste0("[", third, "]", "(", third_link, ")")`
 </p>
 <p style="font-size:12pt; font-weight: 900;">
@@ -465,7 +613,9 @@ Third place:
 </p>
 :::
 
-::::::
+</div>
+
+</div>
 
 #### Story of the season
 
@@ -862,57 +1012,9 @@ reactable(longest_duration,
 ```{r wins_by_col_by_board, fig.show="hold", out.width = "50%", eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Plot wins by colour by board
 # Plot ACPL by board
-
-wins_by_colour_board <- games %>% 
-    select(board, result) %>% 
-    add_count(board, name = "n_board") %>% 
-    add_count(board, result, name = "n_board_result") %>% 
-    mutate(perc = n_board_result / n_board) %>% 
-    distinct() %>% 
-  mutate(cat = case_when(
-    result == "1-0" ~ "cat1",
-    result == "1/2-1/2" ~ "cat2",
-    result == "0-1" ~ "cat3",
-    TRUE ~ NA_character_
-  )) %>%
-  group_by(board) %>% 
-  arrange(desc(cat)) %>% 
-  # Get the % labels positioned right
-  mutate(pos_label = ifelse(cat == "cat3",
-                            # White wins
-                            perc / 2, 
-                            ifelse(cat == "cat2",
-                                   # Draws
-                                   lag(perc) + (perc/2), 
-                                   ifelse(cat == "cat1",
-                                          # Black wins
-                                          lag(perc, 2) + lag(perc) + (perc/2), 
-                                          0)))) %>% 
-  ungroup()
-  
-  plt_wins_board <- ggplot(wins_by_colour_board, aes(x = board, y = n_board_result, fill = cat)) +
-    geom_bar(stat = "identity", position = "fill", colour = "#ffffff") +
-    theme_cowplot() +
-    scale_x_continuous(trans = "reverse", 
-                       labels = paste0("B",as.character(wins_by_colour_board$board)), 
-                       breaks = wins_by_colour_board$board) +
-    scale_y_continuous(trans = "reverse", labels = scales::percent, breaks = waiver()) +
-    geom_text(aes(y = pos_label, label = paste0(round(perc*100, 0), "%")), colour = "white") +
-    labs(x = "", y = "") +
-    theme(legend.justification = "centre",
-          legend.position = "bottom",
-          legend.title = element_blank(),
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          axis.ticks.y = element_blank(),
-          axis.line.x = element_blank(),
-          axis.line.y = element_blank()) +
-    scale_fill_manual(values = c("#b5b5b5", "#6c6c6c", "#383838"), 
-                      labels = c("1-0", "1/2-1/2", "0-1")) +
-    coord_flip()
   
 # c("#383838", "#6c6c6c", "#b5b5b5")
-plt_wins_board
+plt_wins_by_col
 
 # Compute errors by board
 error_rates_w <- games %>% 
@@ -1506,11 +1608,11 @@ Click on the image below to see a sunburst plot of all openings played in the se
 
 
 <center>
-[![Opening star placeholder](`r paste0("openings_", ifelse(league_load_label == "team4545", "4545", league_load_label), "_s", season, ".png")`)](`r paste0("openings_", ifelse(league_load_label == "team4545", "4545", league_load_label), "_s", season, ".html")`)
+[![Opening star placeholder](`r paste0("openings_", ifelse(league_load_label == "team4545", "4545", league_load_label), "_s", season, ".png")`){width=50%}](`r paste0("openings_", ifelse(league_load_label == "team4545", "4545", league_load_label), "_s", season, ".html")`){width=50%}
 </center>
 
 
-### End of season "awards"
+### End of season awards
 
 ```{r relative_perfs}
 perfs_w <- pairings %>% 
@@ -1959,6 +2061,9 @@ david <- rbind(tibble("player" = david$white,
   summarise(opp_games = sum(opp_adjgames),
             opp_points = sum(opp_adjpoints),
             opp_perc = opp_points / opp_games) %>% 
+  filter(opp_games >= 20) %>% 
+  filter(opp_perc >= 0.5) %>% 
+  mutate(opp_perc = opp_perc * 100) %>% 
   arrange(desc(opp_perc))
   
   
@@ -2127,7 +2232,7 @@ awards <- tibble("Image" = c(rep("x", 18)),
                                   "Best performance rating relative to initial rating",
                                   "Lowest ACPL",
                                   "Most games < 10 ACPL",
-                                  "Most time spent per move (after move 10)",
+                                  "Spent the most clock time across the season",
                                   "Most draws",
                                   "Biggest comebacks",
                                   "Biggest upset in a single game",
@@ -2138,7 +2243,7 @@ awards <- tibble("Image" = c(rep("x", 18)),
                                   "Highest percentage of moves played with < 1 min left",
                                   "Most moves made with < 5s left before winning",
                                   "Securing a draw from the jaws of victory",
-                                  "Faced the strongest schedule (in terms of their opponents' collective record)",
+                                  "Faced the strongest opposition",
                                   ifelse(league == "team4545", "Played for the most teams during the season", ""),
                                   ifelse(league == "team4545", "Lowest team ACPL", "")),
                  
@@ -2146,7 +2251,7 @@ awards <- tibble("Image" = c(rep("x", 18)),
                               relative_perfs$player[1],
                               lowest_acpls$player[1],
                               str_c(single_fig_acpl_players, collapse = ", "),
-                              ifelse(movetimes_exist, avg_think_times$player[1], ""),
+                              ifelse(movetimes_exist, season_think$player[1], ""),
                               str_c(giri_winners, collapse = ", "),
                               comebacks_2$player[1],
                               upsets$player[1],
@@ -2163,18 +2268,18 @@ awards <- tibble("Image" = c(rep("x", 18)),
                               ),
                  
                  "Details" = c(ifelse(gambiteer_award, paste0(round(gambiteers$success[1] * 100), "% from ", gambiteers$games[1], " games"), "Can't be awarded"),
-                              paste0("Perf. rating: ", round(relative_perfs$perf_rating[1], 0), ", Initial rating: ",
-                                     relative_perfs$initial_rating[1]),
-                              paste0(round(lowest_acpls$season_acpl[1], 1), " (", lowest_acpls$total_moves[1], ")"),
+                              paste0("Perf. rating: ", round(relative_perfs$perf_rating[1], 0), " (initial rating: ",
+                                     relative_perfs$initial_rating[1], ")"),
+                              paste0(round(lowest_acpls$season_acpl[1], 1), " ACPL over ", lowest_acpls$total_moves[1], " moves"),
                               paste0(minacpl_players$n[1], " games"),
-                              ifelse(movetimes_exist, paste0(avg_think_times$duration_print[1]), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0(season_think$duration_print[1]), "Can't be awarded"),
                               paste0(giri_value, " draws"),
                               "",
                               paste0("Beat an opponent ", upsets$rating_gap[1], " points higher rated"),
                               paste0(upset_specialists$upsets[1], " upsets (", "biggest: ", upset_specialists$max_rating_gap[1], " pts)"),
-                              ifelse(movetimes_exist, paste0("Had ", dawdlers$time_print[1], " left after move 10 in ", "[", dawdlers$url[1], "]", "(", dawdlers$url[1], ")", " (eventual ", dawdlers$outcome[1], ")"), "Can't be awarded"),
-                              ifelse(movetimes_exist, instamovers$instamoves[1], "Can't be awarded"),
-                              ifelse(movetimes_exist, paste0("Spent ", movetimes$time_spent[1], " on ", movetimes$url[1]), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0("Had ", dawdlers$time_print[1], " left after 10 moves"), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0(instamovers$instamoves[1], " moves"), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0("Spent ", movetimes$time_spent[1]), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0(round(timetrouble$tt_pc[1]*100, 1), "% (", timetrouble$tt_moves[1], "/", timetrouble$moves[1], ")"), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0(savedbythebell$panic_moves[1], " move(s) in ", savedbythebell$url[1]), "Can't be awarded"),
                               "",
@@ -2187,7 +2292,7 @@ awards <- tibble("Image" = c(rep("x", 18)),
                               str_c(relative_perfs$player[2:3], collapse = ", "),
                               str_c(lowest_acpls$player[2:3], collapse = ", "),
                               "",
-                              ifelse(movetimes_exist, str_c(avg_think_times$player[2:3], collapse = ", "), ""),
+                              ifelse(movetimes_exist, str_c(season_think$player[2:3], collapse = ", "), ""),
                               "",
                               str_c(comebacks_2$player[2:3], collapse = ", "),
                               str_c(upsets$player[2:3], collapse = ", "),
@@ -2229,7 +2334,7 @@ reactable(awards,
                 div(style = list(display = "inline-block", width = "60px"), image)
                 )
               }),
-            Award = colDef(name = "Description", minWidth = 200,
+            Award = colDef(name = "Description", minWidth = 150,
                            # Show award definition/criteria under each name
                            cell = function(value, index) {
                              definition <- awards$Definition[index]
@@ -2239,14 +2344,13 @@ reactable(awards,
                                div(style = list(fontSize = 12), definition)
                                )
                              }),
-            Winner = colDef(name = "Winner", minWidth = 200,
-                            style = list(background = "rgba(0, 0, 0, 0.03)")),
+            Winner = colDef(name = "Winner", minWidth = 150,
+                            style = list(color = "#245164")),
             Definition = colDef(show = F),
             Details = colDef(name = "Details", minWidth = 200),
-            Mentions = colDef(name = "Honourable mentions", minWidth = 150)
+            Mentions = colDef(name = "Honourable mentions", minWidth = 180)
           )
 )
-
 ```
 
 ```{r player_awards_lw, eval = ifelse(league == "team4545", FALSE, TRUE)}
@@ -2278,7 +2382,7 @@ awards <- tibble("Image" = c(rep("x", 16)),
                                   "Best performance rating relative to initial rating",
                                   "Lowest ACPL",
                                   "Most games < 10 ACPL",
-                                  "Most time spent per move (after move 10)",
+                                  "Spent the most clock time across the season",
                                   "Most draws",
                                   "Biggest comebacks",
                                   "Biggest upset in a single game",
@@ -2289,13 +2393,13 @@ awards <- tibble("Image" = c(rep("x", 16)),
                                   "Highest percentage of moves played with < 1 min left",
                                   "Most moves made with < 5s left before winning",
                                   "Securing a draw from the jaws of victory",
-                                  "Faced the strongest schedule (in terms of their opponents' collective record)"),
+                                  "Faced the strongest opposition"),
                  
                  "Winner" = c(gambiteers$player[1],
                               relative_perfs$player[1],
                               lowest_acpls$player[1],
                               str_c(single_fig_acpl_players, collapse = ", "),
-                              ifelse(movetimes_exist, avg_think_times$player[1], ""),
+                              ifelse(movetimes_exist, season_think$player[1], ""),
                               str_c(giri_winners, collapse = ", "),
                               comebacks_2$player[1],
                               upsets$player[1],
@@ -2309,18 +2413,18 @@ awards <- tibble("Image" = c(rep("x", 16)),
                               david$player[1]),
                  
                  "Details" = c(ifelse(gambiteer_award, paste0(round(gambiteers$success[1] * 100), "% from ", gambiteers$games[1], " games"), "Can't be awarded"),
-                              paste0("Perf. rating: ", round(relative_perfs$perf_rating[1], 0), ", Initial rating: ",
-                                     relative_perfs$initial_rating[1]),
-                              paste0(round(lowest_acpls$season_acpl[1], 1), " (", lowest_acpls$total_moves[1], ")"),
+                              paste0("Perf. rating: ", round(relative_perfs$perf_rating[1], 0), " (initial rating: ",
+                                     relative_perfs$initial_rating[1], ")"),
+                              paste0(round(lowest_acpls$season_acpl[1], 1), " ACPL over ", lowest_acpls$total_moves[1], " moves"),
                               paste0(minacpl_players$n[1], " games"),
-                              ifelse(movetimes_exist, paste0(avg_think_times$duration_print[1]), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0(season_think$duration_print[1]), "Can't be awarded"),
                               paste0(giri_value, " draws"),
                               "",
                               paste0("Beat an opponent ", upsets$rating_gap[1], " points higher rated"),
                               paste0(upset_specialists$upsets[1], " upsets (", "biggest: ", upset_specialists$max_rating_gap[1], " pts)"),
-                              ifelse(movetimes_exist, paste0("Had ", dawdlers$time_print[1], " left in ", dawdlers$url[1]), "Can't be awarded"),
-                              ifelse(movetimes_exist, instamovers$instamoves[1], "Can't be awarded"),
-                              ifelse(movetimes_exist, paste0("Spent ", movetimes$time_spent[1], " on ", movetimes$url[1]), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0("Had ", dawdlers$time_print[1], " left after 10 moves"), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0(instamovers$instamoves[1], " moves"), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0("Spent ", movetimes$time_spent[1]), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0(round(timetrouble$tt_pc[1]*100, 1), "% (", timetrouble$tt_moves[1], "/", timetrouble$moves[1], ")"), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0(savedbythebell$panic_moves[1], " move(s) in ", savedbythebell$url[1]), "Can't be awarded"),
                               "",
@@ -2331,7 +2435,7 @@ awards <- tibble("Image" = c(rep("x", 16)),
                               str_c(relative_perfs$player[2:3], collapse = ", "),
                               str_c(lowest_acpls$player[2:3], collapse = ", "),
                               "",
-                              ifelse(movetimes_exist, str_c(avg_think_times$player[2:3], collapse = ", "), ""),
+                              ifelse(movetimes_exist, str_c(season_think$player[2:3], collapse = ", "), ""),
                               "",
                               str_c(comebacks_2$player[2:3], collapse = ", "),
                               str_c(upsets$player[2:3], collapse = ", "),
@@ -2381,16 +2485,16 @@ reactable(awards,
                                )
                              }),
             Winner = colDef(name = "Winner", minWidth = 150,
-                             style = list(background = "rgba(0, 0, 0, 0.03)")),
+                            style = list(color = "#225622")),
             Definition = colDef(show = F),
             Details = colDef(name = "Details", minWidth = 200),
-            Mentions = colDef(name = "Honourable mentions", minWidth = 200)
+            Mentions = colDef(name = "Honourable mentions", minWidth = 180)
           )
 )
 
 ```
 
-### More tables
+### Detailed stats
 
 All the following tables are sortable and searchable.
 
@@ -2571,11 +2675,27 @@ reactable(avg_think_times,
 
 
 
-##### Strongest opponents
+##### Strength of schedule
+
+These players faced the most in-form opponents across the season, when judged by their opponents' collective score in all their other games.^[Both the statistic and the name of its associated award -- the David Award -- were suggested by **Tranzoo**.]
+
+*Includes all players who faced a collective group of opponents that played at least 15 (other) games across the season with a collective score above 50 per cent.*
 
 ```{r}
 # Show David Award table
-reactable(david)
+reactable(david,
+          pagination = TRUE, 
+          fullWidth = FALSE,
+          resizable = TRUE,
+          searchable = TRUE,
+          compact = TRUE,
+           columns = list(
+    player = colDef(name = "Player", minWidth = 200),
+    opp_games = colDef(name = "Opp Games", align = "center"),
+    opp_points = colDef(name = "Opp Pts", align = "center"),
+    opp_perc = colDef(name = "Opp %", align = "center", format = colFormat(digits = 0))
+    )
+)
 
 ```
 
@@ -2844,6 +2964,13 @@ A pawn gave checkmate in `r length(pawn_mate_games)` games: `r pawn_mate_games`.
 
 
 A knight gave checkmate in `r length(knight_mate_games)` games: `r knight_mate_games`.
+
+```{r, eval = FALSE, fig.show='hold',fig.align='center', out.width="45%", out.height="20%", fig.cap=c("v3U4K2uM", "1MWLzMll")}
+# Show knight mate game positions
+# SVGs saved in images/mates after running show_pawn_knight_mates.py
+# Can work on this later, not necessary for now. 
+knitr::include_graphics(c("images/mates/v3U4K2uM.svg", "images/mates/1MWLzMll.svg"))
+```
 
 
 ##### Promotions

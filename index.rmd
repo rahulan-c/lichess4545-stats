@@ -11,8 +11,6 @@ pacman::p_load(tidyverse, knitr)
 
 ```
 
-Statistical reports for the [Lichess4545](https://www.lichess4545.com/) [Team](https://www.lichess4545.com/team4545/) (45+45) and [LoneWolf](https://www.lichess4545.com/lonewolf/) (30+30) online chess leagues.
-
 ## All time records
 
 Coming soon.

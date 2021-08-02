@@ -1,44 +1,44 @@
 /* -----------div tips------------- */
 
   div.first, div.fyi, div.demo, div.note {
-    padding: 1em;
-    margin: 1em 0;
-    padding-left: 100px;
-    background-size: 70px;
+    padding: 0.1em;
+    margin: 0.1em 0;
+    padding-left: 70px;
+    background-size: 50px;
     background-repeat: no-repeat;
-    background-position: 15px center;
-    min-height: 120px;
+    background-position: 5px 5px;
+    min-height: 70px;
     color: #2c3e50;
     background-color: #ffe976;
-    border: solid 5px #ffd700;
+    border: solid 3px #ffd700;
     background-image: url("images/trophy-1.png");
   }
   
   div.second, div.fyi, div.demo, div.note {
-    padding: 1em;
-    margin: 1em 0;
-    padding-left: 100px;
-    background-size: 70px;
+    padding: 0.1em;
+    margin: 0.1em 0;
+    padding-left: 70px;
+    background-size: 50px;
     background-repeat: no-repeat;
-    background-position: 15px center;
-    min-height: 120px;
+    background-position: 5px 5px;
+    min-height: 70px;
     color: #2c3e50;
     background-color: #c0c0c0;
-    border: solid 5px #7b7b7b;
+    border: solid 3px #7b7b7b;
     background-image: url("images/trophy-2.svg");
   }
   
   div.third, div.fyi, div.demo, div.note {
-    padding: 1em;
-    margin: 1em 0;
-    padding-left: 100px;
-    background-size: 70px;
+    padding: 0.1em;
+    margin: 0.1em 0;
+    padding-left: 70px;
+    background-size: 50px;
     background-repeat: no-repeat;
-    background-position: 15px center;
-    min-height: 120px;
+    background-position: 5px 5px;
+    min-height: 70px;
     color: #2c3e50;
-    background-color: #d99d61;
-    border: solid 5px #cd7f32;
+    background-color: #e4ba90;
+    border: solid 3px #cd7f32;
     background-image: url("images/trophy-3.svg");
   }
   
@@ -55,4 +55,20 @@
     border: solid 5px #7bbcf2;
     background-image: url("images/lw_prize.png");
   }
-  
+
+
+/* Hyperlinks
+/* Unvisited links */
+a:link {
+  color: #23619f;
+}
+
+/* Visited links */
+a:visited {
+  color: #23619f;
+}
+
+/* Hovered links */
+a:hover {
+  color: #2973bc;
+}
