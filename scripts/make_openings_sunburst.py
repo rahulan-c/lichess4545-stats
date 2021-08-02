@@ -23,4 +23,11 @@ chess_graph.graph(pgn_path, depth=16, shade = False,
                   should_download = True, download_format = 'html', 
                   download_name = 'sunburst')
 
+# Re-do just to save snapshot PNG (for stats report)                  
+chess_graph.graph(pgn_path, depth=16, shade = False, 
+                  fragmentation_percentage=0.004, 
+                  should_defragment = True, custom_branching=False, 
+                  should_download = True, download_format = 'png', 
+                  download_name = 'sunburst')
+
 # print("Produced openings sunburst plot!")

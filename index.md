@@ -9,6 +9,5 @@ Coming soon.
 
 ## Season statistics and awards
 
-| Lichess4545 League | Lichess LoneWolf (Open)                                                                  | Lichess LoneWolf (U1800) |
-|:-------------------|:-----------------------------------------------------------------------------------------|:-------------------------|
-|                    | [Season 11](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s11.html) |                          |
+| Lichess4545 League | Lichess LoneWolf (Open) | Lichess LoneWolf (U1800) |
+|:-------------------|:------------------------|:-------------------------|

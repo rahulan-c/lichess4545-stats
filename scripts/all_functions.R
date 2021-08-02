@@ -1313,9 +1313,13 @@ move_sunburst <- function(path_orig, path_new, league, season){
   # Copy sunburst HTML to reports folder
   file.copy(from = paste0(path_root, "sunburst.html"),
             to   = paste0(path_new, "openings_", league_var, "_s", season, ".html"))
+  # Do same for PNG file
+  file.copy(from = paste0(path_root, "sunburst.png"),
+            to   = paste0(path_new, "openings_", league_var, "_s", season, ".png"))
   
-  # Remove original sunburst (as well as the PGN it was based on) 
+  # Remove original sunburst files (as well as the PGN it was based on) 
   file.remove(paste0(path_root, "sunburst.html"))
+  file.remove(paste0(path_root, "sunburst.png"))
   file.remove(paste0(path_savedata, "games.pgn"))
 }
 
