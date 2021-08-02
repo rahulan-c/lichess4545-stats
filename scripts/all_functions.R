@@ -1336,6 +1336,7 @@ instareport_season <- function(league, season){
   # 2. Make openings sunburst
   tic("Made openings sunburst plot")
   use_python(path_python)
+  import
   import_from_path("chess_graph", path = path_python, convert = TRUE)
   source_python(paste0(path_scripts, "make_openings_sunburst.py"))
   
