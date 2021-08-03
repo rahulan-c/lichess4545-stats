@@ -42,7 +42,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 
 <!-- Incorporate Google Analytics stuff into final reports pages -->
 <head>
-{% if site.google_analytics and jekyll.environment == 'production' %}
+{% if site.google_analytics %}
 {% include analytics.html %}
 {% endif %}
 </head>
