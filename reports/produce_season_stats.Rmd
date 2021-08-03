@@ -7,6 +7,8 @@ output:
     toc: yes
     toc_depth: 4
     toc_float: true
+    includes:
+      in_header: header.html
 title: "`r paste0('Season summary: ', ifelse(league == 'lonewolf', 'LoneWolf', '4545 League'), ifelse(lw_section == 'open', ' (Open)', ifelse(lw_section == 'u1800', ' (U1800)', '')), ', Season ', s)`"
 ---
 
@@ -40,12 +42,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 </style>
 
 
-<!-- Incorporate Google Analytics stuff into final reports pages -->
-<head>
-{% if site.google_analytics %}
-{% include analytics.html %}
-{% endif %}
-</head>
 
 ```{r, include = FALSE}
 # Set default R chunk options for Rmd file

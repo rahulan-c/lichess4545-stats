@@ -1380,6 +1380,7 @@ instareport_season <- function(league, season, from_scratch = T){
   toc(log = TRUE)
 }
 
+
 # Updates index.md so https://rahulan-c.github.io/lichess4545-stats/ shows all
 # seasons that have completed season stats reports, then pushes all updates to
 # the public Github repo, so the website will be updated.
@@ -1391,6 +1392,7 @@ update_repo <- function(){
   # Push changes to repo
   source(paste0(path_scripts, "update_repo.R"))
 }
+
 
 # Delete all stats reports and sunburst plots in reports/
 wipe_all_stats <- function(){
@@ -1428,8 +1430,11 @@ build_season_reports <- function(wipe_stats_first = FALSE,
   
   tic("Building season reports")
   
-  # First, wipe all previously produced season stats reports
-  if(wipe_stats_first){wipe_all_stats()}
+  # First, wipe all previously produced season stats reports 
+  # (this also updates index.md and pushes the changes to the repo)
+  # But even if not wiping everything, update index.md and push any uncommitted 
+  # changes anyway
+  if(wipe_stats_first){wipe_all_stats()} else {update_repo()}
   
   # Then split requested seasons into chunks according to user's desired update frequency
   # Create season reports and push regularly to repo
