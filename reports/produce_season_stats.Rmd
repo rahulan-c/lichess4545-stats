@@ -39,7 +39,13 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 
 </style>
 
-<!-- h3: 18 -->
+
+<!-- Incorporate Google Analytics stuff into final reports pages -->
+<head>
+{% if site.google_analytics and jekyll.environment == 'production' %}
+{% include analytics.html %}
+{% endif %}
+</head>
 
 ```{r, include = FALSE}
 # Set default R chunk options for Rmd file
@@ -65,7 +71,6 @@ source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/sc
 
 # 1. Gambit openings - to enable analysis of gambits and gambit-lovers
 gambits <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/gambits.csv")
-# gambits <- read.csv("data/lookup/gambits.csv")
 
 # 2. FIDE performance rating lookup values
 # 2-column table with tournament performance scores and rating differences
@@ -76,7 +81,6 @@ fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io
 # 3. Accounts banned from the Lichess4545 leagues
 # Sourced from a local text file - last updated on 2021-07-12 from the original 4545 ban log
 # All games involving banned players are removed before any stats are processed.
-# banned <- read.csv("C:/Users/rahul/Documents/Github/4545-stats/data/players_booted_from_lichess4545.txt", header = F)
 banned <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/lichess4545_banned_players.csv")
 
 ```
@@ -235,11 +239,9 @@ no_movetimes_print <- "Not available for seasons that began before April 2018."
 
 
 ```{r echo=FALSE}
-# Hide team-based stuff from LW reports and vice versa
+# Hide team-based stuff from LW reports
 lw_hide <- FALSE
-# team_hide <- FALSE
 if(league != "team4545"){lw_hide <- TRUE}
-# if(league == "team4545"){team_hide <- TRUE}
 ```
 
 
@@ -426,7 +428,6 @@ if(league == "team4545"){
 <div class = "col-md-5">
 <br>
 ```{r}
-# ggplot( mtcars, aes(x=mpg)) + geom_histogram(fill="skyblue", alpha=0.5) + theme_minimal()
 plt_wins_by_col
 ```
 </div>
