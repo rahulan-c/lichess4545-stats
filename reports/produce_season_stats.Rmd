@@ -1999,18 +1999,16 @@ savedbythebell <- all_moves %>%
 ```{r}
 # Highest % of moves in time trouble (<60s)
 
-if(season > 2){
 timetrouble <- all_moves %>% 
   filter(time_left < 60) %>% 
   group_by(player) %>% 
   summarise(tt_moves = n(),
             moves = max(player_total_moves),
             tt_pc = tt_moves/moves) %>% 
-  arrange(desc(tt_pc)) %>% 
-  mutate(rank = seq(1:nrow(.))) %>% 
+  arrange(desc(tt_pc)) %>%
   filter(moves > 100) %>% # min threshold 100 moves
+  mutate(rank = seq(1:nrow(.))) %>% 
   select(rank, player, moves, tt_moves, tt_pc)
-}
 ```
 
 ```{r radjabov_award}
@@ -2075,7 +2073,8 @@ david <- rbind(tibble("player" = david$white,
   filter(opp_games >= 20) %>% 
   filter(opp_perc >= 0.5) %>% 
   mutate(opp_perc = opp_perc * 100) %>% 
-  arrange(desc(opp_perc))
+  arrange(desc(opp_perc)) %>% 
+  mutate(rank = seq(1:nrow(.)))
   
   
 ```
@@ -2701,6 +2700,7 @@ reactable(david,
           searchable = TRUE,
           compact = TRUE,
            columns = list(
+    rank = colDef(name = "#", minWidth = 50),
     player = colDef(name = "Player", minWidth = 200),
     opp_games = colDef(name = "Opp Games", align = "center"),
     opp_points = colDef(name = "Opp Pts", align = "center"),

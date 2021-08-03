@@ -69,10 +69,6 @@ stats_rmd_filename <- "produce_season_stats"
 # Directory where season stats HTML reports will be saved
 path_savereport <- paste0(path_root, "reports/")
 
-# Directory where season games PGN (without evals and clock times) will be saved
-# Required for openings sunburst plot
-path_savepgn <- paste0(path_root, "data/games.pgn")
-
 # Directory where openings sunburst plots will be saved initially
 path_sunburst_original <- path_scripts
 
@@ -529,21 +525,6 @@ games <- games %>%
                        add_movetimes_and_cpls(x, y, z)))) %>% 
   # Add eval after 15 moves to data
   mutate(eval_after_15 = unlist(map(evals, ~ .x$capped_eval[30])))
-
-# Remove evals and clock times from PGN (to allow for openings sunburst plots)
-games$pgn_noevals <- str_replace_all(games$pgn, "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", "") %>% 
-  str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
-  str_replace_all("\\s(?=\\d+\\.)", "") %>% 
-  str_replace_all("\\s(?=1-0)", "") %>% 
-  str_replace_all("\\s(?=1/2)", "") %>% 
-  str_replace_all("\\s(?=0-1)", "")
-
-# Save no evals PGN data as a single PGN
-pgn_noevals <- str_c(games$pgn_noevals, collapse = "")
-
-fileConn <- file(paste0(path_savepgn))
-writeLines(pgn_noevals, fileConn)
-close(fileConn)
 
 # Remove unnecessary variables from data
 games <- games %>% 
@@ -1322,6 +1303,43 @@ save_and_report_stats <- function(league_choice, season_range){
   print("Finished crunching stats!")
 }
 
+
+# Make sunburst plot of all openings in games data
+make_sunburst <- function(league, season){
+  
+  # Load games data for requested league and season
+  league_load_label <- league
+  if(league == "lonewolf"){if(lw_u1800){league_load_label <- "lwu1800"} else {league_load_label <- "lwopen"}}
+  games <- readRDS(paste0(path_savedata, "games_", league_load_label, "_s", season, ".rds"))
+  
+  # Construct single PGN with all games, but no evals or movetimes 
+  games$pgn_noevals <- str_replace_all(games$pgn, "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", "") %>% 
+    str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
+    str_replace_all("\\s(?=\\d+\\.)", "") %>% 
+    str_replace_all("\\s(?=1-0)", "") %>% 
+    str_replace_all("\\s(?=1/2)", "") %>% 
+    str_replace_all("\\s(?=0-1)", "")
+  pgn_noevals <- str_c(games$pgn_noevals, collapse = "")
+  
+  # Save PGN
+  fileConn <- file(paste0(path_root, "data/games_noevals_", league, "_s", season, ".pgn"))
+  writeLines(pgn_noevals, fileConn)
+  close(fileConn)
+  
+  # Make sunburst
+  pgn <- paste0(path_savedata, "games_noevals_", league, "_s", season, ".pgn")
+  tic("Made openings sunburst plot")
+  use_python(path_python)
+  import_from_path("chess_graph", path = path_python, convert = TRUE)
+  source_python(paste0(path_scripts, "make_openings_sunburst.py"))
+  make_sunburst(pgn)
+  
+  # Move sunburst to reports folder
+  move_sunburst(path_sunburst_original, path_sunburst_new, league, season)
+  toc(log = TRUE)
+
+}
+
 # Renames and moves the openings sunburst HTML file created by 
 # make_openings_sunburst.py to the reports folder, so it can be linked in
 # the finals seasons stats reports
@@ -1332,39 +1350,33 @@ move_sunburst <- function(path_orig, path_new, league, season){
   # Copy sunburst HTML to reports folder
   file.copy(from = paste0(path_root, "sunburst.html"),
             to   = paste0(path_new, "openings_", league_var, "_s", season, ".html"))
+  
   # Do same for PNG file
   file.copy(from = paste0(path_root, "sunburst.png"),
             to   = paste0(path_new, "openings_", league_var, "_s", season, ".png"))
   
-  # Remove original sunburst files (as well as the PGN it was based on) 
+  # Remove original sunburst files
   file.remove(paste0(path_root, "sunburst.html"))
   file.remove(paste0(path_root, "sunburst.png"))
-  file.remove(paste0(path_savedata, "games.pgn"))
 }
 
 # Make a stats report from scratch
 # Requests and saves season data, requests PGN for openings sunburst, makes 
 # sunburst, then compiles and saves season stats HTML report.
-instareport_season <- function(league, season){
+instareport_season <- function(league, season, from_scratch = T){
   
-  tic("Make stats report incl. sunburst from scratch")
+  if(from_scratch){tic("Produce season report + sunburst from scratch")}
+  if(from_scratch == F){tic("Produce season report + sunburst from existing data")}
   
-  # 1. Save season data
-  save_season_data(league, season)
+  # 1. Save season data (if necessary)
+  if(from_scratch){save_season_data(league, season)}
   
-  # 2. Make openings sunburst
-  tic("Made openings sunburst plot")
-  use_python(path_python)
-  import
-  import_from_path("chess_graph", path = path_python, convert = TRUE)
-  source_python(paste0(path_scripts, "make_openings_sunburst.py"))
+  # 2. Make sunburst
+  make_sunburst(league, season)
   
-  # 3. Transfer and rename sunburst HTML file
-  move_sunburst(path_sunburst_original, path_sunburst_new, league, season)
-  toc(log = TRUE)
-  
-  # 4. Produce season report
+  # 3. Compile and produce season stats report
   report_season_stats(league, season)
+  
   toc(log = TRUE)
 }
 
@@ -1407,11 +1419,12 @@ wipe_all_stats <- function(){
   update_repo()
 }
 
-build_season_reports <- function(wipe_stats_first = TRUE, 
+build_season_reports <- function(wipe_stats_first = FALSE,
+                                 request_data = FALSE,
                                  team_range = NULL, 
                                  lwopen_range = NULL, 
                                  lwu1800_range = NULL, 
-                                 update_repo_after = 3){
+                                 update_repo_after = 5){
   
   tic("Building season reports")
   
@@ -1427,7 +1440,7 @@ build_season_reports <- function(wipe_stats_first = TRUE,
     team_range <- split(team_range, ceiling(seq_along(team_range)/update_repo_after))
     for(i in seq(1:length(team_range))){
       for(j in seq(1:length(team_range[[i]]))){
-        instareport_season("team4545", team_range[[i]][j])
+        instareport_season("team4545", team_range[[i]][j], from_scratch = request_data)
       }
       update_repo() # push changes to repo after every <update_repo_after> seasons
     }
@@ -1438,7 +1451,7 @@ build_season_reports <- function(wipe_stats_first = TRUE,
     lwopen_range <- split(lwopen_range, ceiling(seq_along(lwopen_range)/update_repo_after))
     for(i in seq(1:length(lwopen_range))){
       for(j in seq(1:length(lwopen_range[[i]]))){
-        instareport_season("lwopen", lwopen_range[[i]][j])
+        instareport_season("lwopen", lwopen_range[[i]][j], from_scratch = request_data)
       }
       update_repo()
     }
@@ -1449,15 +1462,12 @@ build_season_reports <- function(wipe_stats_first = TRUE,
     lwu1800_range <- split(lwu1800_range, ceiling(seq_along(lwu1800_range)/update_repo_after))
     for(i in seq(1:length(lwu1800_range))){
       for(j in seq(1:length(lwu1800_range[[i]]))){
-        instareport_season("lwu1800", lwu1800_range[[i]][j])
+        instareport_season("lwu1800", lwu1800_range[[i]][j], from_scratch = request_data)
       }
       update_repo()
     }
   }
   toc(log = TRUE)
 }
-
-# # Call build_season_reports()
-# build_season_reports(wipe_stats_first = T, lwu1800_range = 10)
 
 
