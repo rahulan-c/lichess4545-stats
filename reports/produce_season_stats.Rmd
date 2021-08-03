@@ -171,7 +171,8 @@ games <- games %>%
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾™", "'")))
+  mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
+  mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'")))
 
 
 pairings <- pairings %>% 
@@ -181,7 +182,8 @@ pairings <- pairings %>%
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾™", "'")))
+  mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
+  mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'")))
 
 positions <- positions %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
@@ -190,7 +192,8 @@ positions <- positions %>%
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾™", "'")))
+  mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
+  mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'")))
 
 
 ```
