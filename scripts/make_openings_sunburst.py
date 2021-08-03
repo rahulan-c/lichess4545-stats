@@ -8,8 +8,6 @@ import chess_graph
 
 def make_sunburst(pgn):
 
-  # pgn_path = "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/games.pgn"
-
   # Make HTML sunburst
   chess_graph.graph(pgn, depth=16, shade = False, 
                     fragmentation_percentage=0.004, 

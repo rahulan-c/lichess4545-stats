@@ -1,4 +1,3 @@
-
 .Rproj.user
 .Rproj
 .Rhistory
@@ -7,7 +6,8 @@
 .Renviron
 
 data/**
+scripts/test/**
+reports/images/mates/**
+
 scripts/scratchpad.R
 scripts/update_repo.R
-scripts/show_pawn_knight_mates.py
-reports/images/mates/**
