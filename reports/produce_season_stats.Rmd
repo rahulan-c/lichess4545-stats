@@ -55,10 +55,8 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
                ggrepel, ggridges, reactable, htmltools, httr, jsonlite, xml2, 
-               rvest, ndjson, reshape2, utf8, lubridate, tictoc, cowplot, webshot, 
-               tippy, patchwork, magick, ggpubr, grid)
-
-# Remove ggpubr if ggpubr::background_image() isn't used to produce checkmate images
+               rvest, ndjson, reshape2, utf8, lubridate, tictoc, cowplot, 
+               tippy)
 
 ```
 
@@ -79,8 +77,8 @@ gambits <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess
 fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/fide_tpr_lookup.csv")
 
 # 3. Accounts banned from the Lichess4545 leagues
-# Sourced from a local text file - last updated on 2021-07-12 from the original 4545 ban log
-# All games involving banned players are removed before any stats are processed.
+# Why? All games and pairings involving players banned by Lichess for ToS violations are removed before any stats are processed.
+# Doesn't 
 banned <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/lichess4545_banned_players.csv")
 
 ```
@@ -100,15 +98,22 @@ season <- s
           if(season <= 24){team_boards <-  8} else
             if(season <= 26){team_boards <-  10}
 
-# Rounds
+# Set rounds parameter correctly
+# Maybe not necessary any more
+# And maybe this would be better defined as a list of params for the 
+# rmarkdown::render() command in the instareport() function. #foodforthought
 if(league == "team4545"){rounds <- c(seq(1:8))}
-if(league == "lonewolf"){rounds <- c(seq(1:11))}
+if(league == "lonewolf"){
+  if(season == 1) {rounds <- c(seq(1:5))}
+  if(season %in% c(2:3)){rounds <- c(seq(1:8))}
+  else{rounds <- c(seq(1:11))}
+}
 
 # LW U1800 choice
 lw_u1800 <- ifelse(league == "lonewolf", ifelse(lw_section == "u1800", TRUE, FALSE), FALSE)
 
 # Increment choice
-increment <- ifelse(league == "lonewolf", 30, ifelse(league == "team4545", 45, NA))
+# increment <- ifelse(league == "lonewolf", 30, ifelse(league == "team4545", 45, NA))
 
 
 # Set league-specific colours to use in plots
@@ -165,7 +170,9 @@ games <- games %>%
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ")))
+  mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
+  mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾™", "'")))
+
 
 pairings <- pairings %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
@@ -173,7 +180,8 @@ pairings <- pairings %>%
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ")))
+  mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
+  mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾™", "'")))
 
 positions <- positions %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
@@ -181,7 +189,8 @@ positions <- positions %>%
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ")))
+  mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
+  mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾™", "'")))
 
 
 ```

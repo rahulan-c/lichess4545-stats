@@ -779,6 +779,13 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
       # Extract data on LoneWolf pairings
       if(league_choice == "lonewolf"){
         
+        orig_results <- read_html(url) %>% 
+          rvest::html_nodes("td") %>% 
+          rvest::html_text() %>% 
+          str_replace_all("[\r\n]" , "") %>% 
+          str_squish() %>%
+          str_c()
+        
         results <- read_html(url) %>% 
           rvest::html_nodes("td") %>% 
           rvest::html_text() %>% 
@@ -786,18 +793,24 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
           str_squish() %>%
           str_c() 
         
-        # Locate first bye and delete rows after
-        find_first_bye <- results %>% 
-          str_detect("BYE") %>% 
-          which()
+        if(str_detect(orig_results, "BYE")){
+          
+          print("Byes detected! (1)")
+          
+          # Locate first bye and delete rows after
+          find_first_bye <- results %>% 
+            str_detect("BYE") %>% 
+            which()
+          
+          # Identify first player in pairings with a bye
+          first_bye <- results[find_first_bye[1]-3] %>% 
+            str_replace_all("\\([:digit:]{3,4}\\)", "")
+          
+          # Now remove all entries in original page after this first bye
+          first_bye_loc <- results %>% str_which(first_bye)
+          results <- results[1:(first_bye_loc-4)]
         
-        # Identify first player in pairings with a bye
-        first_bye <- results[find_first_bye[1]-3] %>% 
-          str_replace_all("\\([:digit:]{3,4}\\)", "")
-        
-        # Now remove all entries in original page after this first bye
-        first_bye_loc <- results %>% str_which(first_bye)
-        results <- results[1:(first_bye_loc-4)]
+        }
         
         # Collect the data required to construct the pairings tibble                   
         board = results[c(T, F, F, F, F, F, F, F, F)] %>% as.integer()
@@ -852,45 +865,51 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         
         
         # Now extract players with byes
-        results <- read_html(url) %>% 
-          rvest::html_nodes("td") %>% 
-          rvest::html_text() %>% 
-          str_replace_all("[\r\n]" , "") %>% 
-          str_squish() %>%
-          str_c() 
+        if(str_detect(orig_results, "BYE")){
+          
+          print("Byes detected! (2)")
         
-        # Locate first bye and delete rows after
-        find_first_bye <- results %>% 
-          str_detect("BYE") %>% 
-          which()
+          results <- read_html(url) %>% 
+            rvest::html_nodes("td") %>% 
+            rvest::html_text() %>% 
+            str_replace_all("[\r\n]" , "") %>% 
+            str_squish() %>%
+            str_c() 
+          
+          # Locate first bye and delete rows after
+          find_first_bye <- results %>% 
+            str_detect("BYE") %>% 
+            which()
+          
+          # Identify first player in pairings with a bye
+          first_bye <- results[find_first_bye[1]-3] %>% 
+            str_replace_all("\\([:digit:]{3,4}\\)", "")
+          
+          # Now remove all entries in original page after this first bye
+          first_bye_loc <- results %>% str_which(first_bye)
+          results <- results[(first_bye_loc-2):length(results)]
+          
+          # Collect the data required for players with byes                   
+          pos = results[c(T, F, F, F, F, F, F, F, F)] %>% as.integer()
+          player = results[c(F, F, T, F, F, F, F, F, F)]
+          bye = results[c(F, F, F, F, F, T, F, F, F)]
+          
+          byes <- tibble(pos = pos, player = player, bye = bye)
+          
+          # Extract ratings
+          byes$rating <- byes$player %>% 
+            str_extract_all("\\([:digit:]{3,4}\\)") %>% 
+            str_replace_all("\\(", "") %>% 
+            str_replace_all("\\)", "") %>% 
+            as.integer()
+          
+          # Clean up player names
+          byes$player <- byes$player %>% 
+            str_replace_all("\\([:digit:]{3,4}\\)", "") %>% 
+            str_squish() %>% 
+            str_to_lower()
         
-        # Identify first player in pairings with a bye
-        first_bye <- results[find_first_bye[1]-3] %>% 
-          str_replace_all("\\([:digit:]{3,4}\\)", "")
-        
-        # Now remove all entries in original page after this first bye
-        first_bye_loc <- results %>% str_which(first_bye)
-        results <- results[(first_bye_loc-2):length(results)]
-        
-        # Collect the data required for players with byes                   
-        pos = results[c(T, F, F, F, F, F, F, F, F)] %>% as.integer()
-        player = results[c(F, F, T, F, F, F, F, F, F)]
-        bye = results[c(F, F, F, F, F, T, F, F, F)]
-        
-        byes <- tibble(pos = pos, player = player, bye = bye)
-        
-        # Extract ratings
-        byes$rating <- byes$player %>% 
-          str_extract_all("\\([:digit:]{3,4}\\)") %>% 
-          str_replace_all("\\(", "") %>% 
-          str_replace_all("\\)", "") %>% 
-          as.integer()
-        
-        # Clean up player names
-        byes$player <- byes$player %>% 
-          str_replace_all("\\([:digit:]{3,4}\\)", "") %>% 
-          str_squish() %>% 
-          str_to_lower()
+        }
         
         # Construct df with all players and positions
         positions_w <- results_without_byes %>% 
@@ -903,7 +922,9 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         rm(positions_w, positions_b)
         
         # Now add the players with byes
-        positions <- rbind(positions, byes[,c(1:2, 4)])
+        if(str_detect(orig_results, "BYE")){
+          positions <- rbind(positions, byes[,c(1:2, 4)])
+        }
         
         # Add season and round numbers
         positions$season <- seasons_choice[[i]]
@@ -1093,10 +1114,8 @@ save_season_data <- function(league_choice, seasons){
   tic("Obtained all season data")
   
   # Get correct rounds parameter
-  if(league_choice == "team4545"){rounds <- c(1:8)} else {rounds <- c(1:11)}
-  
-  # Get the increment parameter right (for when tidying the games data)
-  if(league_choice == "team4545"){increment <- 45} else {increment <- 30}
+  if(league_choice == "team4545"){rounds <- c(1:8)} else {
+    rounds <- c(1:11)}
   
   # Make sure lw_u1800 is F if getting 4545 season data
   if(league_choice == "team4545"){
