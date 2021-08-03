@@ -3152,12 +3152,12 @@ game_latest_capture <- latest_first_capture %>%
 
 :::about
 - This report was compiled on `r format(Sys.time(), '%d %B %Y')`.
-- The stats on this page are presented purely for general interest. They are not guaranteed to be comprehensive, complete, accurate, or up to date. 
-- They do not account for games involving players who were banned by Lichess (at any point up to `r format(Sys.time(), '%d %B %Y')`) or games with fewer than 5 plies. 
+- These stats are presented for general interest only. They are not guaranteed to be comprehensive, complete, accurate, or up to date.
+- This report may be revised periodically to incorporate minor updates and bugfixes.
+- All stats based on game data deliberately exclude games involving players who were banned by Lichess (at any point up to `r format(Sys.time(), '%d %B %Y')`).^[Players who were banned after finishing a season in the top three places are still shown with a podium place in that season's report. However, their games and pairings are then removed from the season's data prior to any further analysis.] They also exclude games with fewer than 5 plies.
 - Ties are not robustly handled when determining player awards, which may lead to the occasional mistake :)
-- Source code: https://github.com/rahulan-c/lichess4545-stats
-- Stats homepage: https://rahulan-c.github.io/lichess4545-stats/
-- Acknowledgements: [Noun Project](https://thenounproject.com/) (award icons)
+- [Website](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
+- Acknowledgements: [Noun Project](https://thenounproject.com/) for the award icons; [Simon Ilincev](https://simonilincev.com/) for [chess_graph](https://github.com/Destaq/chess_graph), which produces the openings sunburst plots.
 :::
 
 
