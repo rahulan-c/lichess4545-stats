@@ -59,7 +59,6 @@ fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io
 
 # 3. Accounts banned from the Lichess4545 leagues
 # Why? All games and pairings involving players banned by Lichess for ToS violations are removed before any stats are processed.
-# Doesn't 
 banned <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/lichess4545_banned_players.csv")
 
 ```
@@ -622,7 +621,7 @@ reactable(winners,
 
 #### Story of the season
 
-```{r position_tracker, out.width="90%", fig.align="center"}
+```{r position_tracker, out.width="100%", fig.align="center"}
 # Team/player position tracker
 
 if(league == "team4545"){
@@ -636,16 +635,16 @@ top_places <- positions %>%
 position_tracker <- positions %>% 
   mutate(round = as.factor(round)) %>% 
   ggplot(aes(x = round, y = rank, colour = team)) +
-  geom_line(aes(group = team), size = 2) +
+  geom_line(aes(group = team), size = 3) +
   # geom_point(aes(group = team), size = 2) +
   theme_minimal() +
   # scale_y_reverse(limits = c(20, 1), breaks = integer_breaks()) +
-  scale_y_reverse(limits = c(max(positions$rank), 1), breaks = c(max(positions$rank), 1)) +
-  scale_x_discrete(expand = expansion(add = c(0.5, 0.5))) +
-  scale_color_manual(values = c("#ffd700", "#c0c0c0", "#cd7f32", "#b2cefe", "#b2cefe"),
+  scale_y_reverse(limits = c(max(positions$rank), 1), breaks = floor(seq(max(positions$rank), 1, length.out = 4))) +
+  scale_x_discrete(expand = expansion(add = c(0.1, 0.1))) +
+  scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", "#d9e7ff", "#d9e7ff"),
                        breaks = c(top_places),
                        labels = c(top_places)) +
-  gghighlight::gghighlight(team %in% top_places, use_direct_label = T,
+  gghighlight::gghighlight(team %in% top_places, use_direct_label = F,
                              unhighlighted_params = list(colour = alpha("grey", 0.1)),
                              label_params = list(size = 4, 
                                                  nudge_x = -1, 
@@ -655,7 +654,13 @@ position_tracker <- positions %>%
                                                  colour = "black")) +
   labs(x = "Round",
        y = "Rank after each round") +
-  theme(legend.position = "right")
+  theme(legend.position = "top") +
+  theme(panel.grid.minor = element_blank()) +
+  theme(
+    legend.position = c(0.5, 0.2),
+    legend.title = element_blank(),
+    legend.box.background = element_rect(fill = "white", colour = league_col_dark)
+    )
   
 position_tracker
 
@@ -666,7 +671,7 @@ if(league == "lonewolf"){
   top_places <- positions %>% 
     filter(round == 12) %>% 
     arrange(pos) %>% 
-    filter(pos <= 3) %>%  
+    filter(pos <= 10) %>%  
     dplyr::pull(player)
   
   position_tracker <- positions %>% 
@@ -674,20 +679,28 @@ if(league == "lonewolf"){
     mutate(player = str_to_lower(player)) %>% 
     mutate(round = as.factor(round)) %>% 
     ggplot(aes(x = round, y = pos, colour = player)) +
-    geom_line(aes(group = player), size = 2) +
+    geom_line(aes(group = player), size = 3) +
     # geom_point(aes(group = player), size = 2) +
     theme_minimal() +
-    scale_y_reverse(limits = c(50, 1), breaks = integer_breaks()) +
-    scale_x_discrete(expand = expansion(add = c(0, 2))) +
-    gghighlight::gghighlight(player %in% top_places, use_direct_label = T,
+    scale_y_reverse(limits = c(50, 1), breaks = c(1, 10, 20, 30, 40, 50)) +
+    scale_x_discrete(expand = expansion(add = c(0.1, 0.1))) +
+    gghighlight::gghighlight(player %in% top_places, use_direct_label = F,
                              unhighlighted_params = list(colour = alpha("grey", 0.1)),
                              label_params = list(size = 4, nudge_x = 2, nudge_y = 0, direction = "y")) +
     labs(x = "Round",
          y = "Rank before round") +
     theme(legend.position = "right") +
-    scale_color_manual(values = c("#ffd700", "#c0c0c0", "#cd7f32"),
+    scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", rep("#d1ebe7", 7)),
                        breaks = c(top_places),
-                       labels = c(top_places))
+                       labels = c(top_places)) +
+    theme(panel.grid.minor = element_blank()) +
+    theme(
+    legend.position = c(0.5, 0.1),
+    legend.title = element_blank(),
+    legend.box.background = element_rect(fill = "white", colour = league_col_dark),
+    legend.direction = "horizontal"
+    )
+    
 
   position_tracker
 
@@ -1439,6 +1452,7 @@ gambits <- games %>%
 # Add gambit names to data
 
 # Iterating through each game in the gambits dataset...
+if(nrow(gambits) > 0) {
 for(i in seq(1:nrow(gambits))){
   test <- gambits$opening.name[i]
   # First check if there's a colon in the opening name
@@ -1506,6 +1520,10 @@ reactable(gambits,
     success = colDef(name = "White score (%)", format = colFormat(digits = 0), align = "center")
            )
     )
+
+} else{
+  print("No gambits were played this season :(")
+}
 ```
 
 
@@ -1552,6 +1570,7 @@ if(nrow(gambiteers) > 0){
                        "success" = "")
 }
 
+if(nrow(gambiteers) > 0){
 reactable(gambiteers,
           pagination = TRUE, 
           fullWidth = FALSE,
@@ -1565,6 +1584,9 @@ reactable(gambiteers,
     success = colDef(name = "% Score", format = colFormat(digits = 2), align = "center")
            )
     )
+} else {
+  print("There were no deserving gambiteers this season :(")
+}
 ```
 
 
@@ -2014,13 +2036,6 @@ radjabov <- all_moves %>%
   mutate(player = ifelse(final_eval > 0, white, black)) %>% 
   head(3)
 
-# Change to fastest draw
-games %>% 
-  filter(result == "1/2-1/2") %>% 
-  arrange(num_moves) %>% 
-  select(id, white, black, num_moves) %>% 
-  head(5)
-
 
 ```
 
@@ -2029,6 +2044,7 @@ games %>%
 # David Award (suggested by Tranzoo)
 # For the player who faced the opponents with the highest collective score across
 # the season (excluding games against the player)
+# Criteria: opponents must have played over 20 games (against others) 
 
 david <- games %>% 
   select(white, black, result, score_w, score_b) %>%
@@ -2053,8 +2069,9 @@ david <- rbind(tibble("player" = david$white,
   filter(opp_games >= 20) %>% 
   filter(opp_perc >= 0.5) %>% 
   mutate(opp_perc = opp_perc * 100) %>% 
-  arrange(desc(opp_perc)) %>% 
-  mutate(rank = seq(1:nrow(.)))
+  arrange(desc(opp_perc)) %>%
+  mutate(rank = dense_rank(desc(opp_perc))) %>% 
+  select(rank, player, opp_games, opp_points, opp_perc)
   
   
 ```

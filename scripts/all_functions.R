@@ -748,9 +748,7 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
           str_squish() %>%
           str_c() 
         
-        if(str_detect(orig_results, "BYE")){
-          
-          print("Byes detected! (1)")
+        if(TRUE %in% str_detect(orig_results, "BYE")){
           
           # Locate first bye and delete rows after
           find_first_bye <- results %>% 
@@ -820,9 +818,7 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         
         
         # Now extract players with byes
-        if(str_detect(orig_results, "BYE")){
-          
-          print("Byes detected! (2)")
+        if(TRUE %in% str_detect(orig_results, "BYE")){
         
           results <- read_html(url) %>% 
             rvest::html_nodes("td") %>% 
@@ -877,7 +873,7 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         rm(positions_w, positions_b)
         
         # Now add the players with byes
-        if(str_detect(orig_results, "BYE")){
+        if(TRUE %in% str_detect(orig_results, "BYE")){
           positions <- rbind(positions, byes[,c(1:2, 4)])
         }
         
@@ -1420,6 +1416,8 @@ build_season_reports <- function(wipe_stats_first = FALSE,
   # But even if not wiping everything, update index.md and push any uncommitted 
   # changes anyway
   if(wipe_stats_first){wipe_all_stats()} else {update_repo()}
+  
+  Sys.sleep(15) # wait 20 seconds for the homepage to update properly before proceeding
   
   # Then split requested seasons into chunks according to user's desired update frequency
   # Create season reports and push regularly to repo
