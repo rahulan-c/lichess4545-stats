@@ -1,4 +1,33 @@
-/* -----------div tips------------- */
+
+/* ----------- Report headings ------------- */
+
+h1.title {
+  font-size: 28px;
+}
+h1 { /* Header 1 */
+  font-size: 10px;
+}
+h2 { /* Header 2 */
+    font-size: 10px;
+}
+h3 { /* Header 3 */
+  font-size: 24px; 
+}
+
+h4 { /* Header 4 */
+  font-size: 18px; 
+}
+
+h1, h2, h3, h4 {
+  text-align: center;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
+    margin-top: 84px;
+}
+
+
+/* ----------- Div tips ------------- */
 
   div.first {
     padding: 0.1em;
@@ -57,18 +86,19 @@
   }
 
 
-/* Hyperlinks
-/* Unvisited links */
+/* ----------- Hyperlinks ------------- */
+
+/* Unvisited */
 a:link {
   color: #23619f;
 }
 
-/* Visited links */
+/* Visited */
 a:visited {
   color: #23619f;
 }
 
-/* Hovered links */
+/* Hovered */
 a:hover {
   color: #2973bc;
 }

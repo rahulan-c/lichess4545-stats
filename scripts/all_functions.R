@@ -1,42 +1,8 @@
 
 # USEFUL FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA
 
-# Last updated: 2021-07-30
+# Last updated: 2021-08-04
 
-
-# ---- HOW TO USE -------------------------------------------------------------
-# 1. Edit the paths and Lichess API token variables in the Parameters section.
-# 2. Source the file to load the functions.
-# 3. Run functions depending on your use case (see examples 1 and 2 below).
-
-# EXAMPLE 1
-# Get data on someone's blitz, rapid and classical games within a period. 
-# Note that this will only return games that have been analysed by Lichess.
-
-# games <- get_user_games(username = "izzie26", 
-#                         since = "2020-01-01", 
-#                         until = "2021-07-01",
-#                         perfs = "blitz,rapid,classical")
-# games <- tidy_lichess_games(games)
-
-
-# EXAMPLE 2
-# Get data on all 4545 or LoneWolf games from one or more seasons.
-
-# Save data on 4545 seasons 12, 13 and 14
-# save_season_data(league_choice = "team4545",
-#                  seasons = c(12:14))
-#
-# LoneWolf seasons 10 to 15 - Open section only
-# save_season_data(league_choice = "lw_open",
-#                  seasons = c(10:15))
-#
-# LoneWolf season 21 - U1800 section only
-# save_season_data(league_choice = "lw_u1800",
-#                  seasons = c(21))
-
-# Note: there are other functions below but these require a few other 
-# dependencies to work, so no point describing them here :)
 
 # ---- User-defined parameters ------------------------------------------------
 
@@ -86,8 +52,20 @@ pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2,
 
 # ---- Functions --------------------------------------------------------------
 
-# Extracts data on 4545 or LoneWolf league games
-# Eg games <- get_league_games("team4545", 25, c(1:8), F, 10)
+#' Extract Lichess game data for Lichess4545 seasons
+#' 
+#' TBC
+#' 
+#' @param league_choice Lichess4545 league of choice - "team4545" for 4545 games, "lonewolf" for LoneWolf Open or U1800 games
+#' @param seasons_choice Season(s) of choice
+#' @param lw_u1800_choice TRUE if you want LW U1800 games, FALSE otherwise
+#'
+#' @return Data frame of season game data
+#' @export
+#'
+#' @examples 
+#' get_league_games("team4545", 25, FALSE)
+#' get_league_games("lonewolf", 21, TRUE)
 get_league_games <- function(league_choice, seasons_choice,
                              lw_u1800_choice){
   
@@ -95,10 +73,6 @@ get_league_games <- function(league_choice, seasons_choice,
   
   # Max number of game IDs allowed per Lichess API query
   max_ids_per_request <- 300
-  
-  # # Define increment parameter
-  # if(league_choice == "team4545"){increment_choice <- 45}
-  # if(league_choice == "lonewolf"){increment_choice <- 30}
   
   all_data <- list()
   
@@ -1302,6 +1276,17 @@ save_and_report_stats <- function(league_choice, season_range){
   }
   print("Finished crunching stats!")
 }
+
+
+# Prep season data before processing stats for final reports
+# Reads games, reads lookup data (gambits, FIDE perf ratings lookups, and banned
+# 4545 players), adds gambit data to game data, excludes games and pairings 
+# featuring banned players, and checks and fixes any incorrect character encoding in
+# the data.
+prep_games_for_report <- function(games){
+  
+}
+
 
 
 # Make sunburst plot of all openings in games data

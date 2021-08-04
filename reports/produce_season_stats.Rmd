@@ -10,38 +10,9 @@ output:
 title: "`r paste0(ifelse(league == 'lonewolf', 'LoneWolf', '4545 League'), ifelse(lw_section == 'open', ' (Open)', ifelse(lw_section == 'u1800', ' (U1800)', '')), ', Season ', s)`"
 ---
 
-<style type="text/css">
-
-h1.title {
-  font-size: 28px;
-}
-h1 { /* Header 1 */
-  font-size: 10px;
-}
-h2 { /* Header 2 */
-    font-size: 10px;
-}
-h3 { /* Header 3 */
-  font-size: 24px; 
-}
-
-h4 { /* Header 4 */
-  font-size: 18px; 
-}
-
-h1, h2, h3, h4 {
-  text-align: center;
-}
-
-h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
-    margin-top: 84px;
-}
-
-</style>
 
 
-
-```{r, include = FALSE}
+```{r packages_initial_opts, include = FALSE}
 # Set default R chunk options for Rmd file
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
@@ -52,10 +23,26 @@ pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, cowplot, 
                tippy)
 
+# Define custom default reactable theme for tables
+options(reactable.theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    # style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"),
+    searchInputStyle = list(width = "100%"),
+    headerStyle = list(
+      "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
+      "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
+      borderColor = "#555"
+    )
+  )
+)
+
 ```
 
 
-```{r}
+```{r load_functions_lookups}
 # Source supporting functions
 source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/scripts/all_functions.R", local = knitr::knit_global())
 
@@ -80,9 +67,19 @@ banned <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4
 
 
 ```{r setup}
-# Match user-defined document parameters to key variables, eg league, season, rounds, section etc.
+
+# ---- 1) SET CORRECT PARAMETERS ----------------------------------------------
+# Eg league, season, rounds, section etc.
 league <- league
 season <- s
+
+# Set league-specific colours to use in plots
+lw_col <- "#699486"        #1c401c (darkest), #225622 (med), #699486 (lightest)
+lw_col_dark <- "#225622"
+team_col <- "#557f97"      #245164 (darkest), #3c687d (med) #557f97 (lightest)
+team_col_dark <- "#245164"
+league_col <- ifelse(league == "lonewolf", lw_col, team_col)               
+league_col_dark <- ifelse(league == "lonewolf", lw_col_dark, team_col_dark)
 
 # Get correct team_boards parameter
   if(league == "lonewolf"){team_boards <- 99} else
@@ -106,40 +103,10 @@ if(league == "lonewolf"){
 # LW U1800 choice
 lw_u1800 <- ifelse(league == "lonewolf", ifelse(lw_section == "u1800", TRUE, FALSE), FALSE)
 
-# Increment choice
-# increment <- ifelse(league == "lonewolf", 30, ifelse(league == "team4545", 45, NA))
 
+# ---- 2) LOAD SEASON DATA ----------------------------------------------------
 
-# Set league-specific colours to use in plots
-lw_col <- "#699486"        #1c401c (darkest), #225622 (med), #699486 (lightest)
-lw_col_dark <- "#225622"
-team_col <- "#557f97"      #245164 (darkest), #3c687d (med) #557f97 (lightest)
-team_col_dark <- "#245164"
-league_col <- ifelse(league == "lonewolf", lw_col, team_col)               
-league_col_dark <- ifelse(league == "lonewolf", lw_col_dark, team_col_dark)
-
-# Define custom default reactable theme for tables
-options(reactable.theme = reactableTheme(
-    borderColor = "#dfe2e5",
-    stripedColor = "#f6f8fa",
-    highlightColor = "#f0f5f9",
-    cellPadding = "8px 12px",
-    # style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"),
-    searchInputStyle = list(width = "100%"),
-    headerStyle = list(
-      "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
-      "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
-      borderColor = "#555"
-    )
-  )
-)
-
-```
-
-
-```{r get_season_data, include = FALSE}
 # Get data on season games, pairings and positions
-
 league_load_label <- league
 if(league == "lonewolf"){
   if(lw_u1800){league_load_label <- "lwu1800"} else {league_load_label <- "lwopen"}
@@ -152,10 +119,11 @@ games <- readRDS(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lic
 pairings <- rio::import(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/pairings_", league_load_label, "_s", season, ".csv"))
 positions <- rio::import(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/positions_", league_load_label, "_s", season, ".csv"))
 
-# Final tidying of games data
+
+# ---- 3) TIDY SEASON DATA FOR REPORTS ----------------------------------------
+
 # Add gambits data
 games <- left_join(games, gambits, by = c("opening.name" = "gambit"))
-
 
 # Fix all misprinted characters in character columns
 games <- games %>% 
@@ -167,7 +135,6 @@ games <- games %>%
   mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'")))
-
 
 pairings <- pairings %>% 
   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
@@ -190,10 +157,6 @@ positions <- positions %>%
   mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'")))
 
 
-```
-
-
-```{r exclude_cheaters}
 # Remove all games and pairings featuring players banned from the leagues for cheating
 
 # Get list of players to exclude from data
@@ -228,7 +191,9 @@ pairings <- pairings %>%
 
 ```
 
-```{r}
+
+
+```{r movetimes_exist}
 
 # Identify whether there are valid move times in the games data.
 # Since the earliest 4545/LW game with PGN clock times was played on 28 March 2017,
@@ -244,7 +209,7 @@ no_movetimes_print <- "Not available for seasons that began before April 2018."
 ```
 
 
-```{r echo=FALSE}
+```{r lw_hide}
 # Hide team-based stuff from LW reports
 lw_hide <- FALSE
 if(league != "team4545"){lw_hide <- TRUE}
@@ -586,8 +551,6 @@ winners <- tibble("Gold" = players_gold,
                   "Bronze" = players_bronze)
 ```
 
-
-<!-- A different approach, based on https://holtzy.github.io/Pimp-my-rmd/#several_columns -->
 
 <div class = "row">
   
