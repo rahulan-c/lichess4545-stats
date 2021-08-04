@@ -220,13 +220,13 @@ if(league != "team4545"){lw_hide <- TRUE}
 
 ```{r season_dates}
 # Get dates for first and last games
-season_dates <- paste0(lubridate::day(min(games$started)), " ",
-       lubridate::month(min(games$started), label = T), " ", 
-       lubridate::year(max(games$started)),
+season_dates <- paste0(lubridate::day(min(games_incl_banned$started)), " ",
+       lubridate::month(min(games_incl_banned$started), label = T), " ", 
+       lubridate::year(max(games_incl_banned$started)),
        " to ",
-       lubridate::day(max(games$started)), " ",
-       lubridate::month(max(games$started), label = T), " ",
-       lubridate::year(max(games$started)))
+       lubridate::day(max(games_incl_banned$started)), " ",
+       lubridate::month(max(games_incl_banned$started), label = T), " ",
+       lubridate::year(max(games_incl_banned$started)))
 
 # Number of forfeited/unplayed games
 forfeits <- pairings_incl_banned %>% 

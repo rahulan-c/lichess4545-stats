@@ -1,6 +1,7 @@
 ---
 title: "Lichess4545 stats homepage"
 output: md_document
+date: "Last updated: `r format(Sys.time(), '%B %Y')`"
 ---
 
 ```{r, include=FALSE}
@@ -86,3 +87,5 @@ knitr::kable(completed, format = "simple", col.names = c("Lichess4545 League", "
 
 ```
 
+
+*This page was last updated on `r paste0("This page was last updated at ", format(Sys.time(), '%X %Z'), " on ", format(Sys.time(), '%a %d %b %Y'))`.*

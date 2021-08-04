@@ -1366,11 +1366,13 @@ instareport_season <- function(league, season, from_scratch = T){
 # seasons that have completed season stats reports, then pushes all updates to
 # the public Github repo, so the website will be updated.
 update_repo <- function(){
-  # Render lichess4545-stats homepage
+  # Push changes to repo
+  source(paste0(path_scripts, "update_repo.R"))
+  # Then render lichess4545-stats homepage
   rmarkdown::render(input = paste0(path_root, "index.rmd"),
                     rmarkdown::md_document(variant = "gfm"),
                     quiet = TRUE)
-  # Push changes to repo
+  # Then push the updated index.md
   source(paste0(path_scripts, "update_repo.R"))
 }
 
@@ -1409,15 +1411,15 @@ build_season_reports <- function(wipe_stats_first = FALSE,
                                  lwu1800_range = NULL, 
                                  update_repo_after = 5){
   
-  tic("Building season reports")
+  tic("Built season reports, updated website")
   
   # First, wipe all previously produced season stats reports 
   # (this also updates index.md and pushes the changes to the repo)
   # But even if not wiping everything, update index.md and push any uncommitted 
   # changes anyway
-  if(wipe_stats_first){wipe_all_stats()} else {update_repo()}
+  # if(wipe_stats_first){wipe_all_stats()} else {update_repo()}
   
-  Sys.sleep(15) # wait 20 seconds for the homepage to update properly before proceeding
+  # Sys.sleep(15) # wait 20 seconds for the homepage to update properly before proceeding
   
   # Then split requested seasons into chunks according to user's desired update frequency
   # Create season reports and push regularly to repo
@@ -1430,7 +1432,7 @@ build_season_reports <- function(wipe_stats_first = FALSE,
       for(j in seq(1:length(team_range[[i]]))){
         instareport_season("team4545", team_range[[i]][j], from_scratch = request_data)
       }
-      update_repo() # push changes to repo after every <update_repo_after> seasons
+      # update_repo() # push changes to repo after every <update_repo_after> seasons
     }
   }
   # LW Open
@@ -1441,7 +1443,7 @@ build_season_reports <- function(wipe_stats_first = FALSE,
       for(j in seq(1:length(lwopen_range[[i]]))){
         instareport_season("lwopen", lwopen_range[[i]][j], from_scratch = request_data)
       }
-      update_repo()
+      # update_repo()
     }
   }
   # LW U1800
@@ -1452,9 +1454,11 @@ build_season_reports <- function(wipe_stats_first = FALSE,
       for(j in seq(1:length(lwu1800_range[[i]]))){
         instareport_season("lwu1800", lwu1800_range[[i]][j], from_scratch = request_data)
       }
-      update_repo()
+      # update_repo()
     }
   }
+  
+  update_repo()
   toc(log = TRUE)
 }
 
