@@ -1395,7 +1395,7 @@ openings_bestwhite <- games %>%
   mutate(perc_w = (score_w / games) * 100) %>%
   arrange(desc(perc_w)) %>% 
   filter(games > 10) %>% 
-  mutate(rank = desc_rank(desc(perc_w))) %>% 
+  mutate(rank = dense_rank(desc(perc_w))) %>% 
   select(rank, opening.broad, games, perc_w, white_wins, draws, black_wins,
          mean_eval_after_15, mean_rating)
 
