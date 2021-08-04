@@ -88,4 +88,4 @@ knitr::kable(completed, format = "simple", col.names = c("Lichess4545 League", "
 ```
 
 
-*This page was last updated on `r paste0("This page was last updated at ", format(Sys.time(), '%X %Z'), " on ", format(Sys.time(), '%a %d %b %Y'))`.*
+*`r paste0("This page was last updated at ", format(Sys.time(), '%X %Z'), " on ", format(Sys.time(), '%a %d %b %Y'))`.*
