@@ -285,8 +285,26 @@ tidy_lichess_games <- function(games){
 
 tic("Tidied game data")
   
+# Exclude games that ended due to a) someone claiming a result due to their opponent 
+# disconnecting, b) cheat detection, or c) someone aborting the game
+# Also exclude games that started from custom positions
+games <- games %>% 
+  filter(!(status %in% c("timeout", "cheat", "aborted"))) %>% 
+  filter(perf != "fromPosition")
+  
 # Only include analysed games
-games <- games %>% filter(!(is.na(players.white.analysis.acpl)))
+games <- games %>% 
+  filter(!(is.na(players.white.analysis.acpl))) %>% 
+  filter(!(is.na(players.black.analysis.acpl)))
+
+# Add number of moves per game to data
+games$num_moves <- ifelse(str_count(games$moves, "\\s") %% 2 == 1,
+                          (str_count(games$moves, "\\s") / 2) + 0.5,
+                          (str_count(games$moves, "\\s") / 2) + 1)
+
+# Only include games with at least 3 moves
+games <- games %>% 
+  filter(num_moves >= 3)
 
 # Add 'white' and 'black' fields to make it easier to refer to the players
 games <- games %>% 
@@ -364,11 +382,6 @@ games <- games %>%
   mutate(first_moves = str_extract(moves, "^[:graph:]+\\s[:graph:]+")) %>% 
   mutate(first_move_w = str_extract(moves, "^[:graph:]+")) %>% 
   mutate(first_move_b = str_trim(str_extract(moves, "\\s[:graph:]+")))
-
-# Add number of moves per game to data
-games$num_moves <- ifelse(str_count(games$moves, "\\s") %% 2 == 1,
-                          (str_count(games$moves, "\\s") / 2) + 0.5,
-                          (str_count(games$moves, "\\s") / 2) + 1)
 
 # Add move times to data
 
@@ -994,7 +1007,7 @@ get_games_from_urls <- function(links){
   
   # Extract game IDs from user-supplied list of gamelinks or IDs
   all_ids <- links %>% 
-    str_extract("(?<=lichess.org/)[:alnum:]{8}") %>% 
+    str_extract("[:alnum:]{8}|(?<=lichess.org/)[:alnum:]{8}") %>% 
     unique()
 
   # Split requested game IDs into list elements of size 300
