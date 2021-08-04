@@ -679,7 +679,7 @@ if(league == "lonewolf"){
     mutate(player = str_to_lower(player)) %>% 
     mutate(round = as.factor(round)) %>% 
     ggplot(aes(x = round, y = pos, colour = player)) +
-    geom_line(aes(group = player), size = 2.5) +
+    geom_line(aes(group = player), size = 2) +
     # geom_point(aes(group = player), size = 2) +
     theme_minimal() +
     scale_y_reverse(limits = c(50, 1), breaks = c(1, 10, 20, 30, 40, 50)) +
