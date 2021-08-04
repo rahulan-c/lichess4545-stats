@@ -925,7 +925,7 @@ longest_moves <- games %>%
          started) %>% 
   mutate(players = paste0(white, " - ", black),
          url = paste0("https://lichess.org/", id),
-         rank = seq(1:nrow(.))) %>% 
+         rank = dense_rank(num_moves)) %>% 
   select(rank, players, started, url, num_moves) %>% 
   mutate(date = sprintf('%s %2d %2s %2d', lubridate::wday(started, label=T, abbr=T), lubridate::day(started), lubridate::month(started, label = T, abbr = T), lubridate::year(started))) %>% 
   mutate(prank = ntile(num_moves, 100)) %>% # calculate percentiles
@@ -980,10 +980,10 @@ longest_duration <- games %>%
          started) %>% 
   mutate(players = paste0(white, " - ", black),
          url = paste0("https://lichess.org/", id),
-         rank = seq(1:nrow(.))) %>% 
+         rank = dense_rank(desc(duration))) %>% 
   select(rank, players, started, url, duration) %>% 
   mutate(duration = lubridate::seconds_to_period(duration)) %>%
-  mutate(duration_print = sprintf('%2gh %2gm %2gs', lubridate::hour(duration), lubridate::minute(duration), lubridate::second(duration))) %>% # more readable total times
+  mutate(duration_print = sprintf('%2gh %2gm %.0fs', lubridate::hour(duration), lubridate::minute(duration), lubridate::second(duration))) %>% # more readable total times
   mutate(date = sprintf('%s %2d %2s %2d', lubridate::wday(started, label=T, abbr=T), lubridate::day(started), lubridate::month(started, label = T, abbr = T), lubridate::year(started))) %>% 
   mutate(prank = ntile(duration, 100)) %>% # calculate percentiles
   filter(prank >= 90) %>%  # only show games above certain percentile
@@ -1308,8 +1308,8 @@ openings_exclvar <- games %>%
             black_wins = (sum(result == "0-1") / games) * 100,
             mean_eval_after_15 = mean(eval_after_15, na.rm = T) / 100) %>% 
   arrange(desc(games)) %>% 
-  mutate(rank = seq(1:nrow(.)),
-         perc_w = (score_w / games) * 100) %>%
+  mutate(rank = dense_rank(desc(games))) %>% 
+  mutate(perc_w = (score_w / games) * 100) %>%
   select(rank, opening.broad, games, perc_w, white_wins, draws, black_wins, 
          mean_eval_after_15, mean_rating)
 
@@ -1348,8 +1348,8 @@ openings_inclvar <- games %>%
             black_wins = (sum(result == "0-1") / games) * 100,
             mean_eval_after_15 = mean(eval_after_15, na.rm = T) / 100) %>% 
   arrange(desc(games)) %>% 
-  mutate(rank = seq(1:nrow(.)),
-         perc_w = (score_w / games)*100) %>%
+  mutate(rank = dense_rank(desc(games))) %>% 
+  mutate(perc_w = (score_w / games)*100) %>%
   select(rank, opening.name, games, perc_w, white_wins, draws, black_wins, 
          mean_eval_after_15, mean_rating)
 
@@ -1395,7 +1395,7 @@ openings_bestwhite <- games %>%
   mutate(perc_w = (score_w / games) * 100) %>%
   arrange(desc(perc_w)) %>% 
   filter(games > 10) %>% 
-  mutate(rank = seq(1:nrow(.))) %>% 
+  mutate(rank = desc_rank(desc(perc_w))) %>% 
   select(rank, opening.broad, games, perc_w, white_wins, draws, black_wins,
          mean_eval_after_15, mean_rating)
 
@@ -1438,7 +1438,7 @@ openings_bestblack <- games %>%
   mutate(perc_b = (score_b / games)*100) %>% 
   arrange(desc(perc_b)) %>% 
   filter(games > 10) %>% 
-  mutate(rank = seq(1:nrow(.))) %>%
+  mutate(rank = dense_rank(desc(perc_b))) %>% 
   select(rank, opening.broad, games, perc_b, black_wins, draws, white_wins, 
          mean_eval_after_15, mean_rating)
 
@@ -1525,9 +1525,11 @@ gambits <- gambits %>%
   group_by(gambit_name) %>%
   summarise(games = n(),
             success = (sum(gambit_score) / games) * 100) %>%
-  # filter(games > 1) %>% 
-  arrange(desc(games), desc(success)) %>% 
-  mutate(rank = seq(1:nrow(.))) %>% 
+  arrange(desc(games), desc(success))
+
+gambits$rank <- data.table::frank(gambits, -games, -success, ties.method = "dense")
+
+gambits <- gambits %>% 
   select(rank, gambit_name, games, success)
 
 reactable(gambits,
@@ -1578,10 +1580,9 @@ gambiteers <- games %>%
 
 if(nrow(gambiteers) > 0){
   gambiteer_award <- TRUE
-  gambiteers <- gambiteers %>% 
-    arrange(desc(games), desc(success)) %>% 
-    mutate(rank = seq(1:nrow(.))) %>% 
-    select(rank, player, games, success)
+  gambiteers <- gambiteers %>% arrange(desc(games), desc(success))
+  gambiteers$rank <- data.table::frank(gambiteers, -games, -success, ties.method = "dense")
+  gambiteers <- gambiteers %>% select(rank, player, games, success)
 } else {
   gambiteer_award <- FALSE
   gambiteers <- tibble("rank" = "",
@@ -1589,9 +1590,6 @@ if(nrow(gambiteers) > 0){
                        "games" = "",
                        "success" = "")
 }
-
-
-# gambiteers
 
 reactable(gambiteers,
           pagination = TRUE, 
@@ -1620,6 +1618,8 @@ Click on the image below to see a sunburst plot of all openings played in the se
 
 
 ### Awards
+
+<!-- All the code to determine the awards has to be run before the awards table -->
 
 ```{r relative_perfs}
 perfs_w <- pairings %>% 
@@ -1676,7 +1676,7 @@ relative_perfs <- perfs %>%
   filter(games >= 5) %>% 
   filter(perf_diff >= 0) %>% 
   arrange(desc(perf_diff)) %>% 
-  mutate(perf_rank = seq(1:nrow(.))) %>% 
+  mutate(perf_rank = dense_rank(desc(perf_diff))) %>% 
   select(perf_rank, player, games, wins, draws, losses, initial_rating, perf_rating, perf_diff)
 
 ```
@@ -1693,9 +1693,8 @@ season_error_rates <- error_rates %>%
   arrange(season_acpl)
   
 lowest_acpls <- season_error_rates %>% 
-  filter(total_moves > 100) %>% 
   head(100) %>%
-  mutate(acpl_rank = seq(1:nrow(.))) %>% 
+  mutate(acpl_rank = dense_rank(season_acpl)) %>% 
   select(acpl_rank, player, total_moves, season_acpl)
 ```
 
@@ -1753,7 +1752,7 @@ avg_think_times <- rbind(tibble("player" = games$white, "duration" = games$clock
   select(player, games, moves, avg_time_spent_after_move10, time_spent_after_move10) %>% 
   filter(games >= 3) %>% 
   mutate(prank = ntile(avg_time_spent_after_move10, 100)) %>%
-  mutate(rank = seq(1:nrow(.))) %>% 
+  mutate(rank = dense_rank(desc(avg_time_spent_after_move10))) %>% 
   mutate(duration_print = sprintf('%2dm %2.1fs', lubridate::minute(seconds_to_period(avg_time_spent_after_move10)), lubridate::second(seconds_to_period(avg_time_spent_after_move10)))) %>% 
   select(rank, player, games, moves, duration_print, prank)
 
@@ -1765,7 +1764,7 @@ season_think <- rbind(tibble("player" = games$white, "duration" = games$duration
             total_moves = sum(moves, na.rm = T),
             games = n()) %>% 
   arrange(desc(total_duration)) %>% 
-  mutate(rank = seq(1:nrow(.))) %>% 
+  mutate(rank = dense_rank(desc(total_duration))) %>% 
   mutate(duration_print = sprintf('%2dh %2dm %2ds', lubridate::hour(total_duration), lubridate::minute(total_duration), lubridate::second(total_duration))) %>% 
   select(rank, player, games, duration_print) %>% 
   head(50)
@@ -1777,10 +1776,10 @@ most_playing_time <- rbind(tibble("player" = games$white, "duration" = games$dur
   summarise(total_duration = lubridate::seconds_to_period(sum(duration, na.rm = T)),
             games = n()) %>% 
   arrange(desc(total_duration)) %>% 
-  head(50) %>% 
-  mutate(rank = seq(1:nrow(.))) %>% 
-  mutate(duration_print = sprintf('%2gh %2gm %2gs', lubridate::hour(total_duration), lubridate::minute(total_duration), lubridate::second(total_duration))) %>% 
-  select(rank, player, games, duration_print)
+  mutate(rank = dense_rank(desc(total_duration))) %>% 
+  mutate(duration_print = sprintf('%2gh %2gm %2.0fs', lubridate::hour(total_duration), lubridate::minute(total_duration), lubridate::second(total_duration))) %>% 
+  select(rank, player, games, duration_print) %>% 
+  head(50)
 ```
 
 
@@ -1838,7 +1837,7 @@ comebacks_2 <- comebacks_2 %>%
   arrange(desc(total_cb)) %>%
   filter(games >= 3) %>% 
   filter(avg_cb > 0) %>% 
-  mutate("rank" = seq(1:nrow(.))) %>% 
+  mutate(rank = dense_rank(desc(total_cb))) %>% 
   select(rank, player, avg_cb, total_cb)
 ```
 
@@ -1853,7 +1852,7 @@ upsets <- pairings %>%
   mutate(player = if_else(winner == "white", white, black)) %>% 
   arrange(desc(rating_gap)) %>%
   filter(rating_gap >= 50) %>% 
-  mutate("rank" = seq(1:nrow(.))) %>% 
+  mutate(rank = dense_rank(desc(rating_gap))) %>% 
   select(rank, player, rating_gap)
 
 # Repeat upset specialists
@@ -1865,7 +1864,7 @@ upset_specialists <- upsets %>%
             upset_pts = sum(rating_gap)) %>%
   filter(upsets > 1) %>% 
   arrange(desc(upset_pts)) %>% 
-  mutate("rank" = seq(1:nrow(.))) %>% 
+  mutate(rank = dense_rank(desc(upset_pts))) %>% 
   select(rank, player, upset_pts, upsets, mean_rating_gap, max_rating_gap)
 
 ```
@@ -1892,11 +1891,12 @@ dawdlers <- left_join(dawdlers, games, by = c("game_id" = "id")) %>%
   select(player, url, time_left, outcome) %>% 
   arrange(time_left) %>% 
   mutate(time_left_2 = lubridate::seconds_to_period(time_left)) %>% 
-  mutate("rank" = seq(1:nrow(.))) %>% 
   mutate(time_print = sprintf('%2dm %2ds', lubridate::minute(time_left_2), lubridate::second(time_left_2))) %>% 
-  select(rank, player, time_print, outcome, url) %>% 
   filter(outcome == "Win") %>% 
-  head(10)
+  head(10) %>% 
+  mutate("rank" = dense_rank(time_left)) %>% 
+  select(rank, player, time_print, outcome, url)
+  
 
 if(dawdlers$time_print[1] == "NAm NAs"){
   dawdler_award <- FALSE
@@ -1907,19 +1907,55 @@ if(dawdlers$time_print[1] == "NAm NAs"){
 ```
 
 ```{r}
-# Players with the most near-instant moves (< 0.5s)
 
-instamovers <- data.table::rbindlist(games$evals) %>% 
+# Get dataset of all moves in games data
+all_moves <- data.table::rbindlist(games$evals) %>% 
+  mutate(colour = case_when(
+    ply %% 2 == 0 ~ "white",
+    ply %% 2 == 1 ~ "black",
+    TRUE ~ NA_character_
+  )) 
+
+# Add id, White, Black, winner (white, black, NA)
+games_basics <- games %>% select(id, white, black, winner, result)
+
+all_moves <- left_join(all_moves, games_basics, by = c("game_id" = "id")) %>% 
+  mutate(player = ifelse(colour == "white", white, black)) %>% 
+  group_by(player) %>% 
+  add_tally() %>% 
+  rename("player_total_moves" = n) %>% 
+  mutate(player_outcome = case_when(
+    colour == "white" & winner == "white" ~ "win",
+    colour == "black" & winner == "black" ~ "win",
+    TRUE ~ NA_character_
+  )) %>% 
+  # Get preceding position eval from the mover's perspective 
+  mutate(player_eval_prev = case_when(
+    colour == "white" ~ capped_eval_prev,
+    colour == "black" ~ capped_eval_prev * -1,
+    TRUE ~ NA_real_
+  ))
+
+
+```
+
+
+```{r}
+# Players with the most near-instant moves (< 0.5s)
+# Played more than 5 instant moves
+
+instamovers <- all_moves %>% 
   filter(time_spent < 1)
 
 if(nrow(instamovers) > 0){
-  instamovers <- left_join(instamovers, games, by = c("game_id" = "id")) %>% 
-    select("id" = game_id, ply, time_spent, white, black, result) %>% 
+  instamovers <- instamovers %>% 
+    select(game_id, ply, time_spent, white, black, result) %>% 
     mutate(player = if_else(ply %% 2 == 1, black, white)) %>% 
     group_by(player) %>% 
     summarise(instamoves = n()) %>% 
-    arrange(desc(instamoves)) %>% 
-    mutate("rank" = seq(1:nrow(.))) %>% 
+    arrange(desc(instamoves)) %>%
+    filter(instamoves > 5) %>% 
+    mutate(rank = dense_rank(desc(instamoves))) %>% 
     select(rank, player, instamoves)
 } else {
   instamovers <- tibble("rank" = 1, "player" = "n/a", "instamoves" = "n/a")
@@ -1942,8 +1978,8 @@ games_basics <- games %>% select(id, white, black)
 
 movetimes <- left_join(movetimes, games_basics, by = c("game_id" = "id")) %>% 
   mutate(player = ifelse(colour == "white", white, black),
-         rank = seq(1:nrow(.)),
          url = paste0("https://lichess.org/", game_id, "#", ply+1)) %>% 
+  mutate(rank = dense_rank(desc(time_spent))) %>% 
   select(rank, player, time_spent, colour, ply, url) %>%
   mutate(time_spent = lubridate::seconds_to_period(time_spent),
          move = ifelse(ply %% 2 == 0, ply/2+1, (ply/2)+0.5)) %>% 
@@ -1953,28 +1989,6 @@ movetimes <- left_join(movetimes, games_basics, by = c("game_id" = "id")) %>%
   head(100)
 ```
 
-```{r}
-all_moves <- data.table::rbindlist(games$evals) %>% 
-  mutate(colour = case_when(
-    ply %% 2 == 0 ~ "white",
-    ply %% 2 == 1 ~ "black",
-    TRUE ~ NA_character_
-  )) 
-
-games_basics <- games %>% select(id, white, black, winner)
-
-all_moves <- left_join(all_moves, games_basics, by = c("game_id" = "id")) %>% 
-  mutate(player = ifelse(colour == "white", white, black)) %>% 
-  group_by(player) %>% 
-  add_tally() %>% 
-  rename("player_total_moves" = n) %>% 
-  mutate(player_outcome = case_when(
-    colour == "white" & winner == "white" ~ "win",
-    colour == "black" & winner == "black" ~ "win",
-    TRUE ~ NA_character_
-  ))
-```
-
 
 
 ```{r}
@@ -1982,12 +1996,13 @@ all_moves <- left_join(all_moves, games_basics, by = c("game_id" = "id")) %>%
 savedbythebell <- all_moves %>% 
   filter(time_left < 6,
          player_outcome == "win") %>%
-  select(player, game_id, white, black) %>% 
+  select(player, game_id, white, black, time_left, "eval" = player_eval_prev) %>% 
   group_by(player, game_id) %>% 
-  summarise(panic_moves = n()) %>% 
-  arrange(desc(panic_moves)) %>% 
+  summarise(panic_moves = n(), min_time_left = min(time_left), worst_eval = min(eval)) %>% 
+  filter(worst_eval <= 300) %>% # excludes players who played last-second moves in winning positions
+  arrange(desc(panic_moves), min_time_left, worst_eval) %>% 
   mutate(url = paste0("https://lichess.org/", game_id)) %>% 
-  select(player, panic_moves, url)
+  select(player, panic_moves, min_time_left, url)
 
 ```
 
@@ -2003,26 +2018,26 @@ timetrouble <- all_moves %>%
             tt_pc = tt_moves/moves) %>% 
   arrange(desc(tt_pc)) %>%
   filter(moves > 100) %>% # min threshold 100 moves
-  mutate(rank = seq(1:nrow(.))) %>% 
+  mutate(rank = dense_rank(desc(tt_pc))) %>% 
   select(rank, player, moves, tt_moves, tt_pc)
 ```
 
 ```{r radjabov_award}
 # Radjabov Award: find draws agreed in winning positions
 
-# Extract all moves from games data
-all_moves <- data.table::rbindlist(games$evals) %>% 
-  mutate(colour = case_when(
-    ply %% 2 == 0 ~ "white",
-    ply %% 2 == 1 ~ "black",
-    TRUE ~ NA_character_
-  )) 
-
-# Add game ID, player names, and the result
-games_basics <- games %>% select(id, white, black, result)
-
-all_moves <- left_join(all_moves, games_basics, by = c("game_id" = "id")) %>% 
-  mutate(player = ifelse(colour == "white", white, black))
+# # Extract all moves from games data
+# all_moves <- data.table::rbindlist(games$evals) %>% 
+#   mutate(colour = case_when(
+#     ply %% 2 == 0 ~ "white",
+#     ply %% 2 == 1 ~ "black",
+#     TRUE ~ NA_character_
+#   )) 
+# 
+# # Add game ID, player names, and the result
+# games_basics <- games %>% select(id, white, black, result)
+# 
+# all_moves <- left_join(all_moves, games_basics, by = c("game_id" = "id")) %>% 
+#   mutate(player = ifelse(colour == "white", white, black))
 
 radjabov <- all_moves %>% 
   group_by(game_id) %>% 
@@ -2037,6 +2052,14 @@ radjabov <- all_moves %>%
   arrange(desc(abs_final_eval)) %>% 
   mutate(player = ifelse(final_eval > 0, white, black)) %>% 
   head(3)
+
+# Change to fastest draw
+games %>% 
+  filter(result == "1/2-1/2") %>% 
+  arrange(num_moves) %>% 
+  select(id, white, black, num_moves) %>% 
+  head(5)
+
 
 ```
 
@@ -2812,9 +2835,9 @@ reactable(dawdlers,
 
 ##### Instant moves 
 
-The players who made the most moves over the season while taking less than 0.5 seconds.
+Players who made the most 'instant' moves over the season, taking less than 0.5 seconds (includes premoves).
 
-*Includes all players who made at least one such move.*
+*Includes players with more than five 'instant' moves.*
 
 ```{r instamoves, comment = ""}
 if(movetimes_exist){
@@ -2897,7 +2920,7 @@ reactable(timetrouble,
 
 ##### Saved by the bell
 
-Games where a player moved with only 5 seconds left on their clock...and still won!
+Players who made moves with under 5 seconds left on their clock...and still won!^[Excludes moves made in technically winning positions, defined as $\tt eval \le 300$ (from the mover's perspective). Players are first ordered by number of moves made with 5 seconds or fewer remaining, then by least time remaining in such conditions, and finally by worst eval faced.]
 
 ```{r, comment = ""}
 if(movetimes_exist){
@@ -2908,6 +2931,7 @@ reactable(savedbythebell,
           columns = list(
             player = colDef(name = "Player", minWidth = 200),
             panic_moves = colDef(name = "Moves with under 5s left", align = "center", minWidth = 110),
+            min_time_left = colDef(name = "Least time left", align = "center", minWidth = 60),
             url = colDef(name = "Link",
                            minWidth = 250,
                            html = TRUE, 
