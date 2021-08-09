@@ -35,4 +35,4 @@ Coming soon.
 | [Season 02](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s02.html) |                                                                                          |                                                                                           |
 | [Season 01](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s01.html) |                                                                                          |                                                                                           |
 
-*This page was last updated at 20:56:02 BST on Wed 04 Aug 2021.*
+*This page was last updated at 19:30:31 BST on Mon 09 Aug 2021.*
