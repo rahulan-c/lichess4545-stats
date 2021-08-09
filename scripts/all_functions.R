@@ -1,7 +1,28 @@
 
-# USEFUL FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA
+# FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA
 
-# Last updated: 2021-08-04
+# Last updated: 2021-08-09
+
+# All functions
+# -------------
+
+# get_league_games()
+# get_user_games()
+# tidy_lichess_games()
+# get_league_data()
+# integer_breaks()
+# get_games_from_urls()
+# save_season_data()
+# report_season_stats()
+# save_and_report_stats()
+# prep_games_for_report() # INCOMPLETE
+# make_sunburst()
+# move_sunburst()
+# instareport_season()
+# update_repo()
+# wipe_all_stats()
+# build_season_reports()
+# fix_character_encoding()
 
 
 # ---- User-defined parameters ------------------------------------------------
@@ -104,11 +125,6 @@ get_league_games <- function(league_choice, seasons_choice,
         
         # Add returned game data to season game IDs list
         season_data[[i]] <- res
-        
-        # print(paste0("Obtained game IDs for ", 
-        #              ifelse(league_choice == "team4545", "4545 S",
-        #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-        #              seasons_choice[[i]]))
         
       }
       
@@ -283,244 +299,244 @@ get_user_games <- function(username, since, until, perfs){
 # Eg tidied_games <- tidy_lichess_games(games)
 tidy_lichess_games <- function(games){
 
-tic("Tidied game data")
+  tic("Tidied game data")
+    
+  # Exclude games that ended due to a) someone claiming a result due to their opponent 
+  # disconnecting, b) cheat detection, or c) someone aborting the game
+  # Also exclude games that started from custom positions
+  games <- games %>% 
+    filter(!(status %in% c("timeout", "cheat", "aborted"))) %>% 
+    filter(perf != "fromPosition")
+    
+  # Only include analysed games
+  games <- games %>% 
+    filter(!(is.na(players.white.analysis.acpl))) %>% 
+    filter(!(is.na(players.black.analysis.acpl)))
   
-# Exclude games that ended due to a) someone claiming a result due to their opponent 
-# disconnecting, b) cheat detection, or c) someone aborting the game
-# Also exclude games that started from custom positions
-games <- games %>% 
-  filter(!(status %in% c("timeout", "cheat", "aborted"))) %>% 
-  filter(perf != "fromPosition")
+  # Add number of moves per game to data
+  games$num_moves <- ifelse(str_count(games$moves, "\\s") %% 2 == 1,
+                            (str_count(games$moves, "\\s") / 2) + 0.5,
+                            (str_count(games$moves, "\\s") / 2) + 1)
   
-# Only include analysed games
-games <- games %>% 
-  filter(!(is.na(players.white.analysis.acpl))) %>% 
-  filter(!(is.na(players.black.analysis.acpl)))
-
-# Add number of moves per game to data
-games$num_moves <- ifelse(str_count(games$moves, "\\s") %% 2 == 1,
-                          (str_count(games$moves, "\\s") / 2) + 0.5,
-                          (str_count(games$moves, "\\s") / 2) + 1)
-
-# Only include games with at least 3 moves
-games <- games %>% 
-  filter(num_moves >= 3)
-
-# Add 'white' and 'black' fields to make it easier to refer to the players
-games <- games %>% 
-  mutate(white = players.white.user.name,
-         black = players.black.user.name)
-
-# Revise results field
-games <- games %>% 
-  mutate(result = case_when(
-    winner == "white" ~ "1-0",
-    winner == "black" ~ "0-1",
-    status == "draw" ~ "1/2-1/2",
-    status == "stalemate" ~ "1/2-1/2",
-    TRUE ~ NA_character_
-  ))
-
-# Add game scores for both colours
-games <- games %>% 
-  mutate(
-    score_w = case_when(
-      result == "1-0" ~ 1,
-      result == "0-1" ~ 0,
-      result == "1/2-1/2" ~ 0.5,
-      TRUE ~ NA_real_
-    )) %>% 
-  mutate(
-    score_b = case_when(
-      result == "1-0" ~ 0,
-      result == "0-1" ~ 1,
-      result == "1/2-1/2" ~ 0.5,
-      TRUE ~ NA_real_
+  # Only include games with at least 3 moves
+  games <- games %>% 
+    filter(num_moves >= 3)
+  
+  # Add 'white' and 'black' fields to make it easier to refer to the players
+  games <- games %>% 
+    mutate(white = players.white.user.name,
+           black = players.black.user.name)
+  
+  # Revise results field
+  games <- games %>% 
+    mutate(result = case_when(
+      winner == "white" ~ "1-0",
+      winner == "black" ~ "0-1",
+      status == "draw" ~ "1/2-1/2",
+      status == "stalemate" ~ "1/2-1/2",
+      TRUE ~ NA_character_
     ))
-
-# Add average rating for each game
-games <- games %>% 
-  mutate(rating_w = players.white.rating,
-         rating_b = players.black.rating,
-         mean_rating = (rating_w + rating_b) / 2)
-
-# Fix foreign characters in openings names
-games$opening.name <- games$opening.name %>% 
-  str_replace_all("Ã¼", "ü") %>% 
-  str_replace_all("Ã¶", "ö") %>% 
-  str_replace_all("Ã³", "ó") %>% 
-  str_replace_all("Ã©", "é")
-
-# Add broad opening names to data
-# Creates another column that takes the Lichess opening name but: 
-#   - removes variation names, ie any text after ":"
-#   - reduces any remaining names with "," to the stem opening
-#   - fixes remaining discrepancies, eg Guioco Piano amended to Italian Game
-games <- games %>% 
-  mutate(opening.broad = str_replace_all(opening.name, "(?<=:).*$", "")) %>% 
-  mutate(opening.broad = if_else(str_detect(opening.broad, ":"), str_replace(opening.broad, ":", ""), opening.broad)) %>% 
-  mutate(opening.broad = str_replace_all(opening.broad, "(?<=,).*$", "")) %>% 
-  mutate(opening.broad = if_else(str_detect(opening.broad, ","), str_replace(opening.broad, ",", ""), opening.broad)) %>% 
-  mutate(opening.broad = if_else(opening.broad == "Guioco Piano", "Italian Game", opening.broad))
-
-# Make game creation times more readable
-games$started <- lubridate::as_datetime(games$createdAt / 1000)
-games$ended <- lubridate::as_datetime(games$lastMoveAt / 1000)
-
-# Add year, month, day of week and hour to data
-games$year <- lubridate::year(games$started)
-games$month <- lubridate::month(games$started, label = TRUE)
-games$day <- lubridate::day(games$started)
-games$wday <- lubridate::wday(games$started, label = TRUE, week_start = 1)
-games$hour <- lubridate::hour(games$started)
-games$week <- lubridate::week(games$started)
-# games$minute <- lubridate::minute(games$started)
-games$date <- lubridate::date(games$started)
-
-# Add first moves to games data
-games <- games %>% 
-  mutate(first_moves = str_extract(moves, "^[:graph:]+\\s[:graph:]+")) %>% 
-  mutate(first_move_w = str_extract(moves, "^[:graph:]+")) %>% 
-  mutate(first_move_b = str_trim(str_extract(moves, "\\s[:graph:]+")))
-
-# Add move times to data
-
-# Compute move times
-times <- map(str_extract_all(games$pgn, "(?<=clk\\s)[0-1]\\:[0-5][0-9]\\:[0-5][0-9]"), lubridate::hms) %>% 
-  map(lubridate::period_to_seconds) %>% 
-  map2(games$clock.increment, ~ lag(.x, 2) - .x + .y)
-
-# Add id to times
-names(times) <- games$id
-
-# Compute time remaining after each move
-times_left <- map(str_extract_all(games$pgn, "(?<=clk\\s)[0-1]\\:[0-5][0-9]\\:[0-5][0-9]"), hms) %>% 
-  map(period_to_seconds) %>% 
-  map2(games$clock.increment, ~ .x - .y)
-
-# Add eval data
-# Isolate and melt eval data
-evals <- games %>% select(ends_with("eval"))
-names(evals) <- as.character(str_extract_all(names(evals), "[0-9]+"))
-evals$id <- games$id
-evals <- melt(evals, id.vars = c("id"))
-evals$variable <- as.numeric(as.character(evals$variable))
-
-# Isolate and melt mate data (ie moves until mate)
-mates <- games %>% select(ends_with("mate"))
-
-# Convert "mate in x moves" evals to cpls using the formula [x / abs(x)] * [300,000 - (abs(x) * 1000)]
-# mates <- mates %>% mutate_at(vars(ends_with("mate")), ~((./abs(.)) * (300000 - (abs(.)*1000))))
-# Alternative formula
-# Source: https://www.landonlehman.com/post/2021-01-25-how-to-reproduce-a-lichess-advantage-chart-in-python/)
-# Apparently this is used in python-chess
-mates <- mates %>% mutate_at(vars(ends_with("mate")), ~((./abs(.)) * (100 * (21 - pmin(abs(.), 10)))))
-
-names(mates) <- as.character(str_extract_all(names(mates), "[0-9]+"))
-mates$id <- games$id
-mates <- melt(mates)
-mates$variable <- as.numeric(as.character(mates$variable))
-
-# Combine eval and mates data and tidy
-evals <- bind_rows(evals, mates)
-rm(mates)
-evals <- na.omit(evals) # remove any rows with NA values
-colnames(evals)[2:3] <- c("ply", "eval")
-evals$ply <- as.numeric(as.character(evals$ply))
-evals$id <- as.character(evals$id)
-
-# Compute a scaled eval, for both plotting and statistical purposes
-# Maps evals onto a [-1, 1] scale
-# Based on scaling expression used in Lichess eval graphs
-# Source: https://github.com/ornicar/lila/blob/49705e68e2fc2e0c08c929dc96447d12c844108e/public/javascripts/chart/acpl.js
-evals <- evals %>% mutate(eval_scaled = 2 / (1 + exp(-0.004 * eval)) - 1) %>% 
-  arrange(ply)
-
-
-# Extract info on individual inaccuracies, mistakes and blunders 
-judgments <- games %>% select(ends_with("judgment.name"))
-names(judgments) <- as.character(str_extract_all(names(judgments), "[0-9]+"))
-judgments$id <- games$id
-judgments <- melt(judgments,id.vars = c("id"), variable.name = "ply", value.name = "judgment")
-judgments$ply <- as.numeric(levels(judgments$ply))[judgments$ply]
-
-# Add judgments to evals data
-evals <- left_join(evals, judgments, by = c("id", "ply"))
-
-# Add initial times to times_left
-for(i in seq(1:nrow(games))){
-  times_left[[i]][1] <- games$clock.initial[i]
-  times_left[[i]][2] <- games$clock.initial[i]
-}
-
-# Add game duration (in seconds)
-# Note that duration here is defined as the period from when the game was created to when the last move was played.
-# It differs from the sum of all move times because each player's first move is played after the game is created but
-# doesn't use up any clock time (hence the NA values in the times list)
-games <- games %>% 
-  mutate(duration = time_length(interval(games$started, games$ended), "second")) %>% 
-  mutate(duration_w = map_dbl(times, ~ sum(.x[c(T,F)],  na.rm = T))) %>% 
-  mutate(duration_b = map_dbl(times, ~ sum(.x[c(F,T)],  na.rm = T))) %>% 
-  mutate(perc_total_clock_w = duration_w / (duration_w + duration_b),
-         perc_total_clock_b = duration_b / (duration_w + duration_b)) %>% 
-  mutate(clock_used_after_move10_w = map_dbl(times, ~ sum(.x[c(T,F)][-c(1:10)],  na.rm = T))) %>% 
-  mutate(clock_used_after_move10_b = map_dbl(times, ~ sum(.x[c(F,T)][-c(1:10)],  na.rm = T)))
-
-# Add evals data
-
-# Nest evals data
-nested_evals <- evals %>% 
-  mutate(game_id = id) %>% 
-  group_by(id) %>% 
-  nest()
-
-# Define function for adding movetimes and calculating CPLs
-add_movetimes_and_cpls <- function(nested_data, times, times_left){
   
-  nested_data <- nested_data %>%
-    # Add time spent per ply
-    mutate(time_spent = times[1:nrow(.)]) %>% 
-    # Add clock times left after each ply
-    mutate(time_left = times_left[1:nrow(.)]) %>% 
-    # Cap evals to +/- 1000 before calculating CPL
-    mutate(capped_eval = ifelse(eval > 1000, 1000, eval)) %>% 
-    mutate(capped_eval = ifelse(eval < -1000, -1000, eval)) %>% 
-    # Then calculate CPLs per ply
-    mutate(cpl = case_when(
-      ply == 0 ~ 0,
-      ply %% 2 == 0 ~ capped_eval - lag(capped_eval),
-      ply %% 2 == 1 ~ (capped_eval - lag(capped_eval)) * -1,
-      TRUE ~ NA_real_
-  )) %>%
-    mutate(cpl = cpl * -1) %>%
-    # Add preceding position's eval
-    mutate(eval_prev = lag(eval, 1)) %>%
-    mutate(capped_eval_prev = lag(capped_eval, 1)) %>%
-    # make any negative CPLs zero
-    mutate(cpl = ifelse(cpl < 0, 0, cpl)) 
+  # Add game scores for both colours
+  games <- games %>% 
+    mutate(
+      score_w = case_when(
+        result == "1-0" ~ 1,
+        result == "0-1" ~ 0,
+        result == "1/2-1/2" ~ 0.5,
+        TRUE ~ NA_real_
+      )) %>% 
+    mutate(
+      score_b = case_when(
+        result == "1-0" ~ 0,
+        result == "0-1" ~ 1,
+        result == "1/2-1/2" ~ 0.5,
+        TRUE ~ NA_real_
+      ))
   
-  return(nested_data)
-}
-
-# Apply this function to the evals data and add to games dataset 
-# using purrr::pmap() 
-games <- games %>% 
-  mutate(evals = pmap(list(x = nested_evals$data, 
-                            y = times, 
-                            z = times_left),
-                       ~ with(list(...),
-                       add_movetimes_and_cpls(x, y, z)))) %>% 
-  # Add eval after 15 moves to data
-  mutate(eval_after_15 = unlist(map(evals, ~ .x$capped_eval[30])))
-
-# Remove unnecessary variables from data
-games <- games %>% 
-  select(-starts_with("analysis")) %>% 
-  select(-c(clock.totalTime, createdAt, lastMoveAt))
-
-toc(log = TRUE)
-
-return(games)
+  # Add average rating for each game
+  games <- games %>% 
+    mutate(rating_w = players.white.rating,
+           rating_b = players.black.rating,
+           mean_rating = (rating_w + rating_b) / 2)
+  
+  # Fix foreign characters in openings names
+  games$opening.name <- games$opening.name %>% 
+    str_replace_all("Ã¼", "ü") %>% 
+    str_replace_all("Ã¶", "ö") %>% 
+    str_replace_all("Ã³", "ó") %>% 
+    str_replace_all("Ã©", "é")
+  
+  # Add broad opening names to data
+  # Creates another column that takes the Lichess opening name but: 
+  #   - removes variation names, ie any text after ":"
+  #   - reduces any remaining names with "," to the stem opening
+  #   - fixes remaining discrepancies, eg Guioco Piano amended to Italian Game
+  games <- games %>% 
+    mutate(opening.broad = str_replace_all(opening.name, "(?<=:).*$", "")) %>% 
+    mutate(opening.broad = if_else(str_detect(opening.broad, ":"), str_replace(opening.broad, ":", ""), opening.broad)) %>% 
+    mutate(opening.broad = str_replace_all(opening.broad, "(?<=,).*$", "")) %>% 
+    mutate(opening.broad = if_else(str_detect(opening.broad, ","), str_replace(opening.broad, ",", ""), opening.broad)) %>% 
+    mutate(opening.broad = if_else(opening.broad == "Guioco Piano", "Italian Game", opening.broad))
+  
+  # Make game creation times more readable
+  games$started <- lubridate::as_datetime(games$createdAt / 1000)
+  games$ended <- lubridate::as_datetime(games$lastMoveAt / 1000)
+  
+  # Add year, month, day of week and hour to data
+  games$year <- lubridate::year(games$started)
+  games$month <- lubridate::month(games$started, label = TRUE)
+  games$day <- lubridate::day(games$started)
+  games$wday <- lubridate::wday(games$started, label = TRUE, week_start = 1)
+  games$hour <- lubridate::hour(games$started)
+  games$week <- lubridate::week(games$started)
+  # games$minute <- lubridate::minute(games$started)
+  games$date <- lubridate::date(games$started)
+  
+  # Add first moves to games data
+  games <- games %>% 
+    mutate(first_moves = str_extract(moves, "^[:graph:]+\\s[:graph:]+")) %>% 
+    mutate(first_move_w = str_extract(moves, "^[:graph:]+")) %>% 
+    mutate(first_move_b = str_trim(str_extract(moves, "\\s[:graph:]+")))
+  
+  # Add move times to data
+  
+  # Compute move times
+  times <- map(str_extract_all(games$pgn, "(?<=clk\\s)[0-1]\\:[0-5][0-9]\\:[0-5][0-9]"), lubridate::hms) %>% 
+    map(lubridate::period_to_seconds) %>% 
+    map2(games$clock.increment, ~ lag(.x, 2) - .x + .y)
+  
+  # Add id to times
+  names(times) <- games$id
+  
+  # Compute time remaining after each move
+  times_left <- map(str_extract_all(games$pgn, "(?<=clk\\s)[0-1]\\:[0-5][0-9]\\:[0-5][0-9]"), hms) %>% 
+    map(period_to_seconds) %>% 
+    map2(games$clock.increment, ~ .x - .y)
+  
+  # Add eval data
+  # Isolate and melt eval data
+  evals <- games %>% select(ends_with("eval"))
+  names(evals) <- as.character(str_extract_all(names(evals), "[0-9]+"))
+  evals$id <- games$id
+  evals <- melt(evals, id.vars = c("id"))
+  evals$variable <- as.numeric(as.character(evals$variable))
+  
+  # Isolate and melt mate data (ie moves until mate)
+  mates <- games %>% select(ends_with("mate"))
+  
+  # Convert "mate in x moves" evals to cpls using the formula [x / abs(x)] * [300,000 - (abs(x) * 1000)]
+  # mates <- mates %>% mutate_at(vars(ends_with("mate")), ~((./abs(.)) * (300000 - (abs(.)*1000))))
+  # Alternative formula
+  # Source: https://www.landonlehman.com/post/2021-01-25-how-to-reproduce-a-lichess-advantage-chart-in-python/)
+  # Apparently this is used in python-chess
+  mates <- mates %>% mutate_at(vars(ends_with("mate")), ~((./abs(.)) * (100 * (21 - pmin(abs(.), 10)))))
+  
+  names(mates) <- as.character(str_extract_all(names(mates), "[0-9]+"))
+  mates$id <- games$id
+  mates <- melt(mates)
+  mates$variable <- as.numeric(as.character(mates$variable))
+  
+  # Combine eval and mates data and tidy
+  evals <- bind_rows(evals, mates)
+  rm(mates)
+  evals <- na.omit(evals) # remove any rows with NA values
+  colnames(evals)[2:3] <- c("ply", "eval")
+  evals$ply <- as.numeric(as.character(evals$ply))
+  evals$id <- as.character(evals$id)
+  
+  # Compute a scaled eval, for both plotting and statistical purposes
+  # Maps evals onto a [-1, 1] scale
+  # Based on scaling expression used in Lichess eval graphs
+  # Source: https://github.com/ornicar/lila/blob/49705e68e2fc2e0c08c929dc96447d12c844108e/public/javascripts/chart/acpl.js
+  evals <- evals %>% mutate(eval_scaled = 2 / (1 + exp(-0.004 * eval)) - 1) %>% 
+    arrange(ply)
+  
+  
+  # Extract info on individual inaccuracies, mistakes and blunders 
+  judgments <- games %>% select(ends_with("judgment.name"))
+  names(judgments) <- as.character(str_extract_all(names(judgments), "[0-9]+"))
+  judgments$id <- games$id
+  judgments <- melt(judgments,id.vars = c("id"), variable.name = "ply", value.name = "judgment")
+  judgments$ply <- as.numeric(levels(judgments$ply))[judgments$ply]
+  
+  # Add judgments to evals data
+  evals <- left_join(evals, judgments, by = c("id", "ply"))
+  
+  # Add initial times to times_left
+  for(i in seq(1:nrow(games))){
+    times_left[[i]][1] <- games$clock.initial[i]
+    times_left[[i]][2] <- games$clock.initial[i]
+  }
+  
+  # Add game duration (in seconds)
+  # Calculated as the sum of both players' move times in the game
+  # Not the same as time of last move minus time of creation
+  games <- games %>% 
+    mutate(duration_official = time_length(interval(games$started, games$ended), "second")) %>% 
+    mutate(duration = map_dbl(times, ~ sum(.x,  na.rm = T))) %>%
+    mutate(duration_w = map_dbl(times, ~ sum(.x[c(T,F)],  na.rm = T))) %>% 
+    mutate(duration_b = map_dbl(times, ~ sum(.x[c(F,T)],  na.rm = T))) %>% 
+    mutate(perc_total_clock_w = duration_w / (duration_w + duration_b),
+           perc_total_clock_b = duration_b / (duration_w + duration_b)) %>% 
+    mutate(clock_used_after_move10_w = map_dbl(times, ~ sum(.x[c(T,F)][-c(1:10)],  na.rm = T))) %>% 
+    mutate(clock_used_after_move10_b = map_dbl(times, ~ sum(.x[c(F,T)][-c(1:10)],  na.rm = T)))
+  
+  # Add evals data
+  
+  # Nest evals data
+  nested_evals <- evals %>% 
+    mutate(game_id = id) %>% 
+    group_by(id) %>% 
+    nest()
+  
+  # Define function for adding movetimes and calculating CPLs
+  add_movetimes_and_cpls <- function(nested_data, times, times_left){
+    
+    nested_data <- nested_data %>%
+      # Add time spent per ply
+      mutate(time_spent = times[1:nrow(.)]) %>% 
+      # Add clock times left after each ply
+      mutate(time_left = times_left[1:nrow(.)]) %>% 
+      # Cap evals to +/- 1000 before calculating CPL
+      mutate(capped_eval = ifelse(eval > 1000, 1000, eval)) %>% 
+      mutate(capped_eval = ifelse(eval < -1000, -1000, eval)) %>% 
+      # Then calculate CPLs per ply
+      mutate(cpl = case_when(
+        ply == 0 ~ 0,
+        ply %% 2 == 0 ~ capped_eval - lag(capped_eval),
+        ply %% 2 == 1 ~ (capped_eval - lag(capped_eval)) * -1,
+        TRUE ~ NA_real_
+    )) %>%
+      mutate(cpl = cpl * -1) %>%
+      # Add preceding position's eval
+      mutate(eval_prev = lag(eval, 1)) %>%
+      mutate(capped_eval_prev = lag(capped_eval, 1)) %>%
+      # make any negative CPLs zero
+      mutate(cpl = ifelse(cpl < 0, 0, cpl)) 
+    
+    return(nested_data)
+  }
+  
+  # Apply this function to the evals data and add to games dataset 
+  # using purrr::pmap() 
+  games <- games %>% 
+    mutate(evals = pmap(list(x = nested_evals$data, 
+                              y = times, 
+                              z = times_left),
+                         ~ with(list(...),
+                         add_movetimes_and_cpls(x, y, z)))) %>% 
+    # Add eval after 15 moves to data
+    mutate(eval_after_15 = unlist(map(evals, ~ .x$capped_eval[30])))
+  
+  # Remove unnecessary variables from data
+  games <- games %>% 
+    select(-starts_with("analysis")) %>% 
+    select(-c(clock.totalTime, createdAt, lastMoveAt))
+  
+  toc(log = TRUE)
+  
+  return(games)
 
 }
 
@@ -1124,7 +1140,7 @@ save_season_data <- function(league_choice, seasons){
     # Get league games and pairings data
     games_pairings <- get_league_games(league, season, lw_u1800)
     games <- games_pairings[[1]]
-    lichess4545_pairings <- games_pairings[[2]]
+    website_pairings <- games_pairings[[2]]
     
     # Tidy game data
     tidied_games <- tidy_lichess_games(games)
@@ -1207,6 +1223,9 @@ save_season_data <- function(league_choice, seasons){
     
     # Save game data
     rio::export(tidied_games, paste0(path_savedata, "games_", league_save_label, "_s", season, ".rds"))
+    
+    # Save played pairings data (from Lichess4545 API)
+    rio::export(website_pairings, paste0(path_savedata, "website_pairings_", league_save_label, "_s", season, ".rds"))
     
     # Save pairings/positions data
     rio::export(pairings, paste0(path_savedata, "pairings_", league_save_label, "_s", season, ".csv"))
@@ -1476,5 +1495,4 @@ build_season_reports <- function(wipe_stats_first = FALSE,
   update_repo()
   toc(log = TRUE)
 }
-
 

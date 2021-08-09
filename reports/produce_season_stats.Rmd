@@ -105,6 +105,8 @@ lw_u1800 <- ifelse(league == "lonewolf", ifelse(lw_section == "u1800", TRUE, FAL
 
 # ---- 2) LOAD SEASON DATA ----------------------------------------------------
 
+data_path <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/"
+
 # Get data on season games, pairings and positions
 league_load_label <- league
 if(league == "lonewolf"){
@@ -112,11 +114,19 @@ if(league == "lonewolf"){
 }
 
 # Load (tidied) games data
-games <- readRDS(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/games_", league_load_label, "_s", season, ".rds"))
+games <- readRDS(paste0(data_path, "games_", league_load_label, "_s", season, ".rds"))
 
-# Load season pairings and positions data
-pairings <- rio::import(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/pairings_", league_load_label, "_s", season, ".csv"))
-positions <- rio::import(paste0("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/positions_", league_load_label, "_s", season, ".csv"))
+# Load website pairings data
+website_pairings <- readRDS(paste0(data_path, "website_pairings_", league_load_label, "_s", season, ".rds"))
+
+# Load season pairings 
+pairings <- rio::import(paste0(data_path, "pairings_", league_load_label, "_s", season, ".csv"))
+
+# Load season team/player positions data
+positions <- rio::import(paste0(data_path, "positions_", league_load_label, "_s", season, ".csv"))
+
+# Load data on all 4545/LW games - required for determing the Rookie Award
+all_games <- readr::read_rds(paste0(data_path, "combined_league_games_210804_tidied.rds"))
 
 
 # ---- 3) TIDY SEASON DATA FOR REPORTS ----------------------------------------
@@ -124,69 +134,55 @@ positions <- rio::import(paste0("C:/Users/rahul/Documents/Github/rahulan-c.githu
 # Add gambits data
 games <- left_join(games, gambits, by = c("opening.name" = "gambit"))
 
-# Fix all misprinted characters in character columns
-games <- games %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'")))
+# Fix character encoding in data
+fix_character_encoding <- function(df){
+  df <- df %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'")))
+  return(df)
+}
 
-pairings <- pairings %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'")))
-
-positions <- positions %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
-  mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'")))
+# Fix character encoding
+games <- fix_character_encoding(games)
+website_pairings <- fix_character_encoding(website_pairings)
+pairings <- fix_character_encoding(pairings)
+positions <- fix_character_encoding(positions)
 
 
 # Remove all games and pairings featuring players banned from the leagues for cheating
 
 # Get list of players to exclude from data
-cheat_reasons <- c("Marked as using computer assistance on lichess",
+boot_reasons <- c("Marked as using computer assistance on lichess",
                    "Cheating alt and marked as engine on lichess",
                    "Admitted to using assistance during a 4545 game",
                    "Cheating alt / Multi accounting in the league / LW",
                    "Violated terms of service on lichess",
                    "Violated Lichess terms of service")
 
-cheats <- banned %>% 
-  filter(Reason %in% cheat_reasons) %>% 
+tos_violators <- banned %>% 
+  filter(Reason %in% boot_reasons) %>% 
   filter(Other.Notes != "mark reversed and readmitted") %>% 
   dplyr::pull(name)
 
-games_incl_banned <- games
-pairings_incl_banned <- pairings
-
 # Exclude these players from the games data
-games <- games %>% 
-  filter(!(players.white.user.name %in% cheats)) %>% 
-  filter(!(players.black.user.name %in% cheats)) %>% 
-  filter(!(players.white.user.id %in% str_to_lower(cheats))) %>% 
-  filter(!(players.black.user.id %in% str_to_lower(cheats)))
+games_excl_violators <- games %>%
+  filter(!(players.white.user.name %in% tos_violators)) %>%
+  filter(!(players.black.user.name %in% tos_violators)) %>%
+  filter(!(players.white.user.id %in% str_to_lower(tos_violators))) %>%
+  filter(!(players.black.user.id %in% str_to_lower(tos_violators)))
 
 # Exclude from pairings data
-pairings <- pairings %>% 
-  filter(!(white %in% cheats)) %>% 
-  filter(!(black %in% cheats)) %>% 
-  filter(!(white %in% str_to_lower(cheats))) %>% 
-  filter(!(black %in% str_to_lower(cheats)))
+pairings_excl_violators <- pairings %>%
+  filter(!(white %in% tos_violators)) %>%
+  filter(!(black %in% tos_violators)) %>%
+  filter(!(white %in% str_to_lower(tos_violators))) %>%
+  filter(!(black %in% str_to_lower(tos_violators)))
 
 ```
 
@@ -220,23 +216,20 @@ if(league != "team4545"){lw_hide <- TRUE}
 
 ```{r season_dates}
 # Get dates for first and last games
-season_dates <- paste0(lubridate::day(min(games_incl_banned$started)), " ",
-       lubridate::month(min(games_incl_banned$started), label = T), " ", 
-       lubridate::year(max(games_incl_banned$started)),
+season_dates <- paste0(lubridate::day(min(games$started)), " ",
+       lubridate::month(min(games$started), label = T, abbr = F), " ", 
+       lubridate::year(max(games$started)),
        " to ",
-       lubridate::day(max(games_incl_banned$started)), " ",
-       lubridate::month(max(games_incl_banned$started), label = T), " ",
-       lubridate::year(max(games_incl_banned$started)))
-
-# Number of forfeited/unplayed games
-forfeits <- pairings_incl_banned %>% 
-  filter(winner == "forfeit/unplayed") %>% 
-  nrow()
+       lubridate::day(max(games$started)), " ",
+       lubridate::month(max(games$started), label = T, abbr = F), " ",
+       lubridate::year(max(games$started)))
 
 # White wins, draws and Black wins
-wdl <- games %>% 
+# Computed from website (played) pairings data
+wdl <- website_pairings %>% 
   group_by(result) %>% 
   tally() %>%
+  filter(result %in% c("1-0", "0-1", "1/2-1/2")) %>% 
   mutate(perc = n/nrow(games))
 
 games_w <- wdl %>% filter(result == "1-0") %>% dplyr::pull(n)
@@ -388,9 +381,9 @@ if(league == "team4545"){
 
 <br>
 
-- The `r paste0("[season]", "(", summary_url, ")")` ran from `r season_dates`.
-- `r formatC(length(unique(c(unique(games$white), unique(games$black)))), big.mark = ",")` players took part, playing `r formatC(nrow(games), big.mark = ",")` games in total. `r formatC(forfeits, big.mark = ",")` games were either forfeited or set as scheduling draws.
-- Across the season, White won `r formatC(games_w, big.mark=",")` games (`r round(perc_w*100, 1)`%), `r formatC(games_d, big.mark=",")` games (`r round(perc_d*100, 1)`%) were drawn, and Black won `r formatC(games_b, big.mark=",")` games (`r round(perc_b*100, 1)`%).
+- The `r paste0("[season]", "(", summary_url, ")")` was played from `r season_dates`.
+- `r formatC(length(unique(c(unique(website_pairings$white), unique(website_pairings$black)))), big.mark = ",")` players took part, playing `r formatC(nrow(website_pairings), big.mark = ",")` games in total. The season's forfeit rate was `r round(((nrow(pairings) - nrow(website_pairings)) / nrow(pairings)) * 100, 1)` per cent.^[The forfeit rate is the percentage of pairings that didn't result in a game being played.]
+- White won `r formatC(games_w, big.mark=",")` games (`r round(perc_w*100, 1)`%), `r formatC(games_d, big.mark=",")` games (`r round(perc_d*100, 1)`%) were drawn, and Black won `r formatC(games_b, big.mark=",")` games (`r round(perc_b*100, 1)`%).^[The number of games played in this statistic can differ from the number of games played in the season, as it excludes games where the result of the pairing was later changed to a forfeit win or loss.]
 - `r formatC(ended$n[ended$status == "resign"], big.mark=",")` games ended with a resignation, `r formatC(ended$n[ended$status == "mate"], big.mark=",")` games by checkmate, `r formatC(ended$n[ended$status == "out of time"], big.mark=",")` games by time running out, and `r formatC(ended$n[ended$status == "stalemate"], big.mark=",")` games by stalemate.
 
 </div>
@@ -520,26 +513,42 @@ players_teams <- rbind(tibble("player" = games$white, "team" = games$team_w, "ro
   summarise(games = n()) %>% 
   arrange(desc(games))
 
-players_gold <- players_teams %>% filter(team == top_3$team[top_3$rank == 1]) %>% arrange(desc(games)) %>% dplyr::pull(player)
-players_silver <- players_teams %>% filter(team == top_3$team[top_3$rank == 2]) %>% arrange(desc(games)) %>% dplyr::pull(player)
-players_bronze <- players_teams %>% filter(team == top_3$team[top_3$rank == 3]) %>% arrange(desc(games)) %>% dplyr::pull(player)
+players_gold <- players_teams %>% 
+  filter(team == top_3$team[top_3$rank == 1]) %>% 
+  arrange(desc(games)) %>% 
+  mutate(player_games = paste0(player, " (", games, ")")) %>% 
+  dplyr::pull(player_games)
+
+
+players_silver <- players_teams %>% 
+  filter(team == top_3$team[top_3$rank == 2]) %>% 
+  arrange(desc(games)) %>% 
+  mutate(player_games = paste0(player, " (", games, ")")) %>% 
+  dplyr::pull(player_games)
+
+
+players_bronze <- players_teams %>% 
+  filter(team == top_3$team[top_3$rank == 3]) %>% 
+  arrange(desc(games)) %>% 
+  mutate(player_games = paste0(player, " (", games, ")")) %>% 
+  dplyr::pull(player_games)
 
 # Identify length of longest team list
 longest_team <- max(c(length(players_gold), 
                       length(players_silver), 
                       length(players_bronze)))
 
-players_gold <- sort(players_gold)
+# players_gold <- sort(players_gold)
 if(length(players_gold) < longest_team){
   players_gold <- c(players_gold, rep("", longest_team - length(players_gold)))
 }
 
-players_silver <- sort(players_silver)
+# players_silver <- sort(players_silver)
 if(length(players_silver) < longest_team){
   players_silver <- c(players_silver, rep("", longest_team - length(players_silver)))
 }
 
-players_bronze <- sort(players_bronze)
+# players_bronze <- sort(players_bronze)
 if(length(players_bronze) < longest_team){
   players_bronze <- c(players_bronze, rep("", longest_team - length(players_bronze)))
 }
@@ -548,6 +557,15 @@ if(length(players_bronze) < longest_team){
 winners <- tibble("Gold" = players_gold,
                   "Silver" = players_silver,
                   "Bronze" = players_bronze)
+
+# Switch round 1st and 2nd place teams for 4545 S11 :)
+if(league == "team4545"){
+  if(season == 11){
+    winners <- tibble("Gold" = players_silver,
+                      "Silver" = players_gold,
+                      "Bronze" = players_bronze)
+  }
+}
 ```
 
 
@@ -657,7 +675,7 @@ position_tracker <- positions %>%
   theme(legend.position = "top") +
   theme(panel.grid.minor = element_blank()) +
   theme(
-    legend.position = c(0.5, 0.2),
+    legend.position = c(0.5, 0.3),
     legend.title = element_blank(),
     legend.box.background = element_rect(fill = "white", colour = league_col_dark)
     )
@@ -671,7 +689,7 @@ if(league == "lonewolf"){
   top_places <- positions %>% 
     filter(round == 12) %>% 
     arrange(pos) %>% 
-    filter(pos <= 10) %>%  
+    filter(pos <= 5) %>%  
     dplyr::pull(player)
   
   position_tracker <- positions %>% 
@@ -690,18 +708,17 @@ if(league == "lonewolf"){
     labs(x = "Round",
          y = "Rank before round") +
     theme(legend.position = "right") +
-    scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", rep("#d1ebe7", 7)),
+    scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", rep("#9fd6ce", 2)),
                        breaks = c(top_places),
                        labels = c(top_places)) +
     theme(panel.grid.minor = element_blank()) +
     theme(
-    legend.position = c(0.5, 0.1),
+    legend.position = c(0.5, 0.3),
     legend.title = element_blank(),
     legend.box.background = element_rect(fill = "white", colour = league_col_dark),
     legend.direction = "horizontal"
     )
     
-
   position_tracker
 
 }
@@ -719,9 +736,10 @@ if(lw_hide){cat("<!---")}
 
 #### Top of the boards
 
+The top player performances by board (minimum 4 games played).^[The performance ratings in this table only take into account games played on the relevant board, which is why they differ from (and should be preferred to) the ratings given by the board standings tables on the Lichess4545 website.]
+
 ```{r bperfs, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Board perf ratings
-
 
 bperfs_w <- pairings %>% 
   filter(winner != "forfeit/unplayed") %>% 
@@ -772,6 +790,7 @@ bperfs <- bperfs %>%
   ungroup() %>% 
   group_by(board) %>% 
   arrange(desc(bperf_rating)) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
   slice_max(order_by = bperf_rating, n = 5) %>% 
   select(board, player, games, points, bperf_rating)
 
@@ -842,7 +861,8 @@ plt_gamesbyday <- games_by_day_time %>%
   scale_y_continuous(breaks = integer_breaks()) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(plot.title = element_text(size = 10, hjust = 0.5)) +
-  theme(plot.subtitle = element_text(size = 10))
+  theme(plot.subtitle = element_text(hjust = 0.5)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 plt_gamesbyday
 
 # Make heatmap
@@ -862,22 +882,28 @@ heat_dayhour
 # Number of moves histogram
 moves_hist <- games %>% 
   ggplot(aes(num_moves)) +
-  geom_histogram(binwidth = 5, fill = league_col, col = "white") +
-  theme_minimal() +
+  geom_histogram(binwidth = 10, fill = league_col, col = "white") +
+  theme_cowplot() +
   geom_vline(xintercept = mean(games$num_moves), size = 1, colour="#333333", linetype = "dashed") +
   scale_y_continuous(breaks = integer_breaks()) +
   labs(subtitle = paste0("Average moves/game: ", round(mean(games$num_moves), 1)),
-       x = "# moves", y = "Games")
+       x = "# moves", y = "Games") +
+  scale_x_continuous(breaks = seq(0, max(games$num_moves), by = 10)) +
+  theme(plot.subtitle = element_text(hjust = 0.5),
+        panel.grid.minor = element_blank())
 
 # Game duration histogram
 duration_hist <- games %>% 
   ggplot(aes(duration/60)) +
   geom_histogram(binwidth = 15, fill = league_col, col = "white") +
-  theme_minimal() +
+  theme_cowplot() +
   geom_vline(xintercept = mean(games$duration/60), size = 1, colour="#333333", linetype = "dashed") +
   labs(x = "Minutes", y = "Games",
        subtitle = paste0("Average time taken/game: ", round(mean(games$duration/60), 1), " minutes")) +
-  scale_y_continuous(breaks = integer_breaks())
+  scale_y_continuous(breaks = integer_breaks()) +
+  scale_x_continuous(breaks = seq(0, max(games$duration/60), by = 30)) +
+  theme(plot.subtitle = element_text(hjust = 0.5),
+        panel.grid.minor = element_blank())
 
 moves_hist
 duration_hist
@@ -899,7 +925,7 @@ longest_moves <- games %>%
          started) %>% 
   mutate(players = paste0(white, " - ", black),
          url = paste0("https://lichess.org/", id),
-         rank = dense_rank(num_moves)) %>% 
+         rank = dense_rank(desc(num_moves))) %>% 
   select(rank, players, started, url, num_moves) %>% 
   mutate(date = sprintf('%s %2d %2s %2d', lubridate::wday(started, label=T, abbr=T), lubridate::day(started), lubridate::month(started, label = T, abbr = T), lubridate::year(started))) %>% 
   mutate(prank = ntile(num_moves, 100)) %>% # calculate percentiles
@@ -938,7 +964,7 @@ reactable(longest_moves,
 
 #### Longest games
 
-*Includes games ranked at or above the 90th percentile by total time.*
+*Includes games ranked at or above the 90th percentile by total clock time.*^[A game's total clock time is the sum of both players' move times from move 2 onwards.]
 
 ```{r longest_time}
 # Longest games (by duration)
@@ -992,12 +1018,11 @@ reactable(longest_duration,
 
 ### Stats by board / rating band {.tabset .tabset-fade .tabset-pills}
 
-#### ACPL
+#### ACPL / blunder rate
 
-```{r acpl_by_board, fig.out = "75%", eval = ifelse(league == "team4545", TRUE, FALSE)}
-# Plot ACPL by board
+```{r acpl_by_board, fig.show="hold", out.width = "50%", eval = ifelse(league == "team4545", TRUE, FALSE)}
 
-# Compute errors by board
+# First, compute ACPL and blunder rates by board
 error_rates_w <- games %>% 
   select(white, board, num_moves, 
          players.white.analysis.blunder, players.white.analysis.mistake, players.white.analysis.inaccuracy, players.white.analysis.acpl,
@@ -1020,6 +1045,7 @@ error_rates <- error_rates %>%
   mutate(cpl = acpl * moves,
          opp_cpl = opp_acpl * moves)
 
+# Combine to get final table
 error_rates_grouped <- error_rates %>% 
   group_by(board) %>% 
   summarise(games = n(),
@@ -1035,22 +1061,50 @@ error_rates_grouped <- error_rates %>%
   arrange(board)
 
 # Plot ACPL by board
-plot_acpl_by_board <- ggplot(error_rates_grouped, aes(x = board, y = acpl)) +
-  geom_line(col = "darkblue") +
-  geom_point(col = "darkblue") +
-  geom_text_repel(label = error_rates_grouped$acpl, col = "darkblue") +
-  theme_minimal() +
-  scale_x_continuous(labels = paste0("B",as.character(error_rates_grouped$board)), 
-                     breaks = error_rates_grouped$board) +
-  labs(x = "Board", y = "ACPL",
-       title = "ACPL by board") +
-  theme_cowplot()
+plt_acpl <- ggplot(error_rates_grouped, aes(acpl, board, 
+                                            label = round(acpl))) +
+  geom_segment(aes(x = 0, y = board, xend = acpl, yend = board), colour = "grey50") +
+  geom_point(colour = league_col, size = 10) +
+  theme_cowplot() + 
+  scale_y_continuous(trans = "reverse", 
+                         labels = paste0("B",as.character(error_rates_grouped$board)), 
+                         breaks = error_rates_grouped$board) +
+  labs(y = "Board", x = "ACPL", title = "ACPL by board") +
+  geom_text(colour = "white", size = 4) +
+  theme(axis.title.y = element_blank()) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  theme(plot.title = element_text(hjust = 0.5))
 
-plot_acpl_by_board
+# Plot blunder rates by board
+plt_blunder_rates <- ggplot(error_rates_grouped, aes(blunder_rate, board, 
+                                                     label = scales::percent(blunder_rate/100, accuracy = 1))) +
+  geom_segment(aes(x = 0, y = board, xend = blunder_rate, yend = board), colour = "grey50") +
+  geom_point(colour = league_col, size = 10) +
+  theme_cowplot() + 
+  scale_y_continuous(trans = "reverse",
+                     labels = paste0("B",as.character(error_rates_grouped$board)), 
+                         breaks = error_rates_grouped$board) +
+  labs(y = "Board", x = "Blunder rate (%)", title = "Blunder rate by board") +
+  # scale_x_continuous(breaks = integer_breaks()) +
+  geom_text(colour = "white", size = 4) +
+  theme(axis.title.y = element_blank()) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Show both plots
+plt_acpl
+plt_blunder_rates
+
 ```
 
 
-```{r error_rates_by_rating_band, eval = ifelse(league == "team4545", FALSE, TRUE), fig.align="center"}
+```{r error_rates_by_rating_band, fig.show="hold", out.width = "50%", eval = ifelse(league == "team4545", FALSE, TRUE)}
 # Calculate error rates for summary stats
 
 # Plot errors by rating band
@@ -1097,12 +1151,43 @@ error_rates_grouped <- error_rates %>%
          error_rate = round(error_rate * 100, 1),
          acpl = round(acpl, 1)) %>% 
   select(rating_group, games, blunder_rate, error_rate, acpl) %>% 
-  arrange(desc(rating_group))
+  arrange(desc(rating_group)) %>% 
+  mutate(rating_group2 = paste0(rating_group, " (", games, ")"))
 
-error_rates_grouped %>% 
-  kable(caption = "Error rates by rating band",
-        col.names = c("Rating band", "Games","Blunder rate", "Total error rate", "ACPL")) %>% 
-  kableExtra::kable_classic(full_width = F, html_font = "arial", position = "left")
+# Plot ACPL by rating band
+plt_acpl <- ggplot(error_rates_grouped, aes(acpl, rating_group2, 
+                                            label = round(acpl))) +
+  geom_segment(aes(x = 0, y = rating_group2, xend = acpl, yend = rating_group2), colour = "grey50") +
+  geom_point(colour = league_col, size = 10) +
+  theme_cowplot() + 
+  labs(y = "Rating band", x = "ACPL", title = "ACPL by rating band") +
+  geom_text(colour = "white", size = 4) +
+  theme(axis.title.y = element_blank()) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Plot blunder rates by board
+plt_blunder_rates <- ggplot(error_rates_grouped, aes(blunder_rate, rating_group2, 
+                                                     label = scales::percent(blunder_rate/100, accuracy = 1))) +
+  geom_segment(aes(x = 0, y = rating_group2, xend = blunder_rate, yend = rating_group2), colour = "grey50") +
+  geom_point(colour = league_col, size = 10) +
+  theme_cowplot() + 
+  labs(y = "Rating band", x = "Blunder rate (%)", title = "Blunder rate by rating band") +
+  # scale_x_continuous(breaks = integer_breaks()) +
+  geom_text(colour = "white", size = 4) +
+  theme(axis.title.y = element_blank()) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Show both plots
+plt_acpl
+plt_blunder_rates
 
 
 ```
@@ -1121,6 +1206,8 @@ if(league == "team4545"){
 lowest_acpl_games_all <- games %>% 
   filter(!(is.na(board))) %>% 
   select(id, board, white, black, players.white.analysis.acpl, players.black.analysis.acpl, result, started) %>% 
+  filter(!(str_to_lower(white) %in% str_to_lower(tos_violators))) %>% # remove ToS violators (White)
+  filter(!(str_to_lower(black) %in% str_to_lower(tos_violators))) %>% # remove ToS violators (Black)
   mutate(sum_acpl = players.white.analysis.acpl + players.black.analysis.acpl,
          url = paste0("https://lichess.org/", id),
          players = paste0(white, " - ", black)) %>%
@@ -1155,6 +1242,8 @@ if(league == "lonewolf"){
 # Show games with lowest combined ACPL by board
 lowest_acpl_games_all <- games %>% 
   select(id, white, black, players.white.analysis.acpl, players.black.analysis.acpl, result, started) %>% 
+  filter(!(str_to_lower(white) %in% str_to_lower(tos_violators))) %>% # remove ToS violators (White)
+  filter(!(str_to_lower(black) %in% str_to_lower(tos_violators))) %>% # remove ToS violators (Black)
   mutate(sum_acpl = players.white.analysis.acpl + players.black.analysis.acpl,
          url = paste0("https://lichess.org/", id),
          players = paste0(white, " - ", black)) %>%
@@ -1199,6 +1288,8 @@ lowest_acpl_games_decisive <- games %>%
   filter(!(is.na(board))) %>% 
   filter(winner %in% c("white", "black")) %>% 
   select(id, board, white, black, players.white.analysis.acpl, players.black.analysis.acpl, result, started) %>% 
+  filter(!(str_to_lower(white) %in% str_to_lower(tos_violators))) %>% # remove ToS violators (White)
+  filter(!(str_to_lower(black) %in% str_to_lower(tos_violators))) %>% # remove ToS violators (Black)
   mutate(sum_acpl = players.white.analysis.acpl + players.black.analysis.acpl,
          url = paste0("https://lichess.org/", id),
          players = paste0(white, " - ", black)) %>%
@@ -1232,6 +1323,8 @@ if(league == "lonewolf"){
 lowest_acpl_games_decisive <- games %>% 
   filter(winner %in% c("white", "black")) %>% 
   select(id, white, black, players.white.analysis.acpl, players.black.analysis.acpl, result, started) %>% 
+  filter(!(str_to_lower(white) %in% str_to_lower(tos_violators))) %>% # remove ToS violators (White)
+  filter(!(str_to_lower(black) %in% str_to_lower(tos_violators))) %>% # remove ToS violators (Black)
   mutate(sum_acpl = players.white.analysis.acpl + players.black.analysis.acpl,
          url = paste0("https://lichess.org/", id),
          players = paste0(white, " - ", black)) %>%
@@ -1554,8 +1647,9 @@ gambiteers <- games %>%
   select(id, player, opening.name, gambit_score) %>% 
   group_by(player) %>% 
   summarise(games = n(),
-            success = sum(gambit_score) / games) %>%
-  filter(games > 1, success >= 0.5)
+            success = (sum(gambit_score) / games) * 100) %>%
+  filter(games > 1, success >= 0.5) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators)))
 
 if(nrow(gambiteers) > 0){
   gambiteer_award <- TRUE
@@ -1581,7 +1675,7 @@ reactable(gambiteers,
              rank = colDef(name = "Rank", align = "center", minWidth = 50),
     player = colDef(name = "Player", minWidth = 150),
     games = colDef(name = "Games", align = "center"),
-    success = colDef(name = "% Score", format = colFormat(digits = 2), align = "center")
+    success = colDef(name = "% Score", format = colFormat(digits = 0), align = "center")
            )
     )
 } else {
@@ -1603,6 +1697,11 @@ Click on the image below to see a sunburst plot of all openings played in the se
 ### Awards
 
 <!-- All the code to determine the awards has to be run before the awards table -->
+
+Because winning isn't everything; it's the only thing :) 
+
+See the footnote for further details on selected awards.^[*Archbishop of Accuracy*: lowest average centipawn loss (ACPL) over all moves played, as determined by Lichess's server analysis. Minimum 100 moves played. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. One's opponents must have played over 20 games (against others) to qualify. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
+ 
 
 ```{r relative_perfs}
 perfs_w <- pairings %>% 
@@ -1656,6 +1755,7 @@ rm(perfs_fide)
 
 # Produce relative perfs for report
 relative_perfs <- perfs %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
   filter(games >= 5) %>% 
   filter(perf_diff >= 0) %>% 
   arrange(desc(perf_diff)) %>% 
@@ -1676,6 +1776,7 @@ season_error_rates <- error_rates %>%
   arrange(season_acpl)
   
 lowest_acpls <- season_error_rates %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
   head(100) %>%
   mutate(acpl_rank = dense_rank(season_acpl)) %>% 
   select(acpl_rank, player, total_moves, season_acpl)
@@ -1708,7 +1809,8 @@ minacpl_players <- minacpl_players %>%
   filter(acpl < 10) %>% 
   group_by(player) %>% 
   tally() %>% 
-  filter(n>1)
+  filter(n>1) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators)))
 
 if(nrow(minacpl_players > 0)){
   minacpl_players <- minacpl_players %>% 
@@ -1733,6 +1835,7 @@ avg_think_times <- rbind(tibble("player" = games$white, "duration" = games$clock
             avg_time_spent_after_move10 = time_spent_after_move10 / moves) %>% 
   arrange(desc(avg_time_spent_after_move10)) %>% 
   select(player, games, moves, avg_time_spent_after_move10, time_spent_after_move10) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   filter(games >= 3) %>% 
   mutate(prank = ntile(avg_time_spent_after_move10, 100)) %>%
   mutate(rank = dense_rank(desc(avg_time_spent_after_move10))) %>% 
@@ -1747,6 +1850,7 @@ season_think <- rbind(tibble("player" = games$white, "duration" = games$duration
             total_moves = sum(moves, na.rm = T),
             games = n()) %>% 
   arrange(desc(total_duration)) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   mutate(rank = dense_rank(desc(total_duration))) %>% 
   mutate(duration_print = sprintf('%2dh %2dm %2ds', lubridate::hour(total_duration), lubridate::minute(total_duration), lubridate::second(total_duration))) %>% 
   select(rank, player, games, duration_print) %>% 
@@ -1759,6 +1863,7 @@ most_playing_time <- rbind(tibble("player" = games$white, "duration" = games$dur
   summarise(total_duration = lubridate::seconds_to_period(sum(duration, na.rm = T)),
             games = n()) %>% 
   arrange(desc(total_duration)) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   mutate(rank = dense_rank(desc(total_duration))) %>% 
   mutate(duration_print = sprintf('%2gh %2gm %2.0fs', lubridate::hour(total_duration), lubridate::minute(total_duration), lubridate::second(total_duration))) %>% 
   select(rank, player, games, duration_print) %>% 
@@ -1775,6 +1880,7 @@ drawers <- pairings %>%
 drawers <- c(drawers$white, drawers$black)
 
 drawers <- tibble("player" = drawers) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   group_by(player) %>% 
   tally() %>% 
   arrange(desc(n)) %>% 
@@ -1818,6 +1924,7 @@ comebacks_2 <- comebacks_2 %>%
             total_cb = sum(comeback),
             avg_cb = total_cb / games) %>% 
   arrange(desc(total_cb)) %>%
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   filter(games >= 3) %>% 
   filter(avg_cb > 0) %>% 
   mutate(rank = dense_rank(desc(total_cb))) %>% 
@@ -1833,6 +1940,7 @@ upsets <- pairings %>%
   mutate(rating_gap = abs(rating_w - rating_b)) %>% 
   select(white, black, winner, rating_gap) %>% 
   mutate(player = if_else(winner == "white", white, black)) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   arrange(desc(rating_gap)) %>%
   filter(rating_gap >= 50) %>% 
   mutate(rank = dense_rank(desc(rating_gap))) %>% 
@@ -1846,6 +1954,7 @@ upset_specialists <- upsets %>%
             max_rating_gap = max(rating_gap),
             upset_pts = sum(rating_gap)) %>%
   filter(upsets > 1) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   arrange(desc(upset_pts)) %>% 
   mutate(rank = dense_rank(desc(upset_pts))) %>% 
   select(rank, player, upset_pts, upsets, mean_rating_gap, max_rating_gap)
@@ -1872,6 +1981,7 @@ dawdlers <- left_join(dawdlers, games, by = c("game_id" = "id")) %>%
          )) %>%
   mutate(url = paste0("https://lichess.org/", id, "#", ply+1)) %>% 
   select(player, url, time_left, outcome) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   arrange(time_left) %>% 
   mutate(time_left_2 = lubridate::seconds_to_period(time_left)) %>% 
   mutate(time_print = sprintf('%2dm %2ds', lubridate::minute(time_left_2), lubridate::second(time_left_2))) %>% 
@@ -1937,6 +2047,7 @@ if(nrow(instamovers) > 0){
     group_by(player) %>% 
     summarise(instamoves = n()) %>% 
     arrange(desc(instamoves)) %>%
+    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
     filter(instamoves > 5) %>% 
     mutate(rank = dense_rank(desc(instamoves))) %>% 
     select(rank, player, instamoves)
@@ -1962,6 +2073,7 @@ games_basics <- games %>% select(id, white, black)
 movetimes <- left_join(movetimes, games_basics, by = c("game_id" = "id")) %>% 
   mutate(player = ifelse(colour == "white", white, black),
          url = paste0("https://lichess.org/", game_id, "#", ply+1)) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   mutate(rank = dense_rank(desc(time_spent))) %>% 
   select(rank, player, time_spent, colour, ply, url) %>%
   mutate(time_spent = lubridate::seconds_to_period(time_spent),
@@ -1982,6 +2094,7 @@ savedbythebell <- all_moves %>%
   select(player, game_id, white, black, time_left, "eval" = player_eval_prev) %>% 
   group_by(player, game_id) %>% 
   summarise(panic_moves = n(), min_time_left = min(time_left), worst_eval = min(eval)) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   filter(worst_eval <= 300) %>% # excludes players who played last-second moves in winning positions
   arrange(desc(panic_moves), min_time_left, worst_eval) %>% 
   mutate(url = paste0("https://lichess.org/", game_id)) %>% 
@@ -2000,6 +2113,7 @@ timetrouble <- all_moves %>%
             moves = max(player_total_moves),
             tt_pc = tt_moves/moves) %>% 
   arrange(desc(tt_pc)) %>%
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   filter(moves > 100) %>% # min threshold 100 moves
   mutate(rank = dense_rank(desc(tt_pc))) %>% 
   select(rank, player, moves, tt_moves, tt_pc)
@@ -2007,20 +2121,6 @@ timetrouble <- all_moves %>%
 
 ```{r radjabov_award}
 # Radjabov Award: find draws agreed in winning positions
-
-# # Extract all moves from games data
-# all_moves <- data.table::rbindlist(games$evals) %>% 
-#   mutate(colour = case_when(
-#     ply %% 2 == 0 ~ "white",
-#     ply %% 2 == 1 ~ "black",
-#     TRUE ~ NA_character_
-#   )) 
-# 
-# # Add game ID, player names, and the result
-# games_basics <- games %>% select(id, white, black, result)
-# 
-# all_moves <- left_join(all_moves, games_basics, by = c("game_id" = "id")) %>% 
-#   mutate(player = ifelse(colour == "white", white, black))
 
 radjabov <- all_moves %>% 
   group_by(game_id) %>% 
@@ -2034,6 +2134,7 @@ radjabov <- all_moves %>%
   filter(result == "1/2-1/2") %>% 
   arrange(desc(abs_final_eval)) %>% 
   mutate(player = ifelse(final_eval > 0, white, black)) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   head(3)
 
 
@@ -2070,6 +2171,7 @@ david <- rbind(tibble("player" = david$white,
   filter(opp_perc >= 0.5) %>% 
   mutate(opp_perc = opp_perc * 100) %>% 
   arrange(desc(opp_perc)) %>%
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
   mutate(rank = dense_rank(desc(opp_perc))) %>% 
   select(rank, player, opp_games, opp_points, opp_perc)
   
@@ -2170,10 +2272,8 @@ egalitarian <- players_teams %>%
   arrange(egalite) %>% 
   filter(!(is.na(team)))
 
-
-
-
 ```
+
 
 
 ```{r alts, eval = ifelse(league == "team4545", TRUE, FALSE)}
@@ -2183,6 +2283,7 @@ alts <- players_teams %>%
   group_by(player) %>% 
   summarise(games = sum(games, na.rm = T),
             teams = n_distinct(team)) %>% 
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>%
   filter(teams > 1 | games == 1) %>% 
   arrange(desc(teams)) %>% 
   mutate(rank = min_rank(-teams))
@@ -2195,11 +2296,37 @@ alt_runnerup <- alts %>%
   filter(rank > 1) %>% 
   slice_max(teams)
 
+```
 
+```{r}
+# Select rookie of the season
+
+# Identify players who previously played in the league
+veterans <- all_games %>% 
+  filter(started < min(games$started)) %>% 
+  select(white, black)
+
+veterans <- rbind(tibble("player" = veterans$white),
+                  tibble("player" = veterans$black)) %>% 
+  distinct(player) %>% 
+  dplyr::pull() %>% 
+  sort()
+
+rookie_perfs <- perfs %>% 
+  filter(!(player %in% veterans)) %>%# only select rookies
+  filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
+  filter(games >= 4) %>% # apply lower games played threshold for rookie award
+  filter(perf_diff >= 0) %>% 
+  arrange(desc(perf_diff)) %>% 
+  mutate(perf_rank = dense_rank(desc(perf_diff))) %>% 
+  select(perf_rank, player, games, wins, draws, losses, initial_rating, perf_rating, perf_diff)
 
 ```
 
+
 <!-- Player awards code: 1st table for 4545, 2nd table for LW -->
+
+
 
 ```{r player_awards_4545, eval = ifelse(league == "team4545", TRUE, FALSE)}
 
@@ -2214,7 +2341,7 @@ alt_runnerup_names <- alt_runnerup %>% select(player) %>% dplyr::pull()
 alt_runnerup_value <- alt_runnerup %>% select(teams) %>% distinct() %>% dplyr::pull() 
 }
 
-awards <- tibble("Image" = c(rep("x", 18)),
+awards <- tibble("Image" = c(rep("x", 20)),
                  "Award" = c("Gambit Guru",
                              "MVP Award",
                              "Archbishop of Accuracy",
@@ -2232,7 +2359,9 @@ awards <- tibble("Image" = c(rep("x", 18)),
                              "Radjabov Award",
                              "David Award",
                              ifelse(league == "team4545", "Awesome Alt", ""),
-                             ifelse(league == "team4545", "Team Accuracy", "")
+                             ifelse(league == "team4545", "Team Accuracy", ""),
+                             ifelse(league == "team4545", "Egalitarian Award", ""),
+                             "Rookie Award"
                              ),
                  
                  "Definition" = c("Best score playing gambits",
@@ -2244,7 +2373,7 @@ awards <- tibble("Image" = c(rep("x", 18)),
                                   "Biggest comebacks",
                                   "Achieved the biggest upset",
                                   "Achieved the most upsets across the season",
-                                  "Least time remaining after 10th move",
+                                  "Least time remaining after 10th move, and still winning",
                                   "Most moves made in under 0.5s",
                                   "Longest time spent on a move",
                                   "Highest percentage of moves played with < 1 min left",
@@ -2252,7 +2381,10 @@ awards <- tibble("Image" = c(rep("x", 18)),
                                   "Securing a draw from the jaws of victory",
                                   "Faced the strongest opposition",
                                   ifelse(league == "team4545", "Played for the most teams during the season", ""),
-                                  ifelse(league == "team4545", "Lowest team ACPL", "")),
+                                  ifelse(league == "team4545", "Lowest team ACPL", ""),
+                                  ifelse(league == "team4545", "Lowest standard deviation across players' relative performance ratings", ""),
+                                  "Best relative perf. by a new league player"),
+                 
                  
                  "Winner" = c(gambiteers$player[1],
                               relative_perfs$player[1],
@@ -2271,14 +2403,16 @@ awards <- tibble("Image" = c(rep("x", 18)),
                               radjabov$player[1],
                               david$player[1],
                               ifelse(league == "team4545", str_c(alt_winners, collapse = ", "), ""),
-                              ifelse(league == "team4545", team_accuracy_award$team[1], "")
+                              ifelse(league == "team4545", team_accuracy_award$team[1], ""),
+                              ifelse(league == "team4545", egalitarian$team[1], ""),
+                              ifelse(nrow(rookie_perfs) > 0, rookie_perfs$player[1], "")
                               ),
                  
-                 "Details" = c(ifelse(gambiteer_award, paste0(round(gambiteers$success[1] * 100), "% from ", gambiteers$games[1], " games"), "Can't be awarded"),
-                              paste0("Perf. rating: ", round(relative_perfs$perf_rating[1], 0), " (initial rating: ",
-                                     relative_perfs$initial_rating[1], ")"),
+                 
+                 "Details" = c(ifelse(gambiteer_award, paste0(round(gambiteers$success[1]), "% from ", gambiteers$games[1], " games"), "Can't be awarded"),
+                              ifelse(nrow(relative_perfs) > 0, paste0("+", relative_perfs$wins[1], "-", relative_perfs$losses[1], "=", relative_perfs$draws[1], " perf ", round(relative_perfs$perf_rating[1]), ", initially ", round(relative_perfs$initial_rating[1])), ""),
                               paste0(round(lowest_acpls$season_acpl[1], 1), " ACPL over ", lowest_acpls$total_moves[1], " moves"),
-                              paste0(minacpl_players$n[1], " games"),
+                              ifelse(nrow(minacpl_players) > 0, paste0(minacpl_players$n[1], " games"), ""),
                               ifelse(movetimes_exist, paste0(season_think$duration_print[1]), "Can't be awarded"),
                               paste0(giri_value, " draws"),
                               "",
@@ -2287,14 +2421,17 @@ awards <- tibble("Image" = c(rep("x", 18)),
                               ifelse(movetimes_exist, paste0("Had ", dawdlers$time_print[1], " left after 10 moves"), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0(instamovers$instamoves[1], " moves"), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0("Spent ", movetimes$time_spent[1]), "Can't be awarded"),
-                              ifelse(movetimes_exist, paste0(round(timetrouble$tt_pc[1]*100, 1), "% (", timetrouble$tt_moves[1], "/", timetrouble$moves[1], ")"), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0(round(timetrouble$tt_pc[1]*100, 1), "%"), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0(savedbythebell$panic_moves[1], " move(s) in ", savedbythebell$url[1]), "Can't be awarded"),
                               "",
                              paste0("Opponents' record: ", david$opp_points[1], "/", david$opp_games[1]),
                              ifelse(league == "team4545", paste0("Played for ", alt_value, " different teams"), ""),
-                             ifelse(league == "team4545", paste0("Team ACPL: ", round(team_accuracy_award$acpl[1], 1)), "")
-                             ),
+                             ifelse(league == "team4545", paste0("Team ACPL: ", round(team_accuracy_award$acpl[1], 1)), ""),
+                             ifelse(league == "team4545", paste0("SD: ", round(egalitarian$egalite[1], 1)), ""),
+                             ifelse(nrow(rookie_perfs) > 0, paste0("+", rookie_perfs$wins[1], "-", rookie_perfs$losses[1], "=", rookie_perfs$draws[1], " perf ", round(rookie_perfs$perf_rating[1]), ", initially ", round(rookie_perfs$initial_rating[1])), "")),
                  
+                         
+                                 
                  "Mentions" = c(ifelse(gambiteer_award, str_c(gambiteers$player[2:3], collapse = ", "), ""),
                               str_c(relative_perfs$player[2:3], collapse = ", "),
                               str_c(lowest_acpls$player[2:3], collapse = ", "),
@@ -2312,7 +2449,9 @@ awards <- tibble("Image" = c(rep("x", 18)),
                               str_c(radjabov$player[2:3], collapse = ", "),
                               str_c(david$player[2:3], collapse = ", "),
                               ifelse(league == "team4545", paste0(str_c(alt_runnerup_names, collapse = ", "), " (", alt_runnerup_value, ")"), ""),
-                              "")
+                              "",
+                              "",
+                              ifelse(nrow(rookie_perfs) >= 3, str_c(rookie_perfs$player[2:3], collapse = ", "), ""))
                  
                  )
 
@@ -2336,7 +2475,7 @@ reactable(awards,
             Image = colDef(name = "Award", 
                            cell = function(value, index) {
                              award_name <- awards$Award[index]
-                             image <- img(src = sprintf("images/%s.png", award_name), height = "60px", alt = award_name)
+                             image <- img(src = sprintf("images/%s.svg", award_name), height = "60px", alt = award_name)
               tagList(
                 div(style = list(display = "inline-block", width = "60px"), image)
                 )
@@ -2351,8 +2490,9 @@ reactable(awards,
                                div(style = list(fontSize = 12), definition)
                                )
                              }),
-            Winner = colDef(name = "Winner", minWidth = 150,
-                            style = list(color = "#245164")),
+            Winner = colDef(name = "Winner", minWidth = 170,
+                            style = list(color = "#245164", #245164
+                                         fontWeight = "bold")),
             Definition = colDef(show = F),
             Details = colDef(name = "Details", minWidth = 200),
             Mentions = colDef(name = "Honourable mentions", minWidth = 180)
@@ -2366,7 +2506,7 @@ single_fig_acpl_players <- minacpl_players %>% select(player) %>% dplyr::pull()
 giri_winners <- drawers %>% select(player) %>% dplyr::pull()
 giri_value <- drawers %>% select(n) %>% distinct() %>% dplyr::pull()
 
-awards <- tibble("Image" = c(rep("x", 16)),
+awards <- tibble("Image" = c(rep("x", 17)),
                  "Award" = c("Gambit Guru",
                              "MVP Award",
                              "Archbishop of Accuracy",
@@ -2382,7 +2522,8 @@ awards <- tibble("Image" = c(rep("x", 16)),
                              "Intimate with Increment",
                              "Saved by the Bell",
                              "Radjabov Award",
-                             "David Award"
+                             "David Award",
+                             "Rookie Award"
                              ),
                  
                  "Definition" = c("Best score playing gambits",
@@ -2394,13 +2535,15 @@ awards <- tibble("Image" = c(rep("x", 16)),
                                   "Biggest comebacks",
                                   "Achieved the biggest upset",
                                   "Achieved the most upsets across the season",
-                                  "Least time remaining after 10th move",
+                                  "Least time remaining after 10th move, and still winning",
                                   "Most moves made in under 0.5s",
                                   "Longest time spent on a move",
                                   "Highest percentage of moves played with < 1 min left",
                                   "Most moves made with < 5s left before winning",
                                   "Securing a draw from the jaws of victory",
-                                  "Faced the strongest opposition"),
+                                  "Faced the strongest opposition",
+                                  "Best relative perf. by a new league player"),
+                 
                  
                  "Winner" = c(gambiteers$player[1],
                               relative_perfs$player[1],
@@ -2417,13 +2560,15 @@ awards <- tibble("Image" = c(rep("x", 16)),
                               ifelse(movetimes_exist, timetrouble$player[1], ""),
                               ifelse(movetimes_exist, savedbythebell$player[1], ""),
                               radjabov$player[1],
-                              david$player[1]),
+                              david$player[1],
+                              ifelse(nrow(rookie_perfs)>0, rookie_perfs$player[1], "")),
                  
-                 "Details" = c(ifelse(gambiteer_award, paste0(round(gambiteers$success[1] * 100), "% from ", gambiteers$games[1], " games"), "Can't be awarded"),
-                              paste0("Perf. rating: ", round(relative_perfs$perf_rating[1], 0), " (initial rating: ",
-                                     relative_perfs$initial_rating[1], ")"),
+                 
+                 
+                 "Details" = c(ifelse(gambiteer_award, paste0(round(gambiteers$success[1]), "% from ", gambiteers$games[1], " games"), "Can't be awarded"),
+                              ifelse(nrow(relative_perfs) > 0, paste0("+", relative_perfs$wins[1], "-", relative_perfs$losses[1], "=", relative_perfs$draws[1], " perf ", round(relative_perfs$perf_rating[1]), ", initially ", round(relative_perfs$initial_rating[1])), ""),
                               paste0(round(lowest_acpls$season_acpl[1], 1), " ACPL over ", lowest_acpls$total_moves[1], " moves"),
-                              paste0(minacpl_players$n[1], " games"),
+                              ifelse(nrow(minacpl_players) > 0, paste0(minacpl_players$n[1], " games"), ""),
                               ifelse(movetimes_exist, paste0(season_think$duration_print[1]), "Can't be awarded"),
                               paste0(giri_value, " draws"),
                               "",
@@ -2432,11 +2577,13 @@ awards <- tibble("Image" = c(rep("x", 16)),
                               ifelse(movetimes_exist, paste0("Had ", dawdlers$time_print[1], " left after 10 moves"), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0(instamovers$instamoves[1], " moves"), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0("Spent ", movetimes$time_spent[1]), "Can't be awarded"),
-                              ifelse(movetimes_exist, paste0(round(timetrouble$tt_pc[1]*100, 1), "% (", timetrouble$tt_moves[1], "/", timetrouble$moves[1], ")"), "Can't be awarded"),
+                              ifelse(movetimes_exist, paste0(round(timetrouble$tt_pc[1]*100, 1), "%"), "Can't be awarded"),
                               ifelse(movetimes_exist, paste0(savedbythebell$panic_moves[1], " move(s) in ", savedbythebell$url[1]), "Can't be awarded"),
                               "",
-                             paste0("Opponents' record: ", david$opp_points[1], "/", david$opp_games[1])
-                             ),
+                             paste0("Opponents' record: ", david$opp_points[1], "/", david$opp_games[1]),
+                             ifelse(nrow(rookie_perfs) > 0, paste0("+", rookie_perfs$wins[1], "-", rookie_perfs$losses[1], "=", rookie_perfs$draws[1], " perf ", round(rookie_perfs$perf_rating[1]), ", initially ", round(rookie_perfs$initial_rating[1])), "")),
+                 
+                 
                  
                  "Mentions" = c(ifelse(gambiteer_award, str_c(gambiteers$player[2:3], collapse = ", "), ""),
                               str_c(relative_perfs$player[2:3], collapse = ", "),
@@ -2453,7 +2600,8 @@ awards <- tibble("Image" = c(rep("x", 16)),
                               ifelse(movetimes_exist, str_c(timetrouble$player[2:3], collapse = ", "), ""),
                               ifelse(movetimes_exist, str_c(savedbythebell$player[2:3], collapse = ", "), ""),
                               str_c(radjabov$player[2:3], collapse = ", "),
-                              str_c(david$player[2:3], collapse = ", ")
+                              str_c(david$player[2:3], collapse = ", "),
+                              ifelse(nrow(rookie_perfs) >= 3, str_c(rookie_perfs$player[2:3], collapse = ", "), "")
                  ))
 
 # Re-arrange columns
@@ -2476,7 +2624,7 @@ reactable(awards,
             Image = colDef(name = "Award", 
                            cell = function(value, index) {
                              award_name <- awards$Award[index]
-                             image <- img(src = sprintf("images/%s.png", award_name), height = "60px", alt = award_name)
+                             image <- img(src = sprintf("images/%s.svg", award_name), height = "60px", alt = award_name)
               tagList(
                 div(style = list(display = "inline-block", width = "60px"), image)
                 )
@@ -2491,8 +2639,9 @@ reactable(awards,
                                div(style = list(fontSize = 12), definition)
                                )
                              }),
-            Winner = colDef(name = "Winner", minWidth = 150,
-                            style = list(color = "#225622")),
+            Winner = colDef(name = "Winner", minWidth = 170,
+                            style = list(color = "#225622",
+                                         fontWeight = "bold")),
             Definition = colDef(show = F),
             Details = colDef(name = "Details", minWidth = 200),
             Mentions = colDef(name = "Honourable mentions", minWidth = 180)
@@ -2803,7 +2952,7 @@ reactable(dawdlers,
                            cell = function(value, index){
             sprintf('<a href="%s" target="_blank">%s</a>', dawdlers$url[index], value)
           }),
-          outcome = colDef(name = "Result", align = "center")))
+          outcome = colDef(name = "Result", align = "center", show = F)))
 } else {
   print(no_movetimes_print)
 }
@@ -3163,10 +3312,8 @@ game_latest_capture <- latest_first_capture %>%
 
 :::about
 - This report was compiled on `r format(Sys.time(), '%d %B %Y')`.
-- These stats are presented for general interest only. They are not guaranteed to be comprehensive, complete, accurate, or up to date.
-- This report may be revised periodically to incorporate minor updates and bugfixes.
-- All stats based on game data deliberately exclude games involving players who were banned by Lichess (at any point up to `r format(Sys.time(), '%d %B %Y')`).^[Players who were banned after finishing a season in the top three places are still shown with a podium place in that season's report. However, their games and pairings are then removed from the season's data prior to any further analysis.] They also exclude games with fewer than 5 plies.
-- Ties are not robustly handled when determining player awards, which may lead to the occasional mistake :)
+- These statistics are presented for general interest only. They are not guaranteed to be comprehensive, complete^[For example, the games data used for this report excludes games of less than 5 plies (half-moves) as well as games that ended in disconnection (ie where one player claimed a win or draw after their opponent lost connection, which isn't allowed in the leagues) or cheat detection, or where the game was aborted.], accurate, or up to date. They may be revised periodically to incorporate minor updates and bugfixes.
+- Any player determined by Lichess to have violated their Terms of Service (as of `r format(Sys.time(), '%d %B %Y')`) has been excluded from the player-based statistics and rankings shown here.^[Players who were banned from the leagues after finishing a season in the top three places are still shown with a podium place in that season's report.]
 - [Website](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
 - Acknowledgements: [Noun Project](https://thenounproject.com/) for the award icons; [Simon Ilincev](https://simonilincev.com/) for [chess_graph](https://github.com/Destaq/chess_graph), which produces the openings sunburst plots.
 :::
