@@ -86,7 +86,7 @@ reports.
         <div class="input-group-addon">
           <i class="fa fa-envelope"></i>
         </div>
-        <input id="email" name="email" placeholder="Your e-mail address" type="text" required="required" class="form-control">
+        <input id="email" name="email" placeholder="Your e-mail address" type="text" class="form-control">
       </div>
     </div>
   </div>
@@ -106,4 +106,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="Un-static Forms">Un-static Forms</a>)</small></p>
 </div>
 
-*This page was last updated at 13:19:00 BST on Sun 15 Aug 2021.*
+*This page was last updated at 13:22:38 BST on Sun 15 Aug 2021.*
