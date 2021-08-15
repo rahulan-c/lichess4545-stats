@@ -95,24 +95,63 @@ Date | Description
 
 ## Coming soon
 
-Watch this space!
+Watch this space! Updates below
 
 **Expanding the site** 
 
-- All-time 4545 and LoneWolf stats and records `in progress`
+- All-time 4545 and LoneWolf stats and records
 - Allowing users to search for mentions across all reports
 - Stats for other Lichess4545 community leagues such as Rapid Battle and Series
 
 **Extending or improving the season stats reports**
  
-- Images of knight/pawn checkmates `in progress`
-- Which game(s) stayed in "theory" the longest? `in progress`
-- Matches that went to the wire `in progress`
+- Images of knight/pawn checkmates
+- Which game(s) stayed in "theory" the longest?
+- Matches that went to the wire
 - Players that ended up with more time than they began with
 - Interesting endgames
 - Improved (more exhaustive) analysis of gambits and gambit-loving players
 
+## Contact me
 
+Please use the form below to provide any comments, suggestions or bug reports.
+
+```{=html}
+<form method="post" action="https://forms.un-static.com/forms/65e8c7acaf8b132767fee1fba923d3d07b959c5">
+  <div class="form-group row">
+    <label for="name" class="col-4 col-form-label">Name</label>
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+        <input name="name" placeholder="Fill in your name" type="text" class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="email" class="col-4 col-form-label">E-mail address</label>
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+        <input name="email" placeholder="Fill in your e-mail address" type="text" class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="message" class="col-4 col-form-label">Message</label>
+    <div class="col-8">
+      <textarea name="message" cols="40" rows="8" class="form-control"></textarea>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="offset-4 col-8">
+      <button type="submit" class="btn btn-primary">Send</button>
+    </div>
+  </div>
+  <div class="text-center">
+    <p><small>(Powered by <a rel="nofollow" href="Un-static Forms">Un-static Forms</a>)</small></p>
+  </div>
+</form>
+```
 
 
 

@@ -1,8 +1,9 @@
 ---
 title: "After contact"
-output: html_document
+output: md_document
 ---
 
 Thanks for getting in touch!
 
 Click [here](https://rahulan-c.github.io/lichess4545-stats) to return to the home page.
+
