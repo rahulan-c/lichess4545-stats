@@ -22,7 +22,6 @@
 # update_repo()
 # wipe_all_stats()
 # build_season_reports()
-# fix_character_encoding()
 
 
 # ---- User-defined parameters ------------------------------------------------

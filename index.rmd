@@ -5,22 +5,18 @@ date: "Last updated: `r format(Sys.time(), '%B %Y')`"
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr)
 
 ```
 
-Lichess4545 stats.
-
-## All time records
-
-Coming soon.
+A repository of statistics related to the Lichess4545 online chess leagues.
 
 ## Season statistics and awards
 
-```{r, message=FALSE}
+```{r season_reports_tbl}
 
 # Identify all seasons for which stats reports have been compiled 
 
@@ -86,6 +82,38 @@ completed <- tibble("team4545" = completed_4545,
 knitr::kable(completed, format = "simple", col.names = c("Lichess4545 League", "Lichess LoneWolf (Open)", "Lichess LoneWolf (U1800)"))
 
 ```
+
+## Recent updates
+
+Date | Description
+:--- | :----------
+2021-08-09 | Revisions made to the treatment of banned players and some plots/tables. Added two new awards (Rookie and Egalitarian), season forfeit rates, and several explanatory footnotes.
+2021-08-04 | Updates; first full set of season reports published.
+2021-08-02 | Updates; first set of season reports republished.
+2021-07-30 | First reports published.
+
+
+## Coming soon
+
+Watch this space!
+
+**Expanding the site** 
+
+- All-time 4545 and LoneWolf stats and records `in progress`
+- Allowing users to search for mentions across all reports
+- Stats for other Lichess4545 community leagues such as Rapid Battle and Series
+
+**Extending or improving the season stats reports**
+ 
+- Images of knight/pawn checkmates `in progress`
+- Which game(s) stayed in "theory" the longest? `in progress`
+- Matches that went to the wire `in progress`
+- Players that ended up with more time than they began with
+- Interesting endgames
+- Improved (more exhaustive) analysis of gambits and gambit-loving players
+
+
+
 
 
 *`r paste0("This page was last updated at ", format(Sys.time(), '%X %Z'), " on ", format(Sys.time(), '%a %d %b %Y'))`.*

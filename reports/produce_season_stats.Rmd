@@ -1700,7 +1700,7 @@ Click on the image below to see a sunburst plot of all openings played in the se
 
 Because winning isn't everything; it's the only thing :) 
 
-See the footnote for further details on selected awards.^[*Archbishop of Accuracy*: lowest average centipawn loss (ACPL) over all moves played, as determined by Lichess's server analysis. Minimum 100 moves played. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. One's opponents must have played over 20 games (against others) to qualify. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
+See the footnote for further details on selected awards.^[*Archbishop of Accuracy*: lowest average centipawn loss (ACPL) over all moves played, as determined by Lichess's server analysis. Minimum 100 moves played. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. One's opponents must have played over 20 games (against others) to qualify. Suggested by Tranzoo. *Egalitarian Award*: intended for the team whose players performed most similarly to each other. First, I compute all players' **relative** performance ratings -- the difference between their actual performance rating (using FIDE's method) and their initial rating. Then I group all players by team, and give the award to the team with the lowest standard deviation across its players' relative ratings. Suggested by Silkthewanderer. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
  
 
 ```{r relative_perfs}
@@ -2382,7 +2382,7 @@ awards <- tibble("Image" = c(rep("x", 20)),
                                   "Faced the strongest opposition",
                                   ifelse(league == "team4545", "Played for the most teams during the season", ""),
                                   ifelse(league == "team4545", "Lowest team ACPL", ""),
-                                  ifelse(league == "team4545", "Lowest standard deviation across players' relative performance ratings", ""),
+                                  ifelse(league == "team4545", "Team with the lowest SD across players' relative perfs", ""),
                                   "Best relative perf. by a new league player"),
                  
                  
