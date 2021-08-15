@@ -1,5 +1,18 @@
-A repository of statistics related to the Lichess4545 online chess
-leagues.
+## Introduction
+
+This page hosts detailed statistical reports on all previous
+[Lichess4545](https://www.lichess4545.com/team4545/) and
+[LoneWolf](https://www.lichess4545.com/lonewolf/) seasons.
+
+*For the uninitiated, these are two popular online chess leagues that
+have been running since 2015. They’re regularly recommended by top
+players like IM John Bartholomew – see
+[here](https://www.youtube.com/watch?v=8gBGcOEvsy4&t=1296). You can find
+out more at <https://www.lichess4545.com/>.*
+
+On this page: [Reports by league/season](#season-stats) \|
+[Updates](#updates) \| [Acknowledgements](#acknowledgements) \| [Contact
+me](#contact)
 
 ## Season statistics and awards
 
@@ -32,17 +45,19 @@ leagues.
 | [Season 02](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s02.html) |                                                                                          |                                                                                           |
 | [Season 01](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s01.html) |                                                                                          |                                                                                           |
 
-## Recent updates
+## Updates
 
-| Date       | Description                                                                                                                                                                      |
-|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 2021-08-15 | Updated home page: added recent / future updates and contact form.                                                                                                               |
-| 2021-08-09 | Revisions made to the treatment of banned players and some plots/tables. Added two new awards (Rookie and Egalitarian), season forfeit rates, and several explanatory footnotes. |
-| 2021-08-04 | Updates; first full set of season reports published.                                                                                                                             |
-| 2021-08-02 | Updates; first set of season reports republished.                                                                                                                                |
-| 2021-07-30 | First reports published.                                                                                                                                                         |
+A list of recent updates:
 
-## Planned updates
+| Date       | Description                                                                                                                                                                         |
+|:-----------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2021-08-15 | Updated home page with new sections and contact form.                                                                                                                               |
+| 2021-08-09 | Amended the treatment of banned players; revised some plots and tables; and added two new awards (Rookie and Egalitarian), season forfeit rates, and several explanatory footnotes. |
+| 2021-08-04 | Updates; first full set of season reports published.                                                                                                                                |
+| 2021-08-02 | Updates; first set of season reports republished.                                                                                                                                   |
+| 2021-07-30 | First reports published.                                                                                                                                                            |
+
+### Future updates
 
 Here’s a brief list of planned updates that I’m either actively working
 on or have on my ‘to do’ list. Many of them have been suggested by other
@@ -65,9 +80,18 @@ maybe identifying piece sacrifices :)
 
 -   Presenting all-time 4545 and LoneWolf stats and records
     `in progress`
+    -   Including longest winning and unbeaten streaks
 -   Allowing users to search for any mentions across all season reports
 -   Presenting similar stats for other Lichess4545 community leagues
     such as Rapid Battle and Series
+
+## Acknowledgements
+
+I’d just like to thank the following Lichess4545 members who have
+provided helpful advice and inspiration that has helped shape these
+stats: alen111, Chewbacca\_Defense, Ecclesiastic, ErinYu, gavalanche20,
+gingersquirrelnuts, glbert, IsaVulpes, lc91, Lou-E, MrScribbles,
+Silkthewanderer, Tranzoo.
 
 ## Contact me
 
@@ -113,4 +137,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 14:05:49 BST on Sun 15 Aug 2021.*
+*Site last updated at 14:55:13 BST on Sun 15 Aug 2021.*
