@@ -34,33 +34,40 @@ leagues.
 
 ## Recent updates
 
-| Date       | Description                                                                                                                                                                      |
-|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 2021-08-09 | Revisions made to the treatment of banned players and some plots/tables. Added two new awards (Rookie and Egalitarian), season forfeit rates, and several explanatory footnotes. |
-| 2021-08-04 | Updates; first full set of season reports published.                                                                                                                             |
-| 2021-08-02 | Updates; first set of season reports republished.                                                                                                                                |
-| 2021-07-30 | First reports published.                                                                                                                                                         |
+| Date      | Description                                                                                                                                                                      |
+|:----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 15 Aug    | Updated home page: added recent / future updates and contact form.                                                                                                               |
+| 9 Aug     | Revisions made to the treatment of banned players and some plots/tables. Added two new awards (Rookie and Egalitarian), season forfeit rates, and several explanatory footnotes. |
+| 4 Aug     | Updates; first full set of season reports published.                                                                                                                             |
+| 2 Aug     | Updates; first set of season reports republished.                                                                                                                                |
+| 30 Jul 21 | First reports published.                                                                                                                                                         |
 
-## Coming soon
+## Planned updates
 
-Watch this space! Updates below
+Here’s a brief list of planned updates that I’m either actively working
+on or have on my ‘to do’ list. Many of them have been suggested by other
+Lichess4545 members. If there’s something you’d like to see, please get
+in touch using the contact form below. Nothing is impossible…except
+maybe identifying piece sacrifices :)
 
-**Expanding the site**
+**Planned updates to existing reports**
 
--   All-time 4545 and LoneWolf stats and records
--   Allowing users to search for mentions across all reports
--   Stats for other Lichess4545 community leagues such as Rapid Battle
-    and Series
+-   Showing images of knight/pawn checkmates `in progress`
+-   Identifying game(s) that stayed in “theory” the longest
+    `in progress`
+-   Visualising important team matches (or matches that went to the
+    wire) `in progress`
+-   Showing players that ended up with more time than they began with
+-   Stats by endgame
+-   Improving gambit-related stats
 
-**Extending or improving the season stats reports**
+**Other planned updates**
 
--   Images of knight/pawn checkmates
--   Which game(s) stayed in “theory” the longest?
--   Matches that went to the wire
--   Players that ended up with more time than they began with
--   Interesting endgames
--   Improved (more exhaustive) analysis of gambits and gambit-loving
-    players
+-   Presenting all-time 4545 and LoneWolf stats and records
+    `in progress`
+-   Allowing users to search for any mentions across all season reports
+-   Presenting similar stats for other Lichess4545 community leagues
+    such as Rapid Battle and Series
 
 ## Contact me
 
@@ -103,7 +110,7 @@ reports.
   </div>
 </form>
 <div align="center">
-  <p><small>(Powered by <a rel="nofollow" href="Un-static Forms">Un-static Forms</a>)</small></p>
+  <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*This page was last updated at 13:25:41 BST on Sun 15 Aug 2021.*
+*Site last updated at 13:45:34 BST on Sun 15 Aug 2021.*
