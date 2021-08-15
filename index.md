@@ -34,13 +34,13 @@ leagues.
 
 ## Recent updates
 
-| Date      | Description                                                                                                                                                                      |
-|:----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 15 Aug    | Updated home page: added recent / future updates and contact form.                                                                                                               |
-| 9 Aug     | Revisions made to the treatment of banned players and some plots/tables. Added two new awards (Rookie and Egalitarian), season forfeit rates, and several explanatory footnotes. |
-| 4 Aug     | Updates; first full set of season reports published.                                                                                                                             |
-| 2 Aug     | Updates; first set of season reports republished.                                                                                                                                |
-| 30 Jul 21 | First reports published.                                                                                                                                                         |
+| Date       | Description                                                                                                                                                                      |
+|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2021-08-15 | Updated home page: added recent / future updates and contact form.                                                                                                               |
+| 2021-08-09 | Revisions made to the treatment of banned players and some plots/tables. Added two new awards (Rookie and Egalitarian), season forfeit rates, and several explanatory footnotes. |
+| 2021-08-04 | Updates; first full set of season reports published.                                                                                                                             |
+| 2021-08-02 | Updates; first set of season reports republished.                                                                                                                                |
+| 2021-07-30 | First reports published.                                                                                                                                                         |
 
 ## Planned updates
 
@@ -113,4 +113,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 13:45:34 BST on Sun 15 Aug 2021.*
+*Site last updated at 13:47:58 BST on Sun 15 Aug 2021.*
