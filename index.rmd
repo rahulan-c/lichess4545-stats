@@ -136,7 +136,7 @@ Please use the form below to provide any comments, suggestions or bug reports.
         <div class="input-group-addon">
           <i class="fa fa-envelope"></i>
         </div>
-        <input id="email" name="email" placeholder="Your e-mail address" type="text" required="required" class="form-control">
+        <input id="email" name="email" placeholder="Your e-mail address" type="text" class="form-control">
       </div>
     </div>
   </div>
