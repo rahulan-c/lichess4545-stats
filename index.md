@@ -1,7 +1,3 @@
-# 
-
-## Introduction
-
 This page hosts detailed statistical reports on all previous
 [Lichess4545](https://www.lichess4545.com/team4545/) and
 [LoneWolf](https://www.lichess4545.com/lonewolf/) seasons.
@@ -12,11 +8,11 @@ players like IM John Bartholomew – see
 [here](https://www.youtube.com/watch?v=8gBGcOEvsy4&t=1296). You can find
 out more at <https://www.lichess4545.com/>.
 
-On this page: [Reports by league/season](#season-stats) \|
-[Updates](#updates) \| [Acknowledgements](#acknowledgements) \| [Contact
-me](#contact)
+On this page: [Stats/awards by league/season](#season-stats) \|
+[Updates](#updates) \| [Acknowledgements](#acknowledgements) \|
+[Contact](#contact)
 
-## Season statistics and awards
+## Stats and awards by league/season
 
 | Lichess4545 League                                                                     | Lichess LoneWolf (Open)                                                                  | Lichess LoneWolf (U1800)                                                                  |
 |:---------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
@@ -49,15 +45,14 @@ me](#contact)
 
 ## Updates
 
-A list of recent updates:
+### Recent updates
 
-| Date       | Description                                                                                                                                                                         |
-|:-----------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 2021-08-15 | Updated home page with new sections and contact form.                                                                                                                               |
-| 2021-08-09 | Amended the treatment of banned players; revised some plots and tables; and added two new awards (Rookie and Egalitarian), season forfeit rates, and several explanatory footnotes. |
-| 2021-08-04 | Updates; first full set of season reports published.                                                                                                                                |
-| 2021-08-02 | Updates; first set of season reports republished.                                                                                                                                   |
-| 2021-07-30 | First reports published.                                                                                                                                                            |
+-   2021-08-15: updated home page with new sections and contact form.
+-   2021-08-09: amended the treatment of banned players; revised some
+    plots and tables; and added two new awards (Rookie and Egalitarian),
+    season forfeit rates, and several explanatory footnotes.
+-   2021-08-04: updates; first full set of season reports published.
+-   2021-07-30: first reports published.
 
 ### Future updates
 
@@ -139,4 +134,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 14:57:42 BST on Sun 15 Aug 2021.*
+*Site last updated at 15:03:45 BST on Sun 15 Aug 2021.*
