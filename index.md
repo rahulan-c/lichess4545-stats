@@ -87,7 +87,7 @@ reports.
     </div>
   </div>
   <div class="form-group row">
-    <label for="email" class="col-4 col-form-label">E-mail address</label>
+    <label for="email" class="col-4 col-form-label">E-mail address (optional)</label>
     <div class="col-8">
       <div class="input-group">
         <div class="input-group-addon">
@@ -113,4 +113,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 13:55:10 BST on Sun 15 Aug 2021.*
+*Site last updated at 13:55:17 BST on Sun 15 Aug 2021.*
