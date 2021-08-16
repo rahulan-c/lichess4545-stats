@@ -41,8 +41,8 @@ options(reactable.theme = reactableTheme(
 ```
 
 ```{r load_functions_lookups}
-# Source supporting functions
-source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/scripts/all_functions.R", local = knitr::knit_global())
+# # Source supporting functions
+# source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/scripts/all_functions.R", local = knitr::knit_global())
 
 # Load supporting lookup data
 
