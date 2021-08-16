@@ -122,8 +122,7 @@ awards <- data.table::rbindlist(all_awards)
 
 awards <- awards %>% 
   filter(Winner != "") %>% 
-  filter(Award != "Egalitarian Award") %>% 
-  filter(Award != "Team Accuracy") %>% 
+  filter(!(Award %in% c("Egalitarian Award", "Team Accuracy", "Radjabov Award"))) %>% 
   arrange(Winner) %>% 
   mutate(league_season = paste0(League, " S", Season)) %>% 
   select(Winner, Award, Details, league_season)
