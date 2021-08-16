@@ -1,0 +1,133 @@
+---
+output:
+  html_document:
+    css: style.css
+    theme: flatly
+    dev: svglite
+    toc: yes
+    toc_depth: 4
+    toc_float: true
+    includes:
+      in_header: head-custom-google-analytics.html
+title: "All-time records"
+---
+
+```{r packages_initial_opts, include = FALSE}
+# Set default R chunk options for Rmd file
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+# Load all required packages, incl. for functions
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
+               ggrepel, ggridges, reactable, htmltools, httr, jsonlite, xml2, 
+               rvest, ndjson, reshape2, utf8, lubridate, tictoc, cowplot, 
+               tippy)
+
+# Define custom default reactable theme for tables
+options(reactable.theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    searchInputStyle = list(width = "100%"),
+    headerStyle = list(
+      "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
+      "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
+      borderColor = "#555"
+    )
+  )
+)
+
+```
+
+```{r load_functions_lookups}
+# Source supporting functions
+source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/scripts/all_functions.R", local = knitr::knit_global())
+
+# Load supporting lookup data
+
+# 1. Gambit openings - to enable analysis of gambits and gambit-lovers
+gambits <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/gambits.csv")
+
+# 2. FIDE performance rating lookup values
+# 2-column table with tournament performance scores and rating differences
+# Compiled from https://handbook.fide.com/chapter/B022017
+# Required for calculating player performance ratings using FIDE's method 
+fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/fide_tpr_lookup.csv")
+
+```
+
+All-time records will be published here soon. 
+
+While they're under construction, all sorts of strange outputs might appear here.
+
+```{r}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
+               rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
+               rmarkdown, fs, stringi, git2r)
+```
+
+
+```{r}
+
+
+# Stats homepage
+homepage_url <- "https://rahulan-c.github.io/lichess4545-stats/"
+
+# Extract all links from season reports table on homepage
+season_reports <- read_html(homepage_url) %>% 
+  html_nodes("table") %>% 
+  html_nodes("tr") %>% 
+  html_nodes("a") %>%
+  html_attr("href")
+
+# season_reports <- season_reports[1:20] # just for testing
+
+# Now loop through all reports and extract award winners/details
+
+all_awards <- list(rep(NA, length(season_reports)))
+
+for(s in seq(1:length(season_reports))){
+  
+  url <- season_reports[s]
+  league <- ifelse(str_detect(url, "stats_4545"), 
+                   "4545", 
+                   ifelse(str_detect(url, "stats_lwopen"), 
+                          "LW Open", 
+                          ifelse(str_detect(url, "stats_lwu1800"), 
+                                 "LW U1800", "")))
+  season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
+  
+  
+  print(paste0("Extracting award details for ", league, " S", season, "..."))
+  
+  awards <- read_html(url) %>%
+    rvest::html_element("#awards") %>% 
+    xml_child(5) %>% 
+    html_text2() %>% 
+    parse_json()
+  
+  awards_tidy <- as_tibble(awards$x$tag$attribs$data) %>%
+    mutate(League = league, Season = season) %>% 
+    select(-c(Image)) %>% 
+    select(League, Season, Award, Winner, Details) %>% 
+    # Flatten list to columns, turning NULL values to NAs
+    mutate(Award = Award %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist(),
+           Winner = Winner %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist(),
+           Details = Details %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist())
+  
+  all_awards[[s]] <- awards_tidy
+  Sys.sleep(0.2)
+  
+}
+
+awards <- data.table::rbindlist(all_awards)
+
+print("All award data extracted!")
+
+rm(all_awards, awards_tidy)
+
+reactable(awards)
+```
+
