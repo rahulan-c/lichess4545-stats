@@ -8,9 +8,18 @@ players like IM John Bartholomew – see
 [here](https://www.youtube.com/watch?v=8gBGcOEvsy4&t=1296). You can find
 out more at <https://www.lichess4545.com/>.
 
-On this page: [Stats/awards by league/season](#season-stats) \|
-[Updates](#updates) \| [Acknowledgements](#acknowledgements) \|
-[Contact](#contact)
+------------------------------------------------------------------------
+
+On this page: [All-time records](#alltime) \| [Stats/awards by
+league/season](#season-stats) \| [Updates](#updates) \|
+[Acknowledgements](#acknowledgements) \| [Contact](#contact)
+
+------------------------------------------------------------------------
+
+## All time records
+
+[All time
+records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.html)
 
 ## Stats and awards by league/season
 
@@ -134,4 +143,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 13:36:44 BST on Mon 16 Aug 2021.*
+*Site last updated at 14:24:01 BST on Mon 16 Aug 2021.*
