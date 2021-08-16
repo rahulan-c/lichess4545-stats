@@ -20,4 +20,4 @@ Also, anyone attempting to reproduce these reports on their own machine may enco
 
 Finally, the latest season reports (as of 2021-08-15) refer to a dataset of all 4545/LW games, which is assumed to have been previously compiled. By breaking the modular nature of the process by which data is obtained, saved and analysed for each league and season, this particular step makes complete replication significantly challenging. I hope to amend this step in a future update. 
 
-Updated 2021-08-15
+*Updated 2021-08-15*
