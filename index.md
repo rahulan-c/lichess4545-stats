@@ -56,6 +56,8 @@ records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.htm
 
 ### Recent updates
 
+-   2021-08-16: added an initial all-time stats page with a combined
+    table of award winners across all leagues/seasons
 -   2021-08-15: updated home page with new sections and contact form.
 -   2021-08-09: amended the treatment of banned players; revised some
     plots and tables; and added two new awards (Rookie and Egalitarian),
@@ -65,17 +67,17 @@ records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.htm
 
 ### Future updates
 
-Here’s a brief list of planned updates that I’m either actively working
-on or have on my ‘to do’ list. Many of them have been suggested by other
+Here are some planned updates that I’m either actively working on or
+have on my ‘to do’ list. Many of them have been suggested by other
 Lichess4545 members. If there’s something you’d like to see, please get
 in touch using the contact form below. Nothing is impossible…except
 maybe identifying piece sacrifices :)
 
-**Planned updates to existing reports**
+**Planned updates to season stats**
 
--   Showing images of knight/pawn checkmates `in progress`
--   Identifying game(s) that stayed in “theory” the longest
-    `in progress`
+-   Showing positions from games
+-   Identifying game(s) that were last to deviate from “theory” (aka the
+    Lichess masters DB) `in progress`
 -   Visualising important team matches (or matches that went to the
     wire) `in progress`
 -   Showing players that ended up with more time than they began with
@@ -84,19 +86,15 @@ maybe identifying piece sacrifices :)
 
 **Other planned updates**
 
--   Presenting all-time 4545 and LoneWolf stats and records
-    `in progress - see above`
-    -   Including longest winning and unbeaten streaks
--   Allowing users to search for any mentions across all season reports
-    `done`
--   Presenting similar stats for other Lichess4545 community leagues
-    such as Rapid Battle and Series
+-   All-time 4545 and LoneWolf stats `under construction - see above`
+-   Presenting stats for other Lichess4545 community leagues (eg Rapid
+    Battle, Series…)
 
 ## Acknowledgements
 
-I’d just like to thank the following Lichess4545 members who have
-provided helpful advice and inspiration that has helped shape these
-stats: alen111, Chewbacca\_Defense, Ecclesiastic, ErinYu, gavalanche20,
+Thanks to the following Lichess4545 members for providing helpful
+advice, suggestions and inspiration along the way: alen111,
+Chewbacca\_Defense, Ecclesiastic, ErinYu, gavalanche20,
 gingersquirrelnuts, glbert, IsaVulpes, lc91, Lou-E, MrScribbles,
 Silkthewanderer, Tranzoo.
 
@@ -144,4 +142,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 19:04:27 BST on Mon 16 Aug 2021.*
+*Site last updated at 19:19:10 BST on Mon 16 Aug 2021.*
