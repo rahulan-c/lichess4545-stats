@@ -1345,10 +1345,10 @@ make_sunburst_wrapper <- function(league, season){
   # Make sunburst
   pgn <- paste0(path_savedata, "games_noevals_", league, "_s", season, ".pgn")
   tic("Made openings sunburst plot")
-  # use_python(path_python)
-  # reticulate::import_from_path("chess_graph", path = "C:/Users/rahul/anaconda3/Lib/site-packages/chess_graph", convert = TRUE)
+  
+  # Source make_openings_sunburst.py in R and call function to produce plot
+  reticulate::import_from_path("chess_graph", path = "C:/Users/rahul/anaconda3/Lib/site-packages/chess_graph", convert = TRUE)
   reticulate::source_python(paste0(path_scripts, "make_openings_sunburst.py"))
-  reticulate::py_run_file(paste0(path_scripts, "make_openings_sunburst.py"))
   make_sunburst(pgn)
   
   # Move sunburst to reports folder
