@@ -4,7 +4,7 @@ This page hosts a repository of statistics relating to the
 uninitiated, these are two popular online chess leagues that have been
 running since 2015. They’re regularly recommended by top players like IM
 John Bartholomew (see
-[here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s). Find out
+[here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s)). Find out
 more at <https://www.lichess4545.com/>.
 
 ------------------------------------------------------------------------
@@ -130,4 +130,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 20:31:34 BST on Mon 16 Aug 2021.*
+*Site last updated at 20:33:34 BST on Mon 16 Aug 2021.*
