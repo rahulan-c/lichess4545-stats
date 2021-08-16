@@ -1521,7 +1521,7 @@ update_site <- function(wipe = FALSE,
                        lwopen_range = lwopen, 
                        lwu1800_range = lwu1800)
   # Then wait a bit
-  Sys.sleep(120)
+  Sys.sleep(45)
   # Then refresh the all time stats page
   build_alltime_stats()
   toc(log = TRUE)
