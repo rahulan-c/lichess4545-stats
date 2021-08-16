@@ -1328,6 +1328,10 @@ make_sunburst_wrapper <- function(league, season){
   if(league == "lonewolf"){if(lw_u1800){league_load_label <- "lwu1800"} else {league_load_label <- "lwopen"}}
   games <- readRDS(paste0(path_savedata, "games_", league_load_label, "_s", season, ".rds"))
   
+  # Introduce rule that if there's under 200 games played in the season, don't produce a sunburst
+  # They take too long and they're not informative
+  # TODO
+  
   # Construct single PGN with all games, but no evals or movetimes 
   games$pgn_noevals <- str_replace_all(games$pgn, "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", "") %>% 
     str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
@@ -1493,7 +1497,7 @@ build_season_reports <- function(wipe_stats_first = FALSE,
 }
 
 
-
+# Just update the all time stats page, then update the website
 build_alltime_stats <- function(){
   tic("Refreshed all time stats page, updated website")
   
@@ -1506,6 +1510,8 @@ build_alltime_stats <- function(){
   update_repo()
   toc(log = TRUE)
 }
+
+
 
 # One stop shop for updating the site
 update_site <- function(wipe = FALSE, 
