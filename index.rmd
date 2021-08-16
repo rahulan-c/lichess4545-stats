@@ -13,7 +13,7 @@ pacman::p_load(tidyverse, knitr)
 ```
 
 
-This page hosts a repository of statistics relating to the [Lichess4545](https://www.lichess4545.com/team4545/) and [LoneWolf](https://www.lichess4545.com/lonewolf/) leagues. For the uninitiated, these are two popular online chess leagues that have been running since 2015. They're regularly recommended by top players like IM John Bartholomew (see [here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s). Find out more at https://www.lichess4545.com/.
+This page hosts a repository of statistics relating to the [Lichess4545](https://www.lichess4545.com/team4545/) and [LoneWolf](https://www.lichess4545.com/lonewolf/) leagues. For the uninitiated, these are two popular online chess leagues that have been running since 2015. They're regularly recommended by top players like IM John Bartholomew (see [here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s)). Find out more at https://www.lichess4545.com/.
 
 ---
 
