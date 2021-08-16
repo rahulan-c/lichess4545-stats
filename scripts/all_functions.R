@@ -1321,7 +1321,7 @@ prep_games_for_report <- function(games){
 
 
 # Make sunburst plot of all openings in games data
-make_sunburst <- function(league, season){
+make_sunburst_wrapper <- function(league, season){
   
   # Load games data for requested league and season
   league_load_label <- league
@@ -1345,7 +1345,7 @@ make_sunburst <- function(league, season){
   # Make sunburst
   pgn <- paste0(path_savedata, "games_noevals_", league, "_s", season, ".pgn")
   tic("Made openings sunburst plot")
-  # use_python(path_python)
+  use_python(path_python)
   reticulate::import_from_path("chess_graph", path = "C:/Users/rahul/anaconda3/Lib/site-packages/chess_graph", convert = FALSE)
   reticulate::source_python(paste0(path_scripts, "make_openings_sunburst.py"))
   make_sunburst(pgn)
@@ -1388,7 +1388,7 @@ instareport_season <- function(league, season, from_scratch = T){
   if(from_scratch){save_season_data(league, season)}
   
   # 2. Make sunburst
-  make_sunburst(league, season)
+  make_sunburst_wrapper(league, season)
   
   # 3. Compile and produce season stats report
   report_season_stats(league, season)
