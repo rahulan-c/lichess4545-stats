@@ -4,13 +4,10 @@ This repository provides the code behind my Lichess4545 Statistics site (https:/
 
 ## How are the stats produced?
 
-There are two key scripts that do most of the work: 
+There are three key scripts that do most of the work: 
 
-- `/scripts/all_functions.R` has several functions that are called upon to extract and clean data on games, pairings, and player/team positions, including:
-  - `get_league_games()`: obtains detailed information on all games played during a season via the Lichess4545 and Lichess APIs
-  - `tidy_lichess_games()`: tidies game data prior to statistical analysis
-  - `get_league_data()`: obtains data on all player/team pairings and positions by round during a season via the Lichess4545 website
-  - `make_sunburst()`: makes a sunburst plot of all openings played in the season using the Python script `scripts/make_openings_sunburst.py`
+- `/scripts/all_functions.R` has several functions that are called upon to extract and clean data on games, pairings, and player/team positions.
+- `scripts/make_openings_sunburst.py` makes sunburst plots of all openings played in a season.
 - `/reports/produce_season_stats.Rmd` is the [R Markdown](https://rmarkdown.rstudio.com/) script that produces each season's report.
 
 ## Can these stats be replicated?
@@ -23,5 +20,4 @@ Also, anyone attempting to reproduce these reports on their own machine may enco
 
 Finally, the latest season reports (as of 2021-08-15) refer to a dataset of all 4545/LW games, which is assumed to have been previously compiled. By breaking the modular nature of the process by which data is obtained, saved and analysed for each league and season, this particular step makes complete replication significantly challenging. I hope to amend this step in a future update. 
 
-
-
+*Updated 2021-08-15*
