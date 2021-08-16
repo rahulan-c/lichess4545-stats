@@ -1347,7 +1347,7 @@ make_sunburst_wrapper <- function(league, season){
   tic("Made openings sunburst plot")
   # use_python(path_python)
   # reticulate::import_from_path("chess_graph", path = "C:/Users/rahul/anaconda3/Lib/site-packages/chess_graph", convert = FALSE)
-  # reticulate::source_python(paste0(path_scripts, "make_openings_sunburst.py"))
+  reticulate::source_python(paste0(path_scripts, "make_openings_sunburst.py"))
   make_sunburst(pgn)
   
   # Move sunburst to reports folder
