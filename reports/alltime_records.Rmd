@@ -9,7 +9,7 @@ output:
     toc_float: true
     includes:
       in_header: head-custom-google-analytics.html
-title: "All-time records"
+title: "All-time records - under construction"
 ---
 
 ```{r packages_initial_opts, include = FALSE}
@@ -57,9 +57,6 @@ fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io
 
 ```
 
-All-time records will be published here soon. 
-
-While they're under construction, all sorts of strange outputs might appear here.
 
 ```{r}
 if (!require("pacman")) install.packages("pacman")
@@ -68,6 +65,8 @@ pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2,
                rmarkdown, fs, stringi, git2r)
 ```
 
+
+### All award winners
 
 ```{r}
 
@@ -99,9 +98,6 @@ for(s in seq(1:length(season_reports))){
                                  "LW U1800", "")))
   season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
   
-  
-  print(paste0("Extracting award details for ", league, " S", season, "..."))
-  
   awards <- read_html(url) %>%
     rvest::html_element("#awards") %>% 
     xml_child(5) %>% 
@@ -124,7 +120,10 @@ for(s in seq(1:length(season_reports))){
 
 awards <- data.table::rbindlist(all_awards)
 
-print("All award data extracted!")
+awards <- awards %>% 
+  filter(Winner != "") %>% 
+  arrange(Winner) %>% 
+  select(Winner, Award, Details, League, Season)
 
 rm(all_awards, awards_tidy)
 

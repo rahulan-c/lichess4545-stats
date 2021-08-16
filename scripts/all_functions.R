@@ -1487,14 +1487,18 @@ build_season_reports <- function(wipe_stats_first = FALSE,
   
   # Push all changes to repo
   update_repo()
-  
-  # Then produce all time stats report
+  toc(log = TRUE)
+}
+
+
+
+build_alltime_stats <- function(){
+  # Produce all time stats report
   rmarkdown::render(paste0(path_loadrmd, paste0(alltime_stats_rmd_filename, '.Rmd')),
                     output_file = paste0(path_savereport, "alltime_stats.html"),
                     quiet = T)
   
-  # Do a last push
+  # Push changes to repo
   update_repo()
-  toc(log = TRUE)
 }
 
