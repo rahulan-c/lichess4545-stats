@@ -120,9 +120,9 @@ Here's a brief list of planned updates that I'm either actively working on or ha
 
 **Other planned updates** 
 
-- Presenting all-time 4545 and LoneWolf stats and records `in progress`
+- Presenting all-time 4545 and LoneWolf stats and records `in progress - see above`
   - Including longest winning and unbeaten streaks
-- Allowing users to search for any mentions across all season reports
+- Allowing users to search for any mentions across all season reports `done`
 - Presenting similar stats for other Lichess4545 community leagues such as Rapid Battle and Series
 
 ## Acknowledgements {#acknowledgements}

@@ -1527,3 +1527,7 @@ update_site <- function(wipe = FALSE,
   toc(log = TRUE)
 }
 
+
+# Obtain list of all accounts banned from Lichess (and the leagues) for Lichess ToS violations
+# N.B. this calls a non-public script and refers to non-public data
+source(paste0(path_scripts, "identify_tos_violators.R"))

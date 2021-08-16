@@ -153,11 +153,6 @@ positions <- fix_character_encoding(positions)
 
 # Remove all games and pairings featuring players banned from the leagues for cheating
 
-# Obtain list of all accounts banned from Lichess (and the leagues) for Lichess ToS violations
-# N.B. this calls a non-public script and refers to non-public data
-source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/scripts/identify_tos_violators.R")
-tos_violators <- identify_tos_violators()
-
 # Exclude these players from the games data
 games_excl_violators <- games %>%
   filter(!(players.white.user.name %in% tos_violators)) %>%
