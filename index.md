@@ -1,12 +1,11 @@
-This page hosts detailed statistical reports on all previous
+This page hosts a repository of statistics relating to the
 [Lichess4545](https://www.lichess4545.com/team4545/) and
-[LoneWolf](https://www.lichess4545.com/lonewolf/) seasons.
-
-For the uninitiated, these are two popular online chess leagues that
-have been running since 2015. They’re regularly recommended by top
-players like IM John Bartholomew – see
-[here](https://www.youtube.com/watch?v=8gBGcOEvsy4&t=1296). You can find
-out more at <https://www.lichess4545.com/>.
+[LoneWolf](https://www.lichess4545.com/lonewolf/) leagues. For the
+uninitiated, these are two popular online chess leagues that have been
+running since 2015. They’re regularly recommended by top players like IM
+John Bartholomew (see
+[here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s). Find out
+more at <https://www.lichess4545.com/>.
 
 ------------------------------------------------------------------------
 
@@ -54,24 +53,13 @@ records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.htm
 
 ## Updates
 
-### Recent updates
+Here are a few improvements and updates that I’m either actively working
+on or plan to work on soon. Many of them were first suggested by other
+Lichess4545 members.
 
--   2021-08-16: added an initial all-time stats page with a combined
-    table of award winners across all leagues/seasons
--   2021-08-15: updated home page with new sections and contact form.
--   2021-08-09: amended the treatment of banned players; revised some
-    plots and tables; and added two new awards (Rookie and Egalitarian),
-    season forfeit rates, and several explanatory footnotes.
--   2021-08-04: updates; first full set of season reports published.
--   2021-07-30: first reports published.
-
-### Future updates
-
-Here are some planned updates that I’m either actively working on or
-have on my ‘to do’ list. Many of them have been suggested by other
-Lichess4545 members. If there’s something you’d like to see, please get
-in touch using the contact form below. Nothing is impossible…except
-maybe identifying piece sacrifices :)
+If there’s something you’d like to see, please get in touch using the
+contact form below. Nothing is impossible…except maybe identifying piece
+sacrifices :)
 
 **Planned updates to season stats**
 
@@ -98,7 +86,7 @@ Chewbacca\_Defense, Ecclesiastic, ErinYu, gavalanche20,
 gingersquirrelnuts, glbert, IsaVulpes, lc91, Lou-E, MrScribbles,
 Silkthewanderer, Tranzoo.
 
-## Contact me
+## Contact
 
 Please use the form below to provide any comments, suggestions or bug
 reports.
@@ -142,4 +130,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 20:22:34 BST on Mon 16 Aug 2021.*
+*Site last updated at 20:31:34 BST on Mon 16 Aug 2021.*
