@@ -10,7 +10,7 @@ out more at <https://www.lichess4545.com/>.
 
 ------------------------------------------------------------------------
 
-On this page: [All-time records](#alltime) \| [Stats/awards by
+[All-time records](#alltime) \| [Stats/awards by
 league/season](#season-stats) \| [Updates](#updates) \|
 [Acknowledgements](#acknowledgements) \| [Contact](#contact)
 
@@ -143,4 +143,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 14:32:44 BST on Mon 16 Aug 2021.*
+*Site last updated at 14:47:33 BST on Mon 16 Aug 2021.*
