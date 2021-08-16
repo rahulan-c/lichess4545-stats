@@ -85,9 +85,10 @@ maybe identifying piece sacrifices :)
 **Other planned updates**
 
 -   Presenting all-time 4545 and LoneWolf stats and records
-    `in progress`
+    `in progress - see above`
     -   Including longest winning and unbeaten streaks
 -   Allowing users to search for any mentions across all season reports
+    `done`
 -   Presenting similar stats for other Lichess4545 community leagues
     such as Rapid Battle and Series
 
@@ -143,4 +144,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 17:54:04 BST on Mon 16 Aug 2021.*
+*Site last updated at 18:02:04 BST on Mon 16 Aug 2021.*
