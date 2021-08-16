@@ -1493,6 +1493,8 @@ build_season_reports <- function(wipe_stats_first = FALSE,
 
 
 build_alltime_stats <- function(){
+  tic("Refreshed all time stats page, updated website")
+  
   # Produce all time stats report
   rmarkdown::render(paste0(path_loadrmd, paste0(alltime_stats_rmd_filename, '.Rmd')),
                     output_file = paste0(path_savereport, "alltime_stats.html"),
@@ -1500,5 +1502,6 @@ build_alltime_stats <- function(){
   
   # Push changes to repo
   update_repo()
+  toc(log = TRUE)
 }
 

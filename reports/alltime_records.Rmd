@@ -122,11 +122,25 @@ awards <- data.table::rbindlist(all_awards)
 
 awards <- awards %>% 
   filter(Winner != "") %>% 
+  filter(Award != "Egalitarian Award") %>% 
+  filter(Award != "Tram Accuracy") %>% 
   arrange(Winner) %>% 
-  select(Winner, Award, Details, League, Season)
+  mutate(league_season = paste0(League, " S", Season)) %>% 
+  select(Winner, Award, Details, league_season)
 
 rm(all_awards, awards_tidy)
 
-reactable(awards)
+reactable(awards,
+          pagination = TRUE, 
+          fullWidth = TRUE,
+          resizable = TRUE,
+          searchable = TRUE,
+          columns = list(
+            Winner = colDef(name = "Player", align = "left", minWidth = 200),
+            Award = colDef(name = "Award", minWidth = 150),
+            Details = colDef(name = "Details", minWidth = 250),
+            league_season = colDef(name = "League / Season", minWidth = 150)
+            )
+)
 ```
 
