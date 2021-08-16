@@ -17,7 +17,16 @@ This page hosts detailed statistical reports on all previous [Lichess4545](https
 
 For the uninitiated, these are two popular online chess leagues that have been running since 2015. They're regularly recommended by top players like IM John Bartholomew -- see [here](https://www.youtube.com/watch?v=8gBGcOEvsy4&t=1296). You can find out more at https://www.lichess4545.com/.
 
-On this page: [Stats/awards by league/season](#season-stats) | [Updates](#updates) | [Acknowledgements](#acknowledgements) | [Contact](#contact)
+---
+
+On this page: 
+[All-time records](#alltime) | [Stats/awards by league/season](#season-stats) | [Updates](#updates) | [Acknowledgements](#acknowledgements) | [Contact](#contact)
+
+---
+
+## All time records {#alltime}
+
+[All time records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.html)
 
 ## Stats and awards by league/season {#season-stats} 
 

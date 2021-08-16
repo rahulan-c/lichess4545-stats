@@ -57,10 +57,6 @@ gambits <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess
 # Required for calculating player performance ratings using FIDE's method 
 fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/fide_tpr_lookup.csv")
 
-# 3. Accounts banned from the Lichess4545 leagues
-# Why? All games and pairings involving players banned by Lichess for ToS violations are removed before any stats are processed.
-banned <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/lichess4545_banned_players.csv")
-
 ```
 
 
@@ -157,18 +153,10 @@ positions <- fix_character_encoding(positions)
 
 # Remove all games and pairings featuring players banned from the leagues for cheating
 
-# Get list of players to exclude from data
-boot_reasons <- c("Marked as using computer assistance on lichess",
-                   "Cheating alt and marked as engine on lichess",
-                   "Admitted to using assistance during a 4545 game",
-                   "Cheating alt / Multi accounting in the league / LW",
-                   "Violated terms of service on lichess",
-                   "Violated Lichess terms of service")
-
-tos_violators <- banned %>% 
-  filter(Reason %in% boot_reasons) %>% 
-  filter(Other.Notes != "mark reversed and readmitted") %>% 
-  dplyr::pull(name)
+# Obtain list of all accounts banned from Lichess (and the leagues) for Lichess ToS violations
+# N.B. this calls a non-public script and refers to non-public data
+source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/scripts/identify_tos_violators.R")
+tos_violators <- identify_tos_violators()
 
 # Exclude these players from the games data
 games_excl_violators <- games %>%

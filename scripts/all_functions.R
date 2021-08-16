@@ -49,8 +49,11 @@ path_savedata <- paste0(path_root, "data/")
 # Directory where season stats R Markdown file is saved
 path_loadrmd <- paste0(path_root, "reports/")
 
-# Name of season stats R Markdown file
+# R Markdown filenames
+# RMD file that produces season stats
 stats_rmd_filename <- "produce_season_stats"
+# RMD file that produces all-time stats
+alltime_stats_rmd_filename <- "alltime_records"
 
 # Directory where season stats HTML reports will be saved
 path_savereport <- paste0(path_root, "reports/")
@@ -1451,17 +1454,6 @@ build_season_reports <- function(wipe_stats_first = FALSE,
   
   tic("Built season reports, updated website")
   
-  # First, wipe all previously produced season stats reports 
-  # (this also updates index.md and pushes the changes to the repo)
-  # But even if not wiping everything, update index.md and push any uncommitted 
-  # changes anyway
-  # if(wipe_stats_first){wipe_all_stats()} else {update_repo()}
-  
-  # Sys.sleep(15) # wait 20 seconds for the homepage to update properly before proceeding
-  
-  # Then split requested seasons into chunks according to user's desired update frequency
-  # Create season reports and push regularly to repo
-  
   # 4545
   if(!(is.null(team_range))){
     team_range <- sort(team_range, decreasing = T)
@@ -1470,7 +1462,6 @@ build_season_reports <- function(wipe_stats_first = FALSE,
       for(j in seq(1:length(team_range[[i]]))){
         instareport_season("team4545", team_range[[i]][j], from_scratch = request_data)
       }
-      # update_repo() # push changes to repo after every <update_repo_after> seasons
     }
   }
   # LW Open
@@ -1481,7 +1472,6 @@ build_season_reports <- function(wipe_stats_first = FALSE,
       for(j in seq(1:length(lwopen_range[[i]]))){
         instareport_season("lwopen", lwopen_range[[i]][j], from_scratch = request_data)
       }
-      # update_repo()
     }
   }
   # LW U1800
@@ -1492,10 +1482,18 @@ build_season_reports <- function(wipe_stats_first = FALSE,
       for(j in seq(1:length(lwu1800_range[[i]]))){
         instareport_season("lwu1800", lwu1800_range[[i]][j], from_scratch = request_data)
       }
-      # update_repo()
     }
   }
   
+  # Push all changes to repo
+  update_repo()
+  
+  # Then produce all time stats report
+  rmarkdown::render(paste0(path_loadrmd, paste0(alltime_stats_rmd_filename, '.Rmd')),
+                    output_file = paste0(path_savereport, "alltime_stats.html"),
+                    quiet = T)
+  
+  # Do a last push
   update_repo()
   toc(log = TRUE)
 }
