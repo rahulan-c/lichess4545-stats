@@ -7,9 +7,10 @@ output:
     toc: yes
     toc_depth: 4
     toc_float: true
-title: "`r paste0(ifelse(league == 'lonewolf', 'LoneWolf', '4545 League'), ifelse(lw_section == 'open', ' (Open)', ifelse(lw_section == 'u1800', ' (U1800)', '')), ', Season ', s)`"
+    includes:
+      in_header: head-custom-google-analytics.html
+title: "`r paste0('Season report: ', ifelse(league == 'lonewolf', 'LoneWolf', '4545'), ifelse(lw_section == 'open', ' (Open)', ifelse(lw_section == 'u1800', ' (U1800)', '')), ' Season ', s)`"
 ---
-
 
 
 ```{r packages_initial_opts, include = FALSE}
@@ -29,7 +30,6 @@ options(reactable.theme = reactableTheme(
     stripedColor = "#f6f8fa",
     highlightColor = "#f0f5f9",
     cellPadding = "8px 12px",
-    # style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"),
     searchInputStyle = list(width = "100%"),
     headerStyle = list(
       "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
@@ -77,7 +77,7 @@ lw_col <- "#699486"        #1c401c (darkest), #225622 (med), #699486 (lightest)
 lw_col_dark <- "#225622"
 team_col <- "#557f97"      #245164 (darkest), #3c687d (med) #557f97 (lightest)
 team_col_dark <- "#245164"
-league_col <- ifelse(league == "lonewolf", lw_col, team_col)               
+league_col <- ifelse(league == "lonewolf", lw_col_dark, team_col_dark)               
 league_col_dark <- ifelse(league == "lonewolf", lw_col_dark, team_col_dark)
 
 # Get correct team_boards parameter
@@ -210,6 +210,12 @@ lw_hide <- FALSE
 if(league != "team4545"){lw_hide <- TRUE}
 ```
 
+<!-- Show league logo -->
+
+```{r, fig.align='center', out.width = "15%", out.height = "15%"}
+if(league == "team4545"){knitr::include_graphics("images/all-for-one.svg")}
+if(league == "lonewolf"){knitr::include_graphics("images/wolf-head.svg")}
+```
 
 ### Overview
 
@@ -822,7 +828,7 @@ if(lw_hide){cat("-->")}
 ```
 
 
-### Summary charts and tables {.tabset .tabset-fade .tabset-pills}
+### Game times / durations {.tabset .tabset-fade .tabset-pills}
 
 ```{r results='asis', echo=FALSE}
 # Hide match results tab from LW reports
@@ -1016,7 +1022,7 @@ reactable(longest_duration,
 
 ```
 
-### Stats by board / rating band {.tabset .tabset-fade .tabset-pills}
+### By board / rating band {.tabset .tabset-fade .tabset-pills}
 
 #### ACPL / blunder rate
 
@@ -1530,7 +1536,7 @@ reactable(openings_bestblack,
 
 #### Popular gambits
 
-All gambit openings played in the season.
+All gambit openings played in the season.^[Currently, gambit openings are identified by the presence of the term *gambit* in the opening name assigned by Lichess. This is admittedly an imperfect approach as it excludes certain openings that should also be considered as gambits such as the Marshall Attack.]
 
 
 
@@ -1622,7 +1628,7 @@ reactable(gambits,
 
 #### Gambiteers
 
-The players who enjoyed the most success when playing gambits. 
+The players who enjoyed the most success when playing gambits.^[Qualifying "gambiteers" are ordered by number of gambit games played before percentage score.]
 
 *Shows all players who scored at least 50% playing gambits in the season (min. games: 2).*
 
@@ -1648,7 +1654,7 @@ gambiteers <- games %>%
   group_by(player) %>% 
   summarise(games = n(),
             success = (sum(gambit_score) / games) * 100) %>%
-  filter(games > 1, success >= 0.5) %>% 
+  filter(games > 1, success >= 50) %>% 
   filter(!(str_to_lower(player) %in% str_to_lower(tos_violators)))
 
 if(nrow(gambiteers) > 0){
@@ -1700,7 +1706,7 @@ Click on the image below to see a sunburst plot of all openings played in the se
 
 Because winning isn't everything; it's the only thing :) 
 
-See the footnote for further details on selected awards.^[*Archbishop of Accuracy*: lowest average centipawn loss (ACPL) over all moves played, as determined by Lichess's server analysis. Minimum 100 moves played. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. One's opponents must have played over 20 games (against others) to qualify. Suggested by Tranzoo. *Egalitarian Award*: intended for the team whose players performed most similarly to each other. First, I compute all players' **relative** performance ratings -- the difference between their actual performance rating (using FIDE's method) and their initial rating. Then I group all players by team, and give the award to the team with the lowest standard deviation across its players' relative ratings. Suggested by Silkthewanderer. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
+See the footnote for further details on selected awards.^[*Archbishop of Accuracy*: lowest average centipawn loss (ACPL) over all moves played, as determined by Lichess's server analysis. Minimum 100 moves played. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. One's opponents must have played over 20 games (against others) to qualify. Suggested by Tranzoo. *Egalitarian Award*: intended for the team whose players performed most similarly to each other. First, I compute all players' *relative* performance ratings -- the difference between their actual performance rating (using FIDE's method) and their initial rating. Then I group all players by team, and give the award to the team with the lowest standard deviation across its players' relative ratings. Suggested by Silkthewanderer. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
  
 
 ```{r relative_perfs}
@@ -2650,7 +2656,7 @@ reactable(awards,
 
 ```
 
-### Detailed stats
+### Detailed statistics
 
 All the following tables are sortable and searchable.
 
@@ -3308,13 +3314,13 @@ game_latest_capture <- latest_first_capture %>%
 - Most consecutive captures: `r max(capture_streaks$streak)` (`r capture_streaks_games`)
 - Latest-occurring first capture: ply `r max(latest_first_capture$first_capture)` in  `r game_latest_capture`
 
-### About
+### About this report
 
 :::about
 - This report was compiled on `r format(Sys.time(), '%d %B %Y')`.
-- These statistics are presented for general interest only. They are not guaranteed to be comprehensive, complete^[For example, the games data used for this report excludes games of less than 5 plies (half-moves) as well as games that ended in disconnection (ie where one player claimed a win or draw after their opponent lost connection, which isn't allowed in the leagues) or cheat detection, or where the game was aborted.], accurate, or up to date. They may be revised periodically to incorporate minor updates and bugfixes.
-- Any player determined by Lichess to have violated their Terms of Service (as of `r format(Sys.time(), '%d %B %Y')`) has been excluded from the player-based statistics and rankings shown here.^[Players who were banned from the leagues after finishing a season in the top three places are still shown with a podium place in that season's report.]
-- [Website](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
+- These statistics are presented for general interest only. They are not guaranteed to be comprehensive, complete^[For example, this report excludes from its analysis all games of less than 5 plies (half-moves), games that ended in a disconnection or by "cheat detected", games that were aborted, and games that started from a custom position.], accurate, or up to date. They may be periodically revised to incorporate updates and bugfixes.
+- Any player determined by Lichess to have violated their Terms of Service when this report was compiled should not appear in the detailed statistics.^[However, players who were banned from the Lichess4545 leagues after finishing a season in the top three places are still shown with a podium place in that season's report.]
+- [Homepage](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
 - Acknowledgements: [Noun Project](https://thenounproject.com/) for the award icons; [Simon Ilincev](https://simonilincev.com/) for [chess_graph](https://github.com/Destaq/chess_graph), which produces the openings sunburst plots.
 :::
 
