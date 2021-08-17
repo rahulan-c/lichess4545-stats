@@ -9,8 +9,10 @@ output:
     toc_float: true
     includes:
       in_header: head-custom-google-analytics.html
-title: "All-time records - under construction"
+title: "All-time records"
 ---
+
+
 
 ```{r packages_initial_opts, include = FALSE}
 # Set default R chunk options for Rmd file
@@ -65,30 +67,102 @@ pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2,
                rmarkdown, fs, stringi, git2r)
 ```
 
+```{r setup, eval = FALSE}
+# Load data for all-time stats
+
+# Games
+data_path <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/"
+
+# Get data on season games, pairings and positions
+league_load_label <- league
+if(league == "lonewolf"){
+  if(lw_u1800){league_load_label <- "lwu1800"} else {league_load_label <- "lwopen"}
+}
+
+# Load (tidied) games data
+games <- readRDS(paste0(data_path, "games_", league_load_label, "_s", season, ".rds"))
+
+# Load website pairings data
+website_pairings <- readRDS(paste0(data_path, "website_pairings_", league_load_label, "_s", season, ".rds"))
+
+# Load season pairings 
+pairings <- rio::import(paste0(data_path, "pairings_", league_load_label, "_s", season, ".csv"))
+
+# Load season team/player positions data
+positions <- rio::import(paste0(data_path, "positions_", league_load_label, "_s", season, ".csv"))
+
+# Load data on all 4545/LW games - required for determing the Rookie Award
+all_games <- readr::read_rds(paste0(data_path, "combined_league_games_210804_tidied.rds"))
+
+
+# ---- 3) TIDY SEASON DATA FOR REPORTS ----------------------------------------
+
+# Add gambits data
+games <- left_join(games, gambits, by = c("opening.name" = "gambit"))
+
+# Fix character encoding in data
+fix_character_encoding <- function(df){
+  df <- df %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'")))
+  return(df)
+}
+
+# Fix character encoding
+games <- fix_character_encoding(games)
+website_pairings <- fix_character_encoding(website_pairings)
+pairings <- fix_character_encoding(pairings)
+positions <- fix_character_encoding(positions)
+
+
+# Remove all games and pairings featuring players banned from the leagues for cheating
+
+# Exclude these players from the games data
+games_excl_violators <- games %>%
+  filter(!(players.white.user.name %in% tos_violators)) %>%
+  filter(!(players.black.user.name %in% tos_violators)) %>%
+  filter(!(players.white.user.id %in% str_to_lower(tos_violators))) %>%
+  filter(!(players.black.user.id %in% str_to_lower(tos_violators)))
+
+# Exclude from pairings data
+pairings_excl_violators <- pairings %>%
+  filter(!(white %in% tos_violators)) %>%
+  filter(!(black %in% tos_violators)) %>%
+  filter(!(white %in% str_to_lower(tos_violators))) %>%
+  filter(!(black %in% str_to_lower(tos_violators)))
+
+```
+
+### Introduction
+
+This page is under construction. Click [here](https://rahulan-c.github.io/lichess4545-stats/) to return to the home page.
+
 
 ### All award winners
 
+This is just a collated list of all the various award winners in the 4545 and LoneWolf season reports that you can find [here](https://rahulan-c.github.io/lichess4545-stats/#season-stats).^[For now, you'll need to refer to a season report to find the definitions of some of the more obscurely named awards.) Note that this table currently doesn't show: (i) players who finished with a podium position in LoneWolf or who played on a podium-finishing team in the 4545 league; (ii) players who topped their board-specific performance rating table in the 4545 league (min. 4 games played); (iii) players who earned "honourable mentions" (because we can't all be winners). These three things probably belong here but will take some work to transfer. The table also doesn't include winners of team-based awards such as the Egalitarian and Team Accuracy Awards.]
+
+
 ```{r}
-
-
-# Stats homepage
-homepage_url <- "https://rahulan-c.github.io/lichess4545-stats/"
+# Crawl over the other reports and present all winners in one table
 
 # Extract all links from season reports table on homepage
+homepage_url <- "https://rahulan-c.github.io/lichess4545-stats/"
 season_reports <- read_html(homepage_url) %>% 
   html_nodes("table") %>% 
   html_nodes("tr") %>% 
   html_nodes("a") %>%
   html_attr("href")
 
-# season_reports <- season_reports[1:20] # just for testing
-
 # Now loop through all reports and extract award winners/details
-
 all_awards <- list(rep(NA, length(season_reports)))
-
 for(s in seq(1:length(season_reports))){
-  
   url <- season_reports[s]
   league <- ifelse(str_detect(url, "stats_4545"), 
                    "4545", 
@@ -96,6 +170,7 @@ for(s in seq(1:length(season_reports))){
                           "LW Open", 
                           ifelse(str_detect(url, "stats_lwu1800"), 
                                  "LW U1800", "")))
+  
   season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
   
   awards <- read_html(url) %>%
@@ -115,20 +190,22 @@ for(s in seq(1:length(season_reports))){
   
   all_awards[[s]] <- awards_tidy
   Sys.sleep(0.2)
-  
 }
 
+# Combine everything into a single data frame
 awards <- data.table::rbindlist(all_awards)
 
+# Tidy the data
 awards <- awards %>% 
-  filter(Winner != "") %>% 
-  filter(!(Award %in% c("Egalitarian Award", "Team Accuracy", "Radjabov Award"))) %>% 
+  filter(Winner != "") %>% # exclude non-awarded awards
+  filter(!(Award %in% c("Egalitarian Award", "Team Accuracy", "Radjabov Award"))) %>% # exclude team-based awards
   arrange(Winner) %>% 
   mutate(league_season = paste0(League, " S", Season)) %>% 
   select(Winner, Award, Details, league_season)
 
 rm(all_awards, awards_tidy)
 
+# Show final table
 reactable(awards,
           pagination = TRUE, 
           fullWidth = TRUE,
@@ -142,4 +219,17 @@ reactable(awards,
             )
 )
 ```
+
+
+
+### About this page
+
+:::about
+- This page was last compiled on `r format(Sys.time(), '%d %B %Y')`.
+- Its contents are presented purely for general interest. They are not guaranteed to be comprehensive, complete, accurate, or up to date. They may be periodically revised to incorporate updates and bugfixes.
+- All statistics based on Lichess game data do not account for games that lasted less than 5 plies (half-moves), games that ended in a disconnection or by "cheat detected", games that were aborted, and games that started from a custom position.,
+- Former league players that were determined by Lichess to have violated their Terms of Service when this report was compiled should not appear in any detailed statistics. However, some may still appear in lists of season winners and top finishers.
+- [Homepage](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
+- Acknowledgements: [Noun Project](https://thenounproject.com/) for the award icons; [Simon Ilincev](https://simonilincev.com/) for [chess_graph](https://github.com/Destaq/chess_graph), which produces the openings sunburst plots.
+:::
 

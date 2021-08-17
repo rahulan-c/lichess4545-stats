@@ -1519,15 +1519,19 @@ update_site <- function(wipe = FALSE,
                         team = NULL,
                         lwopen = NULL,
                         lwu1800 = NULL){
+  
   tic("Updated site")
+  
   # First, build the necessary season reports
   build_season_reports(wipe_stats_first = wipe,
                        request_data = request,
                        team_range = team, 
                        lwopen_range = lwopen, 
                        lwu1800_range = lwu1800)
+  
   # Then wait a bit
   Sys.sleep(45)
+  
   # Then refresh the all time stats page
   build_alltime_stats()
   toc(log = TRUE)
