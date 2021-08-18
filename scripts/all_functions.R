@@ -1285,7 +1285,7 @@ report_season_stats <- function(league_choice, seasons){
     load_data <- T
     
     rmarkdown::render(paste0(path_loadrmd, paste0(stats_rmd_filename, '.Rmd')), 
-                      output_format = "html_document",
+                      output_format = "distill::distill_article", # "html_document"
                       output_file = paste0(path_savereport, "stats_",
                                            ifelse(league == "team4545", "4545", "lw"),
                                            ifelse(league == "lonewolf", 

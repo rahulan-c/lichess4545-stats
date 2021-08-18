@@ -1,16 +1,19 @@
 ---
-output:
-  html_document:
+title: "`r paste0(ifelse(league == 'lonewolf', 'LoneWolf', '4545'), ifelse(lw_section == 'open', ' (Open)', ifelse(lw_section == 'u1800', ' (U1800)', '')), ' Season ', s)`"
+description: |
+  Season stats and awards
+output: 
+  distill::distill_article:
     css: style.css
     theme: flatly
     dev: svglite
-    toc: yes
+    toc: true
     toc_depth: 4
     toc_float: true
     includes:
       in_header: head-custom-google-analytics.html
-title: "`r paste0('Season report: ', ifelse(league == 'lonewolf', 'LoneWolf', '4545'), ifelse(lw_section == 'open', ' (Open)', ifelse(lw_section == 'u1800', ' (U1800)', '')), ' Season ', s)`"
 ---
+
 
 
 ```{r packages_initial_opts, include = FALSE}
@@ -22,7 +25,7 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
                ggrepel, ggridges, reactable, htmltools, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, cowplot, 
-               tippy)
+               tippy, xaringanExtra)
 
 # Define custom default reactable theme for tables
 options(reactable.theme = reactableTheme(
@@ -39,6 +42,8 @@ options(reactable.theme = reactableTheme(
   )
 )
 
+# Use xaringanExtra's panelset for tabs that work with distill
+xaringanExtra::use_panelset()
 ```
 
 
@@ -811,7 +816,8 @@ if(lw_hide){cat("-->")}
 ```
 
 
-### Game times / durations {.tabset .tabset-fade .tabset-pills}
+
+### Game times / durations
 
 ```{r results='asis', echo=FALSE}
 # Hide match results tab from LW reports
@@ -823,7 +829,10 @@ if (lw_hide) {cat("<!---")}
 if (lw_hide) {cat("-->")}
 ```
 
-#### When were games played?
+::::: {.panelset}
+::: {.panel}
+
+#### When were games played? {.panel-name}
 
 ```{r games_by_day, fig.show="hold", out.width = "50%"}
 
@@ -865,7 +874,10 @@ heat_dayhour
 
 ```
 
-#### How long did games take?
+:::
+::: {.panel}
+
+#### How long did games take? {.panel-name}
 
 ```{r hists, fig.show="hold", out.width = "50%"}
 # Number of moves histogram
@@ -898,7 +910,13 @@ moves_hist
 duration_hist
 ```
 
-#### Longest games (moves)
+:::
+::: {.panel}
+
+#### Longest games (moves) {.panel-name}
+
+
+
 
 *Includes games ranked at or above the 90th percentile by number of moves.*
 
@@ -951,7 +969,10 @@ reactable(longest_moves,
 
 ```
 
-#### Longest games
+:::
+::: {.panel}
+
+#### Longest games {.panel-name}
 
 *Includes games ranked at or above the 90th percentile by total clock time.*^[A game's total clock time is the sum of both players' move times from move 2 onwards.]
 
@@ -1004,6 +1025,11 @@ reactable(longest_duration,
           )
 
 ```
+
+:::
+
+::::: 
+
 
 ### By board / rating band {.tabset .tabset-fade .tabset-pills}
 
@@ -1352,7 +1378,7 @@ reactable(lowest_acpl_games_decisive,
 
 All openings played in the season, excluding variations.
 
-```{r}
+```{r, layout="l-page"}
 # Show openings by broad opening name (excl. variation)
 openings_exclvar <- games %>% 
   group_by(opening.broad) %>% 
@@ -1392,7 +1418,7 @@ reactable(openings_exclvar,
 
 All openings played in the season, including variations.
 
-```{r}
+```{r, layout="l-page"}
 # Show openings by Lichess-determined opening name including variation
 openings_inclvar <- games %>% 
   group_by(opening.name) %>% 
@@ -1437,7 +1463,7 @@ The best-scoring main openings for White.
 
 *Includes all main openings played in at least 10 games.* 
 
-```{r}
+```{r, layout="l-page"}
 # Same as (3) but ordered by White score instead
 openings_bestwhite <- games %>% 
   group_by(opening.broad) %>% 
@@ -1480,7 +1506,7 @@ The best-scoring main openings for Black.
 
 *Includes all main openings played in at least 10 games.* 
 
-```{r openings_for_black}
+```{r openings_for_black, layout="l-page"}
 # Same ordered by Black score
 openings_bestblack <- games %>% 
   group_by(opening.broad) %>% 
@@ -2317,7 +2343,7 @@ rookie_perfs <- perfs %>%
 
 
 
-```{r player_awards_4545, eval = ifelse(league == "team4545", TRUE, FALSE)}
+```{r player_awards_4545, eval = ifelse(league == "team4545", TRUE, FALSE), layout="l-page"}
 
 single_fig_acpl_players <- minacpl_players %>% select(player) %>% dplyr::pull()
 giri_winners <- drawers %>% select(player) %>% dplyr::pull()
@@ -2489,7 +2515,7 @@ reactable(awards,
 )
 ```
 
-```{r player_awards_lw, eval = ifelse(league == "team4545", FALSE, TRUE)}
+```{r player_awards_lw, eval = ifelse(league == "team4545", FALSE, TRUE), layout="l-page"}
 
 single_fig_acpl_players <- minacpl_players %>% select(player) %>% dplyr::pull()
 giri_winners <- drawers %>% select(player) %>% dplyr::pull()
@@ -2651,7 +2677,7 @@ if (lw_hide) {cat("<!---")}
 
 #### Team statistics
 
-```{r team_stats_appendix, eval = ifelse(league == "team4545", TRUE, FALSE)}
+```{r team_stats_appendix, eval = ifelse(league == "team4545", TRUE, FALSE), layout="l-page"}
 # Show team stats table in appendix
 
 # data <- as_tibble(mtcars[1:6, ], rownames = "car") %>%
@@ -2725,7 +2751,7 @@ Shows players' *relative* performance ratings: season performance rating minus i
 
 
 
-```{r}
+```{r, layout="l-page"}
 # Table for report
 reactable(relative_perfs,
           pagination = TRUE, 
@@ -2921,7 +2947,7 @@ reactable(upset_specialists,
 
 The players with the least time left after 10 moves...who still managed to win!^[Statistic suggested by **Silkthewanderer**.]
 
-```{r other_grischuk, comment = ""}
+```{r other_grischuk, comment = "", layout="l-page"}
 if(movetimes_exist){
 reactable(dawdlers,
           pagination = TRUE,
@@ -2981,7 +3007,7 @@ The longest times spent on a single move.
 
 *Top 100 shown.*
 
-```{r, comment = ""}
+```{r, comment = "", layout="l-page"}
 if(movetimes_exist){
 reactable(movetimes,
           pagination = TRUE, 
@@ -3306,5 +3332,14 @@ game_latest_capture <- latest_first_capture %>%
 - [Homepage](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
 - Acknowledgements: [Noun Project](https://thenounproject.com/) for the award icons; [Simon Ilincev](https://simonilincev.com/) for [chess_graph](https://github.com/Destaq/chess_graph), which produces the openings sunburst plots.
 :::
+
+
+
+
+```{r panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+
 
 
