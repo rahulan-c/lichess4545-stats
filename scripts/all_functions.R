@@ -1,7 +1,7 @@
 
 # FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA
 
-# Last updated: 2021-08-09
+# Last updated: 2021-08-18
 
 # All functions
 # -------------
@@ -23,6 +23,7 @@
 # wipe_all_stats()
 # build_season_reports()
 # build_alltime_stats()
+# update_site()
 
 
 # ---- User-defined parameters ------------------------------------------------
@@ -33,10 +34,8 @@ path_root <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-st
 # Path to Python environment
 path_python <- "C:/Users/rahul/anaconda3/python.exe"
 
-
 # Lichess API token
 token <- Sys.getenv("LICHESS_TOKEN")
-# token <- "my_token"
 
 
 # ---- Directory paths (do not change) ----------------------------------------
@@ -76,15 +75,14 @@ pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2,
 
 # ---- Functions --------------------------------------------------------------
 
-#' Extract Lichess game data for Lichess4545 seasons
+#' Extract Lichess game data for all games in seasons of the Lichess4545 Team
+#' and LoneWolf leagues.
 #' 
-#' TBC
-#' 
-#' @param league_choice Lichess4545 league of choice - "team4545" for 4545 games, "lonewolf" for LoneWolf Open or U1800 games
-#' @param seasons_choice Season(s) of choice
+#' @param league_choice Lichess4545 league of choice: either "team4545" (for 4545) or "lonewolf" (for LoneWolf Open or U1800)
+#' @param seasons_choice Season(s) of choice, eg 12 or c(12:18)
 #' @param lw_u1800_choice TRUE if you want LW U1800 games, FALSE otherwise
 #'
-#' @return Data frame of season game data
+#' @return Tibble with game data for all requested season(s)
 #' @export
 #'
 #' @examples 
@@ -261,21 +259,34 @@ get_league_games <- function(league_choice, seasons_choice,
 }
 
 
-# Get a user's Lichess games data
-# Eg games <- get_user_games("izzie26", "2020-01-01", "Now", "blitz,rapid,classical")
+#' Get data on any Lichess user's games
+#' 
+#' Queries the Lichess API for data on all rated games played by a user within 
+#' a specified time period in specified broad time controls. Returns a tibble
+#' with all Lichess data on all relevant games, including PGN, clock times and 
+#' eval data.
+#'
+#' @param username The account to search
+#' @param since The earliest date in the period of interest. Must be specified as "YYYY-MM-DD". Eg "2021-02-01" for 1 February 2021.
+#' @param until The latest date in the period of interest. Must be specified as "YYYY-MM-DD". Eg "2021-02-01" for 1 February 2021.
+#' @param perfs All relevant broad time controls. Eg "classical", "blitz. Multiple time controls can be selected, eg "blitz,rapid,classical".
+#'
+#' @return A tibble of Lichess data returned games data
+#' @export
+#'
+#' @examples 
+#' get_user_games("thibault", "2021-01-15", "2021-03-14", "blitz")
+#' get_user_games("izzie26, "2018-04-01", "2021-08-18", "classical")
 get_user_games <- function(username, since, until, perfs){
-
-  # username <- "izzie26"
-  # since <- "2020-11-01"
-  # until <- "Now"
-  # perfs <- "bullet,blitz,rapid,classical"
   
   # Request games
   get_games <- httr::GET(
     url = "https://lichess.org",
     path = paste0("/api/games/user/", username),
-    query = list(since = as.character(as.numeric(parse_date_time(since, "ymd")) * 1000),
-                 until = until,
+    query = list(since = as.character(formatC(as.numeric(lubridate::parse_date_time(since, "ymd")) * 1000, 
+                                              digits = 0, format = "f")),
+                 until = as.character(formatC(as.numeric(lubridate::parse_date_time(until, "ymd")) * 1000, 
+                                              digits = 0, format = "f")),
                  rated = "true",
                  perfType = perfs,
                  clocks = "true",
