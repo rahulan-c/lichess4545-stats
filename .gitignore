@@ -5,6 +5,8 @@
 .Ruserdata
 .Renviron
 
+.env
+
 data/**
 scripts/test/**
 reports/images/mates/**
