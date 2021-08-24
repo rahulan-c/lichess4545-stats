@@ -63,13 +63,13 @@ sacrifices :)
 
 **Future updates**
 
--   Identifying games that stayed in “theory” the longest. **Working
+-   Identifying games that stayed in “theory” the longest. *Working
     method developed. See [Jupyter
     notebook](https://github.com/rahulan-c/lichess4545-stats/blob/e2ad93bcb02fd46275704487784d6307a8780804/scripts/pub_test/identify_theory_games.ipynb)
-    for latest progress.**
--   Visualising the evolution of a 4545 match. **Working method
+    for latest progress.*
+-   Visualising the evolution of a 4545 match. *Working method
     developed. See latest
-    [output](https://raw.githubusercontent.com/rahulan-c/lichess4545-stats/cf7533b80143d5cc676395f0eaa7f238174f140f/scripts/pub_test/match_story.svg).**
+    [output](https://raw.githubusercontent.com/rahulan-c/lichess4545-stats/cf7533b80143d5cc676395f0eaa7f238174f140f/scripts/pub_test/match_story.svg).*
 -   Showing positions from games
 -   Showing players that ended up with more time than they began with
 -   Stats by endgame
@@ -143,4 +143,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 10:21:40 BST on Tue 24 Aug 2021.*
+*Site last updated at 10:23:45 BST on Tue 24 Aug 2021.*
