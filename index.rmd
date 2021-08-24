@@ -100,19 +100,23 @@ Here are a few improvements and updates that I'm either actively working on or p
 
 If there's something you'd like to see, please get in touch using the contact form below. Nothing is impossible...except maybe identifying piece sacrifices :)
 
-**Planned updates to season stats**
+**Future updates**
  
+ - Identifying games that stayed in "theory" the longest. **Working method developed. See [Jupyter notebook](https://github.com/rahulan-c/lichess4545-stats/blob/e2ad93bcb02fd46275704487784d6307a8780804/scripts/pub_test/identify_theory_games.ipynb) for latest progress.** 
+- Visualising the evolution of a 4545 match. **Working method developed. See latest [output](https://raw.githubusercontent.com/rahulan-c/lichess4545-stats/cf7533b80143d5cc676395f0eaa7f238174f140f/scripts/pub_test/match_story.svg).**
 - Showing positions from games
-- Identifying game(s) that were last to deviate from "theory" (aka the Lichess masters DB) `in progress`
-- Visualising important team matches (or matches that went to the wire) `in progress`
 - Showing players that ended up with more time than they began with
 - Stats by endgame
 - Improving gambit-related stats
-
-**Other planned updates** 
-
-- All-time 4545 and LoneWolf stats `under construction - see above`
+- Expanding the all-time stats page
 - Presenting stats for other Lichess4545 community leagues (eg Rapid Battle, Series...)
+- Publishing round dashboards for current seasons (similar to the ones previously published in the Lichess4545 Ledger, eg [here](https://www.lichess4545.com/media/uploads/2021/06/15/dash_lonewolf_s22_r3.png))
+- Stats on the global distribution of 4545 and LoneWolf players based on (public) Lichess profile data
+
+**Recent updates**
+
+- 2021-08-24: published new reports for LoneWolf S22
+- 2021-08-18: started revising all season reports to use the [Distill](https://rstudio.github.io/distill/) web publishing format. Until this work is fully completed, some of the published reports may look somewhat messy.
 
 ## Acknowledgements {#acknowledgements}
 

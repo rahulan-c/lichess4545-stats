@@ -9,9 +9,9 @@ more at <https://www.lichess4545.com/>.
 
 ------------------------------------------------------------------------
 
-[All-time records](#alltime) \| [Stats/awards by
-league/season](#season-stats) \| [Updates](#updates) \|
-[Acknowledgements](#acknowledgements) \| [Contact](#contact)
+[All-time records](#alltime) | [Stats/awards by
+league/season](#season-stats) | [Updates](#updates) |
+[Acknowledgements](#acknowledgements) | [Contact](#contact)
 
 ------------------------------------------------------------------------
 
@@ -22,34 +22,147 @@ records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.htm
 
 ## Stats and awards by league/season
 
-| Lichess4545 League                                                                     | Lichess LoneWolf (Open)                                                                  | Lichess LoneWolf (U1800)                                                                  |
-|:---------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
-| [Season 26](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s26.html) | [Season 22](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s22.html) | [Season 22](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s22.html) |
-| [Season 25](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s25.html) | [Season 21](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s21.html) | [Season 21](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s21.html) |
-| [Season 24](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s24.html) | [Season 20](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s20.html) | [Season 20](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s20.html) |
-| [Season 23](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s23.html) | [Season 19](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s19.html) | [Season 19](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s19.html) |
-| [Season 22](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s22.html) | [Season 18](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s18.html) | [Season 18](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s18.html) |
-| [Season 21](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s21.html) | [Season 17](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s17.html) | [Season 17](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s17.html) |
-| [Season 20](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s20.html) | [Season 16](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s16.html) | [Season 16](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s16.html) |
-| [Season 19](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s19.html) | [Season 15](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s15.html) | [Season 15](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s15.html) |
-| [Season 18](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s18.html) | [Season 14](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s14.html) | [Season 14](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s14.html) |
-| [Season 17](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s17.html) | [Season 13](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s13.html) | [Season 13](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s13.html) |
-| [Season 16](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s16.html) | [Season 12](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s12.html) | [Season 12](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s12.html) |
-| [Season 15](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s15.html) | [Season 11](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s11.html) | [Season 11](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s11.html) |
-| [Season 14](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s14.html) | [Season 10](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s10.html) | [Season 10](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s10.html) |
-| [Season 13](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s13.html) | [Season 09](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s09.html) | [Season 09](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s09.html) |
-| [Season 12](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s12.html) | [Season 08](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s08.html) |                                                                                           |
-| [Season 11](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s11.html) | [Season 07](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s07.html) |                                                                                           |
-| [Season 10](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s10.html) | [Season 06](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s06.html) |                                                                                           |
-| [Season 09](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s09.html) | [Season 05](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s05.html) |                                                                                           |
-| [Season 08](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s08.html) | [Season 04](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s04.html) |                                                                                           |
-| [Season 07](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s07.html) | [Season 03](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s03.html) |                                                                                           |
-| [Season 06](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s06.html) | [Season 02](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s02.html) |                                                                                           |
-| [Season 05](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s05.html) | [Season 01](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s01.html) |                                                                                           |
-| [Season 04](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s04.html) |                                                                                          |                                                                                           |
-| [Season 03](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s03.html) |                                                                                          |                                                                                           |
-| [Season 02](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s02.html) |                                                                                          |                                                                                           |
-| [Season 01](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s01.html) |                                                                                          |                                                                                           |
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Lichess4545 League</th>
+<th style="text-align: left;">Lichess LoneWolf (Open)</th>
+<th style="text-align: left;">Lichess LoneWolf (U1800)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s26.html">Season 26</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s22.html">Season 22</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s22.html">Season 22</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s25.html">Season 25</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s21.html">Season 21</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s21.html">Season 21</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s24.html">Season 24</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s20.html">Season 20</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s20.html">Season 20</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s23.html">Season 23</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s19.html">Season 19</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s19.html">Season 19</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s22.html">Season 22</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s18.html">Season 18</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s18.html">Season 18</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s21.html">Season 21</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s17.html">Season 17</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s17.html">Season 17</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s20.html">Season 20</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s16.html">Season 16</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s16.html">Season 16</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s19.html">Season 19</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s15.html">Season 15</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s15.html">Season 15</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s18.html">Season 18</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s14.html">Season 14</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s14.html">Season 14</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s17.html">Season 17</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s13.html">Season 13</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s13.html">Season 13</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s16.html">Season 16</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s12.html">Season 12</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s12.html">Season 12</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s15.html">Season 15</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s11.html">Season 11</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s11.html">Season 11</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s14.html">Season 14</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s10.html">Season 10</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s10.html">Season 10</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s13.html">Season 13</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s09.html">Season 09</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s09.html">Season 09</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s12.html">Season 12</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s08.html">Season 08</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s11.html">Season 11</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s07.html">Season 07</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s10.html">Season 10</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s06.html">Season 06</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s09.html">Season 09</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s05.html">Season 05</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s08.html">Season 08</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s04.html">Season 04</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s07.html">Season 07</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s03.html">Season 03</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s06.html">Season 06</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s02.html">Season 02</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s05.html">Season 05</a></td>
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s01.html">Season 01</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s04.html">Season 04</a></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s03.html">Season 03</a></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s02.html">Season 02</a></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s01.html">Season 01</a></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 
 ## Updates
 
@@ -61,22 +174,35 @@ If there’s something you’d like to see, please get in touch using the
 contact form below. Nothing is impossible…except maybe identifying piece
 sacrifices :)
 
-**Planned updates to season stats**
+**Future updates**
 
+-   Identifying games that stayed in “theory” the longest. **Working
+    method developed. See [Jupyter
+    notebook](https://github.com/rahulan-c/lichess4545-stats/blob/e2ad93bcb02fd46275704487784d6307a8780804/scripts/pub_test/identify_theory_games.ipynb)
+    for latest progress.**
+-   Visualising the evolution of a 4545 match. **Working method
+    developed. See latest
+    [output](https://raw.githubusercontent.com/rahulan-c/lichess4545-stats/cf7533b80143d5cc676395f0eaa7f238174f140f/scripts/pub_test/match_story.svg).**
 -   Showing positions from games
--   Identifying game(s) that were last to deviate from “theory” (aka the
-    Lichess masters DB) `in progress`
--   Visualising important team matches (or matches that went to the
-    wire) `in progress`
 -   Showing players that ended up with more time than they began with
 -   Stats by endgame
 -   Improving gambit-related stats
-
-**Other planned updates**
-
--   All-time 4545 and LoneWolf stats `under construction - see above`
+-   Expanding the all-time stats page
 -   Presenting stats for other Lichess4545 community leagues (eg Rapid
     Battle, Series…)
+-   Publishing round dashboards for current seasons (similar to the ones
+    previously published in the Lichess4545 Ledger, eg
+    [here](https://www.lichess4545.com/media/uploads/2021/06/15/dash_lonewolf_s22_r3.png))
+-   Stats on the global distribution of 4545 and LoneWolf players based
+    on (public) Lichess profile data
+
+**Recent updates**
+
+-   2021-08-24: published new reports for LoneWolf S22
+-   2021-08-18: started revising all season reports to use the
+    [Distill](https://rstudio.github.io/distill/) web publishing format.
+    Until this work is fully completed, some of the published reports
+    may look somewhat messy.
 
 ## Acknowledgements
 
@@ -130,4 +256,4 @@ reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 
-*Site last updated at 21:58:05 BST on Mon 23 Aug 2021.*
+*Site last updated at 10:20:50 BST on Tue 24 Aug 2021.*
