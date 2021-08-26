@@ -88,8 +88,8 @@ pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2,
 #' @examples 
 #' get_league_games("team4545", 25, FALSE)
 #' get_league_games("lonewolf", 21, TRUE)
-get_league_games <- function(league_choice, seasons_choice,
-                             lw_u1800_choice){
+get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL,
+                             lw_u1800_choice = FALSE){
   
   tic("Obtained game data")
   
@@ -123,6 +123,11 @@ get_league_games <- function(league_choice, seasons_choice,
           httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
           jsonlite::fromJSON() %>% 
           purrr::pluck("games")
+        
+        # Filter by round (if rounds_choice specified)
+        if(!(is.null(rounds_choice))){
+          res <- res %>% filter(round %in% rounds_choice)
+        }
         
         # Add returned game data to season game IDs list
         season_data[[i]] <- res
