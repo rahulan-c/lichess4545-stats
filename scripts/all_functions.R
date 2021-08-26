@@ -552,7 +552,7 @@ tidy_lichess_games <- function(games){
   games <- games %>% 
     select(-starts_with("analysis")) %>% 
     select(-c(clock.totalTime, createdAt, lastMoveAt))
-  
+
   toc(log = TRUE)
   
   return(games)
