@@ -70,7 +70,7 @@ path_sunburst_new <- path_loadrmd
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
-               rmarkdown, fs, stringi, git2r)
+               rmarkdown, fs, stringi, git2r, glue)
 
 
 # ---- Functions --------------------------------------------------------------
@@ -248,18 +248,22 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
   
   toc(log = TRUE) # how long to get games data from Lichess
   
-  # Inform user about unanalysed games for which the user should request Lichess analysis
-  # Note: returned game IDs includes games < 3 moves (for which analysis isn't possible)
+  # Inform user about unanalysed games
+  # Open them in the browser so analysis can be requested
   need_analysis <- all_games %>% 
     filter(is.na(players.white.analysis.acpl))
   if(nrow(need_analysis) > 0){
     print("Some games haven't been analysed by Lichess...")
     print(need_analysis$id)
+    for (l in seq(1:length(need_analysis$id))) {
+      browseURL(glue::glue("https://lichess.org/{need_analysis$id[l]}"), browser = getOption("browser"),
+                encodeIfNeeded = FALSE)
+    }
   }
   
   # Return Lichess game data on all game IDs in the Lichess4545 pairings data
   # and also return the Lichess4545 pairing data
-  return(list(all_games, all_data))
+  return(list(all_games, all_data, need_analysis$id))
   
 }
 
@@ -284,14 +288,21 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
 #' get_user_games("izzie26, "2018-04-01", "2021-08-18", "classical")
 get_user_games <- function(username, since, until, perfs){
   
+  
+  LichessDateFormat <- function(date, time_modifier){
+    date <- as.numeric(formatC(
+      as.numeric(lubridate::parse_date_time(paste0(date, " ", time_modifier), "ymdHMS")) * 1000,
+      digits = 0, format = "f"
+    ))
+    return(date)
+  }
+  
   # Request games
   get_games <- httr::GET(
     url = "https://lichess.org",
     path = paste0("/api/games/user/", username),
-    query = list(since = as.character(formatC(as.numeric(lubridate::parse_date_time(since, "ymd")) * 1000, 
-                                              digits = 0, format = "f")),
-                 until = as.character(formatC(as.numeric(lubridate::parse_date_time(until, "ymd")) * 1000, 
-                                              digits = 0, format = "f")),
+    query = list(since = LichessDateFormat(since, "00:00:01"),
+                 until = LichessDateFormat(until, "23:59:59"),
                  rated = "true",
                  perfType = perfs,
                  clocks = "true",
@@ -1556,4 +1567,4 @@ update_site <- function(wipe = FALSE,
 
 # Obtain list of all accounts banned from Lichess (and the leagues) for Lichess ToS violations
 # N.B. this calls a non-public script and refers to non-public data
-source(paste0(path_scripts, "identify_tos_violators.R"))
+# source(paste0(path_scripts, "identify_tos_violators.R"))

@@ -48,17 +48,14 @@ xaringanExtra::use_panelset()
 
 
 ```{r load_functions_lookups}
-# # Source supporting functions
-# source("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/scripts/all_functions.R", local = knitr::knit_global())
-
 # Load supporting lookup data
 
 # 1. Gambit openings - to enable analysis of gambits and gambit-lovers
 gambits <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/gambits.csv")
+# N.B. THIS IS INCOMPLETE DATA AND NEEDS TO BE REVISED
 
 # 2. FIDE performance rating lookup values
-# 2-column table with tournament performance scores and rating differences
-# Compiled from https://handbook.fide.com/chapter/B022017
+# Source: https://handbook.fide.com/chapter/B022017
 # Required for calculating player performance ratings using FIDE's method 
 fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/fide_tpr_lookup.csv")
 
@@ -158,6 +155,8 @@ positions <- fix_character_encoding(positions)
 
 
 # Remove all games and pairings featuring players banned from the leagues for cheating
+
+source(paste0(path_scripts, "identify_tos_violators.R"))
 
 # Exclude these players from the games data
 games_excl_violators <- games %>%

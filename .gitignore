@@ -4,6 +4,8 @@
 .RData
 .Ruserdata
 .Renviron
+/
+.Rprofile
 
 .env
 
