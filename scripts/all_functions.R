@@ -1,7 +1,7 @@
 
 # FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA
 
-# Last updated: 2021-08-18
+# Last updated: 2021-09-20
 
 # All functions
 # -------------
@@ -24,15 +24,24 @@
 # build_season_reports()
 # build_alltime_stats()
 # update_site()
+# GetFENs()
+
+# ---- Required packages ------------------------------------------------------
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
+               rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
+               rmarkdown, fs, stringi, git2r, glue, here)
 
 
 # ---- User-defined parameters ------------------------------------------------
 
 # Path to root folder
-path_root <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/"
+path_root <- here::here()
 
-# Path to Python environment
-path_python <- "C:/Users/rahul/anaconda3/python.exe"
+# Path to Python environment and chess_graph module
+path_python <- Sys.getenv("RETICULATE_PYTHON")
+chessgraph_path <- Sys.getenv("CHESSGRAPH_PATH")
 
 # Lichess API token
 token <- Sys.getenv("LICHESS_TOKEN")
@@ -41,13 +50,13 @@ token <- Sys.getenv("LICHESS_TOKEN")
 # ---- Directory paths (do not change) ----------------------------------------
 
 # Directory where this functions script is saved
-path_scripts <- paste0(path_root, "scripts/")
+path_scripts <- paste0(path_root, "/scripts/")
 
 # Directory where 4545/LW season data is saved
-path_savedata <- paste0(path_root, "data/")
+path_savedata <- paste0(path_root, "/data/")
 
 # Directory where season stats R Markdown file is saved
-path_loadrmd <- paste0(path_root, "reports/")
+path_loadrmd <- paste0(path_root, "/reports/")
 
 # R Markdown filenames
 # RMD file that produces season stats
@@ -63,14 +72,6 @@ path_sunburst_original <- path_scripts
 
 # Directory where openings sunburst plots will be copied to
 path_sunburst_new <- path_loadrmd
-
-
-# ---- Required packages ------------------------------------------------------
-
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
-               rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
-               rmarkdown, fs, stringi, git2r, glue)
 
 
 # ---- Functions --------------------------------------------------------------
@@ -172,20 +173,7 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
         # Add returned game data to season game IDs list
         season_data[[i]] <- res
         
-        # # Add round game IDs to season game IDs list
-        # season_ids[[j]] <- tibble("id" = round_ids)
-        
-        # print(paste0("Obtained game IDs for ", 
-        #              ifelse(league_choice == "team4545", "4545 S",
-        #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-        #              seasons_choice[[i]]))
-        
       }
-    
-    # print(paste0("Obtained all game IDs for ", 
-    #              ifelse(league_choice == "team4545", "4545 S",
-    #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-    #              seasons_choice[[i]]))
 
     all_data[[i]] <- bind_rows(season_data)
     
@@ -251,8 +239,11 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
   # Inform user about unanalysed games
   # Open them in the browser so analysis can be requested
   need_analysis <- all_games %>% 
-    filter(is.na(players.white.analysis.acpl))
-  if(nrow(need_analysis) > 0){
+    filter(is.na(players.white.analysis.acpl)) %>% 
+    select(id) %>% 
+    as_tibble()
+  
+  if(nrow(need_analysis) > 0) {
     print("Some games haven't been analysed by Lichess...")
     print(need_analysis$id)
     for (l in seq(1:length(need_analysis$id))) {
@@ -320,13 +311,13 @@ get_user_games <- function(username, since, until, perfs){
     read_lines() %>% 
     ndjson::flatten()
   
-  return(all_games)
+  return(games)
   
 }
 
 
 # Tidy Lichess games data
-# Eg tidied_games <- tidy_lichess_games(games)
+# Eg tidied_games <- tidy_lichess_games(as_tibble(games[[1]]))
 tidy_lichess_games <- function(games){
 
   tic("Tidied game data")
@@ -432,9 +423,9 @@ tidy_lichess_games <- function(games){
   # Add move times to data
   
   # Compute move times
-  times <- map(str_extract_all(games$pgn, "(?<=clk\\s)[0-1]\\:[0-5][0-9]\\:[0-5][0-9]"), lubridate::hms) %>% 
-    map(lubridate::period_to_seconds) %>% 
-    map2(games$clock.increment, ~ lag(.x, 2) - .x + .y)
+  times <- purrr::map(str_extract_all(games$pgn, "(?<=clk\\s)[0-1]\\:[0-5][0-9]\\:[0-5][0-9]"), lubridate::hms) %>% 
+    purrr::map(lubridate::period_to_seconds) %>% 
+    purrr::map2(games$clock.increment, ~ lag(.x, 2) - .x + .y)
   
   # Add id to times
   names(times) <- games$id
@@ -449,8 +440,11 @@ tidy_lichess_games <- function(games){
   evals <- games %>% select(ends_with("eval"))
   names(evals) <- as.character(str_extract_all(names(evals), "[0-9]+"))
   evals$id <- games$id
-  evals <- melt(evals, id.vars = c("id"))
-  evals$variable <- as.numeric(as.character(evals$variable))
+  # evals <- reshape2::melt(evals, id.vars = c("id"))
+  # Use tidyr::pivot_longer() instead
+  evals <- tidyr::pivot_longer(evals, where(is.numeric))
+  # evals <- tidyr::pivot_longer(evals, names_to = "id")
+  evals$name <- as.numeric(as.character(evals$name))
   
   # Isolate and melt mate data (ie moves until mate)
   mates <- games %>% select(ends_with("mate"))
@@ -464,8 +458,9 @@ tidy_lichess_games <- function(games){
   
   names(mates) <- as.character(str_extract_all(names(mates), "[0-9]+"))
   mates$id <- games$id
-  mates <- melt(mates)
-  mates$variable <- as.numeric(as.character(mates$variable))
+  # mates <- melt(mates)
+  mates <- tidyr::pivot_longer(mates, where(is.numeric))
+  mates$name <- as.numeric(as.character(mates$name))
   
   # Combine eval and mates data and tidy
   evals <- bind_rows(evals, mates)
@@ -559,6 +554,41 @@ tidy_lichess_games <- function(games){
     # Add eval after 15 moves to data
     mutate(eval_after_15 = unlist(map(evals, ~ .x$capped_eval[30])))
   
+  games <- as_tibble(games)
+  
+  # Add FENs
+  
+  # 1) Construct single PGN with all games, but no evals or movetimes 
+  games$pgn_noevals <- str_replace_all(games$pgn, 
+    "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
+    "") %>% 
+    str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
+    str_replace_all("\\s(?=\\d+\\.)", "") %>% 
+    str_replace_all("\\s(?=1-0)", "") %>% 
+    str_replace_all("\\s(?=1/2)", "") %>% 
+    str_replace_all("\\s(?=0-1)", "")
+  pgn_noevals <- str_c(games$pgn_noevals, collapse = "")
+  # Save PGN
+  fileConn <- file(paste0(path_root, "/data/tidied_games_noevals.pgn"))
+  writeLines(pgn_noevals, fileConn)
+  close(fileConn)
+  
+  # 2) Parse PGN with python-chess to extract FENs for all plies in all games
+  GetFENs <- function(pgn_path) {
+    tic("Extracted FENs for all game plies")
+    # Call Python function for extracting FENs
+    reticulate::source_python(paste0(path_scripts, "get_fens.py"))
+    fens <- GetFENs(pgn_path)
+    toc(log = T)
+    return(fens)
+  }
+  fens <- GetFENs(paste0(path_root, "/data/tidied_games_noevals.pgn"))
+  
+  # 3) Add extracted FENs to game evals tibble
+  for (g in seq(1:nrow(games))) {
+    games$evals[[g]]$fen <- unlist(fens[[g]])[1:nrow(games$evals[[g]])]
+  }
+  
   # Remove unnecessary variables from data
   games <- games %>% 
     select(-starts_with("analysis")) %>% 
@@ -566,14 +596,12 @@ tidy_lichess_games <- function(games){
 
   toc(log = TRUE)
   
-  return(games)
+  return(as_tibble(games))
 
 }
 
 
 # Get 4545/LW season pairings and player/team positions data
-# Eg 1 pairings <- get_league_data("team4545", 25, c(1:8), F, 10)[[1]]
-# Eg 2 positions <- get_league_data("team4545", 25, c(1:8), F, 10)[[2]]
 get_league_data <- function(league_choice, seasons_choice, rounds_choice, 
                             lw_u1800_choice, boards_per_team_choice){
   
@@ -598,6 +626,8 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
                     "/round/", 
                     as.character(j), "/pairings/")
       
+      # print(url)
+      
       # 4545 code
       if(league_choice == "team4545"){
         
@@ -607,9 +637,9 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         team_pairings <- read_html(url) %>%
           rvest::html_nodes("td") %>% 
           rvest::html_text() %>% 
-          str_replace_all("[\r\n]" , "") %>% 
-          str_squish() %>% 
-          str_c()
+          stringr::str_replace_all("[\r\n]" , "") %>% 
+          stringr::str_squish() %>% 
+          stringr::str_c()
         
         if(team_pairings[(length(team_pairings))] == "Unavailable"){
           team_pairings <- team_pairings[1:(length(team_pairings)- 2)]
@@ -621,7 +651,8 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         player2 = team_pairings[c(F, F, T, F)]
         sched_time = team_pairings[c(F, F, F, T)]
       
-        team_pairings <- tibble(player1 = player1, player2 = player2, 
+        team_pairings <- tibble(player1 = player1, 
+                                player2 = player2, 
                                 sched_time = sched_time,
                                 result = result)
         # Add board numbers
@@ -690,21 +721,23 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
                  rating_b = if_else(colour2 == "black", rating2, rating1)) %>% 
           select(season, round, board, white, rating_w, black, rating_b, result, winner, sched_time)
         
-        
         # Get team position/points data
         # Extract team pairings
         teams <- read_html(url) %>%
           rvest::html_nodes("th") %>% 
           rvest::html_text() %>%
-          str_squish() %>% 
-          str_replace_all("Calendar" , "") %>% 
-          str_replace_all("½", ".5")
+          stringr::str_squish() %>% 
+          stringr::str_replace_all("Calendar" , "") %>% 
+          stringr::str_replace_all("½", ".5")
         
         teams <- cbind.data.frame(split(teams, rep(1:5, times=length(teams)/5)), stringsAsFactors=F)
         names(teams) <- c("team_1", "score_1", "score_2", "team_2", "blank")
         teams <- teams[,1:4]
         
+        
         # Add team scores
+        teams$score_1 <- str_replace_all(teams$score_1, "\u00bd", ".5")
+        teams$score_2 <- str_replace_all(teams$score_2, "\u00bd", ".5")
         teams$score_1 <- as.numeric(teams$score_1)
         teams$score_2 <- as.numeric(teams$score_2)
         
@@ -714,6 +747,7 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
                  team_b = rep(NA, nrow(.)),
                  gp_w = rep(NA, nrow(.)),
                  gp_b = rep(NA, nrow(.)))
+
         
         for(t in seq(1:(nrow(team_pairings)/boards_per_team_choice))){
           team_pairings$team_w[((t-1)*boards_per_team_choice+1):(boards_per_team_choice*t)] = rep(c(teams$team_1[t], teams$team_2[t]), times = boards_per_team_choice/2)
@@ -722,6 +756,7 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
           team_pairings$gp_b[((t-1)*boards_per_team_choice+1):(boards_per_team_choice*t)] = rep(c(teams$score_2[t], teams$score_1[t]), times = boards_per_team_choice/2)
           
         }
+        
         
         # Now make sure the team names correspond correctly to each player's colour
         # Exploiting the fact that the left-named team is always White on Board 1
@@ -744,6 +779,8 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
           # Update: this is corrected for in season_stats.Rmd but probably should
           # be fixed here instead.
           mutate(match = paste0(team_w, " vs ", team_b))
+        
+     
           
         
         # Now add game/match points to teams df
@@ -775,11 +812,17 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
           mutate(round = j)
         
         
+        
+        
         # Add pairings data to the collated list
         all_pairings[[j]] <- team_pairings
         
         # Add team points data to the collated list
         all_positions[[j]] <- teams_all
+        
+       
+        
+        Sys.sleep(0.2)
         
         # print(paste0("Extracted pairings and positions for ", 
         #              ifelse(league_choice == "team4545", "4545 S",
@@ -946,6 +989,8 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         # Add positions data to the collated list
         all_positions[[j]] <- positions
         
+        Sys.sleep(0.2)
+        
         # print(paste0("Extracted pairings and positions for ", 
         #              ifelse(league_choice == "team4545", "4545 S",
         #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
@@ -1010,12 +1055,12 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         filter(round <= r) %>%
         # Compute each team's match and game points totals
         group_by(team) %>% 
-        summarise(mp = sum(mp, na.rm = T),
-                  gp = sum(gp, na.rm = T)) %>% 
+        summarise(mp = sum(mp, na.rm = F),
+                  gp = sum(gp, na.rm = F)) %>% 
         # Order by match points then game points
         arrange(desc(mp), desc(gp)) %>% 
         # Add rank
-        mutate(rank = seq(1:nrow(.))) %>%
+        mutate(rank = dense_rank(row_number())) %>%
         # Add round indicator
         mutate(round = r)
     }
@@ -1190,41 +1235,12 @@ save_season_data <- function(league_choice, seasons){
     positions <- data[[2]]
     
     
-    # Key differences between lichess4545_pairings and pairings (returned by get_league_data())
-    
-    # lichess4545_pairings:
-    # - obtained through Lichess4545 website API - get_season_games endpoint
-    # - only returns pairings that were played - ie associated with a Lichess game ID
-    
-    # pairings data obtained from get_league_data()
-    # - obtained through scraping Lichess4545 pairing URLs
-    # - returns all pairings, incl. forfeits, scheduling draws, and double forfeits.
-    
-    # Why have both?
-    # Matching up Lichess game data with Lichess4545 API data allows for the Lichess game data
-    # to accurately reflect the league results. Eg the game data can be filtered
-    # to exclude forfeits. 
-    
-  
-    
-    # Add some fields in the pairings data to the games data before saving 
-    # 4545 and LW: season, round, board
-    # 4545 only:   match, tw (White team name), tb (ditto for Black),
-    #              pw (White team game points in the match), pb
-    #              outcomew (White team's match outcome - win/draw/loss), outcomeb
-    
     if(league == "team4545"){
       # Extract team-related data from pairings data
       pairings_subset <- pairings %>% 
         select(season, round, board, "pairings_white" = white, 
                "pairings_black" = black, match, team_w, team_b, gp_w, gp_b, 
                team_res_w, team_res_b)
-      
-      # # Join with Lichess4545 pairings data
-      # pairings_subset <- left_join(pairings_subset, lichess4545_pairings, 
-      #                              by = c("round", 
-      #                                     "pairings_white" = "white", 
-      #                                     "pairings_black" = "black"))
       
       
       # Add team-related fields to games data
@@ -1348,7 +1364,7 @@ prep_games_for_report <- function(games){
 
 
 # Make sunburst plot of all openings in games data
-make_sunburst_wrapper <- function(league, season){
+  make_sunburst_wrapper <- function(league, season){
   
   # Load games data for requested league and season
   league_load_label <- league
@@ -1378,7 +1394,7 @@ make_sunburst_wrapper <- function(league, season){
   tic("Made openings sunburst plot")
   
   # Source make_openings_sunburst.py in R and call function to produce plot
-  reticulate::import_from_path("chess_graph", path = "C:/Users/rahul/anaconda3/Lib/site-packages/chess_graph", convert = TRUE)
+  reticulate::import_from_path("chess_graph", path = chessgraph_path, convert = TRUE)
   reticulate::source_python(paste0(path_scripts, "make_openings_sunburst.py"))
   make_sunburst(pgn)
   
@@ -1568,3 +1584,4 @@ update_site <- function(wipe = FALSE,
 # Obtain list of all accounts banned from Lichess (and the leagues) for Lichess ToS violations
 # N.B. this calls a non-public script and refers to non-public data
 # source(paste0(path_scripts, "identify_tos_violators.R"))
+
