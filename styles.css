@@ -61,15 +61,15 @@ d-appendix {
   --title-size:       20px;                      /* edited */
   --text-color:       #FFFFFF;                   /* edited */
   --text-size:        20px;                      /* edited */
-  --hover-color:      #5aad91;                   /* edited */
-  --bkgd-color:       #235d49;                  /* edited */
+  --hover-color:      #ee6c4d;                   /* edited */
+  --bkgd-color:       #3d5a80;                  /* edited */
 }
 
 .distill-site-footer {
   --text-color:       rgba(255, 255, 255, 0.8);
   --text-size:        15px;
   --hover-color:      white;
-  --bkgd-color:       #0F2E3D;
+  --bkgd-color:       #006d77;
 }
 
 
@@ -87,14 +87,14 @@ d-article p code {
 }
 
 d-article a {
-    border-bottom: 2px solid #3ca380;
+    border-bottom: 2px solid #98c1d9;
     text-decoration: none;
 }
 
-.distill-site-header .title {
-    font-weight: 600; 
+.distill-site-header .logo img{
+  max-height: 40px; /* Makes logo bigger, default was 20px */
 }
 
 ul > li::marker {
-  color: #235d49;
+  color: #3d5a80;
 }
