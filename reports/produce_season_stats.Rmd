@@ -3386,6 +3386,8 @@ game_latest_capture <- latest_first_capture %>%
 :::
 :::::
 
+---
+
 ### About this report
 
 :::about
@@ -3396,12 +3398,6 @@ game_latest_capture <- latest_first_capture %>%
 - Acknowledgements: [Noun Project](https://thenounproject.com/) for the award icons; [Simon Ilincev](https://simonilincev.com/) for [chess_graph](https://github.com/Destaq/chess_graph), which produces the openings sunburst plots.
 :::
 
-
-
-
-```{r panelset, echo=FALSE}
-xaringanExtra::use_panelset()
-```
 
 
 
