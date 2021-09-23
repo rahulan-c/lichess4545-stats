@@ -2172,7 +2172,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     --title-size:       20px;                      /* edited */
     --text-color:       #FFFFFF;                   /* edited */
     --text-size:        20px;                      /* edited */
-    --hover-color:      #383838;                   /* edited */
+    --hover-color:      #235d49;                   /* edited */
     --bkgd-color:       #235d49;                  /* edited */
   }
 
@@ -2198,7 +2198,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }
 
   d-article a {
-      border-bottom: 2px solid rgba(249, 83, 85, 0.4);
+      border-bottom: 2px solid #235d49;
       text-decoration: none;
   }
 
@@ -2421,13 +2421,13 @@ Season Reports
 </div>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-All-time
+All-time records
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="awards.html">Award winners</a>
-<a href="records.html">Records</a>
+<a href="reports/alltime_stats.html">Award winners</a>
+<a href="records.html">All-time records</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2441,6 +2441,7 @@ Other
 <a href="endgames.html">Endgames</a>
 <a href="countries.html">Players by country</a>
 <a href="random.html">Random facts</a>
+<a href="about.html">About</a>
 </div>
 </div>
 <a href="https://github.com/rahulan-c/lichess4545-stats" aria-label="Link to source">
@@ -2614,74 +2615,7 @@ Other
 </tbody>
 </table>
 </div>
-<h3 id="updates">Updates</h3>
-<p>Here are a few improvements and updates that I’m either actively working on or plan to work on soon. Many of them were first suggested by other Lichess4545 members.</p>
-<p>If there’s something you’d like to see, please get in touch using the contact form below. Nothing is impossible…except maybe identifying piece sacrifices :)</p>
-<p><strong>Future updates</strong></p>
-<ul>
-<li>Identifying games that stayed in “theory” the longest. <em>Working method developed. See <a href="https://github.com/rahulan-c/lichess4545-stats/blob/e2ad93bcb02fd46275704487784d6307a8780804/scripts/pub_test/identify_theory_games.ipynb">Jupyter notebook</a> for latest progress.</em></li>
-<li>Visualising the evolution of a 4545 match. <em>Working method developed. See latest <a href="https://raw.githubusercontent.com/rahulan-c/lichess4545-stats/cf7533b80143d5cc676395f0eaa7f238174f140f/scripts/pub_test/match_story.svg">output</a>.</em></li>
-<li>Showing positions from games</li>
-<li>Showing players that ended up with more time than they began with</li>
-<li>Stats by endgame</li>
-<li>Improving gambit-related stats</li>
-<li>Expanding the all-time stats page</li>
-<li>Presenting stats for other Lichess4545 community leagues (eg Rapid Battle, Series…)</li>
-<li>Publishing round dashboards for current seasons (similar to the ones previously published in the Lichess4545 Ledger, eg <a href="https://www.lichess4545.com/media/uploads/2021/06/15/dash_lonewolf_s22_r3.png">here</a>)</li>
-<li>Stats on the global distribution of 4545 and LoneWolf players based on (public) Lichess profile data</li>
-</ul>
-<p><strong>Recent updates</strong></p>
-<ul>
-<li>2021-09-23: finally made progress on the new website</li>
-<li>2021-08-24: published new reports for LoneWolf S22</li>
-<li>2021-08-18: started revising all season reports to use the <a href="https://rstudio.github.io/distill/">Distill</a> web publishing format. Until this work is fully completed, some of the published reports may look somewhat messy.</li>
-</ul>
-<h3 id="acknowledgements">Acknowledgements</h3>
-<div class="layout-chunk" data-layout="l-body">
-
-</div>
-<p>Thanks to the following Lichess4545 members for providing helpful advice, suggestions and inspiration along the way: alen111, Chewbacca_Defense, Ecclesiastic, ErinYu, gavalanche20, gingersquirrelnuts, glbert, IsaVulpes, lc91, Lou-E, MrScribbles, Silkthewanderer, Tranzoo.</p>
-<h3 id="contact">Contact</h3>
-<p>Please use the form below to provide any comments, suggestions or bug reports.</p>
-<form method="post" action="https://forms.un-static.com/forms/c65e8c7acaf8b132767fee1fba923d3d07b959c5">
-  <div class="form-group row">
-    <label for="name" class="col-4 col-form-label">Name</label>
-    <div class="col-8">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <i class="fa fa-user"></i>
-        </div>
-        <input id="name" name="name" placeholder="Please enter your name" type="text" required="required" class="form-control">
-      </div>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="email" class="col-4 col-form-label">E-mail address (optional)</label>
-    <div class="col-8">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <i class="fa fa-envelope"></i>
-        </div>
-        <input id="email" name="email" placeholder="Your e-mail address" type="text" class="form-control">
-      </div>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="message" class="col-4 col-form-label">Message</label>
-    <div class="col-8">
-      <textarea id="message" name="message" cols="40" rows="10" required="required" class="form-control"></textarea>
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="offset-4 col-8">
-      <button name="submit" type="submit" class="button">Send</button>
-    </div>
-  </div>
-</form>
-<div align="center">
-  <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
-</div>
-<p><em>Site last updated at 18:28:20 BST on Thu 23 Sep 2021.</em></p>
+<p><em>Site last updated at 19:58:58 BST on Thu 23 Sep 2021.</em></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
