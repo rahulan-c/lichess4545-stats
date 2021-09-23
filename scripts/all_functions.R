@@ -1457,15 +1457,18 @@ update_repo <- function(){
   # Push changes to repo
   source(paste0(path_scripts, "update_repo.R"))
   
-  # Then render the lichess4545-stats homepage
-  rmarkdown::render_site(input = paste0(path_root, "/index.rmd"),
-                    # rmarkdown::md_document(variant = "gfm"),
-                    quiet = TRUE)
+  # # Then render the lichess4545-stats homepage
+  # rmarkdown::render_site(input = paste0(path_root, "/index.rmd"),
+  #                   # rmarkdown::md_document(variant = "gfm"),
+  #                   quiet = TRUE)
+  # 
+  # # Also render the post-contact landing page
+  # rmarkdown::render_site(input = paste0(path_root, "/after_contact.rmd"),
+  #                   # rmarkdown::md_document(variant = "gfm"),
+  #                   quiet = TRUE)
   
-  # Also render the post-contact landing page
-  rmarkdown::render_site(input = paste0(path_root, "/after_contact.rmd"),
-                    # rmarkdown::md_document(variant = "gfm"),
-                    quiet = TRUE)
+  # Render all RMD files in the root directory
+  rmarkdown::render_site(quiet = TRUE)
   
   # Then push the updated index.md
   source(paste0(path_scripts, "update_repo.R"))
