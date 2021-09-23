@@ -1,6 +1,6 @@
 ---
 title: "Lichess4545 Statistics"
-output: html_document
+output: distill::distill_article
 date: "Last updated: `r format(Sys.time(), '%B %Y')`"
 site: distill::distill_website
 ---

@@ -12,6 +12,7 @@ output:
     toc_float: TRUE
     includes:
       in_header: head-custom-google-analytics.html
+    self-contained: FALSE
 params:
   league: "league"
   season: "season"
