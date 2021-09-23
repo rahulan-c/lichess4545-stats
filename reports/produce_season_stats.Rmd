@@ -4,8 +4,8 @@ description: |
   Season stats and awards
 output: 
   distill::distill_article:
-    css: style.css
-    theme: flatly
+    css: theme.css
+    # theme: flatly
     dev: svglite
     toc: true
     toc_depth: 4
@@ -77,9 +77,6 @@ fide_tpr_lookup <- read.csv(glue::glue("{here::here()}/data/lookup/fide_tpr_look
 league <- params$league
 season <- params$season
 lw_section <- params$lw_section
-print(league)
-print(season)
-print(lw_section)
 
 # Set league-specific colours to use in plots
 lw_col <- "#699486"        #1c401c (darkest), #225622 (med), #699486 (lightest)

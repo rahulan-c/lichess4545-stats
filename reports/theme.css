@@ -10,13 +10,15 @@
 
 /* Optional: embed custom fonts here with `@import`          */
 /* This must remain at the top of this file.                 */
-
+@import url('https://fonts.googleapis.com/css2?family=Amiri');
+@import url('https://fonts.googleapis.com/css2?family=Bitter');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono');
 
 
 html {
   /*-- Main font sizes --*/
-  --title-size:      50px;
-  --body-size:       1.06rem;
+  --title-size:      unset; /*50px;*/
+  --body-size:       1.00rem; /*1.06rem;*/
   --code-size:       14px;
   --aside-size:      12px;
   --fig-cap-size:    13px;
@@ -27,10 +29,10 @@ html {
   --aside-color:     rgba(0, 0, 0, 0.6);
   --fig-cap-color:   rgba(0, 0, 0, 0.6);
   /*-- Specify custom fonts ~~~ must be imported above   --*/
-  --heading-font:    sans-serif;
-  --mono-font:       monospace;
-  --body-font:       sans-serif;
-  --navbar-font:     sans-serif;  /* websites + blogs only */
+  --heading-font:    "Amiri", serif;
+  --mono-font:       "DM Mono", monospace;
+  --body-font:       "Bitter", sans-serif;
+  --navbar-font:     "Amiri", sans-serif;  /* websites + blogs only */
 }
 
 /*-- ARTICLE METADATA --*/
