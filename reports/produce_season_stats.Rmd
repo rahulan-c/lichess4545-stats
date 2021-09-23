@@ -4,7 +4,8 @@ description: |
   Season stats and awards
 output: 
   distill::distill_article:
-    css: "theme.css"
+    theme: theme.css
+    css: theme.css
     dev: svglite
     toc: true
     toc_depth: 4
