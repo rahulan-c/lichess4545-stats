@@ -1457,18 +1457,17 @@ update_repo <- function(){
   # Push changes to repo
   source(paste0(path_scripts, "update_repo.R"))
   
-  # # Then render the lichess4545-stats homepage
-  # rmarkdown::render_site(input = paste0(path_root, "/index.rmd"),
-  #                   # rmarkdown::md_document(variant = "gfm"),
-  #                   quiet = TRUE)
-  # 
-  # # Also render the post-contact landing page
-  # rmarkdown::render_site(input = paste0(path_root, "/after_contact.rmd"),
-  #                   # rmarkdown::md_document(variant = "gfm"),
-  #                   quiet = TRUE)
+  # Build footer
+  create_footer <- function() {
+    knitr::knit(input = paste0(here::here(), "/footer.Rmd"),
+                output = "_footer.html")
+  }
+  create_footer()
   
   # Render all RMD files in the root directory
   rmarkdown::render_site(quiet = TRUE)
+  
+  # Render footer
   
   # Then push the updated index.md
   source(paste0(path_scripts, "update_repo.R"))
@@ -1588,14 +1587,7 @@ update_site <- function(wipe = FALSE,
   toc(log = TRUE)
 }
 
-# create_footer <- function() {
-#   last_updated <- function() {
-#     return(htmltools::span(
-#       paste0(
-#         'Last updated on ',
-#         format(Sys.Date(), format="%B %d, %Y")
-#       ),
-#       style = "font-size:0.8rem;")
-#     )
-#   }
-# }
+create_footer <- function() {
+  knitr::knit(input = paste0(here::here(), "/footer.Rmd"),
+              output = "_footer.html")
+}

@@ -1,6 +1,9 @@
 ---
 title: "About"
 output: distill::distill_article
+  toc: TRUE
+  toc_float: TRUE
+  self-contained: FALSE
 site: distill::distill_website
 ---
 
@@ -11,11 +14,13 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr)
 ```
 
-### Latest changes {#changes}
+### Caveats
 
-- 2021-09-23: finally made progress on the new website
-- 2021-08-24: published new reports for LoneWolf S22
-- 2021-08-18: started revising all season reports to use the [Distill](https://rstudio.github.io/distill/) web publishing format. Until this work is fully completed, some of the published reports may look somewhat messy.
+Some points that should be borne in mind when browsing the stats on this site. 
+
+- All gambit-related stats in the season reports are likely to be wrong. That's because they're based on a woefully incomplete list of gambits that doesn't even include the Halloween Gambit. This needs to be fixed. One day, it will be. Sorry, Scribbles.
+- The new match summary reports don't have a timestamp on them, but in case it wasn't obvious, they only capture the outcome of games and matches at the time they were made. The results of a game can be revised after it's played -- eg if a player is booted from the league for violating Lichess's Terms of Service -- and when this happens, this can obviously affect the outcome of a match. 
+
 
 ### Acknowledgements {#acknowledgements}
 
@@ -28,6 +33,8 @@ credits <- stringr::str_c(sort(credits), collapse = ", ")
 
 
 Thanks to the following Lichess4545 members for providing helpful advice, suggestions and inspiration along the way: `r credits`.
+
+The quotes in the footer come from a list of reasons to play in the 4545 league that Tranzoo recently compiled, with contributions from gigantaure, M0r1, unclevinny, seb32, KnightFury21, kostasvsl, mojomoe and Impaired.
 
 
 ### Contact {#contact}
