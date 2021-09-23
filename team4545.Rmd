@@ -1,0 +1,7 @@
+---
+title: "4545 season reports"
+output: distill::distill_article
+site: distill::distill_website
+---
+
+This will have all the links to previous 4545 season reports...which are currently linked on the main page anyway.

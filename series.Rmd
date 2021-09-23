@@ -1,0 +1,7 @@
+---
+title: "Series stats"
+output: distill::distill_article
+site: distill::distill_website
+---
+
+Coming soon! Yes, really!

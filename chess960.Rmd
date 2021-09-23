@@ -1,0 +1,7 @@
+---
+title: "Chess960 league - season reports"
+output: distill::distill_article
+site: distill::distill_website
+---
+
+Coming soon! Yes, really!
