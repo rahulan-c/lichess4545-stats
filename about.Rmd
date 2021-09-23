@@ -1,7 +1,6 @@
 ---
 title: "About"
 output: distill::distill_article
-  toc: TRUE
 site: distill::distill_website
 ---
 
