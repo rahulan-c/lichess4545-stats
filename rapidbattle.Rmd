@@ -1,5 +1,5 @@
 ---
-title: "Rapid Battle statistics"
+title: "Rapid Battle"
 description: |
   Searchable stats and player awards for every Rapid Battle season
 output: distill::distill_article

@@ -31,7 +31,7 @@
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
-               rmarkdown, fs, stringi, git2r, glue, here, distill)
+               rmarkdown, fs, stringi, git2r, glue, here, distill, htmltools)
 
 
 # ---- User-defined parameters ------------------------------------------------
@@ -1588,8 +1588,14 @@ update_site <- function(wipe = FALSE,
   toc(log = TRUE)
 }
 
-
-# Obtain list of all accounts banned from Lichess (and the leagues) for Lichess ToS violations
-# N.B. this calls a non-public script and refers to non-public data
-# source(paste0(path_scripts, "identify_tos_violators.R"))
-
+# create_footer <- function() {
+#   last_updated <- function() {
+#     return(htmltools::span(
+#       paste0(
+#         'Last updated on ',
+#         format(Sys.Date(), format="%B %d, %Y")
+#       ),
+#       style = "font-size:0.8rem;")
+#     )
+#   }
+# }

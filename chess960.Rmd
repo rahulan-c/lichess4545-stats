@@ -1,5 +1,5 @@
 ---
-title: "Chess960 statistics"
+title: "Chess960"
 description: |
   Searchable stats and player awards for every 960 season
 output: distill::distill_article

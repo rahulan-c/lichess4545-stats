@@ -1,5 +1,5 @@
 ---
-title: "Series statistics"
+title: "Series"
 description: |
   Searchable stats and player awards for every Series season
 output: distill::distill_article

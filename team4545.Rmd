@@ -1,5 +1,5 @@
 ---
-title: "4545 statistics"
+title: "4545 Team League"
 description: |
   Searchable stats and player awards for every 4545 season
 output: distill::distill_article

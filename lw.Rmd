@@ -1,5 +1,5 @@
 ---
-title: "LoneWolf statistics"
+title: "LoneWolf"
 description: |
   Searchable stats and player awards for every LoneWolf season
 output: distill::distill_article
