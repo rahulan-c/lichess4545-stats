@@ -43,7 +43,8 @@ options(reactable.theme = reactableTheme(
       "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
       "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
       borderColor = "#555"
-    )
+    ),
+    style = list(fontSize = "12px")
   )
 )
 
