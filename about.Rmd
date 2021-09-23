@@ -4,6 +4,13 @@ output: distill::distill_article
 site: distill::distill_website
 ---
 
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, knitr)
+```
+
 ### Latest changes {#changes}
 
 - 2021-09-23: finally made progress on the new website
@@ -16,7 +23,7 @@ site: distill::distill_website
 credits <- c("glbert", "ErinYu", "lc91", "gingersquirrelnuts", "Chewbacca_Defense", 
              "MrScribbles", "IsaVulpes", "Ecclesiastic", "alen111", "Tranzoo", "Silkthewanderer", "Lou-E", "gavalanche20")
 
-credits <- str_c(sort(credits), collapse = ", ")
+credits <- stringr::str_c(sort(credits), collapse = ", ")
 ```
 
 
