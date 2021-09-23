@@ -2,8 +2,6 @@
 title: "About"
 output: distill::distill_article
   toc: TRUE
-  toc_float: TRUE
-  self-contained: FALSE
 site: distill::distill_website
 ---
 
