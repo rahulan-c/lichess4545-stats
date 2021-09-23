@@ -1,6 +1,7 @@
 ---
 title: "After contact"
 output: distill::distill_article
+site: distill::distill_website
 ---
 
 Thanks for getting in touch!

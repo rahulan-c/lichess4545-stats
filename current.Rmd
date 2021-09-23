@@ -1,6 +1,7 @@
 ---
 title: "Current Season Stats"
 output: distill::distill_article
+site: distill::distill_website
 ---
 
 **This page is under construction. In time, it will have the latest stats on current league seasons.**
