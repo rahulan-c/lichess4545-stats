@@ -1594,8 +1594,9 @@ create_footer <- function() {
     )
   }
   # htmltools::save_html(last_updated(), "_footer.html")
-  fileConn <- file(paste0(path_root, "_footer.html"))
-  writeLines(last_updated(), fileConn)
+  fileConn <- file(paste0(path_root, "/_footer.html"))
+  last_updated <- last_updated()
+  writeLines(last_updated, fileConn)
   close(fileConn)
 }
 
