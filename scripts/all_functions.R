@@ -65,7 +65,7 @@ stats_rmd_filename <- "produce_season_stats"
 alltime_stats_rmd_filename <- "alltime_records"
 
 # Directory where season stats HTML reports will be saved
-path_savereport <- paste0(path_root, "reports/")
+path_savereport <- paste0(path_root, "/reports/")
 
 # Directory where openings sunburst plots will be saved initially
 path_sunburst_original <- path_scripts
@@ -1327,6 +1327,11 @@ report_season_stats <- function(league_choice, seasons){
                                            "s", 
                                            sprintf("%02d", s), 
                                            ".html"),
+                      params = list(
+                        league = league,
+                        season = s,
+                        lw_section = lw_section
+                                    ),
                       quiet = TRUE)
     print(paste0("Produced report for ", 
                  ifelse(league == "team4545", "4545 S", "LoneWolf S"),
@@ -1385,7 +1390,7 @@ prep_games_for_report <- function(games){
   pgn_noevals <- str_c(games$pgn_noevals, collapse = "")
   
   # Save PGN
-  fileConn <- file(paste0(path_root, "data/games_noevals_", league, "_s", season, ".pgn"))
+  fileConn <- file(paste0(path_root, "/data/games_noevals_", league, "_s", season, ".pgn"))
   writeLines(pgn_noevals, fileConn)
   close(fileConn)
   
@@ -1412,16 +1417,16 @@ move_sunburst <- function(path_orig, path_new, league, season){
   if(league == "team4545"){league_var <- "4545"} else {league_var <- league}
   
   # Copy sunburst HTML to reports folder
-  file.copy(from = paste0(path_root, "sunburst.html"),
-            to   = paste0(path_new, "openings_", league_var, "_s", season, ".html"))
+  file.copy(from = paste0(path_root, "/sunburst.html"),
+            to   = paste0(path_new, "/openings_", league_var, "_s", season, ".html"))
   
   # Do same for PNG file
-  file.copy(from = paste0(path_root, "sunburst.png"),
-            to   = paste0(path_new, "openings_", league_var, "_s", season, ".png"))
+  file.copy(from = paste0(path_root, "/sunburst.png"),
+            to   = paste0(path_new, "/openings_", league_var, "_s", season, ".png"))
   
   # Remove original sunburst files
-  file.remove(paste0(path_root, "sunburst.html"))
-  file.remove(paste0(path_root, "sunburst.png"))
+  file.remove(paste0(path_root, "/sunburst.html"))
+  file.remove(paste0(path_root, "/sunburst.png"))
 }
 
 # Make a stats report from scratch

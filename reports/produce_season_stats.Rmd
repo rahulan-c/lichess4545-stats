@@ -12,6 +12,11 @@ output:
     toc_float: true
     includes:
       in_header: head-custom-google-analytics.html
+params:
+  league: "league"
+  season: "season"
+  lw_section: "lw_section"
+  
 ---
 
 
@@ -51,13 +56,13 @@ xaringanExtra::use_panelset()
 # Load supporting lookup data
 
 # 1. Gambit openings - to enable analysis of gambits and gambit-lovers
-gambits <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/gambits.csv")
+gambits <- read.csv(glue::glue("{here::here()}/data/lookup/gambits.csv"))
 # N.B. THIS IS INCOMPLETE DATA AND NEEDS TO BE REVISED
 
 # 2. FIDE performance rating lookup values
 # Source: https://handbook.fide.com/chapter/B022017
 # Required for calculating player performance ratings using FIDE's method 
-fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/lookup/fide_tpr_lookup.csv")
+fide_tpr_lookup <- read.csv(glue::glue("{here::here()}/data/lookup/fide_tpr_lookup.csv"))
 
 ```
 
@@ -67,8 +72,14 @@ fide_tpr_lookup <- read.csv("C:/Users/rahul/Documents/Github/rahulan-c.github.io
 
 # ---- 1) SET CORRECT PARAMETERS ----------------------------------------------
 # Eg league, season, rounds, section etc.
-league <- league
-season <- s
+# league <- league
+# season <- s
+league <- params$league
+season <- params$season
+lw_section <- params$lw_section
+print(league)
+print(season)
+print(lw_section)
 
 # Set league-specific colours to use in plots
 lw_col <- "#699486"        #1c401c (darkest), #225622 (med), #699486 (lightest)
@@ -82,7 +93,7 @@ league_col_dark <- ifelse(league == "lonewolf", lw_col_dark, team_col_dark)
   if(league == "lonewolf"){team_boards <- 99} else
     if(season == 1){team_boards <- 4} else
       if(season == 2){team_boards <- 5} else
-        if(season <= 15){team_boards <-  6} else 
+        if(season <= 15){team_boards <-  6} else
           if(season <= 24){team_boards <-  8} else
             if(season <= 26){team_boards <-  10}
 
@@ -103,7 +114,8 @@ lw_u1800 <- ifelse(league == "lonewolf", ifelse(lw_section == "u1800", TRUE, FAL
 
 # ---- 2) LOAD SEASON DATA ----------------------------------------------------
 
-data_path <- "C:/Users/rahul/Documents/Github/rahulan-c.github.io/lichess4545-stats/data/"
+data_path <- glue::glue("{here::here()}/data/")
+scripts_path <- glue::glue("{here::here()}/scripts/")
 
 # Get data on season games, pairings and positions
 league_load_label <- league
@@ -112,29 +124,36 @@ if(league == "lonewolf"){
 }
 
 # Load (tidied) games data
-games <- readRDS(paste0(data_path, "games_", league_load_label, "_s", season, ".rds"))
+games <- readRDS(paste0(data_path, "games_", league_load_label, "_s", season, ".rds")) %>% 
+  as_tibble()
 
 # Load website pairings data
-website_pairings <- readRDS(paste0(data_path, "website_pairings_", league_load_label, "_s", season, ".rds"))
+website_pairings <- readRDS(paste0(data_path, "website_pairings_", league_load_label, "_s", season, ".rds")) %>% 
+  as_tibble()
 
 # Load season pairings 
-pairings <- rio::import(paste0(data_path, "pairings_", league_load_label, "_s", season, ".csv"))
+pairings <- rio::import(paste0(data_path, "pairings_", league_load_label, "_s", season, ".csv")) %>% 
+  as_tibble()
 
 # Load season team/player positions data
-positions <- rio::import(paste0(data_path, "positions_", league_load_label, "_s", season, ".csv"))
+positions <- rio::import(paste0(data_path, "positions_", league_load_label, "_s", season, ".csv")) %>% 
+  as_tibble()
 
 # Load data on all 4545/LW games - required for determing the Rookie Award
-all_games <- readr::read_rds(paste0(data_path, "combined_league_games_210804_tidied.rds"))
+all_games <- readr::read_rds(paste0(data_path, "combined_league_games_210804_tidied.rds")) %>% 
+  as_tibble()
 
 
 # ---- 3) TIDY SEASON DATA FOR REPORTS ----------------------------------------
 
 # Add gambits data
-games <- left_join(games, gambits, by = c("opening.name" = "gambit"))
+games <- left_join(games, gambits, by = c("opening.name" = "gambit")) %>% 
+  as_tibble()
 
 # Fix character encoding in data
 fix_character_encoding <- function(df){
   df <- df %>% 
+    as_tibble() %>% 
     mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
     mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>% 
     mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
@@ -144,7 +163,7 @@ fix_character_encoding <- function(df){
     mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
     mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'"))) %>% 
     mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¤", "ä")))
-  return(df)
+  return(as_tibble(df))
 }
 
 # Fix character encoding
@@ -156,21 +175,23 @@ positions <- fix_character_encoding(positions)
 
 # Remove all games and pairings featuring players banned from the leagues for cheating
 
-source(paste0(path_scripts, "identify_tos_violators.R"))
+source(paste0(scripts_path, "identify_tos_violators.R"))
 
 # Exclude these players from the games data
 games_excl_violators <- games %>%
   filter(!(players.white.user.name %in% tos_violators)) %>%
   filter(!(players.black.user.name %in% tos_violators)) %>%
   filter(!(players.white.user.id %in% str_to_lower(tos_violators))) %>%
-  filter(!(players.black.user.id %in% str_to_lower(tos_violators)))
+  filter(!(players.black.user.id %in% str_to_lower(tos_violators))) %>% 
+  as_tibble()
 
 # Exclude from pairings data
 pairings_excl_violators <- pairings %>%
   filter(!(white %in% tos_violators)) %>%
   filter(!(black %in% tos_violators)) %>%
   filter(!(white %in% str_to_lower(tos_violators))) %>%
-  filter(!(black %in% str_to_lower(tos_violators)))
+  filter(!(black %in% str_to_lower(tos_violators))) %>% 
+  as_tibble()
 
 ```
 
@@ -1031,9 +1052,11 @@ reactable(longest_duration,
 ::::: 
 
 
-### By board / rating band {.tabset .tabset-fade .tabset-pills}
+### By board / rating band 
 
-#### ACPL / blunder rate
+::::: {.panelset}
+::: {.panel}
+#### ACPL / blunder rate {.panel-name}
 
 ```{r acpl_by_board, fig.show="hold", out.width = "50%", eval = ifelse(league == "team4545", TRUE, FALSE)}
 
@@ -1208,8 +1231,9 @@ plt_blunder_rates
 ```
 
 
-
-#### Games with lowest combined ACPL
+:::
+::: {.panel}
+#### Games with lowest combined ACPL {.panel-name}
 
 The games with the lowest combined ACPL (including draws).
 
@@ -1290,8 +1314,9 @@ reactable(lowest_acpl_games_all,
 
 
 ```
-
-#### Excl. draws
+:::
+::: {.panel}
+#### Excl. draws {.panel-name}
 
 The *decisive* games with the lowest combined ACPL.
 
@@ -1369,12 +1394,14 @@ reactable(lowest_acpl_games_decisive,
 }
 
 ```
+:::
+:::::
 
-### Openings - tables {.tabset .tabset-fade .tabset-pills}
+### Openings - tables
 
-
-
-#### Popular openings
+::::: {.panelset}
+::: {.panel}
+#### Popular openings {.panel-name}
 
 All openings played in the season, excluding variations.
 
@@ -1413,8 +1440,9 @@ reactable(openings_exclvar,
     compact = T)
 ```
 
-
-#### Popular variations
+:::
+::: {.panel}
+#### Popular variations {.panel-name}
 
 All openings played in the season, including variations.
 
@@ -1455,9 +1483,9 @@ reactable(openings_inclvar,
     compact = T)
 ```
 
-
-
-#### Best for White
+:::
+::: {.panel}
+#### Best for White {.panel-name}
 
 The best-scoring main openings for White. 
 
@@ -1499,8 +1527,9 @@ reactable(openings_bestwhite,
     compact = T)
 
 ```
-
-#### Best for Black
+:::
+::: {.panel}
+#### Best for Black {.panel-name}
 
 The best-scoring main openings for Black. 
 
@@ -1542,8 +1571,9 @@ reactable(openings_bestblack,
     compact = T)
 
 ```
-
-#### Popular gambits
+:::
+::: {.panel}
+#### Popular gambits {.panel-name}
 
 All gambit openings played in the season.^[Currently, gambit openings are identified by the presence of the term *gambit* in the opening name assigned by Lichess. This is admittedly an imperfect approach as it excludes certain openings that should also be considered as gambits such as the Marshall Attack.]
 
@@ -1633,9 +1663,9 @@ reactable(gambits,
   print("No gambits were played this season :(")
 }
 ```
-
-
-#### Gambiteers
+:::
+::: {.panel}
+#### Gambiteers {.panel-name}
 
 The players who enjoyed the most success when playing gambits.^[Qualifying "gambiteers" are ordered by number of gambit games played before percentage score.]
 
@@ -1697,7 +1727,8 @@ reactable(gambiteers,
   print("There were no deserving gambiteers this season :(")
 }
 ```
-
+:::
+::::: 
 
 ### Openings - sunburst
 
@@ -2003,7 +2034,8 @@ dawdlers <- left_join(dawdlers, games, by = c("game_id" = "id")) %>%
   filter(outcome == "Win") %>% 
   head(10) %>% 
   mutate("rank" = dense_rank(time_left)) %>% 
-  select(rank, player, time_print, outcome, url)
+  select(rank, player, time_print, outcome, url) %>% 
+  as_tibble()
   
 
 if(dawdlers$time_print[1] == "NAm NAs"){
@@ -2022,10 +2054,12 @@ all_moves <- data.table::rbindlist(games$evals) %>%
     ply %% 2 == 0 ~ "white",
     ply %% 2 == 1 ~ "black",
     TRUE ~ NA_character_
-  )) 
+  )) %>% 
+  as_tibble()
 
 # Add id, White, Black, winner (white, black, NA)
-games_basics <- games %>% select(id, white, black, winner, result)
+games_basics <- games %>% select(id, white, black, winner, result) %>% 
+  as_tibble()
 
 all_moves <- left_join(all_moves, games_basics, by = c("game_id" = "id")) %>% 
   mutate(player = ifelse(colour == "white", white, black)) %>% 
@@ -2042,7 +2076,8 @@ all_moves <- left_join(all_moves, games_basics, by = c("game_id" = "id")) %>%
     colour == "white" ~ capped_eval_prev,
     colour == "black" ~ capped_eval_prev * -1,
     TRUE ~ NA_real_
-  ))
+  )) %>% 
+  as_tibble()
 
 
 ```
@@ -2081,9 +2116,11 @@ movetimes <- data.table::rbindlist(games$evals) %>%
     ply %% 2 == 1 ~ "black",
     TRUE ~ NA_character_
   )) %>% 
-  arrange(desc(time_spent))
+  arrange(desc(time_spent)) %>% 
+  as_tibble()
 
-games_basics <- games %>% select(id, white, black)
+games_basics <- games %>% select(id, white, black) %>% 
+  as_tibble()
 
 movetimes <- left_join(movetimes, games_basics, by = c("game_id" = "id")) %>% 
   mutate(player = ifelse(colour == "white", white, black),
@@ -2096,7 +2133,8 @@ movetimes <- left_join(movetimes, games_basics, by = c("game_id" = "id")) %>%
   mutate(time_spent = sprintf('%2dm %2ds', lubridate::minute(time_spent), lubridate::second(time_spent))) %>% 
   mutate(colour = str_to_title(colour)) %>% 
   select(rank, player, time_spent, colour, move, url) %>% 
-  head(100)
+  head(100) %>% 
+  as_tibble()
 ```
 
 
@@ -2739,10 +2777,11 @@ reactable(
 if(lw_hide){cat("-->")}
 ```
 
-#### Best performances / highest accuracy {.tabset .tabset-fade .tabset-pills} 
+#### Best performances / highest accuracy
 
-
-##### Best relative perfs
+::::: {.panelset}
+::: {.panel} 
+##### Best relative perfs {.panel-name}
 
 Shows players' *relative* performance ratings: season performance rating minus initial rating.^[The season performance ratings presented in this report may differ slightly from the figures given by the Lichess4545 website. Both figures are based on FIDE's preferred calculation method and exclude unplayed games (such as forfeit wins/losses and scheduling draws.]
 
@@ -2771,8 +2810,9 @@ reactable(relative_perfs,
     compact = TRUE)
 ```
 
-
-##### Lowest ACPL
+:::
+::: {.panel}
+##### Lowest ACPL {.panel-name}
 
 *Includes the 100 players with the lowest ACPL (min. 100 moves played).*
 
@@ -2789,12 +2829,14 @@ reactable(lowest_acpls,
     season_acpl = colDef(name = "ACPL", format = colFormat(digits = 2), align = "center")),
     compact = TRUE)
 ```
+:::
+::::: 
 
 
-
-#### Time spent / strongest opponents {.tabset .tabset-fade .tabset-pills} 
-
-##### Time spent
+#### Time spent / strongest opponents
+::::: {.panelset}
+::: {.panel}
+##### Time spent {.panel-name}
 
 *Includes the 50 players who spent the most clock time over the season.*
 
@@ -2817,8 +2859,9 @@ reactable(season_think,
 }
 
 ```
-
-##### Time spent per move (after move 10)
+:::
+::: {.panel}
+##### Time spent per move (after move 10) {.panel-name}
 
 *Includes everyone who played at least three games.*
 
@@ -2845,8 +2888,9 @@ reactable(avg_think_times,
 
 
 
-
-##### Strength of schedule
+:::
+::: {.panel} 
+##### Strength of schedule {.panel-name}
 
 These players faced the most in-form opponents across the season, when judged by their opponents' collective score in all their other games.^[Both the statistic and the name of its associated award -- the David Award -- were suggested by **Tranzoo**.]
 
@@ -2870,10 +2914,15 @@ reactable(david,
 )
 
 ```
+:::
+:::::
 
-#### Comebacks and upsets {.tabset .tabset-fade .tabset-pills} 
 
-##### Comebacks
+#### Comebacks and upsets 
+
+::::: {.panelset}
+::: {.panel}
+##### Comebacks {.panel-name}
 
 *Includes players with a positive average "comeback margin" that played at least three games.*^[Originally suggested by **Lou-E**. This table shows players ranked by the size and number of comebacks achieved over the course of the season. For this purpose, the size of a comeback has been defined as the difference between a player's final score in a game (0, 0.5, or 1) and the worst evaluation during the game that they faced (which is then converted into a rough win probability for their opponent). For example, if I were to win a game after Lichess's server analysis gave my opponent a 75% chance of winning in a certain position, then I would have earned 1.75 comeback "points" from the game. My opponent of course would have earned zero points. If the game had been drawn, I would have instead earned only 0.75 comeback "points".]
 
@@ -2895,8 +2944,9 @@ reactable(comebacks_2,
 
 ```
 
-
-##### Biggest upsets
+:::
+::: {.panel}
+##### Biggest upsets {.panel-name}
 
 *Includes all players who defeated an opponent rated at least 50 points higher.* 
 
@@ -2914,8 +2964,9 @@ reactable(upsets,
     )
 )
 ```
-
-##### Repeated upsets
+:::
+::: {.panel}
+##### Repeated upsets {.panel-name}
 
 Includes players who achieved multiple wins over opponents rated at least 50 points higher.
 
@@ -2938,12 +2989,14 @@ reactable(upset_specialists,
 )
 
 ```
+:::
+:::::
 
 
-
-#### Dawdlers and instant movers {.tabset .tabset-fade .tabset-pills} 
-
-##### Least time left after move 10
+#### Dawdlers and instant movers
+::::: {.panelset}
+::: {.panel}
+##### Least time left after move 10 {.panel-name}
 
 The players with the least time left after 10 moves...who still managed to win!^[Statistic suggested by **Silkthewanderer**.]
 
@@ -2974,8 +3027,9 @@ reactable(dawdlers,
 ```
 
 
-
-##### Instant moves 
+:::
+::: {.panel}
+##### Instant moves {.panel-name}
 
 Players who made the most 'instant' moves over the season, taking less than 0.5 seconds (includes premoves).
 
@@ -2998,10 +3052,12 @@ reactable(instamovers,
   print(no_movetimes_print)
 }   
 ```
-
-#### Longest thinks, time trouble addicts, and lucky escapes {.tabset .tabset-fade .tabset-pills} 
-
-##### Longest thinks
+:::
+::::: 
+#### Longest thinks, time trouble addicts, and lucky escapes
+::::: {.panelset}
+::: {.panel}
+##### Longest thinks {.panel-name}
 
 The longest times spent on a single move.
 
@@ -3031,8 +3087,9 @@ reactable(movetimes,
   print(no_movetimes_print)
 }
 ```
-
-##### Time trouble addicts
+:::
+::: {.panel}
+##### Time trouble addicts {.panel-name}
 
 Shows players by proportion of moves made in time trouble (defined as having less than a minute remaining on the clock).
 
@@ -3059,8 +3116,9 @@ reactable(timetrouble,
   print(no_movetimes_print)
 }
 ```
-
-##### Saved by the bell
+:::
+::: {.panel}
+##### Saved by the bell {.panel-name}
 
 Players who made moves with under 5 seconds left on their clock...and still won!^[Excludes moves made in technically winning positions, defined as $\tt eval \le 300$ (from the mover's perspective). Players are first ordered by number of moves made with 5 seconds or fewer remaining, then by least time remaining in such conditions, and finally by worst eval faced.]
 
@@ -3085,13 +3143,15 @@ reactable(savedbythebell,
 }
 
 ```
+:::
+:::::
 
 
 
-
-####  Misc. facts {.tabset .tabset-fade .tabset-pills} 
-
-##### Lesser spotted mates
+####  Misc. facts
+::::: {.panelset}
+::: {.panel}
+##### Lesser spotted mates {.panel-name}
 
 ```{r piece_checkmates}
 # Checkmates by piece
@@ -3145,8 +3205,9 @@ A knight gave checkmate in `r length(knight_mate_games)` games: `r knight_mate_g
 knitr::include_graphics(c("images/mates/v3U4K2uM.svg", "images/mates/1MWLzMll.svg"))
 ```
 
-
-##### Promotions
+:::
+::: {.panel}
+##### Promotions {.panel-name}
 
 ```{r promotions}
 # Promotion stats
@@ -3183,8 +3244,9 @@ most_promotions <- promotions %>%
 `r nrow(promotions)` games had at least one promotion. `r nrow(underpromotions)` of these saw an under-promotion.
 
 The most promotions seen in a game was `r max(promotions$promotions)`: `r most_promotions`
-
-##### Rollercoaster games
+:::
+::: {.panel}
+##### Rollercoaster games {.panel-name}
 
 ```{r yoyos}
 # Identify yo-yo games
@@ -3203,8 +3265,9 @@ yoyos <- moves %>%
 ```
 
 `r yoyos` games featured significant winning chances for both sides (as identified by Lichess's server analysis), comprising `r round((yoyos / nrow(games)) * 100, 1)`% of all games played.
-
-##### Checks and captures
+:::
+::: {.panel}
+##### Checks and captures {.panel-name}
 
 
 ```{r most_consecutive_checks}
@@ -3234,8 +3297,8 @@ for(i in seq(1:nrow(games))){
   lst_captures[[i]] <- captures
 }
 
-checks <- rbindlist(lst_checks)
-captures <- rbindlist(lst_captures)
+checks <- rbindlist(lst_checks) %>% as_tibble()
+captures <- rbindlist(lst_captures) %>% as_tibble()
 
 checks$is_check_w <- ifelse(str_detect(checks$white_text, "\\+"), 1, 0)
 checks$is_check_b <- ifelse(str_detect(checks$black_text, "\\+"), 1, 0)
@@ -3322,6 +3385,9 @@ game_latest_capture <- latest_first_capture %>%
 - Most consecutive checks: `r max(check_streaks$streak)` (`r check_streaks_games`)
 - Most consecutive captures: `r max(capture_streaks$streak)` (`r capture_streaks_games`)
 - Latest-occurring first capture: ply `r max(latest_first_capture$first_capture)` in  `r game_latest_capture`
+
+:::
+:::::
 
 ### About this report
 
