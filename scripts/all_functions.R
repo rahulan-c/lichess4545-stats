@@ -1584,18 +1584,29 @@ update_site <- function(wipe = FALSE,
 }
 
 create_footer <- function() {
-  last_updated <- function() {
-    return(htmltools::span(
-      paste0(
-        'Last updated on ',
-        format(Sys.Date(), format="%d %B %Y")
-      ),
-      style = "font-size:0.8rem;")
-    )
-  }
+  # last_updated <- function() {
+  #   return(htmltools::span(
+  #     paste0(
+  #       'Last updated on ',
+  #       format(Sys.Date(), format="%d %B %Y")
+  #     ),
+  #     style = "font-size:0.8rem;")
+  #   )
+  # }
   # htmltools::save_html(last_updated(), "_footer.html")
   fileConn <- file(paste0(path_root, "/_footer.html"))
-  last_updated <- last_updated()
+  lang <- 
+  last_updated <- c("<html lang='en'>",
+                     "<head>",
+                     "<meta charset=\"utf-8\"/>",
+                    "</head>",
+                    "<body>",
+                    "<span>",
+                    paste0("Last updated on ", format(Sys.Date(), format="%d %B %Y")),
+                    "</span>",
+                    "</body>",
+                    "</html>"
+                    )
   writeLines(last_updated, fileConn)
   close(fileConn)
 }
