@@ -7,9 +7,9 @@ output:
     theme: theme.css
     css: theme.css
     dev: svglite
-    toc: true
+    toc: TRUE
     toc_depth: 4
-    toc_float: true
+    toc_float: TRUE
     includes:
       in_header: head-custom-google-analytics.html
 params:
