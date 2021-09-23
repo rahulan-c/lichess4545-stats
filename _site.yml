@@ -1,6 +1,7 @@
 name: "lichess4545-stats"
 title: "Lichess4545 Statistics"
 theme: styles.css
+favicon: favicon.png
 base_url: "https://rahulan-c.github.io/lichess4545-stats/"
 google_analytics: "G-Q3CEQ766D1"
 description: |
