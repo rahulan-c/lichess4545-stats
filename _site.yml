@@ -11,33 +11,36 @@ navbar:
       - text: "Round Updates"
         href: current.html
       - text: "Season Reports"
-      menu:
-        - text: "4545 Team League"
-          href: team4545.html
-        - text: "LoneWolf"
-          href: lw.html
-        - text: "Chess960"
-          href: chess960.html
-        - text: "Rapid Battle"
-          href: rapidbattle.html
-        - text: "Series"
-          href: series.html
+        href: seasonreports.html
+        menu:
+          - text: "4545 Team League"
+            href: team4545.html
+          - text: "LoneWolf"
+            href: lw.html
+          - text: "Chess960"
+            href: chess960.html
+          - text: "Rapid Battle"
+            href: rapidbattle.html
+          - text: "Series"
+            href: series.html
       - text: "All-time"
-      menu: 
-        - text: "Award winners"
-          href: awards.html
-        - text: "Records"
-          href: records.html
+        href: alltime.html
+        menu: 
+          - text: "Award winners"
+            href: awards.html
+          - text: "Records"
+            href: records.html
       - text: "Other"
-      menu:
-        - text: "Openings"
-          href: openings.html
-        - text: "Endgames"
-          href: endgames.html
-        - text: "Players by country"
-          href: countries.html
-        - text: "Random facts"
-          href: random.html
+        href: alltime.html
+        menu:
+          - text: "Openings"
+            href: openings.html
+          - text: "Endgames"
+            href: endgames.html
+          - text: "Players by country"
+            href: countries.html
+          - text: "Random facts"
+            href: random.html
   search: true
   source_url: https://github.com/rahulan-c/lichess4545-stats
 output: distill::distill_article
