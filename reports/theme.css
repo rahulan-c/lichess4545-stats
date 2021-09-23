@@ -15,7 +15,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono');
 
 
-.html {
+html {
   /*-- Main font sizes --*/
   --title-size:      30px;    /*default: 50px; */
   --body-size:       1.00rem; /*default: 1.06rem;*/
@@ -36,7 +36,7 @@
 }
 
 /*-- ARTICLE METADATA --*/
-.d-byline {
+d-byline {
   --heading-size:    1rem; /* 0.6rem; */
   --heading-color:   rgba(0, 0, 0, 0.5);
   --body-size:       0.8rem;
@@ -50,7 +50,7 @@
 }
 
 /*-- ARTICLE APPENDIX --*/
-.d-appendix {
+d-appendix {
   --heading-size:    15px;
   --heading-color:   rgba(0, 0, 0, 0.65);
   --text-size:       0.8em;
@@ -172,50 +172,50 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 /* ----------- Hyperlinks ------------- */
 
 /* Unvisited */
-a:link {
+/*a:link {
   color: #23619f;
-}
+}*/
 
 /* Visited */
-a:visited {
+/*a:visited {
   color: #23619f;
-}
+}*/
 
 /* Hovered */
-a:hover {
+/*a:hover {
   color: #2973bc;
-}
+}*/
 
 /*------------Table of Contents (TOC)----------- */
 
-
+/*
 .tocify {
-  border: none;   /*Removes border */
-  border-radius: 0px; /* Gets rid of rounded corners on TOC */
-  font-size: 16px;
-}
+  border: none;   /*Removes border */ 
+  /*border-radius: 0px; /* Gets rid of rounded corners on TOC */
+  /*font-size: 16px;
+} */
 
-.tocify ul, .tocify li { /* Increases spacing between TOC headers*/
-    line-height: 25px !important;
-}
+/*.tocify ul, .tocify li { /* Increases spacing between TOC headers*/
+   /* line-height: 25px !important; 
+} */
 
-.tocify ul {
+/*.tocify ul {
   border-right: solid 1px #eee; /* Thin right border on TOC list */
-}
+/*} */
 
 /* Active TOC links*/
 
-.list-group-item.active, 
+/*.list-group-item.active, 
 .list-group-item.active:hover{
   color: #787878;
   background-color: #ffffff;
   border-color: #ccc;
-}
+} */
 
 /* Hovered TOC links*/
 
-.list-group-item:hover { 
+/*.list-group-item:hover { 
   color: #787878;
   background-color: #ffffff;
   border: none;
-}
+} */
