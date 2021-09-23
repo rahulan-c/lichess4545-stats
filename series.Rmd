@@ -1,7 +1,9 @@
 ---
-title: "Series stats"
+title: "Series statistics"
+description: |
+  Searchable stats and player awards for every Series season
 output: distill::distill_article
 site: distill::distill_website
 ---
 
-Coming soon! Yes, really!
+Coming soon - yes, really! 

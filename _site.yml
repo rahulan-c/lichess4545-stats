@@ -11,7 +11,7 @@ navbar:
   right:
       # - text: "Live Standings"
       #   href: live.html
-      - text: "Round Updates"
+      - text: "Round Reports"
         href: current.html
       - text: "Season Reports"
         href: seasonreports.html
@@ -20,29 +20,29 @@ navbar:
             href: team4545.html
           - text: "LoneWolf"
             href: lw.html
-          - text: "Chess960"
+          - text: "Chess960 (tbc)"
             href: chess960.html
-          - text: "Rapid Battle"
+          - text: "Rapid Battle (tbc)"
             href: rapidbattle.html
-          - text: "Series"
+          - text: "Series (tbc)"
             href: series.html
       - text: "All-time records"
         href: alltime.html
         menu: 
           - text: "Award winners"
             href: reports/alltime_stats.html
-          - text: "All-time records"
+          - text: "All-time records (tbc)"
             href: records.html
       - text: "Other"
         href: other.html
         menu:
-          - text: "Openings"
+          - text: "Openings (tbc)"
             href: openings.html
-          - text: "Endgames"
+          - text: "Endgames (tbc)"
             href: endgames.html
-          - text: "Players by country"
+          - text: "Players by country (tbc)"
             href: countries.html
-          - text: "Random facts"
+          - text: "Random facts (tbc)"
             href: random.html
           - text: "About"
             href: about.html

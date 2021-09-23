@@ -1,5 +1,7 @@
 ---
-title: "Current Season Stats"
+title: "Round Reports"
+description: |
+  Weekly updates on current seasons
 output: distill::distill_article
 site: distill::distill_website
 ---

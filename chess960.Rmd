@@ -1,7 +1,9 @@
 ---
-title: "Chess960 league - season reports"
+title: "Chess960 statistics"
+description: |
+  Searchable stats and player awards for every 960 season
 output: distill::distill_article
 site: distill::distill_website
 ---
 
-Coming soon! Yes, really!
+Coming soon!

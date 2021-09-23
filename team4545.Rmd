@@ -1,10 +1,10 @@
 ---
-title: "Stats by season: 4545 Team League"
+title: "4545 statistics"
+description: |
+  Searchable stats and player awards for every 4545 season
 output: distill::distill_article
 site: distill::distill_website
 ---
-
-Statistical reports on every 4545 season.
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
