@@ -1584,8 +1584,6 @@ update_site <- function(wipe = FALSE,
 }
 
 create_footer <- function() {
-  # knitr::knit(input = paste0(here::here(), "/footer.Rmd"),
-  #             output = "_footer.html")
   last_updated <- function() {
     return(htmltools::span(
       paste0(
@@ -1597,3 +1595,4 @@ create_footer <- function() {
   }
   htmltools::save_html(last_updated(), "_footer.html")
 }
+
