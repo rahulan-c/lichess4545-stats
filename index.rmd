@@ -1,5 +1,5 @@
 ---
-title: "Lichess4545 stats homepage"
+title: "Lichess4545 Statistics"
 # output: md_document
 output: html_document
 date: "Last updated: `r format(Sys.time(), '%B %Y')`"
@@ -15,19 +15,22 @@ pacman::p_load(tidyverse, knitr)
 ```
 
 
-This page hosts a repository of statistics relating to the [Lichess4545](https://www.lichess4545.com/team4545/) and [LoneWolf](https://www.lichess4545.com/lonewolf/) leagues. For the uninitiated, these are two popular online chess leagues that have been running since 2015. They're regularly recommended by top players like IM John Bartholomew (see [here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s)). Find out more at https://www.lichess4545.com/.
+**This (new) site is under construction, so for the time being things may look slightly messy and some links may be missing, but it shouldn't be for long...**
 
----
+If you're looking for stats about the [Lichess4545](https://www.lichess4545.com) online chess leagues, you're in the right place. 
+
+For the uninitiated, these popular leagues have been running since 2015 and are regularly recommended by top players like IM John Bartholomew (see [here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s)). Find out more at https://www.lichess4545.com/.
+
+
+Links on this page:
 
 [All-time records](#alltime) | [Stats/awards by league/season](#season-stats) | [Updates](#updates) | [Acknowledgements](#acknowledgements) | [Contact](#contact)
 
----
-
-## All time records {#alltime}
+### All time records {#alltime}
 
 [All time records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.html)
 
-## Stats and awards by league/season {#season-stats} 
+### Stats and awards by league/season {#season-stats} 
 
 ```{r season_reports_tbl}
 
@@ -96,7 +99,7 @@ knitr::kable(completed, format = "simple", col.names = c("Lichess4545 League", "
 
 ```
 
-## Updates {#updates}
+### Updates {#updates}
 
 Here are a few improvements and updates that I'm either actively working on or plan to work on soon. Many of them were first suggested by other Lichess4545 members. 
 
@@ -117,10 +120,11 @@ If there's something you'd like to see, please get in touch using the contact fo
 
 **Recent updates**
 
+- 2021-09-23: finally made progress on the new website
 - 2021-08-24: published new reports for LoneWolf S22
 - 2021-08-18: started revising all season reports to use the [Distill](https://rstudio.github.io/distill/) web publishing format. Until this work is fully completed, some of the published reports may look somewhat messy.
 
-## Acknowledgements {#acknowledgements}
+### Acknowledgements {#acknowledgements}
 
 ```{r}
 credits <- c("glbert", "ErinYu", "lc91", "gingersquirrelnuts", "Chewbacca_Defense", 
@@ -133,7 +137,7 @@ credits <- str_c(sort(credits), collapse = ", ")
 Thanks to the following Lichess4545 members for providing helpful advice, suggestions and inspiration along the way: `r credits`.
 
 
-## Contact {#contact}
+### Contact {#contact}
 
 Please use the form below to provide any comments, suggestions or bug reports.
 
