@@ -1457,11 +1457,7 @@ update_repo <- function(){
   # Push changes to repo
   source(paste0(path_scripts, "update_repo.R"))
   
-  # Build footer
-  create_footer <- function() {
-    knitr::knit(input = paste0(here::here(), "/footer.Rmd"),
-                output = "_footer.html")
-  }
+  # # Build footer
   create_footer()
   
   # Render all RMD files in the root directory
@@ -1588,6 +1584,16 @@ update_site <- function(wipe = FALSE,
 }
 
 create_footer <- function() {
-  knitr::knit(input = paste0(here::here(), "/footer.Rmd"),
-              output = "_footer.html")
+  # knitr::knit(input = paste0(here::here(), "/footer.Rmd"),
+  #             output = "_footer.html")
+  last_updated <- function() {
+    return(htmltools::span(
+      paste0(
+        'Last updated on ',
+        format(Sys.Date(), format="%d %B %Y")
+      ),
+      style = "font-size:0.8rem;")
+    )
+  }
+  htmltools::save_html(last_updated(), "_footer.html")
 }
