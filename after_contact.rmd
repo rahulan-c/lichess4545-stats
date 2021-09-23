@@ -1,6 +1,5 @@
 ---
 title: "After contact"
-# output: md_document
 output: html_document
 ---
 

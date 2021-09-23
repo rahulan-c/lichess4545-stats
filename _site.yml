@@ -7,30 +7,24 @@ include: []
 navbar:
   right:
     # - text: "Live Standings"
-    #   href: live_standings.html
-    # - text: "League Updates"
-    #   href: league_updates.html
-    - text: "Stats by league/season"
-      href: league_stats.html
-      menu:
-        - text: "4545 Team League"
-          href: team4545_stats.html
-        - text: "LoneWolf (Open)"
-          href: lwopen_stats.html
-        - text: "LoneWolf (U1800)"
-          href: lwu1800_stats.html
-        # - text: "Chess960"
-        #   href: chess960_stats.html
-        # - text: "---"
-        # - text: "Rapid Battle (15+10)"
-        #   href: rapidbattle_stats.html
-        # - text: "Series (90+30)"
-        #   href: series_stats.html
-        # - text: "---"
-        # - text: "All leagues (combined)"
-        #   href: combined_stats.html
-    # - text: "Misc. stats"
-    #   href: misc_stats.html
+    #   href: live.html
+      - text: "Current Seasons"
+        href: current.html
+      - text: "4545 Team League"
+        href: team4545.html
+      - text: "LoneWolf"
+        href: lw.html
+      - text: "Chess960"
+        href: chess960.html
+      - text: "Rapid Battle"
+        href: rapidbattle.html
+      - text: "Series"
+        href: series.html
+    # - text: "---"
+    # - text: "All leagues (combined)"
+    #   href: combined_stats.html
+      - text: "Other"
+        href: other.html
     #   menu:
     #     - text: "Openings"
     #       href: misc_opening_stats.html
@@ -41,8 +35,8 @@ navbar:
     #     - text: "---"
     #     - text: "Combined (4545/LW)"
     #       href: combined_alltime.html
-    - text: "About"
-      href: about.html
+    # - text: "About"
+    #   href: about.html
   search: true
   source_url: https://github.com/rahulan-c/lichess4545-stats
 output: distill::distill_article
