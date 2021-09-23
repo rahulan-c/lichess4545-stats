@@ -15,7 +15,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono');
 
 
-html {
+.html {
   /*-- Main font sizes --*/
   --title-size:      30px;    /*default: 50px; */
   --body-size:       1.00rem; /*default: 1.06rem;*/
@@ -36,7 +36,7 @@ html {
 }
 
 /*-- ARTICLE METADATA --*/
-d-byline {
+.d-byline {
   --heading-size:    1rem; /* 0.6rem; */
   --heading-color:   rgba(0, 0, 0, 0.5);
   --body-size:       0.8rem;
@@ -50,7 +50,7 @@ d-byline {
 }
 
 /*-- ARTICLE APPENDIX --*/
-d-appendix {
+.d-appendix {
   --heading-size:    15px;
   --heading-color:   rgba(0, 0, 0, 0.65);
   --text-size:       0.8em;
