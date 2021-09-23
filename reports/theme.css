@@ -32,7 +32,6 @@ html {
   --heading-font:    "Amiri", serif;
   --mono-font:       "DM Mono", monospace;
   --body-font:       "Bitter", sans-serif;
-  --navbar-font:     "Amiri", sans-serif;  /* websites + blogs only */
 }
 
 /*-- ARTICLE METADATA --*/
@@ -44,7 +43,7 @@ d-byline {
 }
 
 /*-- ARTICLE TABLE OF CONTENTS --*/
-.d-contents {
+d-contents {
   --heading-size:    18px;
   --contents-size:   13px;
 }
@@ -55,24 +54,6 @@ d-appendix {
   --heading-color:   rgba(0, 0, 0, 0.65);
   --text-size:       0.8em;
   --text-color:      rgba(0, 0, 0, 0.5);
-}
-
-/*-- WEBSITE HEADER + FOOTER --*/
-/* These properties only apply to Distill sites and blogs  */
-
-.distill-site-header {
-  --title-size:       18px;
-  --text-color:       rgba(255, 255, 255, 0.8);
-  --text-size:        15px;
-  --hover-color:      white;
-  --bkgd-color:       #0F2E3D;
-}
-
-.distill-site-footer {
-  --text-color:       rgba(255, 255, 255, 0.8);
-  --text-size:        15px;
-  --hover-color:      white;
-  --bkgd-color:       #0F2E3D;
 }
 
 /*-- Additional custom styles --*/
