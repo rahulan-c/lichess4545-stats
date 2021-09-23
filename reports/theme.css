@@ -17,13 +17,13 @@
 
 html {
   /*-- Main font sizes --*/
-  --title-size:      unset; /*50px;*/
-  --body-size:       1.00rem; /*1.06rem;*/
+  --title-size:      30px;    /*default: 50px; */
+  --body-size:       1.00rem; /*default: 1.06rem;*/
   --code-size:       14px;
   --aside-size:      12px;
   --fig-cap-size:    13px;
   /*-- Main font colors --*/
-  --title-color:     #000000;
+  --title-color:     #225622; /* #000000; */
   --header-color:    rgba(0, 0, 0, 0.8);
   --body-color:      rgba(0, 0, 0, 0.8);
   --aside-color:     rgba(0, 0, 0, 0.6);
