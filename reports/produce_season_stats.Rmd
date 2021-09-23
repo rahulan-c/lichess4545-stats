@@ -44,7 +44,7 @@ options(reactable.theme = reactableTheme(
       "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
       borderColor = "#555"
     ),
-    style = list(fontSize = "14px")
+    style = list(fontSize = "16px")
   )
 )
 

@@ -17,8 +17,9 @@
 
 html {
   /*-- Main font sizes --*/
+  --font-size:       16px; /* edited */
   --title-size:      40px; /* edited */
-  --body-size:       14px; /* edited */
+  --body-size:       16px; /* edited */
   --code-size:       12px;
   --aside-size:      10px; /* edited */
   --fig-cap-size:    13px;
