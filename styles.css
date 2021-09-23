@@ -11,7 +11,6 @@
 /* This must remain at the top of this file.                 */
 @import url('https://fonts.googleapis.com/css2?family=Lato');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat');
 
 html {
   /*-- Main font sizes --*/
@@ -30,7 +29,7 @@ html {
   --heading-font:    'Lato', sans-serif;         /* edited */
   --mono-font:       'Fira Mono', monospace;     /* edited */
   --body-font:       'Lato', sans-serif;         /* edited */
-  --navbar-font:     'Montserrat', sans-serif;   /* edited */
+  --navbar-font:     'Lato', sans-serif;         /* edited */
 }
 
 /*-- ARTICLE METADATA --*/
@@ -63,7 +62,7 @@ d-appendix {
   --text-color:       #FFFFFF;                   /* edited */
   --text-size:        20px;                      /* edited */
   --hover-color:      #383838;                   /* edited */
-  --bkgd-color:       #58508d;                  /* edited */
+  --bkgd-color:       #235d49;                  /* edited */
 }
 
 .distill-site-footer {
@@ -97,5 +96,5 @@ d-article a {
 }
 
 ul > li::marker {
-  color: rgb(249, 83, 85);
+  color: #235d49;
 }
