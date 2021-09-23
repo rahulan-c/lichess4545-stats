@@ -1458,12 +1458,12 @@ update_repo <- function(){
   source(paste0(path_scripts, "update_repo.R"))
   
   # Then render the lichess4545-stats homepage
-  rmarkdown::render(input = paste0(path_root, "index.rmd"),
+  rmarkdown::render(input = paste0(path_root, "/index.rmd"),
                     rmarkdown::md_document(variant = "gfm"),
                     quiet = TRUE)
   
   # Also render the post-contact landing page
-  rmarkdown::render(input = paste0(path_root, "after_contact.rmd"),
+  rmarkdown::render(input = paste0(path_root, "/after_contact.rmd"),
                     rmarkdown::md_document(variant = "gfm"),
                     quiet = TRUE)
   
