@@ -30,7 +30,7 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
                ggrepel, ggridges, reactable, htmltools, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, cowplot, 
-               tippy, xaringanExtra, here, glue)
+               tippy, xaringanExtra, here, glue, distill)
 
 # Define custom default reactable theme for tables
 options(reactable.theme = reactableTheme(
