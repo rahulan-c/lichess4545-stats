@@ -9,8 +9,8 @@ output_dir: "."
 include:
 navbar:
   right:
-      - text: "Live Standings"
-        href: live.html
+      # - text: "Live Standings"
+      #   href: live.html
       - text: "Round Updates"
         href: current.html
       - text: "Season Reports"

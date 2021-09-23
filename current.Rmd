@@ -4,8 +4,6 @@ output: distill::distill_article
 site: distill::distill_website
 ---
 
-**This page is under construction. In time, it will have the latest stats on current league seasons.**
-
-For now, enjoy these visual summaries of all matches played to date in 4545 Season 27:
+When it's finished, this page will provide stats on ongoing league seasons, including features such as the "match story" visualisations that have recently been produced for Season 27:
 
 [R1](temp/s27_r1_allmatches.pdf) | [R2](temp/s27_r2_allmatches.pdf) | [R3](temp/s27_r3_allmatches.pdf) | [R4](temp/s27_r4_allmatches.pdf) | [R5](temp/s27_r5_allmatches.pdf) | [R6](temp/s27_r6_allmatches.pdf)

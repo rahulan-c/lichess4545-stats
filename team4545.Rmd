@@ -1,7 +1,40 @@
 ---
-title: "4545 season reports"
+title: "Stats by season: 4545 Team League"
 output: distill::distill_article
 site: distill::distill_website
 ---
 
-This will have all the links to previous 4545 season reports...which are currently linked on the main page anyway.
+Statistical reports on every 4545 season.
+
+```{r}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, knitr)
+```
+
+```{r season_reports_tbl}
+
+# Show table with all compiled 4545 season reports
+
+# 4545
+completed_4545 <- list.files(path = "reports/", pattern = "^stats_4545(.*)\\.html$") 
+any_4545 <- ifelse(length(completed_4545) > 0, T, F)
+if(length(completed_4545) > 0){
+  completed_4545 <- completed_4545 %>% 
+    str_remove_all("stats_4545_s") %>% 
+    str_remove_all("\\.html") %>% 
+    sort(decreasing = T) %>% 
+    paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s", ., ".html)")
+}
+
+# Make sure all completed season vectors are the same length
+most_completed <- length(completed_4545)
+
+# Make league cols empty if there are no completed seasons
+if(any_4545 == F){completed_4545 <- rep("", most_completed)}
+
+# Construct and show table of league reports by season
+completed <- tibble("team4545" = completed_4545)
+knitr::kable(completed, format = "simple", col.names = c("Lichess4545 League"))
+
+```
