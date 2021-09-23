@@ -1,7 +1,9 @@
 ---
 title: "Lichess4545 stats homepage"
-output: md_document
+# output: md_document
+output: html_document
 date: "Last updated: `r format(Sys.time(), '%B %Y')`"
+site: distill::distill_website
 ---
 
 ```{r, include=FALSE}
