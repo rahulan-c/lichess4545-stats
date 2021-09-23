@@ -61,7 +61,7 @@ d-appendix {
   --title-size:       20px;                      /* edited */
   --text-color:       #FFFFFF;                   /* edited */
   --text-size:        20px;                      /* edited */
-  --hover-color:      #383838;                   /* edited */
+  --hover-color:      #235d49;                   /* edited */
   --bkgd-color:       #235d49;                  /* edited */
 }
 
@@ -87,7 +87,7 @@ d-article p code {
 }
 
 d-article a {
-    border-bottom: 2px solid rgba(249, 83, 85, 0.4);
+    border-bottom: 2px solid #235d49;
     text-decoration: none;
 }
 
