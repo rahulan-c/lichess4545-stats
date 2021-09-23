@@ -1593,6 +1593,9 @@ create_footer <- function() {
       style = "font-size:0.8rem;")
     )
   }
-  htmltools::save_html(last_updated(), "_footer.html")
+  # htmltools::save_html(last_updated(), "_footer.html")
+  fileConn <- file(paste0(path_root, "_footer.html"))
+  writeLines(last_updated(), fileConn)
+  close(fileConn)
 }
 
