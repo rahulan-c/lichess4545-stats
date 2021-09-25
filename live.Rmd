@@ -4,4 +4,159 @@ output: distill::distill_article
 site: distill::distill_website
 ---
 
-**This page is under construction. The goal is to have live standings here that take account of recently completed games.**
+**This page is under construction.**
+
+```{r opts_packages, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+if (!require("pacman")) install.packages("pacman")
+# Load all required packages, incl. for functions
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
+               ggrepel, ggridges, reactable, htmltools, httr, jsonlite, xml2, 
+               rvest, ndjson, reshape2, utf8, lubridate, tictoc, cowplot, 
+               tippy, xaringanExtra, here, glue, distill)
+
+
+```
+
+## 4545 standings
+
+```{r live_standings, layout="l-body-outset"}
+# Live standings
+
+# Idea:
+# 1) Capture current standings
+# 2) Capture current pairings page
+# 3) Compute effects of current pairings on standings and present resulting table
+# 4) Also present summary of current pairings - who's playing who, what's the current score, 
+#    how many games have been / are to be played...
+
+
+# Get current round's team pairings -------------------------------------------
+
+# Season number
+season <- read_html("https://www.lichess4545.com/team4545/") %>% 
+  rvest::html_element(".col-xs-12+ .col-xs-12 .well:nth-child(1) h3") %>% 
+  html_text2() %>% 
+  str_extract("\\d+") %>% 
+  as.integer()
+
+# Round number
+Sys.sleep(0.5)
+round <- read_html("https://www.lichess4545.com/team4545/season/27/pairings/") %>% 
+  rvest::html_element(".round-switcher:nth-child(1) .dropdown-toggle") %>% 
+  html_text2() %>% 
+  str_extract("\\d+") %>% 
+  as.integer()
+
+# Number of boards per team
+boards <- 99
+if(season == 1){boards <- 4} else
+  if(season == 2){boards <- 5} else
+    if(season <= 15){boards <-  6} else 
+      if(season <= 24){boards <-  8} else
+        if(season <= 99){boards <-  10}
+
+# Get team pairings
+url <- paste0(
+  "https://www.lichess4545.com/team4545/season/",
+  as.character(season),
+  "/round/",
+  as.character(round),
+  "/pairings/"
+)
+
+# Tidy pairings data
+Sys.sleep(0.5)
+pairings <- read_html(url) %>%
+  rvest::html_element("table") %>%
+  rvest::html_table(header = FALSE)
+pairings$X5[pairings$X5 == "Calendar"] <- ""
+
+## Fix any character encoding issues
+fix_character_encoding <- function(df){
+  df <- df %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¤", "ä")))
+  return(df)
+}
+pairings <- fix_character_encoding(pairings)
+
+# Extract team scores
+scores <- pairings %>%
+  filter(X5 == "") %>%
+  filter(X2 != "", X3 != "") %>% 
+  filter(!(str_detect(X2, "Z|F|X"))) %>% 
+  filter(!(str_detect(X3, "Z|F|X"))) %>% 
+  filter(!(str_detect(X2, "01|10"))) %>% 
+  filter(!(str_detect(X3, "01|10")))
+
+# Get current standings
+Sys.sleep(0.5)
+standings <- read_html(paste0("https://www.lichess4545.com/team4545/season/",
+                              season, 
+                              "/standings/")) %>% 
+  rvest::html_elements("td") %>%
+  rvest::html_text2()
+
+
+
+standings <- cbind.data.frame(split(standings, rep(1:13, times=length(standings)/13)), stringsAsFactors=F)
+names(standings) <- c("rank", "team", "avg_rtg", "match_pts", "game_pts", paste0("round_", seq(1:8)))
+standings <- standings %>% 
+  select(rank, team, match_pts, game_pts)
+standings <- fix_character_encoding(standings)
+
+scores$X5 <- NULL
+colnames(scores) <- c("team1", "score1", "score2", "team2")
+scores <- scores %>% 
+  mutate(score1 = as.numeric(stringr::str_replace(score1, "½", ".5")),
+         score2 = as.numeric(stringr::str_replace(score2, "½", ".5"))) 
+scores2 <- dplyr::bind_rows(
+  tibble("team" = scores$team1, "score" = scores$score1, "opp_score" = scores$score2),
+  tibble("team" = scores$team2, "score" = scores$score2, "opp_score" = scores$score1)
+)
+
+scores2 <- scores2 %>% 
+  mutate(hypo_mp = ifelse(score > opp_score, 2, ifelse(score < opp_score, 0, ifelse(score == opp_score, 1, NA))),
+         hypo_gp = score)
+
+scores2 <- dplyr::left_join(scores2, standings, by = c("team"))
+
+scores2$rank <- as.integer(scores2$rank)
+scores2$match_pts <- as.numeric(scores2$match_pts)
+scores2$game_pts <- as.numeric(scores2$game_pts)
+
+scores2 <- scores2 %>% 
+  mutate(hypo_mp = hypo_mp + match_pts,
+         hypo_gp = hypo_gp + game_pts) %>% 
+  arrange(desc(hypo_mp), desc(hypo_gp))
+
+scores2$hypo_rank <- data.table::frank(scores2, -hypo_mp, -hypo_gp, ties.method = "dense")
+
+scores2 <- scores2 %>% 
+  mutate(change_rank = paste0(ifelse(rank < hypo_rank, 
+                                     "-", 
+                                     ifelse(rank > hypo_rank, 
+                                            "+", 
+                                            ifelse(rank == hypo_rank, 
+                                                   "=", NA))),
+         ifelse(rank == hypo_rank, "", abs(rank - hypo_rank)))) %>% 
+  mutate(live_margin = glue::glue("{ifelse(score > opp_score, paste0('Ahead by ', score - opp_score), 
+                                  ifelse(score < opp_score, paste0('Behind by ', opp_score - score), 'Tied'))} with {boards - (score + opp_score)} games remaining"))
+
+scores3 <- scores2 %>% 
+  select(hypo_rank, team, hypo_mp, hypo_gp, change_rank, live_margin)
+
+rmarkdown::paged_table(scores3)
+
+```
+

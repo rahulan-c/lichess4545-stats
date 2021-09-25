@@ -31,7 +31,7 @@ credits <- stringr::str_c(sort(credits), collapse = ", ")
 
 Thanks to the following Lichess4545 members for providing helpful advice, suggestions and inspiration along the way: `r credits`.
 
-The quotes in the footer come from a list of reasons to play in the 4545 league that Tranzoo recently compiled, with contributions from gigantaure, M0r1, unclevinny, seb32, KnightFury21, kostasvsl, mojomoe and Impaired.
+The quotes *that will soon appear* in the footer are taken from a list of reasons to play in the 4545 league that was recently compiled by Tranzoo using contributions from Lichess4545 Slack members gigantaure, Impaired, KnightFury21, kostasvsl, M0r1, mojomoe, unclevinny, and seb32.
 
 
 ### Contact {#contact}
