@@ -138,9 +138,14 @@ pairings <- rio::import(paste0(data_path, "pairings_", league_load_label, "_s", 
 positions <- rio::import(paste0(data_path, "positions_", league_load_label, "_s", season, ".csv")) %>% 
   as_tibble()
 
-# Load data on all 4545/LW games - required for determing the Rookie Award
-all_games <- readr::read_rds(paste0(data_path, "combined_league_games_210804_tidied.rds")) %>% 
-  as_tibble()
+# Load data on all 4545 or LW games - required for determing the Rookie Award
+if(league == "team4545") {
+  all_games <- readr::read_rds(paste0(data_path, "allgames_team.rds")) %>% 
+    as_tibble()
+} else if (league == "lonewolf") {
+  all_games <- readr::read_rds(paste0(data_path, "allgames_lw.rds")) %>% 
+    as_tibble()
+}
 
 
 # ---- 3) TIDY SEASON DATA FOR REPORTS ----------------------------------------
@@ -2206,7 +2211,7 @@ david <- games %>%
   mutate(games_aw = games_w - 1, points_aw = points_w - score_w) %>% 
   left_join(perfs, by = c("black" = "player")) %>% 
   select(white, black, score_w, score_b, games_aw, points_aw, "games_b" = games, "points_b" = points) %>%
-  mutate(games_ab = games_b - 1, points_afb = points_b - score_b) %>% 
+  mutate(games_ab = games_b - 1, points_ab = points_b - score_b) %>% 
   select(white, black, games_aw, games_ab, points_aw, points_ab)
 
 david <- rbind(tibble("player" = david$white,

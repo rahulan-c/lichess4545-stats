@@ -1,10 +1,9 @@
 
 # FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA
 
-# Last updated: 2021-09-20
+# Last updated: 2021-10-07
 
-# All functions
-# -------------
+# Full list:
 
 # get_league_games()
 # get_user_games()
@@ -24,14 +23,18 @@
 # build_season_reports()
 # build_alltime_stats()
 # update_site()
+# create_footer()
 # GetFENs()
+# GetPlayedTeamLoneWolfPairings()
+# GetSpectatorChat()
 
 # ---- Required packages ------------------------------------------------------
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
-               rmarkdown, fs, stringi, git2r, glue, here, distill, htmltools)
+               rmarkdown, fs, stringi, git2r, glue, here, distill, htmltools,
+               tidyjson)
 
 
 # ---- User-defined parameters ------------------------------------------------
@@ -277,9 +280,11 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
 #' @examples 
 #' get_user_games("thibault", "2021-01-15", "2021-03-14", "blitz")
 #' get_user_games("izzie26, "2018-04-01", "2021-08-18", "classical")
-get_user_games <- function(username, since, until, perfs){
+get_user_games <- function(username, since = NULL, until = NULL, perfs){
   
-  
+  # Function that converts a date from the "YYYY-MM-DD" format to the correct  
+  # numeric format for the Lichess API. Also adds "00:01" or "23:59" depending
+  # on whether the date is meant to signify the start or end of the search period.
   LichessDateFormat <- function(date, time_modifier){
     date <- as.numeric(formatC(
       as.numeric(lubridate::parse_date_time(paste0(date, " ", time_modifier), "ymdHMS")) * 1000,
@@ -288,12 +293,17 @@ get_user_games <- function(username, since, until, perfs){
     return(date)
   }
   
+  # If user doesn't enter anything for 'since' or 'until', use the default values
+  # of "Account creation date" and "Now"
+  since_entered <- ifelse(is.null(since), "Account creation date", LichessDateFormat(since, "00:00:01"))
+  until_entered <- ifelse(is.null(until), "Now", LichessDateFormat(until, "23:59:59"))
+  
   # Request games
   get_games <- httr::GET(
     url = "https://lichess.org",
     path = paste0("/api/games/user/", username),
-    query = list(since = LichessDateFormat(since, "00:00:01"),
-                 until = LichessDateFormat(until, "23:59:59"),
+    query = list(since = since_entered,
+                 until = until_entered,
                  rated = "true",
                  perfType = perfs,
                  clocks = "true",
@@ -311,7 +321,7 @@ get_user_games <- function(username, since, until, perfs){
     read_lines() %>% 
     ndjson::flatten()
   
-  return(games)
+  return(all_games)
   
 }
 
@@ -1091,15 +1101,23 @@ integer_breaks <- function(n = 5, ...) {
 
 # Get data on all games listed in an input vector of game URLs
 # Eg games <- get_games_from_urls(links)
-get_games_from_urls <- function(links){
+# Arguments:
+# ids: vector of game IDs
+# links: vector of game URLs
+GetGamesFromURLs <- function(ids = NULL, links = NULL){
   
   # Max number of game IDs allowed per Lichess API query
   max_ids_per_request <- 300
   
-  # Extract game IDs from user-supplied list of gamelinks or IDs
-  all_ids <- links %>% 
-    str_extract("[:alnum:]{8}|(?<=lichess.org/)[:alnum:]{8}") %>% 
-    unique()
+  # If game IDs are provided...
+  if (!(is.null(ids))) {
+    all_ids <- ids %>% unique()
+  # Or else if game URLs are provided...
+  } else if (!(is.null(links))) {
+    all_ids <- links %>% 
+      str_extract("[:alnum:]{8}|(?<=lichess.org/)[:alnum:]{8}") %>% 
+      unique()
+  }
 
   # Split requested game IDs into list elements of size 300
   all_ids <- split(all_ids, ceiling(seq_along(all_ids)/max_ids_per_request))
@@ -1110,7 +1128,7 @@ get_games_from_urls <- function(links){
   for(l in seq(1:length(all_ids))){
     
     # Pause between batches of IDs
-    if(l > 1){Sys.sleep(10)}
+    if(l > 1){Sys.sleep(5)}
     
     batch_ids <- all_ids[[l]] %>% str_c(collapse = ",")
     
@@ -1145,17 +1163,46 @@ get_games_from_urls <- function(links){
   }
   
   # Combine game data across batches into single df
-  all_games <- bind_rows(all_games)
+  all_games <- bind_rows(all_games) %>% as_tibble()
   
   print(paste0("Obtained all game data (", nrow(all_games), " games)"))
   
-  # Inform user about unanalysed games
-  no_analysis <- all_games %>% 
-    filter(is.na(players.white.analysis.acpl))
-  print(paste0(nrow(no_analysis), " games have no Lichess analysis..."))
-  print(no_analysis$id)
+  # Add number of moves per game to data
+  all_games$num_moves <- ifelse(str_count(all_games$moves, "\\s") %% 2 == 1,
+                            (str_count(all_games$moves, "\\s") / 2) + 0.5,
+                            (str_count(all_games$moves, "\\s") / 2) + 1)
   
-  return(all_games)
+  # Only include games with at least 3 moves
+  all_games <- all_games %>% 
+    filter(num_moves >= 3)
+  
+  # Inform user about unanalysed games
+  # Open them in the browser so analysis can be requested
+  need_analysis <- all_games %>%
+    filter(is.na(players.white.analysis.acpl)) %>%
+    filter(perf != "fromPosition") %>% 
+    select(id) %>%
+    mutate(id = paste0("https://lichess.org/", id)) %>% 
+    as_tibble()
+
+  if(nrow(need_analysis) > 0) {
+    print("Some games haven't been analysed by Lichess...")
+    print(need_analysis$id)
+    # if(nrow(need_analysis) < 21) {
+    #   cli::cli_inform("Opening each un-analysed game in the browser for analysis to be requested...")
+    #   for (l in seq(1:length(need_analysis$id))) {
+    #     browseURL(id, browser = getOption("browser"),
+    #               encodeIfNeeded = FALSE)
+    #     Sys.sleep(1)
+    #   }
+    # } else {
+    #   cli::cli_inform("There are too many un-analysed games to open in the browser. 
+    #                   I don't want you to get an IP ban! :)")
+    # }
+  }
+  
+  
+  return(list(all_games, need_analysis))
   
 }
 
@@ -1198,7 +1245,7 @@ save_season_data <- function(league_choice, seasons){
         if(season == 2){team_boards <- 5} else
           if(season <= 15){team_boards <-  6} else 
             if(season <= 24){team_boards <-  8} else
-              if(season <= 26){team_boards <-  10}
+              if(season <= 99){team_boards <-  10}
     
     # Skip if user requests LW U1800 data for seasons 1-8
     # As Season 9 was the first LW season with an U1800 section
@@ -1213,12 +1260,16 @@ save_season_data <- function(league_choice, seasons){
     
     
     # Get league games and pairings data
-    games_pairings <- get_league_games(league, season, lw_u1800)
-    games <- games_pairings[[1]]
-    website_pairings <- games_pairings[[2]]
+    games_pairings <- get_league_games(league_choice = league, 
+                                       seasons_choice =  season, 
+                                       rounds_choice = rounds,
+                                       lw_u1800_choice = lw_u1800)
+
+    games <- games_pairings[[1]] %>% as_tibble()
+    website_pairings <- games_pairings[[2]] %>% as_tibble()
     
     # Tidy game data
-    tidied_games <- tidy_lichess_games(games)
+    tidied_games <- tidy_lichess_games(games) %>% as_tibble()
     
     # Save game data with appropriate labels
     league_save_label <- league
@@ -1231,8 +1282,8 @@ save_season_data <- function(league_choice, seasons){
     # Get league pairings/positions data
     data <- get_league_data(league, season, rounds, lw_u1800, team_boards)
     
-    pairings <- data[[1]]
-    positions <- data[[2]]
+    pairings <- data[[1]] %>% as_tibble()
+    positions <- data[[2]] %>% as_tibble()
     
     
     if(league == "team4545"){
@@ -1611,3 +1662,195 @@ create_footer <- function() {
   close(fileConn)
 }
 
+
+# Get data on all played pairings in the 4545 Team and LoneWolf leagues
+# Arguments: current_season_team4545: current 4545 season number (integer)
+#            current_season_lonewolf: current LoneWolf season number (integer)
+# Returns: a tibble with 1 row per played pairing
+# Note: won't return any pairings that weren't played
+GetPlayedTeamLoneWolfPairings <- function(current_season_team4545, 
+                                        current_season_lonewolf){
+  
+  tic("Get season data from the Lichess4545 website")
+  
+  
+  # Parameters for Lichess4545 API requests
+  url <- "https://www.lichess4545.com/api/get_season_games/"
+  leagues <- c("team4545", "lonewolf")
+  seasons_team4545 <- c(1:current_season_team4545)
+  seasons_lwopen <- c(1:current_season_lonewolf)
+  seasons_lwu1800 <- paste0(c(9:current_season_lonewolf), "u1800")
+  
+  res_team4545 <- list()
+  res_lwopen <- list()
+  res_lwu1800 <- list()
+  
+  # For each league
+  for(l in leagues){
+    
+    # For each 4545 season
+    if(l == "team4545"){
+      
+      for(s in seasons_team4545){
+        
+        # Request season game data
+        r <- httr::GET(
+          url = url,
+          query = list(league = l,
+                       season = s)
+        )
+        
+        # Stop if there's an error
+        if(r$status_code != 200){
+          print("Error!")
+          print(http_status(r)$message)
+          break
+        }
+        
+        # Extract season data as tibble and save
+        res <- r %>% 
+          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
+          jsonlite::fromJSON() %>% 
+          purrr::pluck("games")
+        
+        res_team4545[[s]] <- res
+        cli::cli_inform("Got played pairings data for 4545 S{s}")
+        # print(paste0("Obtained results for 4545 S", s))
+        Sys.sleep(0.5)
+        
+      }
+      
+    } # end 4545 loop
+    
+    # For each LW season
+    if(l == "lonewolf"){
+      
+      # First get data on Open section games
+      for(s in seasons_lwopen){
+        
+        # Request season game data
+        r <- httr::GET(
+          url = url,
+          query = list(league = l,
+                       season = s)
+        )
+        
+        # Stop if there's an error
+        if(r$status_code != 200){
+          print("Error!")
+          print(http_status(r)$message)
+          break
+        }
+        
+        # Extract season data as tibble and save
+        res <- r %>% 
+          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
+          jsonlite::fromJSON() %>% 
+          purrr::pluck("games")
+        
+        res_lwopen[[s]] <- res
+        cli::cli_inform("Got played pairings data for LW Open S{s}")
+        # print(paste0("Obtained results for LW (Open) S", s))
+        Sys.sleep(0.5)
+        
+      }
+      
+      # Then get data on U1800 section games
+      for(s in seasons_lwu1800){
+        
+        # Request season game data
+        r <- httr::GET(
+          url = url,
+          query = list(league = l,
+                       season = s)
+        )
+        
+        # Stop if there's an error
+        if(r$status_code != 200){
+          print("Error!")
+          print(http_status(r)$message)
+          break
+        }
+        
+        # Extract season data as tibble and save
+        res <- r %>% 
+          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
+          jsonlite::fromJSON() %>% 
+          purrr::pluck("games")
+        
+        res_lwu1800[[match(s, seasons_lwu1800)]] <- res
+        cli::cli_inform("Got played pairings data for LW U1800 S{s}")
+        # print(paste0("Obtained results for LW (U1800) S", match(s, seasons_lwu1800)))
+        Sys.sleep(0.5)
+        
+      }
+      
+    } # end of LW loop
+    
+  } # finished going through leagues
+  
+  
+  # Combine all obtained game data
+  res_team4545 <- data.table::rbindlist(res_team4545) %>% as_tibble()
+  res_lwopen <- data.table::rbindlist(res_lwopen) %>% as_tibble()
+  res_lwu1800 <- data.table::rbindlist(res_lwu1800) %>% as_tibble()
+  
+  res_lwopen <- res_lwopen %>% mutate(white_team = NA, black_team = NA)
+  res_lwu1800 <- res_lwu1800 %>% mutate(white_team = NA, black_team = NA)
+  
+  res_combined <- dplyr::bind_rows(list(res_team4545, res_lwopen, res_lwu1800)) %>% 
+    as_tibble()
+  toc(log = TRUE)
+  return(res_combined)
+  
+}
+
+# Extract tibble with all spectator chat messages for a single game
+# Args    id: Lichess game ID
+# Returns A two-element list. 
+#         Element 1: tibble with the last 200 spectator chat messages (and usernames)
+#         Element 2: vector containing each account name that posted a message in the returned spectator chat
+# Note: this will only return 200 messages at most, since Lichess only keeps the last 200 messages on the game page.
+GetSpectatorChat <- function(id) {
+  
+  gamelink <- paste0("https://lichess.org/", id)
+  
+  # Get all text on the page
+  text <- rvest::read_html(gamelink) %>% rvest::html_text2()
+  text <- str_sub(text, str_locate(text, "Spectator room")[1,2], nchar(text))
+  text <- str_sub(text,
+                  str_locate_all(text, '\\"lines')[[1]][1,1],
+                  str_locate_all(text, "\\]")[[length(str_locate_all(text, "\\]"))]][1,1])
+  text <- str_c("{", text, "}")
+  
+  # Get spectator chat
+  chat <- text %>% 
+    tidyjson::enter_object(lines) %>% 
+    gather_array() %>% 
+    spread_all() %>% 
+    as_tibble()
+  
+  if(nrow(chat) > 0) {
+    chat <- chat %>% 
+      select("msg" = array.index, u, t) %>% 
+      mutate(game_id = id)
+    
+    # Get unique commenters
+    commenters <- chat %>% 
+      select(u) %>% 
+      distinct() %>% 
+      dplyr::pull()
+    
+  } else {
+    commenters <- NA
+  }
+  
+  commenters <- unique(commenters)
+  commenters <- commenters[!is.na(commenters)]
+  
+  cli::cli_inform("Game ID {id} has {nrow(chat)} spectator chat messages")
+  # cli::cli_inform("Posted by {length(commenters)} different users (possibly incl. both players):")
+  # cli::cli_inform("{commenters}")
+  return(list(chat, commenters))
+  
+}
