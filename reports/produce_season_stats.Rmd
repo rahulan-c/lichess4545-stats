@@ -640,7 +640,7 @@ if(league == "team4545"){
 
 </div>
 
-```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
+```{r, eval = ifelse(league == "team4545", TRUE, FALSE), layout="l-page"}
 # Show 4545 podium team players in a reactable table
 reactable(winners,
           fullWidth = TRUE,
@@ -755,7 +755,7 @@ if(lw_hide){cat("<!---")}
 
 #### Top of the boards
 
-The top player performances by board (minimum 4 games played).^[The performance ratings in this table only take into account games played on the relevant board, which is why they differ from (and should be preferred to) the ratings given by the board standings tables on the Lichess4545 website.]
+The top player performances by board (minimum 5 games played).^[The performance ratings in this table only take into account games played on the relevant board, which is why they differ from (and should be preferred to) the ratings given by the board standings tables on the Lichess4545 website.]
 
 ```{r bperfs, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Board perf ratings
@@ -805,7 +805,7 @@ bperfs <- bperfs %>%
   mutate(adj = fide_tpr_lookup[match(round(tp_score, 2), fide_tpr_lookup$p),2]) %>% 
   mutate(bperf_rating = avg_opp_rating + adj) %>% 
   mutate(bperf_diff = bperf_rating - initial_rating) %>% 
-  filter(games >= 4) %>%
+  filter(games >= 5) %>%
   ungroup() %>% 
   group_by(board) %>% 
   arrange(desc(bperf_rating)) %>% 
@@ -859,7 +859,7 @@ if (lw_hide) {cat("-->")}
 
 #### When were games played? {.panel-name}
 
-```{r games_by_day, fig.show="hold", out.width = "50%"}
+```{r games_by_day, fig.show="hold", out.width = "50%", layout="l-page"}
 
 # Create summary table with info for heatmap
 games_by_day_time <- plyr::ddply(games, c("hour", "wday"),
@@ -904,7 +904,7 @@ heat_dayhour
 
 #### How long did games take? {.panel-name}
 
-```{r hists, fig.show="hold", out.width = "50%"}
+```{r hists, fig.show="hold", out.width = "50%", layout="l-page"}
 # Number of moves histogram
 moves_hist <- games %>% 
   ggplot(aes(num_moves)) +
@@ -945,7 +945,7 @@ duration_hist
 
 *Includes games ranked at or above the 90th percentile by number of moves.*
 
-```{r longest_moves}
+```{r longest_moves, layout="l-page"}
 # Longest games (by # moves)
 
 longest_moves <- games %>% 
@@ -1001,7 +1001,7 @@ reactable(longest_moves,
 
 *Includes games ranked at or above the 90th percentile by total clock time.*^[A game's total clock time is the sum of both players' move times from move 2 onwards.]
 
-```{r longest_time}
+```{r longest_time, layout="l-page"}
 # Longest games (by duration)
 # only show top 25%
 # cols: rank, players (w/ url), date, time taken
