@@ -1,7 +1,7 @@
 
 # FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA
 
-# Last updated: 2021-10-07
+# Last updated: 2021-10-20
 
 # Full list:
 
@@ -27,6 +27,7 @@
 # GetFENs()
 # GetPlayedTeamLoneWolfPairings()
 # GetSpectatorChat()
+# GetSeasonPGN(filename = "games_lwopen_s22.rds")
 
 # ---- Required packages ------------------------------------------------------
 
@@ -210,7 +211,8 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
                    clocks = "true",
                    evals = "true",
                    opening = "true",
-                   pgnInJson = "true"),
+                   pgnInJson = "true",
+                   literate = "true"),
       httr::add_headers(`Authorization` = sprintf("Bearer %s", token)),
       accept("application/x-ndjson"))
     
@@ -582,6 +584,16 @@ tidy_lichess_games <- function(games){
   fileConn <- file(paste0(path_root, "/data/tidied_games_noevals.pgn"))
   writeLines(pgn_noevals, fileConn)
   close(fileConn)
+  
+  # Save PGN with evals and movetimes
+  # Eg needed for sac detection
+  pgn_evals <- str_c(games$pgn, collapse = "")
+  # Save PGN
+  fileConn <- file(paste0(path_root, "/data/tidied_games_evals.pgn"))
+  writeLines(pgn_evals, fileConn)
+  close(fileConn)
+  
+  
   
   # 2) Parse PGN with python-chess to extract FENs for all plies in all games
   GetFENs <- function(pgn_path) {
@@ -1854,3 +1866,18 @@ GetSpectatorChat <- function(id) {
   return(list(chat, commenters))
   
 }
+
+# Save a PGN file with all games in a season using the season's .RDS data file
+# Takes: (1) filename: season games RDS data filename, eg "games_lwopen_s22.rds" 
+# (note: this is expected to be saved in data/). 
+# Returns: saves a PGN file in the data folder ("pgn_evals.pgn"). Nothing explicitly returned.
+# Example: GetSeasonPGN("games_lwopen_s22.rds")
+GetSeasonPGN <- function(filename, with_evals = T){
+  games <- readRDS(paste0("data/", filename))
+  pgn_evals <- str_c(games$pgn, collapse = NULL)
+  fileConn <- file(paste0(path_root, "/data/", "pgn_evals.pgn"))
+  writeLines(pgn_evals, fileConn)
+  close(fileConn)
+}
+
+
