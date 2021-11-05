@@ -1,70 +1,8 @@
 
-/* base variables */
-
-/* Edit the CSS properties in this file to create a custom
-   Distill theme. Only edit values in the right column
-   for each row; values shown are the CSS defaults.
-   To return any property to the default,
-   you may set its value to: unset
-   All rows must end with a semi-colon.                      */
-
-/* Optional: embed custom fonts here with `@import`          */
-/* This must remain at the top of this file.                 */
-@import url('https://fonts.googleapis.com/css2?family=Amiri');
-@import url('https://fonts.googleapis.com/css2?family=Lato');
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono');
-
-
-html {
-  /*-- Main font sizes --*/
-  --font-size:       16px; /* edited */
-  --title-size:      40px; /* edited */
-  --body-size:       16px; /* edited */
-  --code-size:       12px;
-  --aside-size:      10px; /* edited */
-  --fig-cap-size:    13px;
-  /*-- Main font colors --*/
-  --title-color:     #000000; 
-  --header-color:    rgba(0, 0, 0, 0.8);
-  --body-color:      rgba(0, 0, 0, 0.8); 
-  --aside-color:     rgba(0, 0, 0, 0.6);
-  --fig-cap-color:   rgba(0, 0, 0, 0.6);
-  /*-- Specify custom fonts ~~~ must be imported above   --*/
-  --heading-font:    "Lato", serif;
-  --mono-font:       "DM Mono", monospace;
-  --body-font:       "Lato", sans-serif;
-}
-
-/*-- ARTICLE METADATA --*/
-d-byline {
-  --heading-size:    1rem; /* edited */
-  --heading-color:   rgba(0, 0, 0, 0.5);
-  --body-size:       0.8rem;
-  --body-color:      rgba(0, 0, 0, 0.8);
-}
-
-/*-- ARTICLE TABLE OF CONTENTS --*/
-d-contents {
-  --heading-size:    18px;
-  --contents-size:   13px;
-}
-
-/*-- ARTICLE APPENDIX --*/
-d-appendix {
-  --heading-size:    15px;
-  --heading-color:   rgba(0, 0, 0, 0.65);
-  --text-size:       0.8em;
-  --text-color:      rgba(0, 0, 0, 0.5);
-}
-
-/*-- Additional custom styles --*/
-/* Add any additional CSS rules below                      */
 
 /* ----------- Report headings ------------- */
 
-/* OLD - delete these after fixing the new Distill theme settings */
-
-/* 
+ 
 h1.title {
   font-size: 28px;
 }
@@ -89,10 +27,12 @@ h1, h2, h3, h4 {
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     margin-top: 84px;
 } 
-*/
+
 
 
 /* ----------- Div tips ------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
 
   div.first {
     padding: 0.1em;
@@ -134,6 +74,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     background-color: #e4ba90;
     border: solid 3px #cd7f32;
     background-image: url("images/trophy-3.svg");
+    font-family: 'Fira Mono';
   }
   
   div.about {
@@ -149,75 +90,69 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     border: solid 5px #dfedff;
     background-image: url("images/fyi.png");
   }
+  
+  div.stories {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #2c3e50;
+    background-color: #D8C1F7;
+    border: solid 5px #E6DDF3;
+    background-image: url("images/drama-masks.svg");
+  }
 
 
 /* ----------- Hyperlinks ------------- */
 
 /* Unvisited */
-/*a:link {
+a:link {
   color: #23619f;
-}*/
+}
 
 /* Visited */
-/*a:visited {
+a:visited {
   color: #23619f;
-}*/
+}
 
 /* Hovered */
-/*a:hover {
+a:hover {
   color: #2973bc;
-}*/
+}
 
 /*------------Table of Contents (TOC)----------- */
 
-/*
+
 .tocify {
   border: none;   /*Removes border */ 
   /*border-radius: 0px; /* Gets rid of rounded corners on TOC */
   /*font-size: 16px;
-} */
+} 
 
-/*.tocify ul, .tocify li { /* Increases spacing between TOC headers*/
+.tocify ul, .tocify li { /* Increases spacing between TOC headers*/
    /* line-height: 25px !important; 
-} */
+} 
 
-/*.tocify ul {
+.tocify ul {
   border-right: solid 1px #eee; /* Thin right border on TOC list */
-/*} */
+/*} 
 
 /* Active TOC links*/
 
-/*.list-group-item.active, 
+.list-group-item.active, 
 .list-group-item.active:hover{
   color: #787878;
   background-color: #ffffff;
   border-color: #ccc;
-} */
+} 
 
 /* Hovered TOC links*/
 
-/*.list-group-item:hover { 
+.list-group-item:hover { 
   color: #787878;
   background-color: #ffffff;
   border: none;
-} */
-
-
-ul > li::marker {
-    color: #3d5a80;
-    font-weight: 700;
-    font-size: 1.125em;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  letter-spacing: 1px;
-  font-weight: 300;
-}
-
-.distill-site-header .logo img{
-  max-height: 40px; /* Makes logo bigger, default was 20px */
-}
-
-.distill-site-header {
-  padding-top: 1rem;
-}
+} 

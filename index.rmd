@@ -18,7 +18,7 @@ pacman::p_load(tidyverse, knitr)
 
 For the uninitiated, these popular leagues have been running since 2015 and are regularly recommended by top players like IM John Bartholomew (see [here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s)). Find out more at https://www.lichess4545.com/.
 
-<aside> While the new site is under construction, some pages may look funny and several links will be missing (especially the menu links labelled "tbc". Hopefully, things won't take too long to fix...
+<aside> This site (remains) a work in progress, so some parts might look barely populated.
 </aside>
 
 Links on this page:
@@ -29,7 +29,9 @@ Links on this page:
 
 [All time records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.html)
 
-### Stats and awards by league/season {#season-stats} 
+### Stats and awards by league/season {#season-stats}
+
+*Note: the link for Season 27 doesn't work.*
 
 ```{r season_reports_tbl}
 

@@ -1,7 +1,7 @@
 
 # FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA
 
-# Last updated: 2021-10-20
+# Last updated: 2021-11-03
 
 # Full list:
 
@@ -14,7 +14,6 @@
 # save_season_data()
 # report_season_stats()
 # save_and_report_stats()
-# prep_games_for_report() # INCOMPLETE
 # make_sunburst_wrapper()
 # move_sunburst()
 # instareport_season()
@@ -26,8 +25,9 @@
 # create_footer()
 # GetFENs()
 # GetPlayedTeamLoneWolfPairings()
-# GetSpectatorChat()
 # GetSeasonPGN(filename = "games_lwopen_s22.rds")
+# GetPlayedPairings(league, latest_season)
+# UpdateAllTimeGames(league, latest_season)
 
 # ---- Required packages ------------------------------------------------------
 
@@ -355,6 +355,11 @@ tidy_lichess_games <- function(games){
   games <- games %>% 
     filter(num_moves >= 3)
   
+  if(!(nrow(games) > 0)){
+    cli::cli_inform("No valid games in data. Nothing to tidy!")
+    return(as_tibble(games))
+  }
+  
   # Add 'white' and 'black' fields to make it easier to refer to the players
   games <- games %>% 
     mutate(white = players.white.user.name,
@@ -536,21 +541,23 @@ tidy_lichess_games <- function(games){
       # Add clock times left after each ply
       mutate(time_left = times_left[1:nrow(.)]) %>% 
       # Cap evals to +/- 1000 before calculating CPL
-      mutate(capped_eval = ifelse(eval > 1000, 1000, eval)) %>% 
-      mutate(capped_eval = ifelse(eval < -1000, -1000, eval)) %>% 
-      # Then calculate CPLs per ply
+      mutate(capped_eval = case_when(
+        eval >= 1000 ~ 1000,
+        eval <= -1000 ~ -1000,
+        TRUE ~ NA_real_
+      )) %>% 
+      mutate(eval_prev = lag(eval, 1)) %>% 
+      mutate(capped_eval_prev = case_when(
+        eval_prev >= 1000 ~ 1000,
+        eval_prev <= -1000 ~ -1000,
+        TRUE ~ NA_real_
+      )) %>% 
       mutate(cpl = case_when(
         ply == 0 ~ 0,
-        ply %% 2 == 0 ~ capped_eval - lag(capped_eval),
-        ply %% 2 == 1 ~ (capped_eval - lag(capped_eval)) * -1,
+        ply %% 2 == 0 ~ pmax(capped_eval_prev - capped_eval, 0),
+        ply %% 2 == 1 ~ pmax((capped_eval_prev - capped_eval) * -1, 0),
         TRUE ~ NA_real_
-    )) %>%
-      mutate(cpl = cpl * -1) %>%
-      # Add preceding position's eval
-      mutate(eval_prev = lag(eval, 1)) %>%
-      mutate(capped_eval_prev = lag(capped_eval, 1)) %>%
-      # make any negative CPLs zero
-      mutate(cpl = ifelse(cpl < 0, 0, cpl)) 
+      ))
     
     return(nested_data)
   }
@@ -567,49 +574,6 @@ tidy_lichess_games <- function(games){
     mutate(eval_after_15 = unlist(map(evals, ~ .x$capped_eval[30])))
   
   games <- as_tibble(games)
-  
-  # Add FENs
-  
-  # 1) Construct single PGN with all games, but no evals or movetimes 
-  games$pgn_noevals <- str_replace_all(games$pgn, 
-    "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
-    "") %>% 
-    str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
-    str_replace_all("\\s(?=\\d+\\.)", "") %>% 
-    str_replace_all("\\s(?=1-0)", "") %>% 
-    str_replace_all("\\s(?=1/2)", "") %>% 
-    str_replace_all("\\s(?=0-1)", "")
-  pgn_noevals <- str_c(games$pgn_noevals, collapse = "")
-  # Save PGN
-  fileConn <- file(paste0(path_root, "/data/tidied_games_noevals.pgn"))
-  writeLines(pgn_noevals, fileConn)
-  close(fileConn)
-  
-  # Save PGN with evals and movetimes
-  # Eg needed for sac detection
-  pgn_evals <- str_c(games$pgn, collapse = "")
-  # Save PGN
-  fileConn <- file(paste0(path_root, "/data/tidied_games_evals.pgn"))
-  writeLines(pgn_evals, fileConn)
-  close(fileConn)
-  
-  
-  
-  # 2) Parse PGN with python-chess to extract FENs for all plies in all games
-  GetFENs <- function(pgn_path) {
-    tic("Extracted FENs for all game plies")
-    # Call Python function for extracting FENs
-    reticulate::source_python(paste0(path_scripts, "get_fens.py"))
-    fens <- GetFENs(pgn_path)
-    toc(log = T)
-    return(fens)
-  }
-  fens <- GetFENs(paste0(path_root, "/data/tidied_games_noevals.pgn"))
-  
-  # 3) Add extracted FENs to game evals tibble
-  for (g in seq(1:nrow(games))) {
-    games$evals[[g]]$fen <- unlist(fens[[g]])[1:nrow(games$evals[[g]])]
-  }
   
   # Remove unnecessary variables from data
   games <- games %>% 
@@ -1289,8 +1253,6 @@ save_season_data <- function(league_choice, seasons){
       if(lw_u1800){league_save_label <- "lwu1800"} else {league_save_label <- "lwopen"}
     }
     
-    
-    
     # Get league pairings/positions data
     data <- get_league_data(league, season, rounds, lw_u1800, team_boards)
     
@@ -1359,8 +1321,10 @@ report_season_stats <- function(league_choice, seasons){
   
   if(league_choice == "team4545"){
     league <- "team4545"
+    rounds <- c(seq(1:8))
     lw_u1800_choice <- FALSE
-    }
+  } 
+
   if(league_choice == "lwopen"){
     league <- "lonewolf"
     lw_u1800_choice <- FALSE 
@@ -1379,6 +1343,13 @@ report_season_stats <- function(league_choice, seasons){
     get_data <- F
     load_data <- T
     
+    if(league != "team4545") {
+      if(season == 1) {rounds <- c(seq(1:5))}
+      if(season %in% c(2:3)){rounds <- c(seq(1:8))}
+      else{rounds <- c(seq(1:11))}
+    }
+    
+    
     rmarkdown::render(paste0(path_loadrmd, paste0(stats_rmd_filename, '.Rmd')), 
                       output_format = NULL, # "html_document"
                       output_file = paste0(path_savereport, "stats_",
@@ -1393,6 +1364,7 @@ report_season_stats <- function(league_choice, seasons){
                       params = list(
                         league = league,
                         season = s,
+                        rounds = rounds,
                         lw_section = lw_section
                                     ),
                       quiet = TRUE)
@@ -1417,16 +1389,6 @@ save_and_report_stats <- function(league_choice, season_range){
     report_season_stats(league_choice, x)
   }
   print("Finished crunching stats!")
-}
-
-
-# Prep season data before processing stats for final reports
-# Reads games, reads lookup data (gambits, FIDE perf ratings lookups, and banned
-# 4545 players), adds gambit data to game data, excludes games and pairings 
-# featuring banned players, and checks and fixes any incorrect character encoding in
-# the data.
-prep_games_for_report <- function(games){
-  
 }
 
 
@@ -1495,7 +1457,8 @@ move_sunburst <- function(path_orig, path_new, league, season){
 # Make a stats report from scratch
 # Requests and saves season data, requests PGN for openings sunburst, makes 
 # sunburst, then compiles and saves season stats HTML report.
-instareport_season <- function(league, season, from_scratch = T){
+instareport_season <- function(league, season, 
+                               from_scratch = T){
   
   if(from_scratch){tic("Produce season report + sunburst from scratch")}
   if(from_scratch == F){tic("Produce season report + sunburst from existing data")}
@@ -1505,6 +1468,8 @@ instareport_season <- function(league, season, from_scratch = T){
   
   # 2. Make sunburst
   make_sunburst_wrapper(league, season)
+  
+  # 3. Scrub cheats (if necessary)
   
   # 3. Compile and produce season stats report
   report_season_stats(league, season)
@@ -1568,6 +1533,14 @@ build_season_reports <- function(wipe_stats_first = FALSE,
                                  update_repo_after = 5){
   
   tic("Built season reports, updated website")
+  
+  # Add scrub_cheats function HERE
+  # TODO
+  
+  # Add update all-time data functionality HERE
+  # TODO
+  
+  
   
   # 4545
   if(!(is.null(team_range))){
@@ -1675,198 +1648,6 @@ create_footer <- function() {
 }
 
 
-# Get data on all played pairings in the 4545 Team and LoneWolf leagues
-# Arguments: current_season_team4545: current 4545 season number (integer)
-#            current_season_lonewolf: current LoneWolf season number (integer)
-# Returns: a tibble with 1 row per played pairing
-# Note: won't return any pairings that weren't played
-GetPlayedTeamLoneWolfPairings <- function(current_season_team4545, 
-                                        current_season_lonewolf){
-  
-  tic("Get season data from the Lichess4545 website")
-  
-  
-  # Parameters for Lichess4545 API requests
-  url <- "https://www.lichess4545.com/api/get_season_games/"
-  leagues <- c("team4545", "lonewolf")
-  seasons_team4545 <- c(1:current_season_team4545)
-  seasons_lwopen <- c(1:current_season_lonewolf)
-  seasons_lwu1800 <- paste0(c(9:current_season_lonewolf), "u1800")
-  
-  res_team4545 <- list()
-  res_lwopen <- list()
-  res_lwu1800 <- list()
-  
-  # For each league
-  for(l in leagues){
-    
-    # For each 4545 season
-    if(l == "team4545"){
-      
-      for(s in seasons_team4545){
-        
-        # Request season game data
-        r <- httr::GET(
-          url = url,
-          query = list(league = l,
-                       season = s)
-        )
-        
-        # Stop if there's an error
-        if(r$status_code != 200){
-          print("Error!")
-          print(http_status(r)$message)
-          break
-        }
-        
-        # Extract season data as tibble and save
-        res <- r %>% 
-          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
-          jsonlite::fromJSON() %>% 
-          purrr::pluck("games")
-        
-        res_team4545[[s]] <- res
-        cli::cli_inform("Got played pairings data for 4545 S{s}")
-        # print(paste0("Obtained results for 4545 S", s))
-        Sys.sleep(0.5)
-        
-      }
-      
-    } # end 4545 loop
-    
-    # For each LW season
-    if(l == "lonewolf"){
-      
-      # First get data on Open section games
-      for(s in seasons_lwopen){
-        
-        # Request season game data
-        r <- httr::GET(
-          url = url,
-          query = list(league = l,
-                       season = s)
-        )
-        
-        # Stop if there's an error
-        if(r$status_code != 200){
-          print("Error!")
-          print(http_status(r)$message)
-          break
-        }
-        
-        # Extract season data as tibble and save
-        res <- r %>% 
-          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
-          jsonlite::fromJSON() %>% 
-          purrr::pluck("games")
-        
-        res_lwopen[[s]] <- res
-        cli::cli_inform("Got played pairings data for LW Open S{s}")
-        # print(paste0("Obtained results for LW (Open) S", s))
-        Sys.sleep(0.5)
-        
-      }
-      
-      # Then get data on U1800 section games
-      for(s in seasons_lwu1800){
-        
-        # Request season game data
-        r <- httr::GET(
-          url = url,
-          query = list(league = l,
-                       season = s)
-        )
-        
-        # Stop if there's an error
-        if(r$status_code != 200){
-          print("Error!")
-          print(http_status(r)$message)
-          break
-        }
-        
-        # Extract season data as tibble and save
-        res <- r %>% 
-          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
-          jsonlite::fromJSON() %>% 
-          purrr::pluck("games")
-        
-        res_lwu1800[[match(s, seasons_lwu1800)]] <- res
-        cli::cli_inform("Got played pairings data for LW U1800 S{s}")
-        # print(paste0("Obtained results for LW (U1800) S", match(s, seasons_lwu1800)))
-        Sys.sleep(0.5)
-        
-      }
-      
-    } # end of LW loop
-    
-  } # finished going through leagues
-  
-  
-  # Combine all obtained game data
-  res_team4545 <- data.table::rbindlist(res_team4545) %>% as_tibble()
-  res_lwopen <- data.table::rbindlist(res_lwopen) %>% as_tibble()
-  res_lwu1800 <- data.table::rbindlist(res_lwu1800) %>% as_tibble()
-  
-  res_lwopen <- res_lwopen %>% mutate(white_team = NA, black_team = NA)
-  res_lwu1800 <- res_lwu1800 %>% mutate(white_team = NA, black_team = NA)
-  
-  res_combined <- dplyr::bind_rows(list(res_team4545, res_lwopen, res_lwu1800)) %>% 
-    as_tibble()
-  toc(log = TRUE)
-  return(res_combined)
-  
-}
-
-# Extract tibble with all spectator chat messages for a single game
-# Args    id: Lichess game ID
-# Returns A two-element list. 
-#         Element 1: tibble with the last 200 spectator chat messages (and usernames)
-#         Element 2: vector containing each account name that posted a message in the returned spectator chat
-# Note: this will only return 200 messages at most, since Lichess only keeps the last 200 messages on the game page.
-GetSpectatorChat <- function(id) {
-  
-  gamelink <- paste0("https://lichess.org/", id)
-  
-  # Get all text on the page
-  text <- rvest::read_html(gamelink) %>% rvest::html_text2()
-  text <- str_sub(text, str_locate(text, "Spectator room")[1,2], nchar(text))
-  text <- str_sub(text,
-                  str_locate_all(text, '\\"lines')[[1]][1,1],
-                  str_locate_all(text, "\\]")[[length(str_locate_all(text, "\\]"))]][1,1])
-  text <- str_c("{", text, "}")
-  
-  # Get spectator chat
-  chat <- text %>% 
-    tidyjson::enter_object(lines) %>% 
-    gather_array() %>% 
-    spread_all() %>% 
-    as_tibble()
-  
-  if(nrow(chat) > 0) {
-    chat <- chat %>% 
-      select("msg" = array.index, u, t) %>% 
-      mutate(game_id = id)
-    
-    # Get unique commenters
-    commenters <- chat %>% 
-      select(u) %>% 
-      distinct() %>% 
-      dplyr::pull()
-    
-  } else {
-    commenters <- NA
-  }
-  
-  commenters <- unique(commenters)
-  commenters <- commenters[!is.na(commenters)]
-  
-  cli::cli_inform("Game ID {id} has {nrow(chat)} spectator chat messages")
-  # cli::cli_inform("Posted by {length(commenters)} different users (possibly incl. both players):")
-  # cli::cli_inform("{commenters}")
-  return(list(chat, commenters))
-  
-}
-
 # Save a PGN file with all games in a season using the season's .RDS data file
 # Takes: (1) filename: season games RDS data filename, eg "games_lwopen_s22.rds" 
 # (note: this is expected to be saved in data/). 
@@ -1880,4 +1661,242 @@ GetSeasonPGN <- function(filename, with_evals = T){
   close(fileConn)
 }
 
+
+# Save a PGN with all games but no evals or movetimes
+# Required for openings sunburst
+SavePGN_NoEvalsClocks <- function(games, 
+                                      save_path = "/data/tidied_games_noevals.pgn", 
+                                      path_root = path_root){
+  save_path <- paste0(path_root, save_path)
+  pgn_data <- games$pgn
+  pgn_data$noevals <- str_replace_all(pgn_data$pgn, 
+                                       "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
+                                       "") %>% 
+    str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
+    str_replace_all("\\s(?=\\d+\\.)", "") %>% 
+    str_replace_all("\\s(?=1-0)", "") %>% 
+    str_replace_all("\\s(?=1/2)", "") %>% 
+    str_replace_all("\\s(?=0-1)", "")
+  pgn_noevals <- str_c(pgn_data$noevals, collapse = "")
+  fileConn <- file(save_path)
+  writeLines(pgn_noevals, fileConn)
+  close(fileConn)
+}
+
+
+# Save PGN with evals and movetimes
+# Eg needed for sac detection
+SavePGN_EvalsClocks <- function(games, 
+                                save_path = "/data/games_evals.pgn"){
+  out_path <- paste0(path_root, save_path)
+  pgn_evals <- str_c(games$pgn, collapse = "")
+  fileConn <- file(out_path)
+  writeLines(pgn_evals, fileConn)
+  close(fileConn)
+}
+
+GetPlayedPairings <- function(league, latest_season){
+  
+  # poss league values: 
+  # 4545: "team4545"
+  # LW: "lonewolf"
+  # C960: "chess960"
+  
+  tic("Get season data from the Lichess4545 website")
+  url <- "https://www.lichess4545.com/api/get_season_games/"
+  
+  # Define seasons to iterate over
+  # LW: combine Open and U1800 seasons (latter starts from 9)
+  if(league != "lonewolf") {
+    seasons <- c(1:latest_season)
+  } else {
+    seasons <- c(1:latest_season, paste0(c(9:latest_season), "u1800"))
+  }
+  
+  res_league<- list() # for storing season pairings
+  
+  # Request season pairings from Lichess4545 API
+  for(s in seasons){
+    r <- httr::GET(
+      url = url,
+      query = list(league = league,
+                   season = s)
+    )
+    if(r$status_code != 200){
+      print("Error!")
+      print(http_status(r)$message)
+      break
+    }
+    res <- r %>% 
+      httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
+      jsonlite::fromJSON() %>% 
+      purrr::pluck("games")
+    res_league[[s]] <- res
+    cli::cli_inform("Obtained pairings for {stringr::str_to_title(league)} Season {s}")
+    Sys.sleep(0.5)
+  }
+  # Combine all obtained game data
+  res_league <- data.table::rbindlist(res_league) %>% as_tibble()
+  toc(log = TRUE)
+  return(res_league)
+}
+
+UpdateAllTimeGames <- function(league, latest_season){
+  
+  if(league == "team4545"){
+    league_print <- "4545"
+    filename <- "allgames_team.rds"
+  } else if((league == "lwopen") | (league == "lwu1800")){
+    league_print <- "LoneWolf"
+    filename <- "allgames_lw.rds"
+  }
+  
+  # TODO: add more leagues when new league report processes are ready...
+  
+  # Read current all-time games dataset (for specified league)
+  all_games <- readRDS(paste0(here::here(), "/data/", filename))
+  
+  if(league == "team4545"){
+  all_games <- tibble(all_games) %>% 
+    select(id, clock.increment, clock.initial, moves, opening.eco, opening.name,
+           pgn, players.black.analysis.acpl, players.black.analysis.blunder,
+           players.black.analysis.inaccuracy, players.black.analysis.mistake, 
+           players.black.user.id,
+           players.white.analysis.acpl, players.white.analysis.blunder,
+           players.white.analysis.inaccuracy, players.white.analysis.mistake, 
+           players.white.user.id, rated, status, winner, players.black.user.title,
+           players.white.user.title, num_moves, white, black, result, score_w, score_b,
+           rating_w, rating_b, mean_rating, opening.broad, started, ended, year, month,
+           day, wday, hour, week, date, first_moves, first_move_w, first_move_b, duration,
+           duration_w, duration_b, perc_total_clock_w, perc_total_clock_b, clock_used_after_move10_w, 
+           clock_used_after_move10_b, evals, eval_after_15, league, season, round, white_team, black_team)
+  } else {
+    # Exclude team columns
+    all_games <- tibble(all_games) %>% 
+      select(id, clock.increment, clock.initial, moves, opening.eco, opening.name,
+             pgn, players.black.analysis.acpl, players.black.analysis.blunder,
+             players.black.analysis.inaccuracy, players.black.analysis.mistake, 
+             players.black.user.id,
+             players.white.analysis.acpl, players.white.analysis.blunder,
+             players.white.analysis.inaccuracy, players.white.analysis.mistake, 
+             players.white.user.id, rated, status, winner, players.black.user.title,
+             players.white.user.title, num_moves, white, black, result, score_w, score_b,
+             rating_w, rating_b, mean_rating, opening.broad, started, ended, year, month,
+             day, wday, hour, week, date, first_moves, first_move_w, first_move_b, duration,
+             duration_w, duration_b, perc_total_clock_w, perc_total_clock_b, clock_used_after_move10_w, 
+             clock_used_after_move10_b, evals, eval_after_15, league, season, round)
+  }
+  
+  # Update dataset if its most recent game is more than a week old
+  if(lubridate::today() - 7 > max(all_games$started)){
+    
+    cli::cli_inform("Last game was played more than a week ago. Starting update process...")
+    
+    played_pairings <- GetPlayedPairings(league, latest_season)
+    
+    # Extract game IDs for all played pairings, incl. games later forfeited
+    ids_valid <- played_pairings %>% select(game_id) %>% dplyr::pull() %>% unique()
+    
+    # Filter all-time dataset to only include valid game IDs
+    valid_games_from_before <- all_games %>% 
+      filter(id %in% ids_valid) %>% 
+      distinct(id, .keep_all = T) %>% 
+      as_tibble()
+    
+    # Find all valid IDs that aren't in the current all-time dataset
+    valid_ids_toadd <- setdiff(ids_valid, all_games$id)
+    
+    # Get the data for these games
+    valid_games_data <- GetGamesFromURLs(ids = valid_ids_toadd)
+    
+    need_analysis <- valid_games_data[[2]] %>% as_tibble()
+
+
+    # Stop if there are games that require analysis
+    if(nrow(need_analysis) > 0){
+      cli::cli_inform("{nrow(need_analysis)} new games haven't been analysed by Lichess")
+      cli::cli_inform("Stopping update process so analysis can be requested.")
+      return(need_analysis)
+    }
+    
+    valid_games_toadd <- as_tibble(valid_games_data[[1]])
+    
+    # Tidy new games data
+    tidied_games_toadd <- tidy_lichess_games(valid_games_toadd)
+    
+    if(nrow(tidied_games_toadd) == 0) {
+      cli::cli_inform("All 'new' games are invalid (probably just old invalid games)")
+      cli::cli_inform("No update possible. Stopping process.")
+      return(NULL)
+    }
+    
+    tidied_games_toadd <- as_tibble(tidied_games_toadd)
+    
+    # Prepare both existing and new games datasets for combination
+    # Neither should have provisional, initialFen vars or fens in evals data
+    tidied_games_toadd <- tidied_games_toadd %>% 
+      select(-c(players.white.provisional, 
+                players.black.provisional, 
+                initialFen,
+                pgn_noevals,
+                duration_official))
+    
+    if(league == "team4545"){
+    tidied_games_toadd <- tidied_games_toadd %>% 
+      select(id, clock.increment, clock.initial, moves, opening.eco, opening.name,
+             pgn, players.black.analysis.acpl, players.black.analysis.blunder,
+             players.black.analysis.inaccuracy, players.black.analysis.mistake, 
+             players.black.user.id,
+             players.white.analysis.acpl, players.white.analysis.blunder,
+             players.white.analysis.inaccuracy, players.white.analysis.mistake, 
+             players.white.user.id, rated, status, winner, players.black.user.title,
+             players.white.user.title, num_moves, white, black, result, score_w, score_b,
+             rating_w, rating_b, mean_rating, opening.broad, started, ended, year, month,
+             day, wday, hour, week, date, first_moves, first_move_w, first_move_b, duration,
+             duration_w, duration_b, perc_total_clock_w, perc_total_clock_b, clock_used_after_move10_w, 
+             clock_used_after_move10_b, evals, eval_after_15, league, season, round, white_team, black_team)
+    } else {
+      # Exclude team columns
+      tidied_games_toadd <- tidied_games_toadd %>% 
+        select(id, clock.increment, clock.initial, moves, opening.eco, opening.name,
+               pgn, players.black.analysis.acpl, players.black.analysis.blunder,
+               players.black.analysis.inaccuracy, players.black.analysis.mistake, 
+               players.black.user.id,
+               players.white.analysis.acpl, players.white.analysis.blunder,
+               players.white.analysis.inaccuracy, players.white.analysis.mistake, 
+               players.white.user.id, rated, status, winner, players.black.user.title,
+               players.white.user.title, num_moves, white, black, result, score_w, score_b,
+               rating_w, rating_b, mean_rating, opening.broad, started, ended, year, month,
+               day, wday, hour, week, date, first_moves, first_move_w, first_move_b, duration,
+               duration_w, duration_b, perc_total_clock_w, perc_total_clock_b, clock_used_after_move10_w, 
+               clock_used_after_move10_b, evals, eval_after_15, league, season, round)
+    }
+             
+    
+    # Combine the previous and new games datasets
+    new_all_games <- data.table::rbindlist(list(all_games, 
+                                                tidied_games_toadd), 
+                                           use.names = T)
+    
+    # Check that each game is unique
+    length(unique(new_all_games$id)) == nrow(new_all_games)
+    
+    # Sort final dataset by game start date/time
+    new_all_games <- new_all_games %>% 
+      arrange(started)
+    
+    # Summarise results
+    cli::cli_alert_success("Produced new {league} all-time games dataset")
+    cli::cli_inform("{nrow(played_pairings)} played pairings")
+    cli::cli_inform("{nrow(all_games)} games previously saved")
+    cli::cli_inform("{nrow(tidied_games_toadd)} new games added")
+    cli::cli_inform("{nrow(new_all_games)} games in final combined dataset")
+    
+    # Save new all-time games dataset
+    saveRDS(new_all_games,
+            paste0(here::here(), "/data/", filename))
+  } else {
+    cli::cli_inform("The most recent game in {filename} was played less than a week ago - best not to update the all-time dataset yet.")
+  }
+}
 

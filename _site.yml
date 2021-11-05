@@ -10,10 +10,10 @@ output_dir: "."
 include:
 navbar:
   right:
-      - text: "Live Standings"
-        href: live.html
-      - text: "Round Reports"
-        href: current.html
+      # - text: "Live Standings"
+      #   href: live.html
+      # - text: "Round Reports"
+      #   href: current.html
       - text: "Season Reports"
         href: seasonreports.html
         menu:
@@ -21,32 +21,32 @@ navbar:
             href: team4545.html
           - text: "LoneWolf"
             href: lw.html
-          - text: "Chess960 (tbc)"
-            href: chess960.html
-          - text: "Rapid Battle (tbc)"
-            href: rapidbattle.html
-          - text: "Series (tbc)"
-            href: series.html
+          # - text: "Chess960 (tbc)"
+          #   href: chess960.html
+          # - text: "Rapid Battle (tbc)"
+          #   href: rapidbattle.html
+          # - text: "Series (tbc)"
+          #   href: series.html
       - text: "All-time records"
         href: alltime.html
         menu: 
           - text: "Award winners"
             href: reports/alltime_stats.html
-          - text: "All-time records (tbc)"
-            href: records.html
+          # - text: "All-time records (tbc)"
+          #   href: records.html
       - text: "Other"
         href: other.html
         menu:
-          - text: "Openings (tbc)"
-            href: openings.html
-          - text: "Endgames (tbc)"
-            href: endgames.html
-          - text: "Players by country (tbc)"
-            href: countries.html
-          - text: "Random facts (tbc)"
-            href: random.html
+          # - text: "Openings (tbc)"
+          #   href: openings.html
+          # - text: "Endgames (tbc)"
+          #   href: endgames.html
+          # - text: "Players by country (tbc)"
+          #   href: countries.html
+          # - text: "Random facts (tbc)"
+          #   href: random.html
           - text: "About"
             href: about.html
-  search: true
+  # search: true
   source_url: https://github.com/rahulan-c/lichess4545-stats
 output: distill::distill_article

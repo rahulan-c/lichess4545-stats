@@ -55,7 +55,12 @@ gambits$gambit_name[str_detect(gambits$name, "Ruy Lopez: Marshall Attack")] <- "
 gambits$gambit_name[str_detect(gambits$name, "Caro-Kann Defense: Accelerated Panov Attack, Van Weersel Attack")] <- "Caro-Kann: Van Weersel Attack"
 gambits$gambit_name[str_detect(gambits$name, "Frankenstein-Dracula Variation")] <- "Frankenstein-Dracula Variation"
 
-# Save opening/gambit datasets
+
+# Add combined ECO and gambit name field to gambits data
+gambits <- gambits %>% 
+  mutate(eco_gambit_name = paste0(eco, " ", gambit_name))
+
+# Save openings and gambits datasets as CSV
 readr::write_csv(openings_lookup, paste0(here::here(), "/data/lookup/openings.csv"))
 readr::write_csv(gambits, paste0(here::here(), "/data/lookup/gambits.csv"))
 
