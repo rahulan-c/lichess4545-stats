@@ -1462,7 +1462,7 @@ update_repo <- function(){
   
   # Render all RMD files in the root directory
   # rmarkdown::render_site(quiet = TRUE)
-  rmarkdown::render(paste0(path_root, "index.rmd"))
+  rmarkdown::render(paste0(path_root, "/index.rmd"))
   
   # Render footer
   
