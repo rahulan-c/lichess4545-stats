@@ -1,41 +1,13 @@
 
 # FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA
 
-# Last updated: 2021-11-03
-
-# Full list:
-
-# get_league_games()
-# get_user_games()
-# tidy_lichess_games()
-# get_league_data()
-# integer_breaks()
-# get_games_from_urls()
-# save_season_data()
-# report_season_stats()
-# save_and_report_stats()
-# make_sunburst_wrapper()
-# move_sunburst()
-# instareport_season()
-# update_repo()
-# wipe_all_stats()
-# build_season_reports()
-# build_alltime_stats()
-# update_site()
-# create_footer()
-# GetFENs()
-# GetPlayedTeamLoneWolfPairings()
-# GetSeasonPGN(filename = "games_lwopen_s22.rds")
-# GetPlayedPairings(league, latest_season)
-# UpdateAllTimeGames(league, latest_season)
-
 # ---- Required packages ------------------------------------------------------
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
                rmarkdown, fs, stringi, git2r, glue, here, distill, htmltools,
-               tidyjson)
+               tidyjson, asserthat)
 
 
 # ---- User-defined parameters ------------------------------------------------
@@ -1489,7 +1461,8 @@ update_repo <- function(){
   create_footer()
   
   # Render all RMD files in the root directory
-  rmarkdown::render_site(quiet = TRUE)
+  # rmarkdown::render_site(quiet = TRUE)
+  rmarkdown::render(paste0(path_root, "index.rmd"))
   
   # Render footer
   
