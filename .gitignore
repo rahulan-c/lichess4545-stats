@@ -12,6 +12,7 @@
 data/**
 scripts/test/**
 reports/images/mates/**
+stories/prod/**
 
 scripts/scratchpad.R
 scripts/update_repo.R

@@ -1714,12 +1714,15 @@ GetPlayedPairings <- function(league, latest_season){
   return(res_league)
 }
 
-UpdateAllTimeGames <- function(league, latest_season){
+UpdateAllTimeGames <- function(league, latest_season, lw_u1800 = FALSE){
+  
+  # possible argument values:
+  # league: "team4545", "lonewolf"
   
   if(league == "team4545"){
     league_print <- "4545"
     filename <- "allgames_team.rds"
-  } else if((league == "lwopen") | (league == "lwu1800")){
+  } else if (league == "lonewolf"){
     league_print <- "LoneWolf"
     filename <- "allgames_lw.rds"
   }
