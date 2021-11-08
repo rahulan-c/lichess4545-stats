@@ -21,17 +21,13 @@ For the uninitiated, these popular leagues have been running since 2015 and are 
 <aside> This site (remains) a work in progress, so some parts might look barely populated.
 </aside>
 
-Links on this page:
-
-[All-time records](#alltime) | [Stats/awards by league/season](#season-stats) | [Updates](#updates) | [Acknowledgements](#acknowledgements) | [Contact](#contact)
-
 ### All time records {#alltime}
 
 [All time records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.html)
 
 ### Stats and awards by league/season {#season-stats}
 
-*Note: the link for Season 27 doesn't work.*
+*Note: the Season 27 stats aren't quite done yet.*
 
 ```{r season_reports_tbl}
 
@@ -99,5 +95,3 @@ completed <- tibble("team4545" = completed_4545,
 knitr::kable(completed, format = "simple", col.names = c("Lichess4545 League", "Lichess LoneWolf (Open)", "Lichess LoneWolf (U1800)"))
 
 ```
-
-*`r paste0("Site last updated at ", format(Sys.time(), '%X %Z'), " on ", format(Sys.time(), '%a %d %b %Y'))`.*
