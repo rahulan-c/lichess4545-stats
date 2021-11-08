@@ -1,12 +1,12 @@
 ---
 title: "Round Reports"
 description: |
-  Weekly updates on current seasons
+  Updates on the latest rounds
 output: distill::distill_article
 site: distill::distill_website
 ---
 
-When it's finished, this page will provide stats on ongoing league seasons. 
+When it's finished, this page will provide stats on current league seasons. 
 
 For now though, enjoy these these "match stories" for all rounds from Season 27...and now Season 28 too.
 

@@ -1458,11 +1458,13 @@ update_repo <- function(){
   # # Build footer
   create_footer()
   
-  # Render all RMD files in the root directory
   # rmarkdown::render_site(quiet = TRUE)
+  
+  # Render index.rmd
   rmarkdown::render(paste0(path_root, "/index.rmd"))
   
-  # Render footer
+  # Render other pages
+  rmarkdown::render(paste0(path_root, "/current.rmd"))
   
   # Then push the updated index.md
   source(paste0(path_scripts, "update_repo.R"))
