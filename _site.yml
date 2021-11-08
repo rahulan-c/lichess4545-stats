@@ -12,8 +12,8 @@ navbar:
   right:
       # - text: "Live Standings"
       #   href: live.html
-      # - text: "Round Reports"
-      #   href: current.html
+      - text: "Round Reports"
+        href: current.html
       - text: "Season Reports"
         href: seasonreports.html
         menu:

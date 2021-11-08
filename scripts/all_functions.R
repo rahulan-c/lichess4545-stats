@@ -7,7 +7,7 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
                rmarkdown, fs, stringi, git2r, glue, here, distill, htmltools,
-               tidyjson, asserthat)
+               tidyjson)
 
 
 # ---- User-defined parameters ------------------------------------------------
@@ -584,15 +584,13 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
                     "/round/", 
                     as.character(j), "/pairings/")
       
-      # print(url)
-      
       # 4545 code
       if(league_choice == "team4545"){
         
         
         # Get player data
-        # Extract player pairings
-        team_pairings <- read_html(url) %>%
+        # Extract player pairings 
+        team_pairings <- rvest::read_html(url) %>%
           rvest::html_nodes("td") %>% 
           rvest::html_text() %>% 
           stringr::str_replace_all("[\r\n]" , "") %>% 
@@ -609,7 +607,7 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         player2 = team_pairings[c(F, F, T, F)]
         sched_time = team_pairings[c(F, F, F, T)]
       
-        team_pairings <- tibble(player1 = player1, 
+        team_pairings <- tibble::tibble(player1 = player1, 
                                 player2 = player2, 
                                 sched_time = sched_time,
                                 result = result)

@@ -6,6 +6,14 @@ output: distill::distill_article
 site: distill::distill_website
 ---
 
-When it's finished, this page will provide stats on ongoing league seasons, including features such as the "match story" visualisations that have recently been produced for Season 27:
+When it's finished, this page will provide stats on ongoing league seasons. 
 
-[R1](temp/s27_r1_allmatches.pdf) | [R2](temp/s27_r2_allmatches.pdf) | [R3](temp/s27_r3_allmatches.pdf) | [R4](temp/s27_r4_allmatches.pdf) | [R5](temp/s27_r5_allmatches.pdf) | [R6](temp/s27_r6_allmatches.pdf) | [R7](temp/s27_r7_allmatches.pdf)
+For now though, enjoy these these "match stories" for all rounds from Season 27...and now Season 28 too.
+
+*Season 28 stories*
+
+[R1](stories/s28_r1_allmatches.pdf)
+
+*Season 27 stories*
+
+[R1](stories/s27_r1_allmatches.pdf) | [R2](stories/s27_r2_allmatches.pdf) | [R3](stories/s27_r3_allmatches.pdf) | [R4](stories/s27_r4_allmatches.pdf) | [R5](stories/s27_r5_allmatches.pdf) | [R6](stories/s27_r6_allmatches.pdf) | [R7](stories/s27_r7_allmatches.pdf) | [R8](stories/s27_r8_allmatches.pdf)
