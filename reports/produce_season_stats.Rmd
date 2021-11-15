@@ -153,10 +153,6 @@ if(league == "team4545"){knitr::include_graphics("images/all-for-one.svg")}
 if(league == "lonewolf"){knitr::include_graphics("images/wolf-head.svg")}
 ```
 
-:::about
-Add introductory info here.
-:::
-
 ### Setting the scene
 
 
@@ -194,6 +190,53 @@ num_rookies <- formatC(num_rookies, big.mark = ",")
 
 ```
 
+```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
+# Get match stats (for 4545 reports)
+matches <- pairings %>% 
+  select(match, team_w, team_b, gp_w, gp_b) %>% 
+  slice(which(row_number() %% 2 == 0)) %>% 
+  mutate(margin = gp_w - gp_b) %>% 
+  mutate(winner = case_when(
+    margin == 0 ~ "",
+    margin > 0 ~ team_w,
+    margin < 0 ~ team_b,
+    TRUE ~ NA_character_
+  )) %>%
+  mutate(loser = case_when(
+    winner == "" ~ "",
+    winner == team_w ~ team_b,
+    winner == team_b ~ team_w,
+    TRUE ~ NA_character_
+  )) %>% 
+  distinct(match, team_w, team_b, margin, winner, loser)
+draws <- matches %>% filter(margin == 0)
+close <- matches %>% filter(margin %in% c(1, -1))
+
+num_matches <- nrow(matches)
+num_drawn <- nrow(draws)
+perc_drawn <- num_drawn / num_matches
+num_close <- nrow(close)
+perc_close <- num_close / num_matches
+
+# Get team with the most close wins
+close_wins <- close %>% 
+  group_by(winner) %>% 
+  summarise(close_wins = n()) %>% 
+  slice_max(close_wins)
+team_most_close_wins <- close_wins %>% select(winner) %>% dplyr::pull()
+num_most_close_wins <- close_wins %>% select(close_wins) %>% dplyr::pull()
+
+# Most close losses
+close_losses <- close %>% 
+  group_by(loser) %>% 
+  summarise(close_losses = n()) %>% 
+  slice_max(close_losses)
+team_most_close_losses <- close_losses %>% select(loser) %>% dplyr::pull()
+num_most_close_losses <- close_losses %>% select(close_losses) %>% dplyr::pull()
+
+```
+
+
 ```{r}
 # Plot wins by colour by board (4545) or rating band (LW)
 if(league == "team4545"){
@@ -206,18 +249,25 @@ if(league == "team4545"){
 
 <div class = "row">
   
-<div class = "col-md-6">
+<div class = "col-md-5">
 
 <br>
 
-- The `r paste0("[season]", "(", summary_url, ")")` took place from `r season_dates`.
-- `r num_players` players took part, of whom `r num_rookies` (`r round(perc_rookies * 100)`%) were new to the league.
-- `r formatC(nrow(website_pairings), big.mark = ",")` games were played over the season. `r round(((nrow(pairings) - nrow(website_pairings)) / nrow(pairings)) * 100, 1)`% of pairings didn't result in a game. ^[This includes games that weren't played due to scheduling difficulties, or a lack of available replacements, or if one of the players just didn't turn up at the scheduled start time.]
-- White won `r formatC(games_w, big.mark=",")` games (`r round(perc_w*100, 1)`%), `r formatC(games_d, big.mark=",")` games (`r round(perc_d*100, 1)`%) were drawn, and Black won `r formatC(games_b, big.mark=",")` games (`r round(perc_b*100, 1)`%). The right-hand chart shows game results by colour for each board or average rating band.^[The number of games played in this statistic can differ from the number of games played in the season, as it excludes games where the result of the pairing was later changed to a forfeit win or loss.]
+This `r paste0("[season's]", "(", summary_url, ")")` games were played between `r season_dates`.
+
+`r num_players` players participated, `r num_rookies` (`r round(perc_rookies * 100)`%) of whom were new to the league.
+
+`r glue::glue(ifelse(league == 'team4545', "{(num_matches / 8) * 2} teams played {num_matches} matches over the season's eight weeks. {num_drawn} matches ({round(perc_drawn*100, 0)}%) were drawn, and {num_close} ({round(perc_close*100, 0)}%) were won by just a single point.", ""))`
+
+In all, `r formatC(nrow(website_pairings), big.mark = ",")` games were played over the season. The season's 'unplayed pairing' rate was `r round(((nrow(pairings) - nrow(website_pairings)) / nrow(pairings)) * 100, 1)`%.^[There are several reasons why a pairing might not end up being played, including scheduling difficulties, a lack of available replacements, or one of the players not showing up at the start time!]
+
+White won `r formatC(games_w, big.mark=",")` games (`r round(perc_w*100, 1)`%), `r formatC(games_d, big.mark=",")` games (`r round(perc_d*100, 1)`%) were drawn, and Black won `r formatC(games_b, big.mark=",")` games (`r round(perc_b*100, 1)`%). The right-hand chart shows game results by colour for each board or average rating band.^[The number of games played in this statistic can differ from the number of games played in the season, as it excludes games where the result of the pairing was later changed to a forfeit win or loss.]
+
+
 
 </div>
   
-<div class = "col-md-6">
+<div class = "col-md-7">
 <br>
 ```{r}
 plt_wins_by_col
@@ -225,7 +275,9 @@ plt_wins_by_col
 </div>
 </div>
 
-### Final podium
+### Podium positions
+
+*Team rosters ordered by number of games played (shown in brackets)*
 
 ```{r}
 # Identify top 3 teams (4545) or players (LW)
@@ -316,7 +368,7 @@ reactable(winners,
             Bronze = colDef(header = NULL, align = "center", minWidth = 250)))
 ```
 
-### How the title race played out
+####  How the title race played out
 
 ```{r position_tracker, out.width="90%", fig.align="center"}
 # Team/player position tracker
@@ -331,11 +383,16 @@ if(lw_hide){cat("<!---")}
 
 
 :::stories
-Add match story links here.
+
+**Match stories**
+
+Check out these visualisations of every match in every round!^[These require the original match story PDFs for the round to have previously been produced, so links for older seasons may not work (until I've produced them for all seasons).] 
+
+[Round 1](`r paste0("stories/s", season, "_r", 1, "_allmatches.pdf")`) | [Round 2](`r paste0("stories/s", season, "_r", 2, "_allmatches.pdf")`) | [Round 3](`r paste0("stories/s", season, "_r", 3, "_allmatches.pdf")`) | [Round 4](`r paste0("stories/s", season, "_r", 4, "_allmatches.pdf")`) | [Round 5](`r paste0("stories/s", season, "_r", 5, "_allmatches.pdf")`) | [Round 6](`r paste0("stories/s", season, "_r", 6, "_allmatches.pdf")`) | [Round 7](`r paste0("stories/s", season, "_r", 7, "_allmatches.pdf")`) | [Round 8](`r paste0("stories/s", season, "_r", 8, "_allmatches.pdf")`)
 :::
 
 
-### Best performances
+### Top players `r emo::ji("tophat")`
 
 
 
@@ -349,9 +406,9 @@ aces <- top_scorers_list[[3]] # for the 'Aces' award
 ```
 
 
-#### Board 'medals'
+#### Board medals
 
-The table below shows the top player performances on each board (minimum 5 games played).^[The performance ratings in this table only take into account games played on the relevant board, which is why they differ from (and should be preferred to) the ratings given by the board standings tables on the Lichess4545 website.]
+Here are the top player performances on each board (minimum 5 games played).^[Note that these performance ratings only account for account games played on a specific board, so they differ in this respect from the performance ratings published on the Lichess4545 rosters page.]
 
 ```{r bperfs, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Board perf ratings
@@ -384,15 +441,19 @@ reactable(bperfs, groupBy = "board",
 if(lw_hide){cat("-->")}
 ```
 
-:::about
-Here's everyone who managed to score +2.5 or better in the season:
+
+#### Best scorers
+
+:::aces
+
+Congratulations to all the **top scorers** this season! Here's everyone who achieved a plus score of +2.5 or higher:
 
 `r top_scorers_text`
 
-Those who scored +3 or better receive the **Ace** award.
+Everyone who scored +3 or more gets the **Ace** award.
 :::
 
-### Summary stats {.tabset .tabset-fade .tabset-pills}
+### Stats - overview {.tabset .tabset-fade .tabset-pills}
 
 ```{r results='asis', echo=FALSE}
 # Hide match results tab from LW reports
@@ -492,7 +553,7 @@ reactable(longest_duration,
 
 
 
-### Selected stats by board / rating band {.tabset .tabset-fade .tabset-pills}
+### Stats - by board/rating {.tabset .tabset-fade .tabset-pills}
 
 
 #### ACPL and blunder rate `r emo::ji("bar_chart")`
@@ -561,7 +622,7 @@ if(league == "lonewolf"){
 
 ```
 
-#### [Decisive games only]
+#### Decisive games only
 
 The *decisive* games with the lowest combined ACPL.
 
@@ -616,118 +677,146 @@ if(league == "lonewolf") {
 ```
 
 
-### Openings stats {.tabset .tabset-fade .tabset-pills}
+### Stats - openings {.tabset .tabset-fade .tabset-pills} 
+
+#### First moves `r emo::ji("bar_chart")`
+
+```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
+
+# White and Black's first moves, % games by board (stacked) 
+games %>%
+  select(board, first_moves) %>% 
+  group_by(board, first_moves) %>% 
+  summarise(games = n()) %>% 
+  arrange(desc(games)) %>% 
+  tibble::as_tibble() %>% 
+  ggplot(aes(fill = factor(first_moves, levels = c("e4 e5", "e4 c5", "e4 c6", "e4 e6",
+                                                   "e4 d5", "e4 Nf6",
+                                                    "d4 d5", "d4 Nf6", "d4 e6", "d4 d6",
+                                                   "d4 f5", "d4 b6",
+                                                   "Nf3 d5", "Nf3 Nf6", "Nf3 c5",
+                                                   "c4 c5", "c4 Nf6", "c4 e5", "c4 c6")), 
+             y = games, 
+             x = board)) +
+  geom_bar(position = "fill", stat = "identity") +
+  theme_cowplot() +
+  labs(x = "Board",
+       y = "Proportion of games") +
+  theme(legend.position = "right") +
+  scale_x_continuous(breaks = integer_breaks()) +
+  scale_fill_manual(values = c("#002d9c", "#0043ce", "#0f62fe", "#4589ff", 
+                               "#78a9ff", "#a6c8ff",
+                               "#491d8b", "#6929c4", "#8a3ffc", "#a56eff", 
+                               "#be95ff", "#d4bbff",
+                               "#00539a", "#0072c3", "#1192e8",
+                               "#005d5d", "#007d79", "#009d9a", "#08bdba"), 
+                    na.value = "#8C979A",
+                    name = "First moves")
+```
 
 
-#### Top openings (broad)
+#### Top openings
 
 All openings played in the season, excluding variations.
 
 ```{r}
+
+# header = with_tooltip("Size", "# players who played for the team through the season")
 openings_exclvar <- PopularOpenings(games)
 reactable(openings_exclvar, pagination = TRUE, fullWidth = TRUE, resizable = TRUE,
           searchable = TRUE,
            columns = list(
-             rank = colDef(name = "Rank", minWidth = 70, align = "center"),
-    opening.broad = colDef(name = "Opening", minWidth = 200),
-    games = colDef(name = "Games", minWidth = 100, align = "center"),
-    perc_w = colDef(name = "White %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
-    white_wins = colDef(name = "1-0 %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
-    draws = colDef(name = "Draw %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
-    black_wins = colDef(name = "0-1 %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
-    mean_eval_after_15 = colDef(name = "Mean Eval", minWidth = 100, align = "center", format = colFormat(digits = 2)),
-    mean_rating = colDef(name = "Avg Rating", minWidth = 100, align = "center", format = colFormat(digits = 0))),
-    compact = T)
-```
-
-
-#### Top lines
-
-All openings played in the season, including variations.
-
-```{r}
-openings_inclvar <- PopularVariations(games)
-reactable(openings_inclvar,
-          pagination = TRUE, 
-          fullWidth = TRUE,
-          resizable = TRUE,
-          searchable = TRUE,
-           columns = list(
-             rank = colDef(name = "Rank", align = "center", footer = "Total"),
-    opening.name = colDef(name = "Opening", minWidth = 300),
-    games = colDef(name = "Games", minWidth = 100, align = "center"),
-    perc_w = colDef(name = "White %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
-    white_wins = colDef(name = "1-0 %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
-    draws = colDef(name = "Draw %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
-    black_wins = colDef(name = "0-1 %", minWidth = 100, align = "center", format = colFormat(digits = 0)),
-    mean_eval_after_15 = colDef(name = "Mean Eval", minWidth = 100, align = "center", format = colFormat(digits = 2)),
-    mean_rating = colDef(name = "Avg Rating", minWidth = 100, align = "center", 
-                         format = colFormat(digits = 0))),
-    defaultColDef = colDef(footerStyle = list(fontWeight = "bold")),
+             rank = colDef(minWidth = 60, align = "center",
+                           header = with_tooltip("#", "Rank")),
+    opening.broad = colDef(minWidth = 200,
+                           header = with_tooltip("Opening", "Opening name (broad, excl. variations)")),
+    games = colDef(minWidth = 70, align = "center",
+                   header = with_tooltip("G", "Games")),
+    perc_w = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                    header = with_tooltip("%", "Score (%) for White")),
+    white_wins = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                        header = with_tooltip("1-0", "White wins (%)")),
+    draws = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                   header = with_tooltip("½-½", "Draws (%)")),
+    black_wins = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                        header = with_tooltip("0-1", "Black wins (%)")),
+    mean_eval_after_15 = colDef(minWidth = 100, align = "center", format = colFormat(digits = 1),
+                                header = with_tooltip("Eval", "Average evaluation after 15 moves (for White)")),
+    mean_rating = colDef(minWidth = 100, align = "center", format = colFormat(digits = 0),
+                         header = with_tooltip("Rating", "Average rating (both sides)"))
+    ),
     compact = T)
 ```
 
 
 #### Best for White
 
-The best-scoring main openings for White. 
-
-*Includes all main openings played in at least 10 games.* 
+White's top-scoring openings, excluding variations. *Minimum 10 games played.*
 
 ```{r}
 openings_bestwhite <- BestOpeningsForWhite(games)
-reactable(openings_bestwhite,
-          pagination = TRUE, 
-          fullWidth = TRUE,
-          resizable = TRUE,
+reactable(openings_bestwhite, pagination = TRUE, fullWidth = TRUE, resizable = TRUE,
           searchable = TRUE,
            columns = list(
-             rank = colDef(name = "Rank", align = "center"),
-    opening.broad = colDef(name = "Opening", minWidth = 200),
-    games = colDef(name = "Games"),
-    perc_w = colDef(name = "White's score (%)", format = colFormat(digits = 0)),
-    white_wins = colDef(name = "White wins (%)", format = colFormat(digits = 0)),
-    draws = colDef(name = "Draws (%)", format = colFormat(digits = 0)),
-    black_wins = colDef(name = "Black wins (%)", format = colFormat(digits = 0)),
-    mean_eval_after_15 = colDef(name = "Mean eval after 15 moves", format = colFormat(digits = 2)),
-    mean_rating = colDef(name = "Avg rating", format = colFormat(digits = 0))),
+             rank = colDef(minWidth = 60, align = "center",
+                           header = with_tooltip("#", "Rank")),
+    opening.broad = colDef(minWidth = 200,
+                           header = with_tooltip("Opening", "Opening name (broad, excl. variations)")),
+    games = colDef(minWidth = 70, align = "center",
+                   header = with_tooltip("G", "Games")),
+    perc_w = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                    header = with_tooltip("%", "Score (%) for White")),
+    white_wins = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                        header = with_tooltip("1-0", "White wins (%)")),
+    draws = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                   header = with_tooltip("½-½", "Draws (%)")),
+    black_wins = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                        header = with_tooltip("0-1", "Black wins (%)")),
+    mean_eval_after_15 = colDef(minWidth = 100, align = "center", format = colFormat(digits = 1),
+                                header = with_tooltip("Eval", "Average evaluation after 15 moves (for White)")),
+    mean_rating = colDef(minWidth = 100, align = "center", format = colFormat(digits = 0),
+                         header = with_tooltip("Rating", "Average rating (both sides)"))
+    ),
     compact = T)
 ```
 
 #### Best for Black
 
-The best-scoring main openings for Black. 
-
-*Includes all main openings played in at least 10 games.* 
+Black's top-scoring openings, excluding variations. *Minimum 10 games played.*
 
 ```{r openings_for_black}
 
-
-
 openings_bestblack <- BestOpeningsForBlack(games)
 
-reactable(openings_bestblack,
-          pagination = TRUE, 
-          fullWidth = TRUE,
-          resizable = TRUE,
+reactable(openings_bestblack, pagination = TRUE, fullWidth = TRUE, resizable = TRUE,
           searchable = TRUE,
            columns = list(
-             rank = colDef(name = "Rank", align = "center"),
-    opening.broad = colDef(name = "Opening", minWidth = 200),
-    games = colDef(name = "Games"),
-    perc_b = colDef(name = "Black's score (%)", format = colFormat(digits = 0)),
-    white_wins = colDef(name = "White wins (%)", format = colFormat(digits = 0)),
-    draws = colDef(name = "Draws (%)", format = colFormat(digits = 0)),
-    black_wins = colDef(name = "Black wins (%)", format = colFormat(digits = 0)),
-    mean_eval_after_15 = colDef(name = "Mean eval after 15 moves", format = colFormat(digits = 2)),
-    mean_rating = colDef(name = "Avg rating", format = colFormat(digits = 0))),
+             rank = colDef(minWidth = 60, align = "center",
+                           header = with_tooltip("#", "Rank")),
+    opening.broad = colDef(minWidth = 200,
+                           header = with_tooltip("Opening", "Opening name (broad, excl. variations)")),
+    games = colDef(minWidth = 70, align = "center",
+                   header = with_tooltip("G", "Games")),
+    perc_b = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                    header = with_tooltip("%", "Score (%) for Black")),
+    white_wins = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                        header = with_tooltip("1-0", "White wins (%)")),
+    draws = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                   header = with_tooltip("½-½", "Draws (%)")),
+    black_wins = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                        header = with_tooltip("0-1", "Black wins (%)")),
+    mean_eval_after_15 = colDef(minWidth = 100, align = "center", format = colFormat(digits = 1),
+                                header = with_tooltip("Eval", "Average evaluation after 15 moves (for White)")),
+    mean_rating = colDef(minWidth = 100, align = "center", format = colFormat(digits = 0),
+                         header = with_tooltip("Rating", "Average rating (both sides)"))
+    ),
     compact = T)
 
 ```
 
 #### Top gambits
 
-All gambits played in the season.^[For the purposes of these stats, a 'gambit' is only played if (1) it arises from an opening/variation that's usually associated with one side sacrificing material early and (2) one side actually did gambit some material in the game for at least 5 half-moves. Note that (1) isn't just restricted to "named" gambits; for example, the list also includes the Marshall Attack (Ruy Lopez), the Budapest Defence, and several variations of the Two Knights Defence to the Italian Game (among others).]  
+The most played gambits over the season.^[For these statistics, a played opening line is termed a gambit if it arises from an opening or variation that's commonly associated with one side sacrificing some material in the opening (in return for compensation) *and* the side that played the gambit actually sacrificed material in the game (for at least 5 consecutive half-moves before move 16). In particular, the list of gambit openings isn't restricted to named gambits; it also includes for example the Marshall Attack in the Ruy Lopez, the Budapest Defence, and several variations of the Two Knights Defence in the Italian Game. However, this approach excludes games where a side decides to gambit material when *not* playing a traditionally gambit-associated opening. Yes, those should be considered gambits. But they're not here.]  
 
 
 
@@ -775,7 +864,7 @@ TopGambits <- function(path_scripts, data_path, league_load_label, season,
     dplyr::distinct(id, .keep_all = TRUE)
   
   # Calculate gambit scores and perf ratings
-  gambits <- gambits %>% 
+  top_gambits <- gambits %>% 
     mutate(opp_rating = if_else(col == 'w', rating_b, rating_w)) %>% 
     dplyr::mutate(gambit_score = case_when(
       col == "w" & result == "1-0" ~ 1,
@@ -794,22 +883,28 @@ TopGambits <- function(path_scripts, data_path, league_load_label, season,
               ) %>%
     dplyr::arrange(desc(games), desc(score))
   
-  gambits <- tibble::as_tibble(gambits)
-  assertthat::assert_that(is_tibble(gambits))
-  gambits$gambit_name[gambits$gambit_name == "Queen's Gambit"] <- "Queen's Gambit Accepted"
+  top_gambits <- tibble::as_tibble(top_gambits)
+  assertthat::assert_that(is_tibble(top_gambits))
+  top_gambits$gambit_name[top_gambits$gambit_name == "Queen's Gambit"] <- "Queen's Gambit Accepted"
   
   # Add rank for final table
-  gambits$rank <- data.table::frank(gambits, -games, -score, ties.method = "dense")
+  top_gambits$rank <- data.table::frank(top_gambits, -games, -score, ties.method = "dense")
   
-  gambits <- gambits %>%
+  top_gambits <- top_gambits %>%
     arrange(rank) %>% 
     dplyr::select(rank, gambit_name, games, score)
 
-  return(gambits)
+  return(list(top_gambits, gambits))
 }
 
-if(nrow(gambits) > 0){
-reactable(gambits,
+lst_gambits <- TopGambits(path_scripts, data_path, league_load_label, season, games,
+                      gambits_lookup)
+
+top_gambits <- lst_gambits[[1]]
+gambits <- lst_gambits[[2]]
+
+if(nrow(top_gambits) > 0){
+reactable(top_gambits,
           pagination = TRUE,
           fullWidth = FALSE,
           resizable = TRUE,
@@ -829,13 +924,11 @@ reactable(gambits,
 
 #### Gambiteers `r emo::ji("fencer")`
 
-The players who enjoyed the most success when playing gambits.^[Qualifying "gambiteers" are ordered by number of gambit games played before percentage score.]
-
-*Shows all players who scored at least 50% playing gambits in the season (min. games: 2).*
+The players who enjoyed the most success when playing gambits.^[Qualifying "gambiteers" are ordered by number of gambit games played before percentage score.] *Includes everyone who scored at least 50 per cent across at least two gambit games.*
 
 ```{r}
 # Gambit lovers
-gambiteers <- sub %>%
+gambiteers <- gambits %>%
   select(id, white, black, result, col, gambit_name) %>% 
   mutate(player = case_when(
     col == "w" ~ white,
@@ -908,13 +1001,12 @@ Click on the image below to see a sunburst plot of all openings played in the se
 </center>
 
 
-### Season awards `r emo::ji("prize")`
+### Awards `r emo::ji("prize")`
 
 <!-- All the code to determine the awards has to be run before the awards table -->
 
-Because winning isn't everything; it's the only thing :) 
-
-See the footnote for further details on each award.^[*Archbishop of Accuracy*: this is for the player with the lowest average centipawn loss (CPL) over all games. Note that this calculation isn't based on Lichess's ACPL figures. It excludes moves played in the first 10 moves of a game and moves with a centipawn loss < 150 in *decided* positions. These are considered to be positions with an evaluation greater than or equal to +300 centipawns for one side. All evaluation data is sourced from Lichess server analysis. To be eligible, players must have played at least five games in the season. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. One's opponents must have played over 20 games (against others) to qualify. Suggested by Tranzoo. *Egalitarian Award*: intended for the team whose players performed most similarly to each other. First, I compute all players' *relative* performance ratings -- the difference between their actual performance rating (using FIDE's method) and their initial rating. Then I group all players by team, and give the award to the team with the lowest standard deviation across its players' relative ratings. Suggested by Silkthewanderer. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
+ 
+Assorted awards to celebrate the season. See the footnote for more details about each award.^[*Archbishop of Accuracy*: this is for the player with the lowest average centipawn loss (CPL) over all games. Note that this calculation isn't based on Lichess's ACPL figures. It excludes moves played in the first 10 moves of a game and moves with a centipawn loss < 150 in *decided* positions. These are considered to be positions with an evaluation greater than or equal to +300 centipawns for one side. All evaluation data is sourced from Lichess server analysis. To be eligible, players must have played at least five games in the season. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. One's opponents must have played over 20 games (against others) to qualify. Suggested by Tranzoo. *Egalitarian Award*: intended for the team whose players performed most similarly to each other. First, I compute all players' *relative* performance ratings -- the difference between their actual performance rating (using FIDE's method) and their initial rating. Then I group all players by team, and give the award to the team with the lowest standard deviation across its players' relative ratings. Suggested by Silkthewanderer. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
  
 
 ```{r}
@@ -987,7 +1079,7 @@ rookie_perfs <- RookieAward(all_games, games, perfs, min_games = 4, tos_violator
 
 
 
-```{r team_stats, eval = ifelse(league == "team4545", TRUE, FALSE)}
+```{r , eval = ifelse(league == "team4545", TRUE, FALSE)}
 team_data_list <- TeamStats(games, positions)
 team_data <- team_data_list[[1]]
 team_accuracy_award <- team_data_list[[2]]
@@ -999,9 +1091,25 @@ alt_runnerup <- alt_award_list[[2]]
 ```
 
 
+<!-- Team awards div -->
+
+```{r results='asis', echo=FALSE}
+# Hide team stats section from LW reports
+if (lw_hide) {cat("<!---")}
+```
+
+:::close_wins
+- Fortune favoured **`r team_most_close_wins`**, who managed to win **`r num_most_close_wins`** matches by a single point!
+- Conversely, **`r team_most_close_losses`** must be ruing their luck after suffering **`r num_most_close_losses`** agonising single-point defeats.
+:::
+
+
+```{r results='asis', echo=FALSE}
+# End hiding stuff from LW reports
+if(lw_hide){cat("-->")}
+```
+
 <!-- Player awards table -->
-
-
 
 ```{r player_awards}
 
@@ -1118,9 +1226,27 @@ reactable(awards,
 )
 ```
 
-### All the stats!  
 
-All the following tables are sortable and searchable.
+
+### Highlights `r emo::ji("television")`
+
+```{r}
+highlight_ids <- "RbeDVNpd"
+
+highlights <- c("<iframe src=",
+                  paste0("https://lichess.org/embed/", highlight_ids, "?theme=auto&bg=auto"),
+                  ">")
+```
+
+```{=html}
+<iframe src="https://lichess.org/embed/RbeDVNpd#49?theme=auto&bg=auto"
+width="600" height="397" frameborder=0 allowfullscreen="" data-external="1"></iframe>
+```
+
+
+### Stats - tables `r emo::ji("books")`
+
+Tons of detailed stats for your reading pleasure. All tables in this section are sortable and searchable - feel free to explore!
 
 ```{r results='asis', echo=FALSE}
 # Hide team stats section from LW reports
@@ -1130,16 +1256,8 @@ if (lw_hide) {cat("<!---")}
 
 #### Team statistics
 
-```{r team_stats_appendix, eval = ifelse(league == "team4545", TRUE, FALSE)}
-# Show team stats table in appendix
-
-# Custom tooltips
-with_tooltip <- function(value, tooltip, ...) {
-  div(style = "text-decoration: underline; text-decoration-style: dotted; cursor: help",
-      tippy(value, tooltip, ...))
-}
-
-# Show team data
+```{r team_stats, eval = ifelse(league == "team4545", TRUE, FALSE)}
+# Team stats table, with tooltips
 reactable(
   team_data, pagination = T, searchable = T, fullWidth = T, resizable = T,
   compact = T,
@@ -1184,19 +1302,19 @@ reactable(
   )
 ```
 
+
 ```{r results='asis', echo=FALSE}
 # End hiding stuff from LW reports
 if(lw_hide){cat("-->")}
 ```
+
 
 #### Best performances / highest accuracy {.tabset .tabset-fade .tabset-pills} 
 
 
 ##### Best relative perfs 
 
-Shows players' *relative* performance ratings: season performance rating minus initial rating.^[The season performance ratings presented in this report may differ slightly from the figures given by the Lichess4545 website. Both figures are based on FIDE's preferred calculation method and exclude unplayed games (such as forfeit wins/losses and scheduling draws.]
-
-*Includes all players with a positive relative performance rating over at least five games.*
+This table shows players' *relative* performance ratings -- that is, their performance rating over the season minus their initial rating before their first game.^[The season performance ratings presented in this report may differ slightly from ratings published on the Lichess4545 website, but both calculations are based on FIDE's preferred method, and both exclude unplayed games such as forfeit wins/losses and scheduling draws.] *Includes everyone with a positive relative performance rating over at least five games.*
 
 ```{r}
 # Table for report
@@ -1221,7 +1339,7 @@ reactable(relative_perfs,
 
 ##### Lowest ACPL 
 
-*Includes the 100 players with the lowest ACPL (min. 100 moves played).*
+*Includes everyone with a season ACPL ranked in the 20th percentile and above who played at least five games.*
 
 ```{r show_lowest_acpls}
 reactable(lowest_acpls,
@@ -1297,9 +1415,7 @@ reactable(avg_think_times,
 
 ##### Strength of schedule
 
-These players faced the most in-form opponents across the season, when judged by their opponents' collective score in all their other games.^[Both the statistic and the name of its associated award -- the David Award -- were suggested by **Tranzoo**.]
-
-*Includes all players who faced a collective group of opponents that played at least 15 (other) games across the season with a collective score above 50 per cent.*
+The players who faced the best-scoring opponents over the season, when judged by their collective score over all their *other* games. *Originally proposed by Tranzoo.*
 
 ```{r}
 # Show David Award table
@@ -1326,7 +1442,7 @@ reactable(david,
 
 ##### Comebacks 
 
-This stat was originally suggested by **Lou-E**. In summary, it shows the players who achieved the most significant comeback wins and draws over the season. See the footnote for more details.^[I award "comeback points" for each game that a player won after their opponent had an advantage of at least 300 centipawns, according to Lichess' server analysis. The scoring is rather simple. A win after suffering an evaluation disadvantage of more than 6 pawns earns 1 point. A win after being down by 3-6 pawns earns 0.7 points. A draw after being down more than 6 pawns earns 0.5 points. A draw after being down 3-6 pawns earns 0.3 points. Then the points are added up.]
+The players who achieved the most significant comeback wins and draws over the season.^[I award "comeback points" for each game that a player won after their opponent had an advantage of at least 300 centipawns, according to Lichess' server analysis. The scoring is rather simple. A win after suffering an evaluation disadvantage of more than 6 pawns earns 1 point. A win after being down by 3-6 pawns earns 0.7 points. A draw after being down more than 6 pawns earns 0.5 points. A draw after being down 3-6 pawns earns 0.3 points. Then the points are added up.] *Originally proposed by Lou-E.*
 
 ```{r comebacks}
 
@@ -1412,7 +1528,7 @@ reactable(upset_specialists,
 
 ##### Least time left after move 10 
 
-The players with the least time left after 10 moves...who still managed to win!^[Statistic suggested by **Silkthewanderer**.]
+The players with the least time left after 10 moves...who still managed to win! *Originally proposed by Silkthewanderer.*
 
 ```{r other_grischuk, comment = "", layout="l-page"}
 if(movetimes_exist){
@@ -1554,7 +1670,9 @@ reactable(savedbythebell,
 ```
 
 
-
+:::heartbreak
+- Heartbreak stat...
+:::
 
 ####  Misc. facts {.tabset .tabset-fade .tabset-pills} 
 

@@ -32,7 +32,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 
 /* ----------- Div tips ------------- */
 
-@import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
+@import url('https://fonts.googleapis.com/css2?family=Carter+One');
 
   div.first {
     padding: 0.1em;
@@ -74,7 +74,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     background-color: #e4ba90;
     border: solid 3px #cd7f32;
     background-image: url("images/trophy-3.svg");
-    font-family: 'Fira Mono';
   }
   
   div.about {
@@ -100,10 +99,53 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     background-position: 15px center;
     min-height: 120px;
     color: #2c3e50;
-    background-color: #D8C1F7;
-    border: solid 5px #E6DDF3;
-    background-image: url("images/drama-masks.svg");
+    background-color: #bed3ec;
+    border: solid 5px #dfedff;
+    background-image: url("images/spell-book.svg");
   }
+  
+  div.aces {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #2c3e50;
+    background-color: #bed3ec;
+    border: solid 5px #dfedff;
+    background-image: url("images/ace.svg");
+  }
+  
+  div.close_wins {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #2c3e50;
+    background-color: #bed3ec;
+    border: solid 5px #dfedff;
+    background-image: url("images/horseshoe.svg");
+  }
+  
+  div.heartbreak {
+    padding: 1em;
+    margin: 1em 0;
+    padding-left: 100px;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    min-height: 120px;
+    color: #2c3e50;
+    background-color: #bed3ec;
+    border: solid 5px #dfedff;
+    background-image: url("images/heartbreak.svg");
+  }
+
 
 
 /* ----------- Hyperlinks ------------- */

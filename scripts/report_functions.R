@@ -9,6 +9,13 @@ pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2,
                rmarkdown, fs, stringi, git2r, glue, here, distill, htmltools,
                tidyjson)
 
+
+with_tooltip <- function(value, tooltip, ...) {
+  # Custom tooltips for reactable tables
+  div(style = "text-decoration: underline; text-decoration-style: dotted; cursor: help",
+      tippy(value, tooltip, ...))
+}
+
 LoadLookups <- function(){
   # Load supporting lookup data
   # 1. Gambit openings - to enable analysis of gambits and gambit-lovers
@@ -72,7 +79,7 @@ SeasonDates <- function(games = games){
   season_dates <- paste0(lubridate::day(min(games$started)), " ",
                          lubridate::month(min(games$started), label = T, abbr = F), " ", 
                          lubridate::year(max(games$started)),
-                         " to ",
+                         " and ",
                          lubridate::day(max(games$started)), " ",
                          lubridate::month(max(games$started), label = T, abbr = F), " ",
                          lubridate::year(max(games$started)))
@@ -1316,7 +1323,7 @@ Upsets <- function(games = games, min_rating_gap = 100, tos_violators){
 
 AllMoves <- function(games = games){
   # Get dataset of all moves in games data
-  all_moves <- data.table::rbindlist(games$evals) %>% 
+  all_moves <- data.table::rbindlist(games$evals, fill = T) %>% 
     mutate(colour = case_when(
       ply %% 2 == 0 ~ "white",
       ply %% 2 == 1 ~ "black",

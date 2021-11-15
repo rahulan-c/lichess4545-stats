@@ -94,25 +94,24 @@ PlotMatchStory <- function(season_num, # season number
                            plot_width = 350, # 350, 420
                            plot_height = 215, # 210, 297
                            save = T,
-                           save_path = "/stories/prod/") {
+                           save_path = "/reports/stories/prod/") {
 
   # Colours
-  team1_col <- "#58508d"            # Purple 70. Source: Carbon Design System 
-  team2_col <- "#bc5090"            # Cyan 50 from Carbon Design System
-  draw_col <- "#707C80"             # "Heather". For drawn game match score labels
-  forfeit_unplayed_col <- "#707C80" # For match score labels and game IDs when games are not played or forfeited
-  eval_col <- "#003f5c"             # For main match eval line. Red 50 from Carbon Design System
+  team1_col <- "#58508d"           
+  team2_col <- "#bc5090"            
+  draw_col <- "#707C80"             
+  forfeit_unplayed_col <- "#707C80" # Match score labels and game IDs when games are not played or forfeited
+  eval_col <- "#003f5c"             # Match eval line
   gamelink_col <- "white"           # Gamelink label text [game ID]
   gamelink_fill_col <- "#3C6478"    # Gamelink label fill
-  gamelink_summary_col <- "blue" # For the gamelinks in the match summary section
-  # gamelink_label_col <- "#B5D3E7" # Gamelink label border
-  opening_col <- "#373D3F"           # ECO and opening names
-  gametime_col <- "#373D3F"          # Game start and end times
-  rank_col <- "#A7B0B2"              # Team rank (title)
+  gamelink_summary_col <- "blue"    # For the gamelinks in the match summary section
+  opening_col <- "#373D3F"          # ECO and opening names
+  gametime_col <- "#373D3F"         # Game start and end times
+  rank_col <- "#A7B0B2"             # Team rank (title)
   titledetail_col <- "#C1C7C9"      # For season, round, month/year details in title
   gamedetail_col <- "#8C979A"
   about_col <- "#373D3F"            # "About" text
-  icon_col <- "#A7B0B2"              # Icons, eg link/calendar/timer
+  icon_col <- "#A7B0B2"             # Icons, eg link/calendar/timer
   gamedividers_col <- "#555F61"
   equalityline_col <- "#555F61"
   
@@ -336,6 +335,8 @@ PlotMatchStory <- function(season_num, # season number
   all_games <- tidy_lichess_games(all_games)
   all_games <- as_tibble(all_games)
   all_games <- fix_character_encoding(all_games)
+  
+  all_games <- all_games %>% arrange(ended)
   
   # Now get alternative pairing data that includes originally scheduled game times
   # from the Lichess4545 website
@@ -1201,9 +1202,14 @@ PlotMatchStory <- function(season_num, # season number
         aes(((max_ply * nrow(moves_extra)) / 2) * 0.51,
             y = max_eval + 6.2,
             label = paste0(
+              as.character(lubridate::day(games$ended[nrow(games)])),
+              "-",
+              as.character(lubridate::day(games$ended[1])),
+              " ",
                   as.character(lubridate::month(games$ended[1], label = TRUE)),
                   " ",
-                  as.character(lubridate::year(games$ended[1])))
+                  as.character(lubridate::year(games$ended[1]))
+              )
         ),
         family = title_font,
         colour = titledetail_col,
@@ -1276,13 +1282,15 @@ PlotMatchStory <- function(season_num, # season number
         aes(
           x = (first_ply / 2) + (((last_ply / 2) - (first_ply / 2)) * 0.05),
           y = max_eval + 4.2,
-          label = glue::glue("{game_order} | Bd. {board}")
+          label = glue::glue("B{board} {ifelse(game_order == team_boards, emo::ji('chequered_flag'),
+                             ifelse(game_order == 1, emo::ji('play_button'),
+                             ''))}")
         ),
         family = plotinfo_font,
         colour = gamedetail_col,
         fill = NA, label.color = NA,
         label.padding = grid::unit(rep(0, 4), "pt"),
-        size = 3.2,
+        size = 2.9,
         hjust = 0,
         vjust = 0
       ) +
@@ -1463,15 +1471,16 @@ PlotMatchStory <- function(season_num, # season number
         aes(
           x = ((max_ply * nrow(moves_extra)) / 2) * -0.025,
           y = min_eval - 3.9,
-          label = glue::glue("Notes | Games section - game IDs linked to game URLs; games that were played but later forfeited are treated as though they weren't played (and therefore aren't linked); all game start times are listed as UTC and rounded to the nearest 15 minutes. 
-                             Story section - games are ordered from left to right by time of completion. Unplayed games are assigned instead by scheduled time, and unplayed pairings without scheduled times are shown last. The y-axis shows the match score difference between the teams, and the x-axis tracks the moves played in each game. Both axes are scaled for consistency and legibility. The circles below players' ratings indicate colours (filled means Black). The scores after each game track the overall match score. 
-                             Stats section - W: wins, L: losses, D: draws, FW: forfeit wins, FL: forfeit losses, FD: scheduling draws, Clock: total clock time used, ACPL: team's average centipawn loss (accounting for # moves), Inaccuracies/Mistakes/Blunders: % of team's moves that comprised of each error type. Other: title rankings only shown for the top 10 teams in the pre-match standings, ignoring tiebreaks.")
+          label = glue::glue("[Notes] 'Games': start times shown in UTC and rounded to the nearest 15 minutes; forfeited games are treated identically to unplayed games (even if they were played).
+                             'Story': y-axis tracks the match score gap between the teams while also showing in-game evaluations from Lichess's server analysis; x-axis tracks moves played; both axes scaled for consistency and legibility; games ordered from left to right by time of last move, with unplayed games assigned instead by scheduled time, and unplayed pairings without scheduled times shown last). 
+                             'Stats' - (F)W/D/L: (forfeit) wins/losses/draws, Clock: total clock time used, ACPL: team average centipawn loss (adjusted for moves), Inaccuracies/Mistakes/Blunders: % moves of each error type. Also: ranks only shown for the top 10 teams at the start of the round, ignoring tiebreaks; ranks not shown for Round 1.")
         ),
         width = grid::unit(0.92, "npc"), # % of plot panel width
         size = 2.25,
         fill = NA, label.color = NA,
         label.padding = grid::unit(rep(0, 4), "pt"),
-        colour = icon_col, family = plotinfo_font,
+        colour = about_col, 
+        family = plotinfo_font,
         box.colour = NA,
         box.padding = unit(c(0.1, 0.1, 0.1, 0.1), "pt"),
         vjust = 1,
@@ -1615,10 +1624,10 @@ PlotMatchStory <- function(season_num, # season number
 
 ## "Normal" match -------
 # WORKING
-PlotMatchStory(28, 1,
-               method = "team",
-               details = "Elo darkness, my old friend",
-               request_data = T)
+# PlotMatchStory(28, 1,
+#                method = "team",
+#                details = "Elo darkness, my old friend",
+#                request_data = T)
 
 # PlotMatchStory(27, 1,
 #                method = "team",
@@ -1662,7 +1671,7 @@ PlotMatchStory(28, 1,
 
 
 ## Plot all matches in a completed round ----
-# PlotMatchStory(28, 1, plot_whole_round = T, request_data = T)
+PlotMatchStory(28, 2, plot_whole_round = T, request_data = T)
 
 
 
