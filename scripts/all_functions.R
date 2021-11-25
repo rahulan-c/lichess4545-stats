@@ -512,25 +512,16 @@ tidy_lichess_games <- function(games){
       mutate(time_spent = times[1:nrow(.)]) %>% 
       # Add clock times left after each ply
       mutate(time_left = times_left[1:nrow(.)]) %>% 
-      # Cap evals to +/- 1000 before calculating CPL
-      mutate(capped_eval = case_when(
-        eval >= 1000 ~ 1000,
-        eval <= -1000 ~ -1000,
-        TRUE ~ NA_real_
-      )) %>% 
       mutate(eval_prev = lag(eval, 1)) %>% 
-      mutate(capped_eval_prev = case_when(
-        eval_prev >= 1000 ~ 1000,
-        eval_prev <= -1000 ~ -1000,
-        TRUE ~ NA_real_
-      )) %>% 
+      # Cap evals to +/- 1000 before calculating CPL
+      mutate(eval = pmax(pmin(eval, 1000), -1000)) %>% 
+      mutate(eval_prev = pmax(pmin(lag(eval, 1), 1000), -1000)) %>% 
       mutate(cpl = case_when(
         ply == 0 ~ 0,
-        ply %% 2 == 0 ~ pmax(capped_eval_prev - capped_eval, 0),
-        ply %% 2 == 1 ~ pmax((capped_eval_prev - capped_eval) * -1, 0),
+        ply %% 2 == 0 ~ pmax(eval_prev - eval, 0),
+        ply %% 2 == 1 ~ (pmin(eval_prev - eval, 0)) * -1,
         TRUE ~ NA_real_
       ))
-    
     return(nested_data)
   }
   
@@ -543,7 +534,7 @@ tidy_lichess_games <- function(games){
                          ~ with(list(...),
                          add_movetimes_and_cpls(x, y, z)))) %>% 
     # Add eval after 15 moves to data
-    mutate(eval_after_15 = unlist(map(evals, ~ .x$capped_eval[30])))
+    mutate(eval_after_15 = unlist(map(evals, ~ .x$cpl[30])))
   
   games <- as_tibble(games)
   

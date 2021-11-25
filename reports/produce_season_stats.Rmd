@@ -27,7 +27,7 @@ site: distill::distill_website
 # Report setup, parameters, and data
 
 # Remove ToS violators from final tables
-scrub_cheats <- FALSE
+scrub_cheats <- TRUE
 # should always be TRUE -- UNLESS TESTING!
 
 # Update league-specific all-time games data before producing report
@@ -136,6 +136,13 @@ gambits_lookup <- FixCharEncodingIssues(gambits_lookup)
 movetimes_exist <- TRUE
 if(max(games$started) <= lubridate::ymd("2017-03-28")){movetimes_exist <- FALSE}
 no_movetimes_print <- "Not available for seasons that began before April 2017."
+
+# Set team-based variables
+# Required to avoid errors when producing LW reports
+team_most_close_wins <- NA_character_
+num_most_close_wins <- NA_integer_
+team_most_close_losses <- NA_character_
+num_most_close_losses <- NA_integer_
 
 ```
 
@@ -395,17 +402,6 @@ Check out these visualisations of every match in every round!^[These require the
 ### Top players `r emo::ji("tophat")`
 
 
-
-```{r}
-# Show all players who achieved plus/minus scores of +2.5 or higher
-
-top_scorers_list <- TopScorers(pairings, fide_tpr_lookup, tos_violators)
-top_scorers_text <- top_scorers_list[[2]] # text to show here
-top_scorers <- top_scorers_list[[1]]
-aces <- top_scorers_list[[3]] # for the 'Aces' award
-```
-
-
 #### Board medals
 
 Here are the top player performances on each board (minimum 5 games played).^[Note that these performance ratings only account for account games played on a specific board, so they differ in this respect from the performance ratings published on the Lichess4545 rosters page.]
@@ -443,6 +439,15 @@ if(lw_hide){cat("-->")}
 
 
 #### Best scorers
+
+```{r}
+# Show all players who achieved plus/minus scores of +2.5 or higher
+
+top_scorers_list <- TopScorers(pairings, fide_tpr_lookup, tos_violators)
+top_scorers_text <- top_scorers_list[[2]] # text to show here
+top_scorers <- top_scorers_list[[1]]
+aces <- top_scorers_list[[3]] # for the 'Aces' award
+```
 
 :::aces
 
@@ -677,7 +682,7 @@ if(league == "lonewolf") {
 ```
 
 
-### Stats - openings {.tabset .tabset-fade .tabset-pills} 
+### Openings {.tabset .tabset-fade .tabset-pills} 
 
 #### First moves `r emo::ji("bar_chart")`
 
@@ -1218,8 +1223,6 @@ reactable(awards,
                              }),
             Definition = colDef(show = F),
             Details = colDef(show = F),
-            # Details = colDef(name = "Details", minWidth = 170,
-            #                  style = list(fontSize = 14)),
             Mentions = colDef(name = "Runner(s)-up", minWidth = 200,
                               style = list(fontSize = 13, fontWeight = 500))
           )
@@ -1227,21 +1230,6 @@ reactable(awards,
 ```
 
 
-
-### Highlights `r emo::ji("television")`
-
-```{r}
-highlight_ids <- "RbeDVNpd"
-
-highlights <- c("<iframe src=",
-                  paste0("https://lichess.org/embed/", highlight_ids, "?theme=auto&bg=auto"),
-                  ">")
-```
-
-```{=html}
-<iframe src="https://lichess.org/embed/RbeDVNpd#49?theme=auto&bg=auto"
-width="600" height="397" frameborder=0 allowfullscreen="" data-external="1"></iframe>
-```
 
 
 ### Stats - tables `r emo::ji("books")`
@@ -1312,7 +1300,7 @@ if(lw_hide){cat("-->")}
 #### Best performances / highest accuracy {.tabset .tabset-fade .tabset-pills} 
 
 
-##### Best relative perfs 
+##### Best relative performances
 
 This table shows players' *relative* performance ratings -- that is, their performance rating over the season minus their initial rating before their first game.^[The season performance ratings presented in this report may differ slightly from ratings published on the Lichess4545 website, but both calculations are based on FIDE's preferred method, and both exclude unplayed games such as forfeit wins/losses and scheduling draws.] *Includes everyone with a positive relative performance rating over at least five games.*
 
@@ -1339,7 +1327,7 @@ reactable(relative_perfs,
 
 ##### Lowest ACPL 
 
-*Includes everyone with a season ACPL ranked in the 20th percentile and above who played at least five games.*
+All players who played at least five games and achieved a season ACPL in the 20th percentile or below. Note that 'season ACPL' differs from Lichess game-wide ACPL figures, as it excludes opening moves as well as most moves played in objectively decided positions. See the footnote for full details.^[Season ACPL here excludes the first 10 moves of a game, all zero-CPL moves played in zero-evaluation positions, and moves played in positions where one side has an advantage of +200 centipawns or greater *that aren't mistakes or blunders*.] ACPLs based on Lichess's published figures are provided for comparison purposes.
 
 ```{r show_lowest_acpls}
 reactable(lowest_acpls,
@@ -1351,7 +1339,7 @@ reactable(lowest_acpls,
              rank = colDef(name = "Rank", align = "center"),
     player = colDef(name = "Player", minWidth = 200),
     games = colDef(name = "Games", align = "center"),
-    acpl = colDef(name = "ACPL", format = colFormat(digits = 1), align = "center"),
+    acpl = colDef(name = "Season ACPL", format = colFormat(digits = 1), align = "center"),
     season_acpl = colDef(name = "Lichess ACPL", format = colFormat(digits = 1), align = "center")
     ),
     compact = TRUE)
@@ -1363,7 +1351,7 @@ reactable(lowest_acpls,
 
 ##### Time spent
 
-*Includes the 50 players who spent the most clock time over the season.*
+The 50 players who spent the most clock time over the season.
 
 ```{r, comment = ""}
 
@@ -1387,7 +1375,7 @@ reactable(season_think,
 
 ##### Time spent per move (after move 10)
 
-*Includes everyone who played at least three games.*
+Minimum 3 games played. 
 
 ```{r thinkers, comment=""}
 if(movetimes_exist){
@@ -1415,7 +1403,7 @@ reactable(avg_think_times,
 
 ##### Strength of schedule
 
-The players who faced the best-scoring opponents over the season, when judged by their collective score over all their *other* games. *Originally proposed by Tranzoo.*
+The players who faced the best-scoring opponents over the season, when judged by their collective score over all their *other* games. *Suggested by Tranzoo.*
 
 ```{r}
 # Show David Award table
@@ -1442,7 +1430,7 @@ reactable(david,
 
 ##### Comebacks 
 
-The players who achieved the most significant comeback wins and draws over the season.^[I award "comeback points" for each game that a player won after their opponent had an advantage of at least 300 centipawns, according to Lichess' server analysis. The scoring is rather simple. A win after suffering an evaluation disadvantage of more than 6 pawns earns 1 point. A win after being down by 3-6 pawns earns 0.7 points. A draw after being down more than 6 pawns earns 0.5 points. A draw after being down 3-6 pawns earns 0.3 points. Then the points are added up.] *Originally proposed by Lou-E.*
+The players who achieved the most significant comeback wins and draws over the season.^[I award "comeback points" for each game that a player won after their opponent had an advantage of at least 300 centipawns, according to Lichess' server analysis. The scoring is rather simple. A win after suffering an evaluation disadvantage of more than 6 pawns earns 1 point. A win after being down by 3-6 pawns earns 0.7 points. A draw after being down more than 6 pawns earns 0.5 points. A draw after being down 3-6 pawns earns 0.3 points. Then the points are added up.] *Suggested by Lou-E.*
 
 ```{r comebacks}
 
@@ -1464,18 +1452,12 @@ reactable(comebacks,
     )
 )
 
-
-# cb_games = n(),
-#             wins_cat1 = sum(cb_pts == 1),
-#             wins_cat2 = sum(cb_pts == 0.7),
-#             draws_cat1 = sum(cb_pts == 0.5),
-#             draws_cat2 = sum(cb_pts == 0.3)
 ```
 
 
 ##### Biggest upsets
 
-All players who defeated an opponent rated at least 100 points higher.
+Everyone who defeated an opponent who outrated them by at least 100 points.
 
 ```{r biggest_upsets}
 reactable(upsets,
@@ -1500,7 +1482,7 @@ reactable(upsets,
 
 ##### Repeated upsets
 
-Includes players who achieved multiple wins over opponents rated at least 50 points higher.
+Everyone who achieved multiple wins over opponents rated at least 50 points higher.
 
 ```{r}
 
@@ -1528,7 +1510,7 @@ reactable(upset_specialists,
 
 ##### Least time left after move 10 
 
-The players with the least time left after 10 moves...who still managed to win! *Originally proposed by Silkthewanderer.*
+Players who had the least time left after only 10 moves...but still managed to win! *Suggested by Silkthewanderer.*
 
 ```{r other_grischuk, comment = "", layout="l-page"}
 if(movetimes_exist){
@@ -1560,9 +1542,8 @@ reactable(dawdlers,
 
 ##### Instant moves
 
-Players who made the most 'instant' moves over the season, taking less than 0.5 seconds (includes premoves).
+Players who made at least five 'instant' moves (in under 0.5s), including pre-moves.
 
-*Includes players with more than five 'instant' moves.*
 
 ```{r instamoves, comment = ""}
 if(movetimes_exist){
@@ -1617,9 +1598,7 @@ reactable(movetimes,
 
 ##### Time trouble addicts
 
-Shows players by proportion of moves made in time trouble (defined as having less than a minute remaining on the clock).
-
-*Includes everyone who played at least 100 moves over the season while making at least one move in time trouble.*
+Shows players by proportion of moves made in time trouble (defined as having less than a minute remaining on the clock). Includes everyone who played at least 100 moves over the season while making at least one move in time trouble.
 
 ```{r, comment = ""}
 
@@ -1645,7 +1624,7 @@ reactable(timetrouble,
 
 ##### Saved by the bell
 
-Players who made moves with under 5 seconds left on their clock...and still won!^[Excludes moves made in technically winning positions, defined as $\tt eval \le 300$ (from the mover's perspective). Players are first ordered by number of moves made with 5 seconds or fewer remaining, then by least time remaining in such conditions, and finally by worst eval faced.]
+Players who made moves with under 5 seconds left on their clock...and still won!^[Excludes moves made in positions where the mover had an objective advantage of +3 or greater. Players are first ordered by number of moves made with 5 or fewer seconds remaining, then by least time they had left (across all qualifying moves), and finally by the worst objective evaluation they faced (again across all moves).]
 
 ```{r, comment = ""}
 if(movetimes_exist){
@@ -1669,32 +1648,17 @@ reactable(savedbythebell,
 
 ```
 
-
-:::heartbreak
-- Heartbreak stat...
-:::
-
 ####  Misc. facts {.tabset .tabset-fade .tabset-pills} 
 
-##### Lesser spotted mates
+##### Notable mates
 
 ```{r piece_checkmates}
-mates_list <- PieceCheckmates(games)
-pawn_mate_games <- mates_list[[2]]
-knight_mate_games <- mates_list[[3]]
-```
-
-
-A pawn gave checkmate in `r length(pawn_mate_games)` games: `r pawn_mate_games`.
-
-
-A knight gave checkmate in `r length(knight_mate_games)` games: `r knight_mate_games`.
-
-```{r, eval = FALSE, fig.show='hold',fig.align='center', out.width="45%", out.height="20%", fig.cap=c("v3U4K2uM", "1MWLzMll")}
-# Show knight mate game positions
-# SVGs saved in images/mates after running show_pawn_knight_mates.py
-# Can work on this later, not necessary for now. 
-knitr::include_graphics(c("images/mates/v3U4K2uM.svg", "images/mates/1MWLzMll.svg"))
+notable_mates <- GetCheckmatePatterns(path_scripts, data_path, league_load_label, season, games)
+knitr::include_graphics(paste0("images/mates/",
+                               "mates_", league_load_label, 
+                                   "_s", 
+                                   sprintf("%02d", season), 
+                                   ".png"))
 ```
 
 

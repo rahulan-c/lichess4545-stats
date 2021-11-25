@@ -7,7 +7,7 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
                rvest, ndjson, reshape2, utf8, lubridate, tictoc, reticulate,
                rmarkdown, fs, stringi, git2r, glue, here, distill, htmltools,
-               tidyjson)
+               tidyjson, magick)
 
 
 with_tooltip <- function(value, tooltip, ...) {
@@ -1090,7 +1090,7 @@ LowestACPLs <- function(error_rates = error_rates,
     # # exclude 0 cpl moves made in 0 eval positions 
     filter(!((capped_eval_prev == 0) & (cpl == 0))) %>% 
     # # exclude non-errors played in decided positions
-    filter(!(!(judgment %in% c("Inaccuracy", "Mistake", "Blunder")) & (abs(capped_eval_prev) > 300))) %>% 
+    filter(!(!(judgment %in% c("Mistake", "Blunder")) & (abs(capped_eval_prev) > 300))) %>% 
     group_by(player) %>% 
     summarise(acpl = mean(cpl),
               games = n_distinct(game_id)) %>% 
@@ -1573,8 +1573,6 @@ EgalitarianAward <- function(players_teams = players_teams, perfs = perfs){
   # Award for the team with the lowest standard deviation of players' relative performance ratings over the season, 
   # where one's rel. perf rating = their actual perf. rating minus their initial rating
   
- 
-  
   # Construct variant dataset for obtaining relative perf ratings 
   players_teams_2 <- players_teams %>% 
     mutate(player = str_to_lower(player))
@@ -2041,3 +2039,96 @@ Dawdlers <- function(all_moves = all_moves, games = games, tos_violators = tos_v
   return(dawdlers)
 }
 
+
+GetCheckmatePatterns <- function(path_scripts, data_path, league_load_label, season, games){
+  
+  # Load and run the Python script that identifies checkmate patterns 
+  reticulate::source_python(paste0(path_scripts, "checkmate_patterns.py"))
+  mate_patterns <- IdentifyCheckmatePatterns(pgn_file =  paste0(data_path, 
+                                                                "/games_noevals_", 
+                                                                league_load_label, 
+                                                                "_",
+                                                                "s",
+                                                                season,
+                                                                ".pgn"))
+  # Return identified data as tibble
+  mate_tibble <- data.table::rbindlist(mate_patterns) %>% 
+    select("pattern" = "V1", "id" = "V2", "ply" = "V3")
+  
+  # Add other game details
+  games_sub <- games %>% select(id, white, black, date)
+  mate_tibble <- dplyr::left_join(mate_tibble,
+                                  games_sub, 
+                                  by = c("id"))
+  mate_tibble <- mate_tibble %>% 
+    mutate(link = paste0("https://lichess.org/", id, "#", ply)) %>% 
+    mutate(winner = ifelse(as.numeric(ply) %% 2 == 1, white, black)) %>% 
+    mutate(opp = ifelse(winner == white, black, white)) %>% 
+    select(pattern, id, ply, winner, opp, date) %>% 
+    arrange(pattern, date) %>% 
+    tibble::as_tibble()
+  mate_tibble$pattern[mate_tibble$pattern == "back_rank"] <- "back rank"
+  
+  # Obtain, annotate and save position images for each identified mate
+  for (i in seq(1:nrow(mate_tibble))) {
+    selected_id <- mate_tibble$id[i]
+    selected_ply <- mate_tibble$ply[i]
+    img <- magick::image_read( paste0("https://lichess1.org/game/export/gif/", selected_id, ".gif")) %>%
+      image_scale("400x")
+    img <- img[selected_ply + 1] # isolate final position
+    img <- magick::image_crop(img, "+0+35") # crop to remove usernames/ratings
+    img <- magick::image_crop(img, "+0-35")
+    img <- magick::image_border(img, "white", "20x20") # add border for annotations
+    # Add text with checkmate type 
+    img <- image_annotate(img, 
+                          text = stringr::str_to_title(mate_tibble$pattern[i]), 
+                               location = "+20+0",
+                               size = 15,
+                               font = "sans",
+                               weight = 700)
+    # Add player details
+    img <- image_annotate(img, 
+                               text = paste0(mate_tibble$winner[i], " against ",
+                                             mate_tibble$opp[i]),
+                               location = "+20+420",
+                               size = 15,
+                               font = "sans",
+                               weight = 400)
+    # Save PNG
+    image_write(img, path = paste0(here::here(), "/reports/images/mates/",
+                                   league_load_label,
+                                   "_s", 
+                                   sprintf("%02d", season), 
+                                   "_mate_", sprintf("%02d", i), ".png"),
+                format = "png")
+    cli::cli_alert_success("Saved {i}/{nrow(mate_tibble)} checkmate images")
+  }
+  
+  # Once all individual images saved
+  # Combine into single image
+  final <- fs::dir_info(paste0(here::here(), "/reports/images/mates/")) %>% 
+    filter(type == "file") %>% 
+    filter(str_detect(path, "png")) %>% 
+    filter(!(str_detect(path, "^mates_"))) %>% 
+    filter(str_detect(path, paste0(league_load_label, 
+                                   "_s", 
+                                   sprintf("%02d", season),
+                                   "_mate"
+    )
+    )) %>% 
+    select(path) %>% 
+    dplyr::pull() %>% 
+    magick::image_read() %>% 
+    magick::image_montage(geometry = geometry_area(width = 500, height = 500, x_off = 10, y_off = 10), 
+                          tile = "5")
+  # Save combined image
+  image_write(final, path = paste0(here::here(), 
+                                   "/reports/images/mates/",
+                                   "mates_", 
+                                   league_load_label, 
+                                   "_s", 
+                                   sprintf("%02d", season), 
+                                   ".png"),
+              format = "png")
+  # return(mate_tibble)
+}

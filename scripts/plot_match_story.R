@@ -212,63 +212,63 @@ PlotMatchStory <- function(season_num, # season number
   # Check round data and summarise
   all_pairings <- all_pairings %>% 
     mutate(pairing = paste0(str_to_lower(white), "-", str_to_lower(black)))
-  pairings_summary <- read_html(pairings_url) %>%
-    rvest::html_element("table") %>%
-    rvest::html_table(header = FALSE)
-  pairings_summary$X5[pairings_summary$X5 == "Calendar"] <- ""
-  pairings_summary <- pairings_summary %>% 
-    filter(!(X1 %in% all_matches_2$X1)) %>% 
-    filter(!(X4 %in% all_matches_2$X4))
-  pairings_summary$X5 <- NULL
-  pairings_summary$X1 <- pairings_summary$X1 %>% 
-    str_replace_all("\\([:digit:]+\\)", "") %>% 
-    str_squish()
-  pairings_summary$X4 <- pairings_summary$X4 %>% 
-    str_replace_all("\\([:digit:]+\\)", "") %>% 
-    str_squish()
-  pairings_summary <- pairings_summary %>% 
-    mutate(pair_1 = paste0(str_to_lower(X1), "-", str_to_lower(X4))) %>% 
-    mutate(pair_2 = paste0(str_to_lower(X4), "-", str_to_lower(X1)))
-  
-  # Possible outcomes
-  results_summary <- tibble(
-    "status" = c(
-      "Player pairings",
-      "Game IDs recorded",
-      "Game played, result not changed",
-      "Game played, result changed to forfeit win/loss",
-      "Game played, result changed to sched. draw or double forfeit",
-      "Game not played, result changed to forfeit win/loss",
-      "Game not played, result changed to sched. draw or double forfeit",
-      "Totals add up"
-    ),
-    "value" = rep(NA, 8)
-  )
-  
-  # Fill summary table
-  results_summary$value[1] <- pairings_summary %>% nrow() 
-  results_summary$value[2] <- all_pairings %>% nrow() 
-  results_summary$value[3] <- all_pairings %>% 
-    filter(result %in% c("1-0", "0-1", "1/2-1/2")) %>% nrow()
-  results_summary$value[4] <- all_pairings %>% 
-    filter(result %in% c("0F-1X", "1X-0F")) %>% nrow()
-  results_summary$value[5] <- all_pairings %>% 
-    filter(result %in% c("1/2Z-1/2Z", "0F-0F")) %>% nrow()
-  results_summary$value[6] <- pairings_summary %>% 
-    filter(!(pair_1 %in% all_pairings$pairing)) %>% 
-    filter(!(pair_2 %in% all_pairings$pairing)) %>% 
-    filter(X2 %in% c("1X0F", "0F1X")) %>% nrow()
-  results_summary$value[7] <- pairings_summary %>% 
-    filter(!(pair_1 %in% all_pairings$pairing)) %>% 
-    filter(!(pair_2 %in% all_pairings$pairing)) %>% 
-    filter(X2 %in% c("½Z½Z", "0F-0F")) %>% nrow()
-  results_summary$value[8] <- ifelse(
-    (sum(results_summary$value[3:5]) == results_summary$value[2]) &&
-      (sum(results_summary$value[6:7]) == results_summary$value[1] - results_summary$value[2]) &&
-      (sum(results_summary$value[3:7]) == results_summary$value[1]),
-    TRUE, FALSE)
-  
-  # print(results_summary)
+  # pairings_summary <- read_html(pairings_url) %>%
+  #   rvest::html_element("table") %>%
+  #   rvest::html_table(header = FALSE)
+  # pairings_summary$X5[pairings_summary$X5 == "Calendar"] <- ""
+  # pairings_summary <- pairings_summary %>% 
+  #   filter(!(X1 %in% all_matches_2$X1)) %>% 
+  #   filter(!(X4 %in% all_matches_2$X4))
+  # pairings_summary$X5 <- NULL
+  # pairings_summary$X1 <- pairings_summary$X1 %>% 
+  #   str_replace_all("\\([:digit:]+\\)", "") %>% 
+  #   str_squish()
+  # pairings_summary$X4 <- pairings_summary$X4 %>% 
+  #   str_replace_all("\\([:digit:]+\\)", "") %>% 
+  #   str_squish()
+  # pairings_summary <- pairings_summary %>% 
+  #   mutate(pair_1 = paste0(str_to_lower(X1), "-", str_to_lower(X4))) %>% 
+  #   mutate(pair_2 = paste0(str_to_lower(X4), "-", str_to_lower(X1)))
+  # 
+  # # Possible outcomes
+  # results_summary <- tibble(
+  #   "status" = c(
+  #     "Player pairings",
+  #     "Game IDs recorded",
+  #     "Game played, result not changed",
+  #     "Game played, result changed to forfeit win/loss",
+  #     "Game played, result changed to sched. draw or double forfeit",
+  #     "Game not played, result changed to forfeit win/loss",
+  #     "Game not played, result changed to sched. draw or double forfeit",
+  #     "Totals add up"
+  #   ),
+  #   "value" = rep(NA, 8)
+  # )
+  # 
+  # # Fill summary table
+  # results_summary$value[1] <- pairings_summary %>% nrow() 
+  # results_summary$value[2] <- all_pairings %>% nrow() 
+  # results_summary$value[3] <- all_pairings %>% 
+  #   filter(result %in% c("1-0", "0-1", "1/2-1/2")) %>% nrow()
+  # results_summary$value[4] <- all_pairings %>% 
+  #   filter(result %in% c("0F-1X", "1X-0F")) %>% nrow()
+  # results_summary$value[5] <- all_pairings %>% 
+  #   filter(result %in% c("1/2Z-1/2Z", "0F-0F")) %>% nrow()
+  # results_summary$value[6] <- pairings_summary %>% 
+  #   filter(!(pair_1 %in% all_pairings$pairing)) %>% 
+  #   filter(!(pair_2 %in% all_pairings$pairing)) %>% 
+  #   filter(X2 %in% c("1X0F", "0F1X")) %>% nrow()
+  # results_summary$value[7] <- pairings_summary %>% 
+  #   filter(!(pair_1 %in% all_pairings$pairing)) %>% 
+  #   filter(!(pair_2 %in% all_pairings$pairing)) %>% 
+  #   filter(X2 %in% c("½Z½Z", "0F-0F")) %>% nrow()
+  # results_summary$value[8] <- ifelse(
+  #   (sum(results_summary$value[3:5]) == results_summary$value[2]) &&
+  #     (sum(results_summary$value[6:7]) == results_summary$value[1] - results_summary$value[2]) &&
+  #     (sum(results_summary$value[3:7]) == results_summary$value[1]),
+  #   TRUE, FALSE)
+  # 
+  # # print(results_summary)
   
   # Isolate individual match pairings data (unless plotting all matches in a round)
   if(!(plot_whole_round)) {
@@ -279,6 +279,7 @@ PlotMatchStory <- function(season_num, # season number
   # Request game data from Lichess, splitting requests into chunks of max 300
   # ids where necessary
   if(request_data){
+    
   game_ids <- all_pairings %>% 
     select(game_id) %>% 
     dplyr::pull()
@@ -1202,13 +1203,13 @@ PlotMatchStory <- function(season_num, # season number
         aes(((max_ply * nrow(moves_extra)) / 2) * 0.51,
             y = max_eval + 6.2,
             label = paste0(
-              as.character(lubridate::day(games$ended[nrow(games)])),
+              as.character(lubridate::day(all_games$ended[1])),
               "-",
-              as.character(lubridate::day(games$ended[1])),
+              as.character(lubridate::day(all_games$ended[nrow(all_games)])),
               " ",
-                  as.character(lubridate::month(games$ended[1], label = TRUE)),
+                  as.character(lubridate::month(all_games$ended[nrow(all_games)], label = TRUE)),
                   " ",
-                  as.character(lubridate::year(games$ended[1]))
+                  as.character(lubridate::year(all_games$ended[nrow(all_games)]))
               )
         ),
         family = title_font,
