@@ -1672,7 +1672,7 @@ PlotMatchStory <- function(season_num, # season number
 
 
 ## Plot all matches in a completed round ----
-PlotMatchStory(28, 2, plot_whole_round = T, request_data = T)
+PlotMatchStory(28, 4, plot_whole_round = T, request_data = T)
 
 
 
