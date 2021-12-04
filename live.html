@@ -2363,8 +2363,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }</style>
   <!--/radix_placeholder_distill-->
   <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-  <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-  <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+  <script src="site_libs/core-js-2.5.3/shim.min.js"></script>
+  <script src="site_libs/react-17.0.0/react.min.js"></script>
+  <script src="site_libs/react-17.0.0/react-dom.min.js"></script>
+  <script src="site_libs/reactwidget-1.0.0/react-tools.js"></script>
+  <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+  <script src="site_libs/reactable-binding-0.2.3/reactable.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2400,10 +2404,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a href="index.html" class="title">Lichess4545 Statistics</a>
-<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
-<a href="live.html">Live Standings</a>
 <a href="current.html">Round Reports</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -2414,34 +2416,6 @@ Season Reports
 <div class="nav-dropdown-content">
 <a href="team4545.html">4545 Team League</a>
 <a href="lw.html">LoneWolf</a>
-<a href="chess960.html">Chess960 (tbc)</a>
-<a href="rapidbattle.html">Rapid Battle (tbc)</a>
-<a href="series.html">Series (tbc)</a>
-</div>
-</div>
-<div class="nav-dropdown">
-<button class="nav-dropbtn">
-All-time records
- 
-<span class="down-arrow">&#x25BE;</span>
-</button>
-<div class="nav-dropdown-content">
-<a href="reports/alltime_stats.html">Award winners</a>
-<a href="records.html">All-time records (tbc)</a>
-</div>
-</div>
-<div class="nav-dropdown">
-<button class="nav-dropbtn">
-Other
- 
-<span class="down-arrow">&#x25BE;</span>
-</button>
-<div class="nav-dropdown-content">
-<a href="openings.html">Openings (tbc)</a>
-<a href="endgames.html">Endgames (tbc)</a>
-<a href="countries.html">Players by country (tbc)</a>
-<a href="random.html">Random facts (tbc)</a>
-<a href="about.html">About</a>
 </div>
 </div>
 <a href="https://github.com/rahulan-c/lichess4545-stats" aria-label="Link to source">
@@ -2464,15 +2438,19 @@ Other
 
 
 <div class="d-article">
-<p><strong>This page is under construction.</strong></p>
-<h2 id="standings">4545 standings</h2>
-<div class="layout-chunk" data-layout="l-body-outset">
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["hypo_rank"],"name":[1],"type":["int"],"align":["right"]},{"label":["team"],"name":[2],"type":["chr"],"align":["left"]},{"label":["hypo_mp"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["hypo_gp"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["change_rank"],"name":[5],"type":["chr"],"align":["left"]},{"label":["live_margin"],"name":[6],"type":["glue"],"align":["right"]}],"data":[{"1":"1","2":"Positional King Sacrifice","3":"16","4":"54.0","5":"=","6":"Ahead by 3 with 0 games remaining"},{"1":"2","2":"The ShawShankland Redemption","3":"16","4":"48.5","5":"=","6":"Ahead by 1 with 0 games remaining"},{"1":"3","2":"Humble Pawns","3":"14","4":"58.5","5":"+1","6":"Ahead by 4 with 0 games remaining"},{"1":"4","2":"Lichess Diamond Members","3":"14","4":"53.0","5":"+1","6":"Ahead by 2 with 0 games remaining"},{"1":"5","2":"Duda, where's my Carlsen?","3":"13","4":"53.5","5":"-2","6":"Behind by 1 with 0 games remaining"},{"1":"6","2":"Fish, chips, cup o' tea, bad food, worse weather, Mary Poppins","3":"13","4":"53.0","5":"=","6":"Ahead by 5 with 0 games remaining"},{"1":"7","2":"@glbert has left the channel","3":"13","4":"48.0","5":"+1","6":"Ahead by 1 with 0 games remaining"},{"1":"8","2":"Party Parrots","3":"12","4":"50.0","5":"+3","6":"Ahead by 4 with 0 games remaining"},{"1":"9","2":"Tempo Tantrums","3":"12","4":"48.5","5":"-2","6":"Tied with 0 games remaining"},{"1":"10","2":"Duda, where's my Karjakin?","3":"11","4":"48.5","5":"-1","6":"Tied with 0 games remaining"},{"1":"10","2":"Rookie Moves","3":"11","4":"48.5","5":"+5","6":"Ahead by 4 with 0 games remaining"},{"1":"10","2":"Hoosier Daddy and the Last Crusade","3":"11","4":"48.5","5":"+4","6":"Ahead by 3 with 0 games remaining"},{"1":"11","2":"Fight For Dynamic Equality With 1. f4!","3":"11","4":"47.5","5":"+5","6":"Ahead by 2 with 0 games remaining"},{"1":"12","2":"Bishop be shopping","3":"10","4":"50.0","5":"+1","6":"Tied with 0 games remaining"},{"1":"13","2":"We're not down pawns, we're up open files","3":"10","4":"48.0","5":"+8","6":"Ahead by 4 with 0 games remaining"},{"1":"14","2":"Tima's Titans","3":"10","4":"47.0","5":"-4","6":"Behind by 3 with 0 games remaining"},{"1":"15","2":"Three fold repetilians","3":"10","4":"46.0","5":"-3","6":"Behind by 4 with 0 games remaining"},{"1":"16","2":"My Dad works at Garry Chess","3":"10","4":"45.0","5":"+2","6":"Tied with 0 games remaining"},{"1":"17","2":"Rb4 You Leap","3":"10","4":"43.5","5":"+8","6":"Ahead by 3 with 0 games remaining"},{"1":"17","2":"Oh no your king","3":"10","4":"43.5","5":"+6","6":"Ahead by 1 with 0 games remaining"},{"1":"18","2":"10 step blitz addiction recovery program","3":"9","4":"47.0","5":"+8","6":"Ahead by 4 with 0 games remaining"},{"1":"19","2":"The Mouse Slip Gambit","3":"9","4":"44.5","5":"-2","6":"Behind by 1 with 0 games remaining"},{"1":"20","2":"Mostly Harmless","3":"9","4":"44.0","5":"-1","6":"Behind by 2 with 0 games remaining"},{"1":"21","2":"Giri's just want to have fun","3":"9","4":"40.0","5":"-1","6":"Behind by 4 with 0 games remaining"},{"1":"22","2":"Out of Book Club 2: Critical Lines","3":"8","4":"48.0","5":"+7","6":"Ahead by 8 with 0 games remaining"},{"1":"23","2":"Oh no! My clock!","3":"8","4":"46.5","5":"+4","6":"Ahead by 2 with 0 games remaining"},{"1":"23","2":"The Fianchettoed Rooks","3":"8","4":"46.5","5":"+7","6":"Ahead by 5 with 0 games remaining"},{"1":"24","2":"I'm not very good at this","3":"8","4":"43.5","5":"-2","6":"Behind by 4 with 0 games remaining"},{"1":"25","2":"Luft Will Find a Way","3":"8","4":"40.5","5":"-1","6":"Behind by 3 with 0 games remaining"},{"1":"26","2":"Winawer Some, Losawer Some","3":"7","4":"41.0","5":"+7","6":"Tied with 0 games remaining"},{"1":"27","2":"Win, and let Lose","3":"7","4":"39.0","5":"+8","6":"Tied with 0 games remaining"},{"1":"28","2":"Casperov the Friendly Ghost","3":"6","4":"43.0","5":"=","6":"Behind by 2 with 0 games remaining"},{"1":"29","2":"Goblin Diplomacy","3":"6","4":"42.5","5":"+2","6":"Behind by 1 with 0 games remaining"},{"1":"30","2":"Nobody puts horsey in a corner","3":"6","4":"40.5","5":"+2","6":"Behind by 3 with 0 games remaining"},{"1":"31","2":"drdad and his chess children","3":"6","4":"37.5","5":"+3","6":"Behind by 4 with 0 games remaining"},{"1":"32","2":"Dungeons and Hyper-Accelerated Dragons","3":"5","4":"39.0","5":"+7","6":"Tied with 0 games remaining"},{"1":"33","2":"2. f4 Best by Test","3":"5","4":"35.5","5":"+3","6":"Behind by 4 with 0 games remaining"},{"1":"34","2":"Corona-Kann: Delta Variation","3":"4","4":"39.0","5":"+4","6":"Behind by 2 with 0 games remaining"},{"1":"34","2":"Underwhelming and Underdeveloped","3":"4","4":"39.0","5":"+3","6":"Behind by 5 with 0 games remaining"},{"1":"35","2":"Chesster's Flamin' Hots","3":"4","4":"33.5","5":"+5","6":"Behind by 8 with 0 games remaining"},{"1":"36","2":"A Knight Late and a Pawn Short","3":"3","4":"38.5","5":"+5","6":"Tied with 0 games remaining"},{"1":"37","2":"I will find you, and I will mate you","3":"2","4":"33.5","5":"+5","6":"Behind by 5 with 0 games remaining"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
+<h3 id="team-league">4545 Team League</h3>
+<div class="layout-chunk" data-layout="l-body">
+
 </div>
+<p>For S28 R5 (last updated: 2021-12-04)</p>
+<div class="layout-chunk" data-layout="l-page">
+<div id="htmlwidget-0113e2bbd13ca3763f00" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0113e2bbd13ca3763f00">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"hypo_rank":[1,2,3,3,4,5,6,7,8,9,10,11,12,13,13,13,14,15,16,17,18,18,19,20,21,22,23,24,25,26,27,27,28,28,29,30,31,32,33,34,35,36],"change_rank":["=","+3","=","+1","+2","+8","+9","-5","+9","+9","+1","+3","+8","-5","-6","+12","+10","-6","-6","-1","-6","+3","+4","+7","+13","+8","+5","+5","-6","+9","+4","+6","-2","-6","+8","+10","+1","+4","+8","+4","+4","+6"],"team":["The Borgov Collective","Sevian deadly sins","Sponsored by Chessable Threefold Repetition Technology","O-O-O O-O-O You Don't Have To Go","Knights Only Want One Thing and It's Forking Disgusting","Scachs d'Amor","Avengers: Middlegame","Mi Caissa, su Caissa","100 Endgames You Must Blow","Hung Pawn and Quartered","Nepo Gonna Give You Up","Somebody write smth and submit it","Thomas the Chess Engine","Colle-Zuckerberg Metasystem","Prophylactic Pawnstorm","Powerful Kingsmen","THE MONSTER TRUCKS OF CHESS","Save the Opening Trees","The Pawn Runners","The winging it gambit","Hoosier Daddy and the Knight of the Living Dead","The League of Extraordinary Patzers","No Name, No Captain, No Problem","Chesstosterone","Fast and Firouzjous","Morphy's Law","Phantom's Ghostly Pirate Crew","Magners Carlsberg","The Devil Wears Praggnanandhaa","Whiskey on the Rooks","You Come at the King, You Best not Miss","Tilting at Windmills","Elo darkness, my old friend","The Hippopotamus in the Swamp","The En Peasants","Tropic Blunder","Completely Checked Out","Started from the top and now we here","The Knight Shift","Smells Like Teen Vidit","Fork and Knight","Hope Chess United"],"hypo_mp":[10,8,8,8,8,7,7,7,7,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,3,3,2,2,2,1,0],"hypo_gp":[29.5,28,26.5,26.5,25.5,27,25,24.5,21,27,26.5,26,24,23.5,23.5,23.5,20.5,27,25,24,22.5,22.5,21.5,20.5,24.5,23.5,23,22.5,22,21,20.5,20.5,20,20,17,19.5,19,19.5,18,15.5,17.5,16.5],"opp_rank":["#2","#8","#4","#3","#7","#9","#10","#1","#12","#16","#14","#11","#26","#5","#6","#19","#22","#13","#15","#18","#17","#23","#21","#28","#32","#33","#27","#31","#25","#36","#29","#30","#20","#24","#38","#42","#34","#35","#39","#37","#41","#40"],"live_score":["4 - 0","4 - 2","2.5 - 2.5","2.5 - 2.5","2.5 - 1.5","4.5 - 3.5","4 - 2","0 - 4","1 - 0","4.5 - 3.5","4 - 4","4 - 4","3 - 2","2 - 4","1.5 - 2.5","5 - 1","2 - 0","3.5 - 4.5","2 - 4","3.5 - 4.5","0 - 1","2 - 2","2 - 2","2.5 - 2.5","5 - 2","4.5 - 4.5","2.5 - 2.5","3 - 3","1 - 5","3 - 2","3 - 3","4.5 - 4.5","2 - 3","0 - 2","2 - 1","4.5 - 2.5","2 - 5","2 - 3","2 - 1","1 - 2","1 - 2","2.5 - 4.5"],"games_left":[6,4,5,5,6,2,4,6,9,2,2,2,5,4,6,4,8,2,4,2,9,6,6,5,3,1,5,4,4,5,4,1,5,8,7,3,3,5,7,7,7,3]},"columns":[{"accessor":"hypo_rank","name":"Live Rank","type":"numeric","minWidth":70,"align":"center"},{"accessor":"change_rank","name":"Change","type":"character","minWidth":70,"align":"center"},{"accessor":"team","name":"Team","type":"character","minWidth":250,"align":"left"},{"accessor":"hypo_mp","name":"New MP","type":"numeric","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"minWidth":70,"align":"center"},{"accessor":"hypo_gp","name":"New GP","type":"numeric","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"minWidth":70,"align":"center"},{"accessor":"opp_rank","name":"Versus","type":"character","minWidth":70,"align":"center"},{"accessor":"live_score","name":"Latest Score","type":"character","minWidth":120,"align":"center"},{"accessor":"games_left","name":"Games Left","type":"numeric","minWidth":70,"align":"center"}],"columnGroups":[{"name":"Current Round","columns":["opp_rank","live_score","games_left"]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"striped":true,"compact":true,"theme":{"borderColor":"#dfe2e5","stripedColor":"#f6f8fa","highlightColor":"#f0f5f9","cellPadding":"8px 12px","style":{"fontSize":"16px"},"headerStyle":{"&:hover[aria-sort]":{"background":"hsl(0, 0%, 96%)"},"&[aria-sort='ascending'], &[aria-sort='descending']":{"background":"hsl(0, 0%, 96%)"},"borderColor":"#555"},"searchInputStyle":{"width":"100%"}},"dataKey":"9d027a19a1bd95d4d5b578a86eb9b4be","key":"9d027a19a1bd95d4d5b578a86eb9b4be"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
+<h3 id="lonewolf-open">LoneWolf Open</h3>
+<p>Coming soon.</p>
+<h3 id="lonewolf-u1800">LoneWolf U1800</h3>
+<p>Ditto.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
@@ -2495,7 +2473,7 @@ Other
 </head>
 <body>
 <span>
-Last updated on 15 October 2021
+Last updated on 30 November 2021
 </span>
 </body>
 </html>

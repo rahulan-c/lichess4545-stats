@@ -203,72 +203,8 @@ PlotMatchStory <- function(season_num, # season number
   }
   
   all_pairings <- fix_character_encoding(all_pairings)
-  
-  # Summarise round pairings data ---------------------------------------------
-  
-  # print("Cross-checking round pairings against played games...")
-  # print(">>>> ROUND PAIRINGS SUMMARY >>>>")
-  
-  # Check round data and summarise
   all_pairings <- all_pairings %>% 
     mutate(pairing = paste0(str_to_lower(white), "-", str_to_lower(black)))
-  # pairings_summary <- read_html(pairings_url) %>%
-  #   rvest::html_element("table") %>%
-  #   rvest::html_table(header = FALSE)
-  # pairings_summary$X5[pairings_summary$X5 == "Calendar"] <- ""
-  # pairings_summary <- pairings_summary %>% 
-  #   filter(!(X1 %in% all_matches_2$X1)) %>% 
-  #   filter(!(X4 %in% all_matches_2$X4))
-  # pairings_summary$X5 <- NULL
-  # pairings_summary$X1 <- pairings_summary$X1 %>% 
-  #   str_replace_all("\\([:digit:]+\\)", "") %>% 
-  #   str_squish()
-  # pairings_summary$X4 <- pairings_summary$X4 %>% 
-  #   str_replace_all("\\([:digit:]+\\)", "") %>% 
-  #   str_squish()
-  # pairings_summary <- pairings_summary %>% 
-  #   mutate(pair_1 = paste0(str_to_lower(X1), "-", str_to_lower(X4))) %>% 
-  #   mutate(pair_2 = paste0(str_to_lower(X4), "-", str_to_lower(X1)))
-  # 
-  # # Possible outcomes
-  # results_summary <- tibble(
-  #   "status" = c(
-  #     "Player pairings",
-  #     "Game IDs recorded",
-  #     "Game played, result not changed",
-  #     "Game played, result changed to forfeit win/loss",
-  #     "Game played, result changed to sched. draw or double forfeit",
-  #     "Game not played, result changed to forfeit win/loss",
-  #     "Game not played, result changed to sched. draw or double forfeit",
-  #     "Totals add up"
-  #   ),
-  #   "value" = rep(NA, 8)
-  # )
-  # 
-  # # Fill summary table
-  # results_summary$value[1] <- pairings_summary %>% nrow() 
-  # results_summary$value[2] <- all_pairings %>% nrow() 
-  # results_summary$value[3] <- all_pairings %>% 
-  #   filter(result %in% c("1-0", "0-1", "1/2-1/2")) %>% nrow()
-  # results_summary$value[4] <- all_pairings %>% 
-  #   filter(result %in% c("0F-1X", "1X-0F")) %>% nrow()
-  # results_summary$value[5] <- all_pairings %>% 
-  #   filter(result %in% c("1/2Z-1/2Z", "0F-0F")) %>% nrow()
-  # results_summary$value[6] <- pairings_summary %>% 
-  #   filter(!(pair_1 %in% all_pairings$pairing)) %>% 
-  #   filter(!(pair_2 %in% all_pairings$pairing)) %>% 
-  #   filter(X2 %in% c("1X0F", "0F1X")) %>% nrow()
-  # results_summary$value[7] <- pairings_summary %>% 
-  #   filter(!(pair_1 %in% all_pairings$pairing)) %>% 
-  #   filter(!(pair_2 %in% all_pairings$pairing)) %>% 
-  #   filter(X2 %in% c("½Z½Z", "0F-0F")) %>% nrow()
-  # results_summary$value[8] <- ifelse(
-  #   (sum(results_summary$value[3:5]) == results_summary$value[2]) &&
-  #     (sum(results_summary$value[6:7]) == results_summary$value[1] - results_summary$value[2]) &&
-  #     (sum(results_summary$value[3:7]) == results_summary$value[1]),
-  #   TRUE, FALSE)
-  # 
-  # # print(results_summary)
   
   # Isolate individual match pairings data (unless plotting all matches in a round)
   if(!(plot_whole_round)) {
@@ -290,7 +226,6 @@ PlotMatchStory <- function(season_num, # season number
   
   for(l in seq(1:length(game_ids))){
     
-    # Pause between batches of IDs
     if(l > 1){Sys.sleep(5)}
     
     batch_ids <- game_ids[[l]] %>% str_c(collapse = ",")
@@ -308,14 +243,13 @@ PlotMatchStory <- function(season_num, # season number
       httr::add_headers(`Authorization` = sprintf("Bearer %s", token)),
       accept("application/x-ndjson"))
     
-    # Stop if there's an error
     if(query$status_code != 200){
       print("Error!")
       print(http_status(query)$message)
       Sys.sleep(20)
       break}
     
-    # Then convert the response into NDJSON
+    # Convert response to NDJSON
     game_data <- query %>% 
       httr::content("text", encoding = "UTF-8") %>% 
       read_lines() %>% 
@@ -326,7 +260,7 @@ PlotMatchStory <- function(season_num, # season number
     
   }
   
-  # Combine game data across batches into single df
+  # Combine game data from all batches
   all_games <- bind_rows(lst_games)
   rm(lst_games, game_ids)
   
@@ -354,8 +288,6 @@ PlotMatchStory <- function(season_num, # season number
   league_data <- get_league_data("team4545", season_num, round_num, FALSE, team_boards)
   all_pairings2 <- league_data[[1]] %>% as_tibble()
   all_pairings2 <- fix_character_encoding(all_pairings2)
-  
-  # print(head(all_pairings2)) # debugging
   
   all_pairings2 <- all_pairings2 %>% filter(round == round_num)
   all_pairings2 <- all_pairings2 %>% 
@@ -770,18 +702,6 @@ PlotMatchStory <- function(season_num, # season number
     
     # Print match summary info
     cli::cli_alert_success("Extracted details for #{rank_t1} {teams[[1]]} {moves$finalscore_t1[1]}-{moves$finalscore_t2[1]} #{rank_t2} {teams[[2]]}")
-    # cli::cli_rule(left = "Match details")
-    # cli::cli_alert_info("Teams: {teams[[1]]} vs {teams[[2]]}")
-    # cli::cli_alert_info("Match score: {moves$finalscore_t1[1]}-{moves$finalscore_t2[1]}")
-    # cli::cli_alert_info("{teams[[1]]}:")
-    # cli::cli_alert_info("Rank: #{rank_t1} -> #{newrank_t1} ({ifelse(rank_t1 > newrank_t1, '+', ifelse(rank_t1 == newrank_t1, '=', '-'))}{abs(rank_t1-newrank_t1)})")
-    # cli::cli_alert_info("Match points: {mp_t1} -> {newmp_t1}")
-    # cli::cli_alert_info("Game points: {gp_t1} -> {newgp_t1}")
-    # cli::cli_alert_info("{teams[[2]]}:")
-    # cli::cli_alert_info("Rank: #{rank_t2} -> #{newrank_t2} ({ifelse(rank_t2 > newrank_t2, '+', ifelse(rank_t2 == newrank_t2, '=', '-'))}{abs(rank_t2-newrank_t2)})")
-    # cli::cli_alert_info("Match points: {mp_t2} -> {newmp_t2}")
-    # cli::cli_alert_info("Game points: {gp_t2} -> {newgp_t2}")
-    
     
     # Compile statistics for plot ---------------------------------------------
     
@@ -898,37 +818,6 @@ PlotMatchStory <- function(season_num, # season number
                                            base_family = gameinfo_font,
                                            base_colour = about_col,
                     padding = unit(c(2, 2), "mm")))
-    
-    # Make final position images ----------------------------------------------
-    # vec_ids <- c(team_stats$game_id)
-    # lst_ids <-  as.list(as.data.frame(t(vec_ids)))
-    # reticulate::source_python(paste0("scripts/test/show_mates/show_pawn_knight_mates.py"))
-    # get_final_positions(ids = lst_ids)
-    
-    # Read final position images [WIP] ----------------------------------------
-    # Convert SVG files into PNGs
-    # Requires an SVG for each played game to have already been produced and saved
-    # in the root directory
-    # for (g in seq(1:nrow(moves_extra))) {
-    #   if(!(str_detect(moves_extra$game_id[g], "forfeit"))) {
-    #     # print(paste0("Getting last position image (PNG) for ", moves_extra$game_id[g]))
-    #     # Convert SVG to PNG
-    #     rsvg::rsvg_png(paste0("scripts/test/match_stories/positions/", moves_extra$game_id[g], ".svg"),
-    #                  file = paste0("scripts/test/match_stories/positions/", moves_extra$game_id[g], ".png"),
-    #                  width = 450,
-    #                  height = 450,
-    #                  css = NULL)
-    #     # Import PNG
-    #     img <- png::readPNG(paste0("scripts/test/match_stories/positions/", moves_extra$game_id[g], ".png"))
-    #     # Turn PNG into rasterGrob object
-    #     img <- rasterGrob(img, interpolate=TRUE)
-    #     assign(paste0("img", sprintf("%02d", g)), img)
-    #   } else {
-    #     img <- png::readPNG("scripts/test/match_stories/positions/blank.png")
-    #     img <- rasterGrob(img, interpolate=TRUE)
-    #     assign(paste0("img", sprintf("%02d", g)), img)
-    #   }
-    # }
   
   
     # Create plot =================================================================
