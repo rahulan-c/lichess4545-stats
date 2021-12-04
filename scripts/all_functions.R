@@ -1457,6 +1457,7 @@ update_repo <- function(){
   # Render other pages
   rmarkdown::render(paste0(path_root, "/current.rmd"))
   rmarkdown::render(paste0(path_root, "/live.rmd"))
+  rmarkdown::render(paste0(path_root, "/live.rmd"))
   
   # Then push the updated index.md
   source(paste0(path_scripts, "update_repo.R"))

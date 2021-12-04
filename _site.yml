@@ -14,19 +14,6 @@ navbar:
         href: live.html
       - text: "Round Reports"
         href: current.html
-      - text: "Season Reports"
-        href: seasonreports.html
-        menu:
-          - text: "4545 Team League"
-            href: team4545.html
-          - text: "LoneWolf"
-            href: lw.html
-          # - text: "Chess960 (tbc)"
-          #   href: chess960.html
-          # - text: "Rapid Battle (tbc)"
-          #   href: rapidbattle.html
-          # - text: "Series (tbc)"
-          #   href: series.html
       # - text: "All-time records"
       #   href: alltime.html
       #   menu: 
