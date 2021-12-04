@@ -6,15 +6,13 @@ output: distill::distill_article
 site: distill::distill_website
 ---
 
-When it's finished, this page will provide stats on current league seasons. 
+### Round stories
 
-For now though, enjoy these these "match stories" for all rounds from Season 27...and now Season 28 too.
-
-*Season 28 stories*
+#### Season 28 
 
 [R1](reports/stories/s28_r1_allmatches.pdf) | [R2](reports/stories/s28_r2_allmatches.pdf) | [R3](reports/stories/s28_r3_allmatches.pdf) | 
 [R4](reports/stories/s28_r4_allmatches.pdf)
 
-*Season 27 stories*
+#### Season 27
 
 [R1](reports/stories/s27_r1_allmatches.pdf) | [R2](reports/stories/s27_r2_allmatches.pdf) | [R3](reports/stories/s27_r3_allmatches.pdf) | [R4](reports/stories/s27_r4_allmatches.pdf) | [R5](reports/stories/s27_r5_allmatches.pdf) | [R6](reports/stories/s27_r6_allmatches.pdf) | [R7](reports/stories/s27_r7_allmatches.pdf) | [R8](reports/stories/s27_r8_allmatches.pdf)
