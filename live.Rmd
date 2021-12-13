@@ -4,6 +4,12 @@ output: distill::distill_article
 site: distill::distill_website
 ---
 
+'Live' 4545 and LoneWolf standings that try to account for games that have been played in ongoing rounds, as opposed to the official standings published on the Lichess4545 website, which are only updated after a round has concluded.
+
+Note: these tables might not always match up with the official post-round standings, mainly because they don't account for every tiebreaker that's used to separate teams/players that have the same number of points. 
+
+In time, I would like refresh these tables regularly during the closing weeks of a 4545 or LW season, but I'm not quite there yet...
+
 
 
 ```{r opts_packages, include=FALSE}
@@ -35,14 +41,15 @@ options(reactable.theme = reactableTheme(
 ### 4545 Team League
 
 ```{r}
-# Season number
+
+# Get current 4545 season (integer)
 season <- read_html("https://www.lichess4545.com/team4545/") %>% 
   rvest::html_element(".col-xs-12+ .col-xs-12 .well:nth-child(1) h3") %>% 
   html_text2() %>% 
   str_extract("\\d+") %>% 
   as.integer()
 
-# Round number
+# Get current 4545 round (integer)
 Sys.sleep(0.5)
 round <- read_html(paste0("https://www.lichess4545.com/team4545/season/", season, "/pairings/")) %>% 
   rvest::html_element(".round-switcher:nth-child(1) .dropdown-toggle") %>% 
@@ -52,7 +59,7 @@ round <- read_html(paste0("https://www.lichess4545.com/team4545/season/", season
 ```
 
 
-For S`r season` R`r round` (last updated: `r Sys.Date()`) 
+For Season `r season` Round `r round`. Updated on `r Sys.time()`.
 
 ```{r live_standings, layout="l-page"}
 # Construct "live" 4545 standings
@@ -124,21 +131,21 @@ standings <- read_html(paste0("https://www.lichess4545.com/team4545/season/",
   rvest::html_elements("td") %>%
   rvest::html_text2()
 
-
-
+# Compile and tidy standings
 standings <- cbind.data.frame(split(standings, rep(1:13, times=length(standings)/13)), stringsAsFactors=F)
 names(standings) <- c("rank", "team", "avg_rtg", "match_pts", "game_pts", paste0("round_", seq(1:8)))
 standings <- standings %>% 
   select(rank, team, match_pts, game_pts)
 standings <- fix_character_encoding(standings)
 
+# Tidy current round scores data
 scores$X5 <- NULL
 colnames(scores) <- c("team1", "score1", "score2", "team2")
 scores <- scores %>% 
   mutate(score1 = as.numeric(stringr::str_replace(score1, "½", ".5")),
          score2 = as.numeric(stringr::str_replace(score2, "½", ".5")))
 
-# Add current ranks to scores
+# Add teams' latest (official) rankings to scores data
 scores <- dplyr::left_join(scores, standings, by = c("team1" = "team"))
 scores <- scores %>% 
   select(team1, score1, score2, team2, "rank1" = rank)
@@ -146,31 +153,35 @@ scores <- dplyr::left_join(scores, standings, by = c("team2" = "team"))
 scores <- scores %>% 
   select(team1, score1, score2, team2, rank1, "rank2" = rank)
 
-
+# Get teams, official ranks, current match scores, and opponents' official ranks
 scores2 <- dplyr::bind_rows(
   tibble("team" = scores$team1, "rank" = scores$rank1, "score" = scores$score1, "opp_rank" = scores$rank2, "opp_score" = scores$score2),
   tibble("team" = scores$team2, "rank" = scores$rank2, "score" = scores$score2, "opp_rank" = scores$rank1, "opp_score" = scores$score1)
 )
 
+# Compute teams' hypothetical match/game pts based on their current match scores
 scores2 <- scores2 %>% 
   mutate(hypo_mp = ifelse(score > opp_score, 2, ifelse(score < opp_score, 0, ifelse(score == opp_score, 1, NA))),
          hypo_gp = score)
 
+# Combine score and standings data
 standings_sub <- standings %>% select(-c(rank))
 scores2 <- dplyr::left_join(scores2, standings_sub, by = c("team"))
-
 scores2$rank <- as.integer(scores2$rank)
 scores2$opp_rank <- as.integer(scores2$opp_rank)
 scores2$match_pts <- as.numeric(scores2$match_pts)
 scores2$game_pts <- as.numeric(scores2$game_pts)
 
+# Compute total hypothetical match/game points
 scores2 <- scores2 %>% 
   mutate(hypo_mp = hypo_mp + match_pts,
          hypo_gp = hypo_gp + game_pts) %>% 
   arrange(desc(hypo_mp), desc(hypo_gp))
 
+# Compute hypothetical team rankings
 scores2$hypo_rank <- data.table::frank(scores2, -hypo_mp, -hypo_gp, ties.method = "dense")
 
+# Compute teams' change in rank between the official and hypothetical standings
 scores2 <- scores2 %>% 
   mutate(change_rank = paste0(ifelse(rank < hypo_rank, 
                                      "-", 
@@ -179,18 +190,12 @@ scores2 <- scores2 %>%
                                             ifelse(rank == hypo_rank, 
                                                    "=", NA))),
          ifelse(rank == hypo_rank, "", abs(rank - hypo_rank)))) %>% 
-  mutate(live_margin = glue::glue("{ifelse(score > opp_score, paste0(score - opp_score, ' pts ahead'), 
-                                  ifelse(score < opp_score, paste0(opp_score - score, ' pts behind'), 'Tied'))}, {boards - (score + opp_score)} games left"))
-
-scores2 <- scores2 %>% 
-  mutate(games_left = boards - (score + opp_score)) %>% 
+  mutate(games_left = boards - (score + opp_score)) %>%
   mutate(opp_rank = paste0("#", as.character(opp_rank))) %>% 
   mutate(live_score = paste0(score, " - ", opp_score)) %>% 
   select(hypo_rank, change_rank, team, hypo_mp, hypo_gp, opp_rank, live_score, games_left)
 
-# rmarkdown::paged_table(scores3)
-
-# Present table
+# Publish hypthetical standings table
 reactable(scores2, 
           fullWidth = TRUE,
           compact = TRUE,
