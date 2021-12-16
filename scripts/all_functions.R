@@ -209,6 +209,16 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
   # Combine game data across batches into single df
   all_games <- bind_rows(all_games)
   
+  # Add number of moves per game to data
+  all_games$num_moves <- ifelse(str_count(all_games$moves, "\\s") %% 2 == 1,
+                                (str_count(all_games$moves, "\\s") / 2) + 0.5,
+                                (str_count(all_games$moves, "\\s") / 2) + 1)
+  
+  # Only include games with at least 3 moves
+  all_games <- all_games %>% 
+    filter(num_moves >= 3) %>% 
+    tibble::as_tibble()
+  
   print(paste0("Obtained all game data (", nrow(all_games), " games)"))
   
   toc(log = TRUE) # how long to get games data from Lichess
@@ -219,6 +229,8 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
     filter(is.na(players.white.analysis.acpl)) %>% 
     select(id) %>% 
     as_tibble()
+  
+  
   
   if(nrow(need_analysis) > 0) {
     print("Some games haven't been analysed by Lichess...")
@@ -1697,26 +1709,42 @@ GetPlayedPairings <- function(league, latest_season){
   return(res_league)
 }
 
-UpdateAllTimeGames <- function(league, latest_season, lw_u1800 = FALSE){
+
+UpdateAllTimeGames <- function(update_league, latest_season){
   
-  # possible argument values:
-  # league: "team4545", "lonewolf"
+  # For league l and season number s:
+  # (1) Gets IDs of all games in l played in seasons 1-s
+  # (2) Checks for any IDs that aren't recorded in the current all-time games data for league l
+  # (3) Obtains game data for any additional games
+  # (4) Adds this data to the existing all-times data
+  # (5) Saves the new dataset
   
-  if(league == "team4545"){
+  # Arguments:  1) update_league: league to be updated ("team4545", "lonewolf")
+  #             2) latest_season: the season up to which all games should be checked (integer)
+  
+  # Returns:  n/a
+  
+  # Examples: UpdateAllTimeGames("team4545", 27)
+  #           UpdateAllTimeGames("lonewolf", 24)  
+  
+  # TODO: add more leagues
+
+  
+  if(update_league == "team4545"){
     league_print <- "4545"
     filename <- "allgames_team.rds"
-  } else if (league == "lonewolf"){
+  } else if (update_league == "lonewolf"){
     league_print <- "LoneWolf"
     filename <- "allgames_lw.rds"
   }
   
-  # TODO: add more leagues when new league report processes are ready...
+  
   
   # Read current all-time games dataset (for specified league)
   all_games <- readRDS(paste0(here::here(), "/data/", filename))
   
-  if(league == "team4545"){
-  all_games <- tibble(all_games) %>% 
+  if(update_league == "team4545"){
+  all_games <- tibble::as_tibble(all_games) %>% 
     select(id, clock.increment, clock.initial, moves, opening.eco, opening.name,
            pgn, players.black.analysis.acpl, players.black.analysis.blunder,
            players.black.analysis.inaccuracy, players.black.analysis.mistake, 
@@ -1731,7 +1759,7 @@ UpdateAllTimeGames <- function(league, latest_season, lw_u1800 = FALSE){
            clock_used_after_move10_b, evals, eval_after_15, league, season, round, white_team, black_team)
   } else {
     # Exclude team columns
-    all_games <- tibble(all_games) %>% 
+    all_games <- tibble::as_tibble(all_games) %>% 
       select(id, clock.increment, clock.initial, moves, opening.eco, opening.name,
              pgn, players.black.analysis.acpl, players.black.analysis.blunder,
              players.black.analysis.inaccuracy, players.black.analysis.mistake, 
@@ -1746,12 +1774,18 @@ UpdateAllTimeGames <- function(league, latest_season, lw_u1800 = FALSE){
              clock_used_after_move10_b, evals, eval_after_15, league, season, round)
   }
   
+  # Print details of current league all-time games dataset
+  cli::cli_inform("{nrow(all_games)} games are recorded in the current all-time {str_to_title(update_league)} data")
+  cli::cli_inform("Earliest recorded game started: {min(all_games$started)}")
+  cli::cli_inform("Last recorded game ended: {max(all_games$ended)}")
+  cli::cli_inform("")
+  
   # Update dataset if its most recent game is more than a week old
   if(lubridate::today() - 7 > max(all_games$started)){
     
-    cli::cli_inform("Last game was played more than a week ago. Starting update process...")
+    cli::cli_inform("Starting update process (since the last game in the dataset was played more than a week ago")
     
-    played_pairings <- GetPlayedPairings(league, latest_season)
+    played_pairings <- GetPlayedPairings(update_league, latest_season)
     
     # Extract game IDs for all played pairings, incl. games later forfeited
     ids_valid <- played_pairings %>% select(game_id) %>% dplyr::pull() %>% unique()
@@ -1760,25 +1794,24 @@ UpdateAllTimeGames <- function(league, latest_season, lw_u1800 = FALSE){
     valid_games_from_before <- all_games %>% 
       filter(id %in% ids_valid) %>% 
       distinct(id, .keep_all = T) %>% 
-      as_tibble()
+      tibble::as_tibble()
     
-    # Find all valid IDs that aren't in the current all-time dataset
+    # Find all valid game IDs not already captured in current all-time league games
     valid_ids_toadd <- setdiff(ids_valid, all_games$id)
     
-    # Get the data for these games
+    # Get the data for these new games
     valid_games_data <- GetGamesFromURLs(ids = valid_ids_toadd)
     
-    need_analysis <- valid_games_data[[2]] %>% as_tibble()
-
-
-    # Stop if there are games that require analysis
+    # Find the IDs of any new games that don't have Lichess analysis
+    # If any are identified, stop the update process 
+    need_analysis <- valid_games_data[[2]] %>% tibble::as_tibble()
     if(nrow(need_analysis) > 0){
       cli::cli_inform("{nrow(need_analysis)} new games haven't been analysed by Lichess")
       cli::cli_inform("Stopping update process so analysis can be requested.")
       return(need_analysis)
     }
     
-    valid_games_toadd <- as_tibble(valid_games_data[[1]])
+    valid_games_toadd <- tibble::as_tibble(valid_games_data[[1]])
     
     # Tidy new games data
     tidied_games_toadd <- tidy_lichess_games(valid_games_toadd)
@@ -1789,7 +1822,7 @@ UpdateAllTimeGames <- function(league, latest_season, lw_u1800 = FALSE){
       return(NULL)
     }
     
-    tidied_games_toadd <- as_tibble(tidied_games_toadd)
+    tidied_games_toadd <- tibble::as_tibble(tidied_games_toadd)
     
     # Prepare both existing and new games datasets for combination
     # Neither should have provisional, initialFen vars or fens in evals data
@@ -1797,10 +1830,10 @@ UpdateAllTimeGames <- function(league, latest_season, lw_u1800 = FALSE){
       select(-c(players.white.provisional, 
                 players.black.provisional, 
                 initialFen,
-                pgn_noevals,
-                duration_official))
+                duration_official)) %>% 
+      tibble::as_tibble()
     
-    if(league == "team4545"){
+    if(update_league == "team4545"){
     tidied_games_toadd <- tidied_games_toadd %>% 
       select(id, clock.increment, clock.initial, moves, opening.eco, opening.name,
              pgn, players.black.analysis.acpl, players.black.analysis.blunder,
@@ -1845,7 +1878,7 @@ UpdateAllTimeGames <- function(league, latest_season, lw_u1800 = FALSE){
       arrange(started)
     
     # Summarise results
-    cli::cli_alert_success("Produced new {league} all-time games dataset")
+    cli::cli_alert_success("Produced new {update_league} all-time games dataset")
     cli::cli_inform("{nrow(played_pairings)} played pairings")
     cli::cli_inform("{nrow(all_games)} games previously saved")
     cli::cli_inform("{nrow(tidied_games_toadd)} new games added")
