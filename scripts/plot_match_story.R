@@ -4,7 +4,7 @@
 # =============================================================================
 
 # Last updated:
-# 2021-11-08
+# 2021-12-17
 
 # NOTES
 # [1] Won't work for a round that hasn't been closed, because it requests team 
@@ -1290,15 +1290,15 @@ PlotMatchStory <- function(season_num, # season number
       colour = ifelse(str_detect(moves_extra$game_id, "forfeit"), forfeit_unplayed_col, gamelink_summary_col), 
       family = fixedwidth_font
     ) +
-    # Underline gamelinks manually
-    annotate("segment",
-             x = (moves_extra$first_ply / 2) + (((moves_extra$last_ply / 2) - (moves_extra$first_ply / 2)) * 0.26),
-             xend = (moves_extra$first_ply / 2) + (((moves_extra$last_ply / 2) - (moves_extra$first_ply / 2)) * 0.75),
-             y = max_eval + 2.963,
-             yend = max_eval + 2.963,
-             colour = ifelse(str_detect(moves_extra$game_id, "forfeit"), NA, gamelink_summary_col), 
-             size = 0.5
-    ) +
+    # # Underline gamelinks manually
+    # annotate("segment",
+    #          x = (moves_extra$first_ply / 2) + (((moves_extra$last_ply / 2) - (moves_extra$first_ply / 2)) * 0.26),
+    #          xend = (moves_extra$first_ply / 2) + (((moves_extra$last_ply / 2) - (moves_extra$first_ply / 2)) * 0.75),
+    #          y = max_eval + 2.963,
+    #          yend = max_eval + 2.963,
+    #          colour = ifelse(str_detect(moves_extra$game_id, "forfeit"), NA, gamelink_summary_col), 
+    #          size = 0.5
+    # ) +
       
       ## Match stats table ----------------------------------------------------
        annotation_custom(tg,
@@ -1479,7 +1479,8 @@ PlotMatchStory <- function(season_num, # season number
   # Define final PDF filename
   if(plot_whole_round){
     # When plotting all matches in a round, save as "sXX_rYY_allmatches.pdf"
-    combined_filename <- paste0(here::here(), save_path, "s", sprintf("%02d", season_num),
+    # Save outside 'prod' folder - only do this for whole round plots
+    combined_filename <- paste0(here::here(), "/reports/stories/prod/", "s", sprintf("%02d", season_num),
                                 "_r", round_num, "_allmatches.pdf")
   } else {
     # When plotting a single match, save as "sXX_rYY_match.pdf"
@@ -1504,8 +1505,8 @@ PlotMatchStory <- function(season_num, # season number
   fs::file_delete(files_to_delete)
   cli::cli_alert_success("Saved match story PDF")
   
-  # Open PDF  
-  fs::file_show(combined_filename)
+  # # Open PDF  
+  # fs::file_show(combined_filename)
   
 } # end function
 
@@ -1561,7 +1562,7 @@ PlotMatchStory <- function(season_num, # season number
 
 
 ## Plot all matches in a completed round ----
-PlotMatchStory(28, 6, plot_whole_round = T, request_data = T)
+PlotMatchStory(13, 4, plot_whole_round = T, request_data = T)
 
 
 

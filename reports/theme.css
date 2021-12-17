@@ -32,6 +32,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 
 /* ----------- Div tips ------------- */
 
+/* when changing colours, only change background-color and border */ 
+
 @import url('https://fonts.googleapis.com/css2?family=Carter+One');
 
   div.first {
@@ -99,8 +101,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     background-position: 15px center;
     min-height: 120px;
     color: #2c3e50;
-    background-color: #bed3ec;
-    border: solid 5px #dfedff;
+    background-color: #d3f5fb;
+    border: solid 5px #a4eaf7;
     background-image: url("images/spell-book.svg");
   }
   
@@ -113,8 +115,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     background-position: 15px center;
     min-height: 120px;
     color: #2c3e50;
-    background-color: #bed3ec;
-    border: solid 5px #dfedff;
+    background-color: #b7ade7;
+    border: solid 5px #ac9df7;
     background-image: url("images/ace.svg");
   }
   
@@ -127,8 +129,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     background-position: 15px center;
     min-height: 120px;
     color: #2c3e50;
-    background-color: #bed3ec;
-    border: solid 5px #dfedff;
+    background-color: #cdecbe;
+    border: solid 5px #93d672;
     background-image: url("images/horseshoe.svg");
   }
   

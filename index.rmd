@@ -14,11 +14,11 @@ pacman::p_load(tidyverse, knitr)
 ```
 
 
-**If you're looking for stats about the [Lichess4545](https://www.lichess4545.com) online chess leagues, you're in the right place.**
+**This site provides various stats and records relating to the [Lichess4545](https://www.lichess4545.com) online chess leagues.**
 
-For the uninitiated, these popular leagues have been running since 2015 and are regularly recommended by top players like IM John Bartholomew (see [here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s)). Find out more at https://www.lichess4545.com/.
+These popular leagues have been running since 2015 and are regularly recommended by top players like IM John Bartholomew (see [here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s)). Find out more at https://www.lichess4545.com/.
 
-<aside> This site (remains) a work in progress, so some parts might look barely populated.
+<aside> This site is perpetually under construction. 
 </aside>
 
 ### All time records {#alltime}
@@ -26,8 +26,6 @@ For the uninitiated, these popular leagues have been running since 2015 and are 
 [All time records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.html)
 
 ### Stats and awards by league/season {#season-stats}
-
-*Note: the Season 27 stats aren't quite done yet.*
 
 ```{r season_reports_tbl}
 

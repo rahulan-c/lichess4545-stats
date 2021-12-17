@@ -393,7 +393,7 @@ if(lw_hide){cat("<!---")}
 
 **Match stories**
 
-Check out these visualisations of every match in every round!^[These require the original match story PDFs for the round to have previously been produced, so links for older seasons may not work (until I've produced them for all seasons).] 
+See the twists and turns in every match this season through these PDF visualisations...assuming they've already been created and uploaded. [Source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/plot_match_story.R).
 
 [Round 1](`r paste0("stories/s", season, "_r", 1, "_allmatches.pdf")`) | [Round 2](`r paste0("stories/s", season, "_r", 2, "_allmatches.pdf")`) | [Round 3](`r paste0("stories/s", season, "_r", 3, "_allmatches.pdf")`) | [Round 4](`r paste0("stories/s", season, "_r", 4, "_allmatches.pdf")`) | [Round 5](`r paste0("stories/s", season, "_r", 5, "_allmatches.pdf")`) | [Round 6](`r paste0("stories/s", season, "_r", 6, "_allmatches.pdf")`) | [Round 7](`r paste0("stories/s", season, "_r", 7, "_allmatches.pdf")`) | [Round 8](`r paste0("stories/s", season, "_r", 8, "_allmatches.pdf")`)
 :::
@@ -1096,23 +1096,6 @@ alt_runnerup <- alt_award_list[[2]]
 ```
 
 
-<!-- Team awards div -->
-
-```{r results='asis', echo=FALSE}
-# Hide team stats section from LW reports
-if (lw_hide) {cat("<!---")}
-```
-
-:::close_wins
-- Fortune favoured **`r team_most_close_wins`**, who managed to win **`r num_most_close_wins`** matches by a single point!
-- Conversely, **`r team_most_close_losses`** must be ruing their luck after suffering **`r num_most_close_losses`** agonising single-point defeats.
-:::
-
-
-```{r results='asis', echo=FALSE}
-# End hiding stuff from LW reports
-if(lw_hide){cat("-->")}
-```
 
 <!-- Player awards table -->
 
@@ -1230,6 +1213,23 @@ reactable(awards,
 ```
 
 
+<!-- Team awards div -->
+
+```{r results='asis', echo=FALSE}
+# Hide team stats section from LW reports
+if (lw_hide) {cat("<!---")}
+```
+
+:::close_wins
+- Fortune favoured **`r team_most_close_wins`**, who managed to win **`r num_most_close_wins`** matches by a single point!
+- Conversely, **`r team_most_close_losses`** must be ruing their luck after suffering **`r num_most_close_losses`** agonising single-point defeats.
+:::
+
+
+```{r results='asis', echo=FALSE}
+# End hiding stuff from LW reports
+if(lw_hide){cat("-->")}
+```
 
 
 ### Stats - tables `r emo::ji("books")`
@@ -1243,6 +1243,8 @@ if (lw_hide) {cat("<!---")}
 
 
 #### Team statistics
+
+Check out various team stats in the table below. Hover over the abbreviated headers to see their full names.
 
 ```{r team_stats, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Team stats table, with tooltips
@@ -1652,6 +1654,9 @@ reactable(savedbythebell,
 
 ##### Notable mates
 
+All games in the season that ended in a notable checkmate pattern...that I can detect successfully `r emo::ji("smile")`. That means this currently includes all Anastasia's, Arabian, back rank, hook, and smothered mates. To see game details, open the image in a different tab or window. [Source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/checkmate_patterns.py).  
+
+
 ```{r piece_checkmates}
 notable_mates <- GetCheckmatePatterns(path_scripts, data_path, league_load_label, season, games)
 knitr::include_graphics(paste0("images/mates/",
@@ -1661,13 +1666,12 @@ knitr::include_graphics(paste0("images/mates/",
                                    ".png"))
 ```
 
-
 ---
 
 ### About
 
 :::about
-- This report was compiled on `r format(Sys.time(), '%d %B %Y')`.
+- This report was compiled on `r format(Sys.Date(), '%d %B %Y')`.
 - These statistics are presented for general interest only. They are not guaranteed to be comprehensive, complete^[For example, this report excludes from its analysis all games of less than 5 plies (half-moves), games that ended in a disconnection or by "cheat detected", games that were aborted, and games that started from a custom position.], accurate, or up to date. They may be periodically revised to incorporate updates and bugfixes.
 - Any player determined by Lichess to have violated their Terms of Service when this report was compiled should not appear in the detailed statistics.^[However, players who were banned from the Lichess4545 leagues after finishing a season in the top three places are still shown with a podium place in that season's report.]
 - [Homepage](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)

@@ -17,5 +17,3 @@ stories/prod/**
 scripts/scratchpad.R
 scripts/update_repo.R
 scripts/identify_tos_violators.R
-
-reports/stats_4545_s27.html
