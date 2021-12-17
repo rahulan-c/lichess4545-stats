@@ -1097,6 +1097,7 @@ LowestACPLs <- function(error_rates = error_rates,
     filter(games >= min_games) %>% 
     mutate(rank = dense_rank(acpl)) %>% 
     arrange(acpl) %>% 
+    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
     mutate(prank = ntile(acpl, 100)) %>%
     filter(prank <= top_percentile_to_show) %>% 
     select(rank, player, games, acpl) %>%
