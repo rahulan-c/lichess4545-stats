@@ -93,7 +93,9 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
         # Stop if there's an error
         if(r$status_code != 200){
           print("Error!")
-          print(http_status(r)$message)}
+          print(http_status(r)$message)
+          break
+          }
         
         # Extract season data as tibble
         res <- r %>% 
@@ -138,7 +140,9 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
         # Stop if there's an error
         if(r$status_code != 200){
           print("Error!")
-          print(http_status(r)$message)}
+          print(http_status(r)$message)
+          break
+          }
         
         # Extract season data as tibble
         res <- r %>% 
@@ -170,7 +174,7 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
   for(l in seq(1:length(all_ids))){
     
     # Pause between batches of IDs
-    if(l > 1){Sys.sleep(5)}
+    if(l > 1){Sys.sleep(4)}
     
     batch_ids <- all_ids[[l]] %>% str_c(collapse = ",")
     
@@ -1214,11 +1218,17 @@ save_season_data <- function(league_choice, seasons){
                                        rounds_choice = rounds,
                                        lw_u1800_choice = lw_u1800)
 
-    games <- games_pairings[[1]] %>% as_tibble()
-    website_pairings <- games_pairings[[2]] %>% as_tibble()
+    games <- games_pairings[[1]] %>% tibble::as_tibble()
+    website_pairings <- games_pairings[[2]] %>% tibble::as_tibble()
+    
+    # Add both players' teams to games data (from website pairings data)
+    # Increases the robustness of the subsequent merge with pairings data
+    websub <- website_pairings %>% select(game_id, "teamw_web" = white_team, 
+                                          "teamb_web" = black_team)
+    games <- dplyr::left_join(games, websub, by = c("id" = "game_id"))
     
     # Tidy game data
-    tidied_games <- tidy_lichess_games(games) %>% as_tibble()
+    tidied_games <- tidy_lichess_games(games) %>% tibble::as_tibble()
     
     # Save game data with appropriate labels
     league_save_label <- league
@@ -1229,8 +1239,8 @@ save_season_data <- function(league_choice, seasons){
     # Get league pairings/positions data
     data <- get_league_data(league, season, rounds, lw_u1800, team_boards)
     
-    pairings <- data[[1]] %>% as_tibble()
-    positions <- data[[2]] %>% as_tibble()
+    pairings <- data[[1]] %>% tibble::as_tibble()
+    positions <- data[[2]] %>% tibble::as_tibble()
     
     
     if(league == "team4545"){
@@ -1240,12 +1250,14 @@ save_season_data <- function(league_choice, seasons){
                "pairings_black" = black, match, team_w, team_b, gp_w, gp_b, 
                team_res_w, team_res_b)
       
-      
       # Add team-related fields to games data
-      tidied_games <- left_join(tidied_games, pairings_subset, 
-                                by = c("players.white.user.id" = "pairings_white", 
-                                       "players.black.user.id" = "pairings_black"))
+      tidied_games <- dplyr::left_join(tidied_games, pairings_subset, 
+                                by = c("players.white.user.id" = "pairings_white",
+                                       "teamw_web" = "team_w",
+                                       "players.black.user.id" = "pairings_black",
+                                       "teamb_web" = "team_b"))
     } else if(league == "lonewolf"){
+      
       # For LoneWolf, just add season and round fields to the games data
       pairings_subset <- pairings %>% 
         select(season, round, "pairings_white" = white, "pairings_black" = black)
@@ -1264,15 +1276,18 @@ save_season_data <- function(league_choice, seasons){
       pairings$black[i] <- ifelse(length(matches) > 0, matches, pairings$black[i])
     }
     
-    
-    # Save game data
+    # Save season datasets
+    # Game data
     rio::export(tidied_games, paste0(path_savedata, "games_", league_save_label, "_s", season, ".rds"))
     
-    # Save played pairings data (from Lichess4545 API)
+    # Played pairings data (from Lichess4545 API) - aka website pairings
     rio::export(website_pairings, paste0(path_savedata, "website_pairings_", league_save_label, "_s", season, ".rds"))
     
-    # Save pairings/positions data
+    # Pairings data from round pairing pages
+    # Not the same as website pairings - this includes unplayed pairing info
     rio::export(pairings, paste0(path_savedata, "pairings_", league_save_label, "_s", season, ".csv"))
+    
+    # Player/team positions data
     rio::export(positions, paste0(path_savedata, "positions_", league_save_label, "_s", season, ".csv"))
     
     print(paste0("Saved all data for ", ifelse(league == "team4545", "4545 S", ifelse(lw_u1800, "LW U1800 S", "LW Open S")), 
