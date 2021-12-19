@@ -177,10 +177,7 @@ scores2 <- scores2 %>%
   arrange(desc(hypo_mp), desc(hypo_gp))
 
 # Compute hypothetical team rankings
-scores2$hypo_rank <- data.table::frank(scores2, -hypo_mp, -hypo_gp, ties.method = "dense")
-
-# Add opposition name to data
-# scores2 <- dplyr::left_join(scores2, )
+scores2$hypo_rank <- data.table::frank(scores2, -hypo_mp, -hypo_gp, ties.method = "first")
 
 # Compute teams' change in rank between the official and hypothetical standings
 scores2 <- scores2 %>% 
@@ -194,7 +191,17 @@ scores2 <- scores2 %>%
   mutate(games_left = boards - (score + opp_score)) %>%
   mutate(opp_rank = paste0("#", as.character(opp_rank))) %>% 
   mutate(live_score = paste0(score, " - ", opp_score)) %>% 
-  select(rank, team, match_pts, game_pts, opp_rank, live_score, games_left, change_rank, hypo_rank) %>% 
+  # mutate(result_confirmed = ifelse(games_left < abs(score - opp_score), TRUE, FALSE)) %>% 
+  mutate(status = case_when(
+    score > opp_score & (score - opp_score) > games_left ~ "Won",
+    score > opp_score & (score - opp_score) <= games_left ~ "Winning",
+    score < opp_score & (opp_score - score) > games_left ~ "Lost",
+    score < opp_score & (opp_score - score) <= games_left ~ "Losing",
+    score == opp_score & games_left == 0 ~ "Drawn",
+    score == opp_score & games_left > 0 ~ "Tied",
+    TRUE ~ NA_character_
+  )) %>% 
+  select(rank, team, match_pts, game_pts, opp_rank, live_score, status, change_rank, hypo_rank) %>% 
   arrange(rank)
 
 # Publish hypothetical standings table
@@ -210,16 +217,20 @@ reactable(scores2,
             game_pts = colDef(name = "Game pts", align = "center", minWidth = 70, format = colFormat(digits = 0)),
             
             opp_rank = colDef(name = "Playing", align = "center", minWidth = 70),
-            live_score = colDef(name = "Current score", align = "center", minWidth = 120),
-            games_left = colDef(name = "Games left", align = "center", minWidth = 70),
+            live_score = colDef(name = "Latest score", align = "center", minWidth = 120),
+            status =  colDef(cell = function(value) {
+            # Render as an X mark or check mark
+    if (value %in% c("Won", "Lost", "Drawn")) paste0(value, " \u2714") else value # \u274c No
+  },
+  name = "Result", align = "center", minWidth = 90),
             
-            change_rank = colDef(name = "+/-", align = "center", minWidth = 70),
+            change_rank = colDef(name = "Change", align = "center", minWidth = 70),
             hypo_rank = colDef(name = "New rank", align = "center", minWidth = 70)
             
           ),
           columnGroups = list(
-            colGroup(name = paste0("Current standings after R", round - 1), columns = c("rank", "team", "match_pts", "game_pts")),
-            colGroup(name = paste0("Current round (R", round, ")"), columns = c("opp_rank", "live_score", "games_left")),
+            colGroup(name = paste0("Standings after R", round - 1), columns = c("rank", "team", "match_pts", "game_pts")),
+            colGroup(name = "Current round", columns = c("opp_rank", "live_score", "status")),
             colGroup(name = "Implications", columns = c("change_rank", "hypo_rank"))
   )
 )
