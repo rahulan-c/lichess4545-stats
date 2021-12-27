@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+GET FENS FROM PGN
+
 Obtain data on each ply (half-move) played in one or more chess games from a 
-source PGN file. 
-Returns a data frame with variables: 
-    (1) FEN
-    (2) Preceding move in UCI notation
+source PGN file. Returns a data frame with all FENs and preceding moves (in UCI 
+format).
+    
+Last updated: 2021-10-03
 """
 
 import chess

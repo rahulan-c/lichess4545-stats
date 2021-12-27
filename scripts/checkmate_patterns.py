@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Nov 20 12:20:44 2021
+IDENTIFY CHECKMATE PATTERNS
 
-@author: rahul
+Identify notable checkmate patterns in games
+
+- Input:   PGN file
+- Returns: list containing identified pattern ("Arabian"), game ID, and checkmate ply (integer)
+
+Used for compiling images of notable checkmates reached in league games
+
+Last updated: 2021-11-20
 """
 
 from typing import List, Optional, Tuple
@@ -15,14 +22,12 @@ from typing import Type, TypeVar
 from chess import Outcome
 from chess.pgn import Game
 
-# from rich import print
 from tqdm import tqdm
 from chess import square_rank, square_file, Board, SquareSet, Piece, PieceType, square_distance
 from chess import KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN
 from chess import WHITE, BLACK, Outcome, Termination
 from chess.pgn import ChildNode
 
-# import cairosvg
 import chess.pgn
 import chess.svg
 import io
@@ -147,29 +152,7 @@ def IdentifyCheckmatePatterns(pgn_file):
     
     # Read PGN
     pgn = open(pgn_file)
-    
-    
     offsets = []
-    # mates = []
-    
-    # knight_mates = []
-    # bishop_mates = []
-    # pawn_mates = []
-    # backrank_mates = []
-    # anastasia_mates = []
-    # hook_mates = []
-    # arabian_mates = []
-    # smothered_mates = []
-    
-    # knight_gameids = []
-    # bishop_gameids = []
-    # pawn_gameids = []
-    # backrank_gameids = []
-    # anastasia_gameids = []
-    # hook_gameids = []
-    # arabian_gameids = []
-    # smothered_gameids = []
-    
     mate_patterns = []
     
     while True:
@@ -205,33 +188,8 @@ def IdentifyCheckmatePatterns(pgn_file):
         if outcome == None or not outcome.termination == Termination(1):
             continue
     
-        # mates.append(game.headers['Site'][-8:])
-    
         # Get final position
         position = final.fen()
-    
-        # # Identify the piece that delivered mate
-        # mate_piece = list(final.checkers())
-        # if len(mate_piece) == 1:
-        #     mate_square = chess.Square(mate_piece[0])
-    
-        #     if final.piece_at(mate_square).symbol() in ('n', 'N'):
-        #         knight_mates.append(chess.svg.board(final, lastmove = final.peek(),
-        #                                 size = 250,
-        #                                 coordinates = False))
-        #         knight_gameids.append(game.headers['Site'][-8:])
-                
-        #     if final.piece_at(mate_square).symbol() in ('b', 'B'):
-        #         bishop_mates.append(chess.svg.board(final, lastmove = final.peek(),
-        #                                 size = 250,
-        #                                 coordinates = False))
-        #         bishop_gameids.append(game.headers['Site'][-8:])
-                
-        #     if final.piece_at(mate_square).symbol() in ('p', 'P'):
-        #         pawn_mates.append(chess.svg.board(final, lastmove = final.peek(),
-        #                                 size = 250,
-        #                                 coordinates = False))
-        #         pawn_gameids.append(game.headers['Site'][-8:])
     
         # Back-rank mate
         if back_rank_mate(position):
@@ -268,48 +226,6 @@ def IdentifyCheckmatePatterns(pgn_file):
                          game.end().ply()
                 ))
     
-    
-    # After checking all games...
-    # print('')
-    # print('==== CHECKMATE PATTERN RESULTS ====')
-    # print('')
-    # print(f"{len(mates)}/{len(offsets)} games ended in checkmate ({len(knight_mates)} by knight, {len(bishop_mates)} by bishop and {len(pawn_mates)} by pawn)")
-    # print(f"{len(backrank_mates)} games saw a back rank mate")
-    # print(f"{len(anastasia_mates)} games saw an Anastasia's mate")
-    # print(f"{len(hook_mates)} games ended saw a hook mate")
-    # print(f"{len(arabian_mates)} games saw an Arabian mate")
-    # print(f"{len(smothered_mates)} games saw a smothered mate")
-    # print('')
-    
     print('mate patterns checked')
     
     return(mate_patterns)
-    
-    # # First delete any previously saved PNGs
-    # for pngpath in glob.iglob(os.path.join('*.png')):
-    #     os.remove(pngpath)
-    
-    # # Then save PNGs of knight/bishop/pawn mates
-    # for m in range(len(knight_mates)):
-    #     cairosvg.svg2png(bytestring=knight_mates[m], write_to = f"knight-mate-{m+1:02}-{knight_gameids[m]}.png")
-    
-    # for m in range(len(bishop_mates)):
-    #     cairosvg.svg2png(bytestring=bishop_mates[m], write_to = f"bishop-mate-{m+1:02}-{bishop_gameids[m]}.png")
-    
-    # for m in range(len(pawn_mates)):
-    #     cairosvg.svg2png(bytestring=pawn_mates[m], write_to = f"pawn-mate-{m+1:02}-{pawn_gameids[m]}.png")
-    
-    # for m in range(len(backrank_mates)):
-    #     cairosvg.svg2png(bytestring=backrank_mates[m], write_to = f"backrank-mate-{m+1:02}-{backrank_gameids[m]}.png")
-    
-    # for m in range(len(anastasia_mates)):
-    #     cairosvg.svg2png(bytestring=anastasia_mates[m], write_to = f"anastasia-mate-{m+1:02}-{anastasia_gameids[m]}.png")
-    
-    # for m in range(len(hook_mates)):
-    #     cairosvg.svg2png(bytestring=hook_mates[m], write_to = f"hook-mate-{m+1:02}-{hook_gameids[m]}.png")
-    
-    # for m in range(len(arabian_mates)):
-    #     cairosvg.svg2png(bytestring=arabian_mates[m], write_to = f"arabian-mate-{m+1:02}-{arabian_gameids[m]}.png")
-    
-    # for m in range(len(smothered_mates)):
-    #     cairosvg.svg2png(bytestring=smothered_mates[m], write_to = f"smothered-mate-{m+1:02}-{smothered_gameids[m]}.png")

@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-Identify games with gambits and for each game, the side that played the gambit
+IDENTIFY GAMBIT GAMES
 
-Filters all games in a PGN file to find games played in openings associated with
-gambits (eg Evans, Ruy Marshall...), then checks the moves played by both sides in the game.
-If one side gambits material for more than 5 consecutive plies before ply 30, the game is 
-classified as a gambit and the side that sacrificed material is also recorded.
+Identify gambit games by opening name and whether the gambiting side actually 
+sacrificed material within the first 15 moves.
 
+- Inputs: PGN file with league games
+- Filters all games in a PGN file to find games played in openings associated with
+gambits (eg Evans, Ruy Marshall...)
+- Then for each game, checks the moves played by both sides. If one side gambits 
+  material for more than 5 consecutive plies before ply 30, the game is 
+  classified as a gambit and the side that sacrificed material is also recorded.
+- Returns: data frame - 1) Lichess game ID of gambit games, 2) colour that 
+  played the gambit in each game ('w', 'b')
+  
+Last updated: 2021-11-03
 """
 
 from tqdm import tqdm

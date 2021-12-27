@@ -120,7 +120,8 @@ FixCharEncodingIssues <- function(df){
     mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
     mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
     mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'"))) %>% 
-    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¤", "ä")))
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¤", "ä"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¡", "á")))
   return(tibble::as_tibble(df))
 }
 games <- FixCharEncodingIssues(games)

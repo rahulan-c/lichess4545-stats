@@ -1,7 +1,7 @@
 
 # HELPER FUNCTIONS FOR SEASON REPORTS
 
-# Last updated: 2021-11-01
+# Last updated: 2021-12-17
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 
@@ -257,14 +257,6 @@ PodiumTeams <- function(summary_url){
     html_element(".first-place .team-link") %>%
     html_attr("href")
   first_link <- paste0("https://www.lichess4545.com", first_link)
-  # # 1st place team players
-  # first_players <- read_html(summary_url) %>% 
-  #   html_element(".first-place") %>% 
-  #   html_text() %>% 
-  #   str_replace_all("[\r\n]" , "") %>% 
-  #   str_replace_all(first, "") %>% 
-  #   str_squish()
-  
   
   # 2nd place team name
   second <- read_html(summary_url) %>% 
@@ -275,13 +267,6 @@ PodiumTeams <- function(summary_url){
     html_element(".second-place .team-link") %>%
     html_attr("href")
   second_link <- paste0("https://www.lichess4545.com", second_link)
-  # # 2nd place team players
-  # second_players <- read_html(summary_url) %>% 
-  #   html_element(".second-place") %>% 
-  #   html_text() %>% 
-  #   str_replace_all("[\r\n]" , "") %>% 
-  #   str_replace_all(second, "") %>% 
-  #   str_squish()
   
   # 3rd place team name
   third <- read_html(summary_url) %>% 
@@ -292,13 +277,6 @@ PodiumTeams <- function(summary_url){
     html_element(".third-place .team-link") %>%
     html_attr("href")
   third_link <- paste0("https://www.lichess4545.com", third_link)
-  # # 3rd place team players
-  # third_players <- read_html(summary_url) %>% 
-  #   html_element(".third-place") %>% 
-  #   html_text() %>% 
-  #   str_replace_all("[\r\n]" , "") %>% 
-  #   str_replace_all(third, "") %>% 
-  #   str_squish()
   return(list(first, first_link, second, second_link, third, third_link))
 }
 
@@ -390,12 +368,21 @@ PodiumTeamPlayers <- function(positions, games, league, season){
                     "Silver" = players_silver,
                     "Bronze" = players_bronze)
   
-  # Switch round 1st and 2nd place teams for 4545 S11 :)
+  # Swap teams in cases where podium placements required advanced tiebreaks 
   if(league == "team4545"){
+    
+    # S11: swap 1st and 2nd
     if(season == 11){
       winners <- tibble("Gold" = players_silver,
                         "Silver" = players_gold,
                         "Bronze" = players_bronze)
+    }
+    
+    # S11: swap 2nd and 3rd
+    if(season == 16){
+      winners <- tibble("Gold" = players_gold,
+                        "Silver" = players_bronze,
+                        "Bronze" = players_silver)
     }
   }
   return(winners)

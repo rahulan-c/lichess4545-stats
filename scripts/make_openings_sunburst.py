@@ -2,6 +2,8 @@
 """
 Make openings sunburst plots for Lichess4545 seasons
 Source: https://github.com/Destaq/chess_graph
+
+Last updated: 2021-08-16
 """
 
 import chess_graph
