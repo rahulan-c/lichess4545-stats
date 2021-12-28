@@ -92,7 +92,7 @@ league_load_label <- league
 if(league == "lonewolf"){
   if(lw_u1800){league_load_label <- "lwu1800"} else {league_load_label <- "lwopen"}
 }
-report_data <- SeasonReportData(data_path, league, league_load_label, season,
+report_data <- SeasonReportData(data_path, league, lw_u1800, league_load_label, season,
                                 update_alltime_data)
 games <- report_data[[1]] %>% as_tibble()
 website_pairings <- report_data[[2]]
@@ -226,21 +226,29 @@ perc_drawn <- num_drawn / num_matches
 num_close <- nrow(close)
 perc_close <- num_close / num_matches
 
-# Get team with the most close wins
+# Get the team(s) with the most close wins
 close_wins <- close %>% 
   group_by(winner) %>% 
   summarise(close_wins = n()) %>% 
   slice_max(close_wins)
 team_most_close_wins <- close_wins %>% select(winner) %>% dplyr::pull()
+team_most_close_wins <- ifelse(length(team_most_close_wins) > 4, 
+                               "multiple",
+                               team_most_close_wins)
 num_most_close_wins <- close_wins %>% select(close_wins) %>% dplyr::pull()
+num_most_close_wins <- num_most_close_wins[1]
 
-# Most close losses
+# Get the team(s) with the most close losses
 close_losses <- close %>% 
   group_by(loser) %>% 
   summarise(close_losses = n()) %>% 
   slice_max(close_losses)
 team_most_close_losses <- close_losses %>% select(loser) %>% dplyr::pull()
+team_most_close_losses <- ifelse(length(team_most_close_losses) > 4, 
+                               "multiple",
+                               team_most_close_losses)
 num_most_close_losses <- close_losses %>% select(close_losses) %>% dplyr::pull()
+num_most_close_losses <- num_most_close_losses[1]
 
 ```
 
@@ -452,11 +460,11 @@ aces <- top_scorers_list[[3]] # for the 'Aces' award
 
 :::aces
 
-Congratulations to all the **top scorers** this season! Here's everyone who achieved a plus score of +2.5 or higher:
+Here's everyone who achieved a plus score of +5 or higher this season:
 
 `r top_scorers_text`
 
-Everyone who scored +3 or more gets the **Ace** award.
+Players with plus scores of +6 or better get the **Ace** award.
 :::
 
 ### Stats - overview {.tabset .tabset-fade .tabset-pills}
@@ -1104,6 +1112,7 @@ alt_runnerup <- alt_award_list[[2]]
 
 if(movetimes_exist){
   if(league == "team4545"){
+  # 4545 seasons after movetimes were available
   awards <- SeasonAwards(league, league_col_dark, movetimes_exist, minacpl_players, drawers, 
                          alt_award_list = alt_award_list, gambiteers, relative_perfs, 
                          lowest_acpls, season_think = season_think,
@@ -1117,7 +1126,7 @@ if(movetimes_exist){
                          aces = aces)
   } else {
     awards <- SeasonAwards(league, league_col_dark, movetimes_exist, minacpl_players, drawers, 
-                         alt_award_list = alt_award_list, gambiteers, relative_perfs, 
+                         alt_award_list = NULL, gambiteers, relative_perfs, 
                          lowest_acpls, season_think = season_think,
                            comebacks, upsets, upset_specialists,
                            dawdlers = dawdlers, instamovers = instamovers,
@@ -1128,8 +1137,9 @@ if(movetimes_exist){
   }
 } else {
   if(league == "team4545"){
+    # 4545 seasons before movetimes were available
     awards <- SeasonAwards(league, league_col_dark, movetimes_exist, minacpl_players, drawers, 
-                           alt_award_list = NULL, gambiteers, relative_perfs, 
+                           alt_award_list = alt_award_list, gambiteers, relative_perfs, 
                            lowest_acpls, season_think = NULL,
                              comebacks = comebacks,
                              upsets = upsets,
@@ -1330,7 +1340,7 @@ reactable(relative_perfs,
 
 ##### Lowest ACPL 
 
-All players who played at least five games and achieved a season ACPL in the 20th percentile or below. Note that 'season ACPL' differs from Lichess game-wide ACPL figures, as it excludes opening moves as well as most moves played in objectively decided positions. See the footnote for full details.^[Season ACPL here excludes the first 10 moves of a game, all zero-CPL moves played in zero-evaluation positions, and moves played in positions where one side has an advantage of +200 centipawns or greater *that aren't mistakes or blunders*.] ACPLs based on Lichess's published figures are provided for comparison purposes.
+All players who played at least five games and achieved a season ACPL in the 20th percentile or below. Note that 'season ACPL' differs from Lichess game-wide ACPL figures, as it excludes opening moves as well as most moves played in objectively decided positions. See the footnote for full details.^[Season ACPL here excludes the first 10 moves of a game, all zero-CPL moves played in zero-evaluation positions, and moves played in positions where one side has an advantage of +300 centipawns or greater *that aren't mistakes or blunders*.] ACPLs based on Lichess's published figures are provided for comparison purposes.
 
 ```{r show_lowest_acpls}
 reactable(lowest_acpls,
@@ -1658,13 +1668,21 @@ reactable(savedbythebell,
 All games in the season that ended in a notable checkmate pattern...that I can detect successfully `r emo::ji("smile")`. That means this currently includes all Anastasia's, Arabian, back rank, hook, and smothered mates. To see game details, open the image in a different tab or window. [Source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/checkmate_patterns.py).  
 
 
-```{r piece_checkmates}
+```{r notable_checkmates, comment = ""}
+# Identify all season games with notable checkmate patterns (using Python script)
 notable_mates <- GetCheckmatePatterns(path_scripts, data_path, league_load_label, season, games)
-knitr::include_graphics(paste0("images/mates/",
-                               "mates_", league_load_label, 
-                                   "_s", 
-                                   sprintf("%02d", season), 
-                                   ".png"))
+
+# If at least one notable mate has been identified, compile a single image with 
+# all identified mate positions and associated game details
+if(notable_mates != ""){
+  knitr::include_graphics(paste0("images/mates/",
+                                 "mates_", league_load_label, 
+                                     "_s", 
+                                     sprintf("%02d", season), 
+                                     ".png"))
+} else {
+  print("No notable checkmates were identified.")
+}
 ```
 
 ---

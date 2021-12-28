@@ -52,7 +52,7 @@ BoardsPerTeam <- function(league = league, season = season){
   return(team_boards)
 }
 
-SeasonReportData <- function(data_path, league, league_load_label, season,
+SeasonReportData <- function(data_path, league, lw_u1800, league_load_label, season,
                              update_alltime_data){
   
   
@@ -67,8 +67,14 @@ SeasonReportData <- function(data_path, league, league_load_label, season,
   }
   
   # Read all-time games data
-  if(league == "team4545"){alltime_label <- "team"}
-  if(league == "lonewolf"){alltime_label <- "lw"}
+  if(league == "team4545"){alltime_label <- "team4545"}
+  if(league == "lonewolf"){
+    if(lw_u1800){
+      alltime_label <- "lwu1800"
+    } else {
+      alltime_label <- "lwopen"
+    }
+  }
   
   all_games <- readRDS(paste0(data_path, "allgames_", alltime_label, ".rds"))
   all_games <- tibble::as_tibble(all_games)
@@ -1015,29 +1021,29 @@ Perfs <- function(pairings = pairings, fide_tpr_lookup = fide_tpr_lookup){
   return(perfs)
 }
 
+
 TopScorers <- function(pairings, fide_tpr_lookup, tos_violators){
   perfs <- Perfs(pairings, fide_tpr_lookup)
   top_scorers <- perfs %>% 
-    mutate(plus_score = points - (games / 2)) %>% 
-    filter(plus_score >= 2.5) %>% 
+    mutate(plus_score = wins - losses) %>% 
+    filter(plus_score >= 5) %>% 
     arrange(desc(plus_score)) %>% 
-    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
-    mutate(text = paste0("**", player, "**", ": ", points, "/", games, " (+", plus_score, ")")) %>% 
+    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) # remove ToS violators
+    
+  top_scorers_final <- top_scorers %>% 
+    mutate(text = paste0("**", player, "**", " (", points, "/", games, ")")) %>% 
     select(player, text)
   
-  aces <- perfs %>% 
-    mutate(plus_score = points - (games / 2)) %>% 
-    filter(plus_score >= 3) %>% 
+  aces <- top_scorers %>%
+    filter(plus_score >= 6) %>% 
     arrange(desc(plus_score)) %>% 
-    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
     select(player)
-  return(list(top_scorers$player, top_scorers$text, aces))
+  
+  return(list(top_scorers_final$player, top_scorers_final$text, aces))
 }
 
 RelativePerfs <- function(pairings = pairings, min_games = 5, fide_tpr_lookup = fide_tpr_lookup, tos_violators = tos_violators){
   perfs <- Perfs(pairings, fide_tpr_lookup)
-  
-  
   
   # Produce relative perfs for report
   relative_perfs <- perfs %>% 
@@ -2040,8 +2046,13 @@ GetCheckmatePatterns <- function(path_scripts, data_path, league_load_label, sea
                                                                 season,
                                                                 ".pgn"))
   # Return identified data as tibble
-  mate_tibble <- data.table::rbindlist(mate_patterns) %>% 
-    select("pattern" = "V1", "id" = "V2", "ply" = "V3")
+  if(length(mate_patterns) > 0){
+    mate_tibble <- data.table::rbindlist(mate_patterns) %>% 
+      select("pattern" = "V1", "id" = "V2", "ply" = "V3")
+  } else {
+    cli::cli_inform("No games with notable checkmate pattterns were identified.")
+    return("")
+  }
   
   # Add other game details
   games_sub <- games %>% select(id, white, black, date)

@@ -1221,11 +1221,13 @@ save_season_data <- function(league_choice, seasons){
     games <- games_pairings[[1]] %>% tibble::as_tibble()
     website_pairings <- games_pairings[[2]] %>% tibble::as_tibble()
     
-    # Add both players' teams to games data (from website pairings data)
+    # For 4545, add both players' teams to games data (from website pairings data)
     # Increases the robustness of the subsequent merge with pairings data
-    websub <- website_pairings %>% select(game_id, "teamw_web" = white_team, 
-                                          "teamb_web" = black_team)
-    games <- dplyr::left_join(games, websub, by = c("id" = "game_id"))
+    if(league == "team4545"){
+      websub <- website_pairings %>% select(game_id, "teamw_web" = white_team, 
+                                            "teamb_web" = black_team)
+      games <- dplyr::left_join(games, websub, by = c("id" = "game_id"))
+    }
     
     # Tidy game data
     tidied_games <- tidy_lichess_games(games) %>% tibble::as_tibble()
@@ -1242,23 +1244,23 @@ save_season_data <- function(league_choice, seasons){
     pairings <- data[[1]] %>% tibble::as_tibble()
     positions <- data[[2]] %>% tibble::as_tibble()
     
-    
+    # For 4545 datasets, add team information to games data (from pairings data)
     if(league == "team4545"){
-      # Extract team-related data from pairings data
       pairings_subset <- pairings %>% 
         select(season, round, board, "pairings_white" = white, 
                "pairings_black" = black, match, team_w, team_b, gp_w, gp_b, 
                team_res_w, team_res_b)
-      
-      # Add team-related fields to games data
       tidied_games <- dplyr::left_join(tidied_games, pairings_subset, 
                                 by = c("players.white.user.id" = "pairings_white",
                                        "teamw_web" = "team_w",
                                        "players.black.user.id" = "pairings_black",
                                        "teamb_web" = "team_b"))
+      tidied_games <- tidied_games %>% 
+        rename("team_w" = teamw_web, "team_b" = teamb_web)
+    
+    # For LoneWolf, just add season and round fields to the games data
     } else if(league == "lonewolf"){
       
-      # For LoneWolf, just add season and round fields to the games data
       pairings_subset <- pairings %>% 
         select(season, round, "pairings_white" = white, "pairings_black" = black)
       tidied_games <- left_join(tidied_games, pairings_subset, 
@@ -1266,7 +1268,8 @@ save_season_data <- function(league_choice, seasons){
                                        "players.black.user.id" = "pairings_black"))
     }
     
-    # Make pairings data usernames match games data usernames exactly (for played games at least)
+    # For both leagues, make sure the usernames in the pairings data match 
+    # those in the games data -- at least for played games
     for(i in seq(1:nrow(pairings))){
       matches <- str_extract(tidied_games$white, fixed(pairings$white[i], ignore_case=TRUE)) 
       matches <- matches[!is.na(matches)] %>% unique()
@@ -1290,8 +1293,10 @@ save_season_data <- function(league_choice, seasons){
     # Player/team positions data
     rio::export(positions, paste0(path_savedata, "positions_", league_save_label, "_s", season, ".csv"))
     
-    print(paste0("Saved all data for ", ifelse(league == "team4545", "4545 S", ifelse(lw_u1800, "LW U1800 S", "LW Open S")), 
-                 season))
+    # print(paste0("Saved all data for ", ifelse(league == "team4545", "4545 S", ifelse(lw_u1800, "LW U1800 S", "LW Open S")), 
+    #              season))
+    
+    cli::cli_alert_success("Saved season data for {ifelse(league == 'team4545', '4545 S', ifelse(lw_u1800, 'LW U1800 S', 'LW Open S'))}{season}")
     
   }
   
