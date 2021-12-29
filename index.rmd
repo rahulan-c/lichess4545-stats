@@ -69,7 +69,7 @@ if(length(completed_960) > 0){
    str_remove_all("stats_chess960_s") %>% 
    str_remove_all("\\.html") %>% 
    sort(decreasing = T) %>% 
-   paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_960_s", ., ".html)")
+   paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_chess960_s", ., ".html)")
 }
 
 
@@ -110,7 +110,7 @@ completed <- tibble("team4545" = completed_4545,
                     "chess960" = completed_960)
 
 knitr::kable(completed, format = "simple", 
-             col.names = c("4545/Team", 
+             col.names = c("4545 / Team", 
                            "LW Open", 
                            "LW U1800",
                            "Chess960"))
