@@ -535,7 +535,7 @@ SeasonRankTracker <- function(league = league, positions = positions, league_col
       labs(x = "Round",
            y = "Rank before round") +
       theme(legend.position = "right") +
-      scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", rep("#FFF2B1", 2)),
+      scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", "#FFF2B1", "#CCC18D"),
                          breaks = c(top_places),
                          labels = c(top_places)) +
       theme(panel.grid.minor = element_blank()) +

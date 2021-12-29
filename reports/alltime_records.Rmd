@@ -169,7 +169,10 @@ for(s in seq(1:length(season_reports))){
                    ifelse(str_detect(url, "stats_lwopen"), 
                           "LW Open", 
                           ifelse(str_detect(url, "stats_lwu1800"), 
-                                 "LW U1800", "")))
+                                 "LW U1800", 
+                                 ifelse(str_detect(url, "stats_chess960"),
+                                        "Chess960",
+                                        ""))))
   
   season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
   
