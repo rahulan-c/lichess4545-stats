@@ -154,6 +154,37 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
         season_data[[i]] <- res
         
       }
+    
+      # Chess960 league
+      if(league_choice == "chess960"){
+        
+        r <- httr::GET(
+          url = "https://www.lichess4545.com/api/get_season_games/",
+          query = list(league = league_choice,
+                       season = seasons_choice[[i]])
+        )
+        
+        if(r$status_code != 200){
+          print("Error!")
+          print(http_status(r)$message)
+          break
+        }
+        
+        # Extract season data as tibble
+        res <- r %>% 
+          httr::content("text", encoding = stringi::stri_enc_detect(httr::content(r, "raw"))[[1]][1,1]) %>% 
+          jsonlite::fromJSON() %>% 
+          purrr::pluck("games")
+        
+        # Filter by round (if rounds_choice specified)
+        if(!(is.null(rounds_choice))){
+          res <- res %>% filter(round %in% rounds_choice)
+        }
+        
+        # Add returned game data to season game IDs list
+        season_data[[i]] <- res
+        
+      }
 
     all_data[[i]] <- bind_rows(season_data)
     
@@ -386,24 +417,29 @@ tidy_lichess_games <- function(games){
            rating_b = players.black.rating,
            mean_rating = (rating_w + rating_b) / 2)
   
-  # Fix foreign characters in openings names
-  games$opening.name <- games$opening.name %>% 
-    str_replace_all("Ã¼", "ü") %>% 
-    str_replace_all("Ã¶", "ö") %>% 
-    str_replace_all("Ã³", "ó") %>% 
-    str_replace_all("Ã©", "é")
   
-  # Add broad opening names to data
-  # Creates another column that takes the Lichess opening name but: 
-  #   - removes variation names, ie any text after ":"
-  #   - reduces any remaining names with "," to the stem opening
-  #   - fixes remaining discrepancies, eg Guioco Piano amended to Italian Game
-  games <- games %>% 
-    mutate(opening.broad = str_replace_all(opening.name, "(?<=:).*$", "")) %>% 
-    mutate(opening.broad = if_else(str_detect(opening.broad, ":"), str_replace(opening.broad, ":", ""), opening.broad)) %>% 
-    mutate(opening.broad = str_replace_all(opening.broad, "(?<=,).*$", "")) %>% 
-    mutate(opening.broad = if_else(str_detect(opening.broad, ","), str_replace(opening.broad, ",", ""), opening.broad)) %>% 
-    mutate(opening.broad = if_else(opening.broad == "Guioco Piano", "Italian Game", opening.broad))
+  # Tidy openings data (for non-960 games data)
+  if(games$variant[1] != "chess960"){
+    # Fix foreign characters in openings names
+    games$opening.name <- games$opening.name %>%
+      str_replace_all("Ã¼", "ü") %>%
+      str_replace_all("Ã¶", "ö") %>%
+      str_replace_all("Ã³", "ó") %>%
+      str_replace_all("Ã©", "é")
+    
+    # Add broad opening names to data
+    # Creates another column that takes the Lichess opening name but: 
+    #   - removes variation names, ie any text after ":"
+    #   - reduces any remaining names with "," to the stem opening
+    #   - fixes remaining discrepancies, eg Guioco Piano amended to Italian Game
+    games <- games %>% 
+      mutate(opening.broad = str_replace_all(opening.name, "(?<=:).*$", "")) %>% 
+      mutate(opening.broad = if_else(str_detect(opening.broad, ":"), str_replace(opening.broad, ":", ""), opening.broad)) %>% 
+      mutate(opening.broad = str_replace_all(opening.broad, "(?<=,).*$", "")) %>% 
+      mutate(opening.broad = if_else(str_detect(opening.broad, ","), str_replace(opening.broad, ",", ""), opening.broad)) %>% 
+      mutate(opening.broad = if_else(opening.broad == "Guioco Piano", "Italian Game", opening.broad))
+  
+  }
   
   # Make game creation times more readable
   games$started <- lubridate::as_datetime(games$createdAt / 1000)
@@ -567,8 +603,11 @@ tidy_lichess_games <- function(games){
 
 
 # Get 4545/LW season pairings and player/team positions data
-get_league_data <- function(league_choice, seasons_choice, rounds_choice, 
-                            lw_u1800_choice, boards_per_team_choice){
+get_league_data <- function(league_choice, 
+                            seasons_choice, 
+                            rounds_choice, 
+                            lw_u1800_choice = FALSE, 
+                            boards_per_team_choice = 99){
   
   tic("Extracted pairing/rank data")
   
@@ -580,7 +619,10 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
   for(i in seq(1:length(seasons_choice))){
     
     # For rounds 1:j+1 in each selected season...
-    for(j in seq(1:(min(max(rounds_choice) + 1, ifelse(league_choice == "lonewolf", 11, 8))))){
+    for(j in seq(1:(min(max(rounds_choice) + 1, 
+                        ifelse(league_choice == "lonewolf", 
+                               11, 
+                               8))))){
       
       # Construct pairings URL
       url <- paste0("https://www.lichess4545.com/",
@@ -774,30 +816,19 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         teams_all <- rbind(teams_1, teams_2) %>% 
           mutate(round = j)
         
-        
-        
-        
         # Add pairings data to the collated list
         all_pairings[[j]] <- team_pairings
         
         # Add team points data to the collated list
         all_positions[[j]] <- teams_all
-        
-       
-        
+      
         Sys.sleep(0.2)
-        
-        # print(paste0("Extracted pairings and positions for ", 
-        #              ifelse(league_choice == "team4545", "4545 S",
-        #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-        #              seasons_choice[[i]], " R", j))
-        
         
       }
       
       
       # Extract data on LoneWolf pairings
-      if(league_choice == "lonewolf"){
+      if(league_choice %in% c("lonewolf", "chess960")){
         
         orig_results <- read_html(url) %>% 
           rvest::html_nodes("td") %>% 
@@ -827,7 +858,6 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
           # Now remove all entries in original page after this first bye
           first_bye_loc <- results %>% str_which(first_bye)
           results <- results[1:(first_bye_loc-4)]
-        
         }
         
         # Collect the data required to construct the pairings tibble                   
@@ -880,7 +910,6 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         # Add season and round numbers
         results_without_byes$season <- seasons_choice[[i]]
         results_without_byes$round <- j
-        
         
         # Now extract players with byes
         if(TRUE %in% str_detect(orig_results, "BYE")){
@@ -953,21 +982,16 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         all_positions[[j]] <- positions
         
         Sys.sleep(0.2)
-        
-        # print(paste0("Extracted pairings and positions for ", 
-        #              ifelse(league_choice == "team4545", "4545 S",
-        #                     ifelse(lw_u1800_choice, "LW U1800 S", "LW Open S")),
-        #              seasons_choice[[i]], " R", j))
-        
       }
-      
     } # finish round loop
     
-    # For LW, extract final season standings
-    if(league_choice == "lonewolf"){
+    # LW / 960: extract final season standings
+    if(league_choice %in% c("lonewolf", "chess960")){
       
-      # URL for final LW standings
-      lw_standings_url <- paste0("https://www.lichess4545.com/lonewolf/season/", 
+      # URL for final LW/960 standings
+      lw_standings_url <- paste0("https://www.lichess4545.com/", 
+                                 league_choice, 
+                                 "/season/", 
                                     seasons_choice[[i]],
                                     ifelse(lw_u1800_choice, "u1800", ""),
                                     "/standings/")
@@ -982,17 +1006,20 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
       
       lw_standings <- tibble("pos" = seq(1:length(lw_final_positions)),
                                 "player" = lw_final_positions,
-                                "round" = rep(12, length(lw_final_positions)))
+                                # Add a set of positions for the final standings
+                                # Assign this set to round number last_round + 1 
+                                "round" = rep(ifelse(league_choice == "lonewolf", 
+                                                     12, # as LW has 11 rounds
+                                                     9), # as chess960 has 8 rounds
+                                              length(lw_final_positions)))
     }
-    
-    
   } # finish season loop
   
   # Combine player pairings
   all_pairings <- bind_rows(all_pairings)
   
-  # For LoneWolf, combine player positions data too
-  if(league_choice == "lonewolf"){
+  # For LoneWolf/960, combine player positions data too
+  if(league_choice %in% c("lonewolf", "chess960")){
     all_positions <- bind_rows(all_positions)
     
     # Add final positions to rest of positions data
@@ -1027,10 +1054,8 @@ get_league_data <- function(league_choice, seasons_choice, rounds_choice,
         # Add round indicator
         mutate(round = r)
     }
-    
     # Once team standings computed for each round, combine into single data frame
     all_positions <- bind_rows(round_standings)
-    
   }
   
   toc(log = TRUE)
@@ -1162,8 +1187,9 @@ GetGamesFromURLs <- function(ids = NULL, links = NULL){
 
 # Save all required data (games, pairings, positions) for a range of seasons
 # Eg save_season_data("team4545", c(12:15))
-#    save_season_data("lw_open", c(12:15))
-#    save_season_data("lw_u1800", c(12:15))
+#    save_season_data("lwopen", c(12:15))
+#    save_season_data("lwu1800", c(12:15))
+#    save_season_data("chess960", c(10:11))
 save_season_data <- function(league_choice, seasons){
   
   tic("Obtained all season data")
@@ -1187,6 +1213,12 @@ save_season_data <- function(league_choice, seasons){
     league <- "lonewolf"
     lw_u1800 <- TRUE
   }
+  
+  if(league_choice == "chess960"){
+    league <- "chess960"
+    rounds <- c(1:8)
+    lw_u1800 <- FALSE
+  }
     
   for(i in seasons){
     
@@ -1199,6 +1231,10 @@ save_season_data <- function(league_choice, seasons){
           if(season <= 15){team_boards <-  6} else 
             if(season <= 24){team_boards <-  8} else
               if(season <= 99){team_boards <-  10}
+    
+    if(league == "chess960"){
+      if(season == 1){rounds <- c(1:7)}
+    }
     
     # Skip if user requests LW U1800 data for seasons 1-8
     # As Season 9 was the first LW season with an U1800 section
@@ -1258,8 +1294,8 @@ save_season_data <- function(league_choice, seasons){
       tidied_games <- tidied_games %>% 
         rename("team_w" = teamw_web, "team_b" = teamb_web)
     
-    # For LoneWolf, just add season and round fields to the games data
-    } else if(league == "lonewolf"){
+    # For LoneWolf and 960, just add season and round fields to the games data
+    } else {
       
       pairings_subset <- pairings %>% 
         select(season, round, "pairings_white" = white, "pairings_black" = black)
@@ -1268,7 +1304,7 @@ save_season_data <- function(league_choice, seasons){
                                        "players.black.user.id" = "pairings_black"))
     }
     
-    # For both leagues, make sure the usernames in the pairings data match 
+    # For all leagues, make sure the usernames in the pairings data match 
     # those in the games data -- at least for played games
     for(i in seq(1:nrow(pairings))){
       matches <- str_extract(tidied_games$white, fixed(pairings$white[i], ignore_case=TRUE)) 
@@ -1327,6 +1363,12 @@ report_season_stats <- function(league_choice, seasons){
     lw_u1800_choice <- TRUE 
   }
   
+  if(league_choice == "chess960"){
+    league <- "chess960"
+    rounds <- c(seq(1:8))
+    lw_u1800_choice <- FALSE
+  }
+  
   for (s in seasons) {
     
     league <- league
@@ -1336,34 +1378,66 @@ report_season_stats <- function(league_choice, seasons){
     get_data <- F
     load_data <- T
     
-    if(league != "team4545") {
+    if(league %in% c("lwopen", "lwu1800")) {
+      
       if(season == 1) {rounds <- c(seq(1:5))}
-      if(season %in% c(2:3)){rounds <- c(seq(1:8))}
-      else{rounds <- c(seq(1:11))}
+      if(season %in% c(2:3)){rounds <- c(seq(1:8))
+      } else {
+      rounds <- c(seq(1:11))
+      }
     }
     
+    if(league == "chess960"){
+      if(season == 1){
+        cli::cli_inform("Can't produce a report for Chess960 League S1 - no data available.")
+      }
+    }
     
-    rmarkdown::render(paste0(path_loadrmd, paste0(stats_rmd_filename, '.Rmd')), 
-                      output_format = NULL, # "html_document"
-                      output_file = paste0(path_savereport, "stats_",
-                                           ifelse(league == "team4545", "4545", "lw"),
-                                           ifelse(league == "lonewolf", 
-                                                  ifelse(lw_u1800_choice, "u1800", "open"),
-                                                  ""),
-                                           "_",
-                                           "s", 
-                                           sprintf("%02d", s), 
-                                           ".html"),
-                      params = list(
-                        league = league,
-                        season = s,
-                        rounds = rounds,
-                        lw_section = lw_section
-                                    ),
-                      quiet = TRUE)
-    print(paste0("Produced report for ", 
-                 ifelse(league == "team4545", "4545 S", "LoneWolf S"),
-                 s))
+    if(league != "chess960"){
+      # Render 4545/LW season stats report 
+      rmarkdown::render(paste0(path_loadrmd, paste0(stats_rmd_filename, '.Rmd')), 
+                        output_format = NULL, # "html_document"
+                        output_file = paste0(path_savereport, "stats_",
+                                             ifelse(league == "team4545", "4545", "lw"),
+                                             ifelse(league == "lonewolf", 
+                                                    ifelse(lw_u1800_choice, "u1800", "open"),
+                                                    ""),
+                                             "_",
+                                             "s", 
+                                             sprintf("%02d", s), 
+                                             ".html"),
+                        params = list(
+                          league = league,
+                          season = s,
+                          rounds = rounds,
+                          lw_section = lw_section
+                                      ),
+                        quiet = TRUE)
+      print(paste0("Produced report for ", 
+                   ifelse(league == "team4545", "4545 S", "LoneWolf S"),
+                   s))
+      
+    } else {
+      
+      # Render 960 season stats report 
+      rmarkdown::render(paste0(path_loadrmd, 'produce_960_season_stats.Rmd'), 
+                        output_format = NULL, # "html_document"
+                        output_file = paste0(path_savereport, 
+                                             "stats_chess960_",
+                                             "s", 
+                                             sprintf("%02d", s), 
+                                             ".html"),
+                        params = list(
+                          league = league,
+                          season = s,
+                          rounds = rounds,
+                          lw_section = lw_section
+                        ),
+                        quiet = TRUE)
+      print(paste0("Produced report for Chess960 S",
+                   s))
+      
+    }
     
     toc(log = TRUE)
     
@@ -1381,7 +1455,7 @@ save_and_report_stats <- function(league_choice, season_range){
     save_season_data(league_choice, x)
     report_season_stats(league_choice, x)
   }
-  print("Finished crunching stats!")
+  print("Finished saving and reporting season stats!")
 }
 
 
@@ -1459,10 +1533,10 @@ instareport_season <- function(league, season,
   # 1. Save season data (if necessary)
   if(from_scratch){save_season_data(league, season)}
   
-  # 2. Make sunburst
-  make_sunburst_wrapper(league, season)
-  
-  # 3. Scrub cheats (if necessary)
+  # 2. Make openings sunburst (only for 4545/LW reports)
+  if(league %in% c("team4545", "lwopen", "lwu1800")){
+    make_sunburst_wrapper(league, season)
+  }
   
   # 3. Compile and produce season stats report
   report_season_stats(league, season)

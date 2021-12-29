@@ -1,5 +1,6 @@
 ---
-title: "Lichess4545 Statistics"
+title: "Lichess4545 Stats"
+description: "Unofficial stats, records and other stuff"
 output: distill::distill_article
 date: "Last updated: `r format(Sys.time(), '%B %Y')`"
 site: distill::distill_website
@@ -13,17 +14,13 @@ pacman::p_load(tidyverse, knitr)
 
 ```
 
+The Lichess4545 leagues are popular online chess leagues that have been running since 2015. They're regularly recommended by top players like IM [John Bartholomew](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s). Find out more at https://www.lichess4545.com/.
 
-**This site provides various stats and records relating to the [Lichess4545](https://www.lichess4545.com) online chess leagues.**
-
-These popular leagues have been running since 2015 and are regularly recommended by top players like IM John Bartholomew (see [here](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s)). Find out more at https://www.lichess4545.com/.
-
-<aside> This site is perpetually under construction. 
-</aside>
+This site presents various unofficial compilations of stats by league and season. All content is presented for general interest purposes only. 
 
 ### All time records {#alltime}
 
-[All time records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.html)
+- [All time records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.html) (likely out of date)
 
 ### Stats and awards by league/season {#season-stats}
 
@@ -93,3 +90,9 @@ completed <- tibble("team4545" = completed_4545,
 knitr::kable(completed, format = "simple", col.names = c("Lichess4545 League", "Lichess LoneWolf (Open)", "Lichess LoneWolf (U1800)"))
 
 ```
+
+
+### Other stuff
+
+- [Live standings](https://rahulan-c.github.io/lichess4545-stats/live.html) (only 4545 for now...and irregularly updated)
+- [Round reports](https://rahulan-c.github.io/lichess4545-stats/current.html) (4545 match summary plots for recent seasons/rounds)
