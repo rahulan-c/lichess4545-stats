@@ -28,8 +28,8 @@ navbar:
       #     #   href: openings.html
       #     # - text: "Endgames (tbc)"
       #     #   href: endgames.html
-          - text: "Players by country (tbc)"
-            href: countries.html
+          - text: "Players by country"
+            href: posts/countries.html
       #     # - text: "Random facts (tbc)"
       #     #   href: random.html
           - text: "About"
