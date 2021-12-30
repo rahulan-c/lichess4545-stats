@@ -177,15 +177,15 @@ for(s in seq(1:length(season_reports))){
   season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
   
   xml_child_number <- ifelse(league == "4545", 
-                             ifelse(season %in% c(4, 5, 10, 12, 13, 26, 27),
+                             ifelse(season %in% c(4, 5, 10, 12, 13, 25, 26, 27),
                                     4,
                                     5),
                              ifelse(league == "LW Open",
-                                    ifelse(season %in% c(10, 23),
+                                    ifelse(season %in% c(10, 13, 22, 23),
                                            4,
                                            5),
                                     ifelse(league == "LW U1800",
-                                           ifelse(season %in% c(23),
+                                           ifelse(season %in% c(13, 22, 23),
                                                   4,
                                                   5),
                                            ifelse(league == "Chess960",
@@ -251,6 +251,5 @@ reactable(awards,
 - All statistics based on Lichess game data do not account for games that lasted less than 5 plies (half-moves), games that ended in a disconnection or by "cheat detected", games that were aborted, and games that started from a custom position.,
 - Former league players that were determined by Lichess to have violated their Terms of Service when this report was compiled should not appear in any detailed statistics. However, some may still appear in lists of season winners and top finishers.
 - [Homepage](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
-- Acknowledgements: [Noun Project](https://thenounproject.com/) for the award icons; [Simon Ilincev](https://simonilincev.com/) for [chess_graph](https://github.com/Destaq/chess_graph), which produces the openings sunburst plots.
 :::
 
