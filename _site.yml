@@ -21,19 +21,19 @@ navbar:
       #       href: reports/alltime_stats.html
           # - text: "All-time records (tbc)"
           #   href: records.html
-      # - text: "Other"
-      #   href: other.html
-      #   menu:
+      - text: "Other"
+        href: other.html
+        menu:
       #     # - text: "Openings (tbc)"
       #     #   href: openings.html
       #     # - text: "Endgames (tbc)"
       #     #   href: endgames.html
-      #     # - text: "Players by country (tbc)"
-      #     #   href: countries.html
+          - text: "Players by country (tbc)"
+            href: countries.html
       #     # - text: "Random facts (tbc)"
       #     #   href: random.html
-      #     - text: "About"
-      #       href: about.html
+          - text: "About"
+            href: about.html
   # search: true
   source_url: https://github.com/rahulan-c/lichess4545-stats
 output: distill::distill_article

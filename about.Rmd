@@ -11,27 +11,15 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr)
 ```
 
-### Caveats
-
-Some points that should be borne in mind when browsing the stats on this site. 
-
-- All gambit-related stats in the season reports are likely to be wrong. That's because they're based on a woefully incomplete list of gambits that doesn't even include the Halloween Gambit. This needs to be fixed. One day, it will be. Sorry, Scribbles.
-- The new match summary reports don't have a timestamp on them, but in case it wasn't obvious, they only capture the outcome of games and matches at the time they were made. The results of a game can be revised after it's played -- eg if a player is booted from the league for violating Lichess's Terms of Service -- and when this happens, this can obviously affect the outcome of a match. 
 
 
-### Acknowledgements {#acknowledgements}
+### Notes on the numbers
 
-```{r}
-credits <- c("glbert", "ErinYu", "lc91", "gingersquirrelnuts", "Chewbacca_Defense", 
-             "MrScribbles", "IsaVulpes", "Ecclesiastic", "alen111", "Tranzoo", "Silkthewanderer", "Lou-E", "gavalanche20")
+Some points worth remembering
 
-credits <- stringr::str_c(sort(credits), collapse = ", ")
-```
+- All original gambit-related stats and awards were inaccurate due to my use of poor (incomplete) gambit data. I've now fixed this and corrected all relevant stats in the 4545 season reports, but I've yet to update most LoneWolf season reports.
 
-
-Thanks to the following Lichess4545 members for providing helpful advice, suggestions and inspiration along the way: `r credits`.
-
-The quotes *that will soon appear* in the footer are taken from a list of reasons to play in the 4545 league that was recently compiled by Tranzoo using contributions from Lichess4545 Slack members gigantaure, Impaired, KnightFury21, kostasvsl, M0r1, mojomoe, unclevinny, and seb32.
+- The [match visualisations](https://rahulan-c.github.io/lichess4545-stats/current.html) reflect the results of matches and games at the time they were produced (which, helpfully, isn't recorded anywhere). Just pointing this out because match/game results *can* be changed - eg if a player gets booted from the league and has to forfeit games - which won't be captured in these PDFs unless they're re-done.
 
 
 ### Contact {#contact}
