@@ -18,11 +18,13 @@ The Lichess4545 leagues are popular online chess leagues that have been running 
 
 This site presents various unofficial compilations of stats by league and season. All content is presented for general interest purposes only. 
 
-### All time records {#alltime}
+### All-time records {#alltime}
 
-- [All time records](https://rahulan-c.github.io/lichess4545-stats/reports/alltime_stats.html) (likely out of date)
+Coming soon.
 
 ### Stats and awards by league/season {#season-stats}
+
+- [Search all awards](https://rahulan-c.github.io/lichess4545-stats/reports/awards_search.html)
 
 ```{r season_reports_tbl}
 
@@ -120,5 +122,5 @@ knitr::kable(completed, format = "simple",
 
 ### Other stuff
 
-- [Live standings](https://rahulan-c.github.io/lichess4545-stats/live.html) (only 4545 for now...and irregularly updated)
+- [Live standings](https://rahulan-c.github.io/lichess4545-stats/live.html) (only 4545 for now)
 - [Round reports](https://rahulan-c.github.io/lichess4545-stats/current.html) (4545 match summary plots for recent seasons/rounds)
