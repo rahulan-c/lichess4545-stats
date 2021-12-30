@@ -1294,6 +1294,7 @@ MostDraws <- function(pairings = pairings, tos_violators = tos_violators){
     group_by(player) %>% 
     tally() %>% 
     arrange(desc(n)) %>% 
+    filter(n > 1) %>% 
     slice_max(n)
   return(drawers)
 } 
@@ -1740,8 +1741,18 @@ SeasonAwards <- function(league = NULL,
   }
   
   # Giri Award winners (and their number of draws)
-  giri_winners <- tibble::tibble(drawers) %>% select(player) %>% dplyr::pull()
-  giri_value <- tibble::tibble(drawers) %>% select(n) %>% distinct() %>% dplyr::pull()
+  
+  
+  if(nrow(drawers) > 0){
+    giri_winners <- tibble::tibble(drawers) %>% select(player) %>% dplyr::pull()
+    giri_games <- tibble::tibble(drawers) %>% select(n) %>% dplyr::pull()
+    giri_games <- as.integer(giri_games[1])
+    assertthat::is.number(giri_games)
+    giri_details <- paste0(giri_games, " draws")
+  } else {
+    giri_winners <- ""
+    giri_details <- "No eligible players"
+  }
   
   # Show all eligible Aces award winners 
   if(nrow(aces) > 0){
@@ -1777,7 +1788,7 @@ SeasonAwards <- function(league = NULL,
                             "Lowest ACPL in undecided positions after move 10", 
                             "Most games < 10 ACPL",
                             "Spent the most clock time across the season", 
-                            "Most draws",
+                            "Most draws (> 1)",
                             "Biggest comebacks", 
                             "Achieved the biggest upset",
                             "Achieved the most upsets across the season",
@@ -1800,7 +1811,7 @@ SeasonAwards <- function(league = NULL,
                   lowest_acpls$player[1],
                   str_c(single_fig_acpl_players, collapse = ", "),
                   ifelse(movetimes_exist, season_think$player[1], ""),
-                  str_c(giri_winners, collapse = ", "),
+                  ifelse(nrow(drawers) > 0, str_c(giri_winners, collapse = ", "), giri_winners),
                   comebacks$player[1],
                   upsets$player[1],
                   upset_specialists$player[1],
@@ -1822,7 +1833,7 @@ SeasonAwards <- function(league = NULL,
                   paste0("Achieved a season ACPL of ", round(lowest_acpls$acpl[1], 1)),
                   ifelse(nrow(minacpl_players) > 0, paste0(single_fig_acpl_games[1], " games"), "No eligible players"),
                   ifelse(movetimes_exist, paste0(season_think$duration_print[1]), "Can't be awarded"),
-                  paste0("Achieved ", giri_value, " draws"),
+                  paste0(giri_details),
                   paste0("Achieved ", comebacks$cb_games[1], " notable comeback wins/draws"),
                   paste0(upsets$link[1], " (rating gap: ", upsets$rating_gap[1], ")"),
                   paste0(upset_specialists$upsets[1], " upsets (", "biggest rating gap: ", upset_specialists$max_rating_gap[1], ")"),

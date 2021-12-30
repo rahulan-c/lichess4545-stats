@@ -1529,8 +1529,8 @@ move_sunburst <- function(path_orig, path_new, league, season){
 instareport_season <- function(league, season, 
                                from_scratch = T){
   
-  if(from_scratch){tic("Produce season report + sunburst from scratch")}
-  if(from_scratch == F){tic("Produce season report + sunburst from existing data")}
+  if(from_scratch){tic("Produce season report from new data")}
+  if(from_scratch == F){tic("Produce season report from saved data")}
   
   # 1. Save season data (if necessary)
   if(from_scratch){save_season_data(league, season)}
@@ -1608,13 +1608,6 @@ build_season_reports <- function(wipe_stats_first = FALSE,
                                  update_repo_after = 5){
   
   tic("Compiled season reports")
-  
-  # Add scrub_cheats function HERE
-  # TODO
-  
-  # Add update all-time data functionality HERE
-  # TODO
-  
   
   
   # 4545
