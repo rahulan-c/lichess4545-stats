@@ -179,7 +179,7 @@ for(s in seq(1:length(season_reports))){
   season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
   
   xml_child_number <- ifelse(league == "4545", 
-                             ifelse(season %in% c(4, 5, 10, 12, 13, 25, 26, 27),
+                             ifelse(season %in% c(2:27),
                                     4,
                                     5),
                              ifelse(league == "LW Open",
