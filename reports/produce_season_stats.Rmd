@@ -161,7 +161,7 @@ if(league == "team4545"){knitr::include_graphics("images/all-for-one.svg")}
 if(league == "lonewolf"){knitr::include_graphics("images/wolf-head.svg")}
 ```
 
-### Setting the scene
+### Overview
 
 
 ```{r season_dates}
