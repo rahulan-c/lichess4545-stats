@@ -1104,20 +1104,23 @@ TopScorers <- function(pairings, fide_tpr_lookup, tos_violators){
     mutate(plus_score = wins - losses) %>% 
     filter(plus_score >= 5) %>% 
     arrange(desc(plus_score)) %>% 
-    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) # remove ToS violators
-    
+    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>%  # remove ToS violators
+    tibble::as_tibble()
+  
   top_scorers_final <- top_scorers %>% 
     mutate(text = paste0("**", player, "**", " (", points, "/", games, ")")) %>% 
-    select(player, text)
+    select(player, text) %>% 
+    tibble::as_tibble()
   
   aces <- top_scorers %>%
     filter(plus_score >= 6) %>% 
     arrange(desc(plus_score)) %>% 
-    select(player)
+    select(player) %>% 
+    tibble::as_tibble()
   
-  if(nrow(aces) < 1){
-    aces <- ""
-  }
+  # if(nrow(aces) < 1){
+  #   aces <- ""
+  # }
   
   return(list(top_scorers_final$player, top_scorers_final$text, aces))
 }
@@ -1227,15 +1230,16 @@ SingleFigureACPLs <- function(games = games, tos_violators = tos_violators){
     group_by(player) %>% 
     tally() %>% 
     filter(n>1) %>% 
-    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators)))
+    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
+    tibble::as_tibble() %>% 
+    arrange(desc(n)) %>% 
+    slice_max(n)
   
-  if(nrow(minacpl_players > 0)){
-    minacpl_players <- minacpl_players %>% 
-      arrange(desc(n)) %>% 
-      slice_max(n)
-  } else {
-    minacpl_players <- ""
-  }
+  # if(nrow(minacpl_players > 0)){
+  #   minacpl_players <- minacpl_players %>% 
+  #     arrange(desc(n)) %>% 
+  #     slice_max(n)
+  # }
   return(minacpl_players)
 }
 
@@ -1726,18 +1730,21 @@ SeasonAwards <- function(league = NULL,
                          ){
   
   # Show all eligible Primates of Precision (most games with sub-10 ACPL)
-  if(minacpl_players != ""){
+  if(nrow(minacpl_players) > 0){
     single_fig_acpl_players <- minacpl_players %>% select(player) %>% dplyr::pull()
+    single_fig_acpl_games <- minacpl_players %>% select(n) %>% dplyr::pull()
+    single_fig_acpl_games <- as.integer(single_fig_acpl_games[1])
+    assertthat::is.number(single_fig_acpl_games)
   } else {
     single_fig_acpl_players <- "" # leave blank if no one's eligible
   }
   
   # Giri Award winners (and their number of draws)
-  giri_winners <- drawers %>% select(player) %>% dplyr::pull()
-  giri_value <- drawers %>% select(n) %>% distinct() %>% dplyr::pull()
+  giri_winners <- tibble::tibble(drawers) %>% select(player) %>% dplyr::pull()
+  giri_value <- tibble::tibble(drawers) %>% select(n) %>% distinct() %>% dplyr::pull()
   
   # Show all eligible Aces award winners 
-  if(aces != ""){
+  if(nrow(aces) > 0){
     aces <- str_c(sort(unlist(aces)), collapse = ", ")
   } else {
     aces <- "" # leave blank if no one's eligible
@@ -1813,7 +1820,7 @@ SeasonAwards <- function(league = NULL,
   details_lw <- c(ifelse(gambiteer_award, paste0("Scored ", round(gambiteers$success[1]), "% from ", gambiteers$games[1], " gambit games"), "Can't be awarded"),
                   ifelse(nrow(relative_perfs) > 0, paste0("+", relative_perfs$wins[1], "-", relative_perfs$losses[1], "=", relative_perfs$draws[1], " perf ", round(relative_perfs$perf_rating[1]), ", initially ", round(relative_perfs$initial_rating[1])), ""),
                   paste0("Achieved a season ACPL of ", round(lowest_acpls$acpl[1], 1)),
-                  ifelse(minacpl_players != "", paste0(minacpl_players$n[1], " games"), "No eligible players"),
+                  ifelse(nrow(minacpl_players) > 0, paste0(single_fig_acpl_games[1], " games"), "No eligible players"),
                   ifelse(movetimes_exist, paste0(season_think$duration_print[1]), "Can't be awarded"),
                   paste0("Achieved ", giri_value, " draws"),
                   paste0("Achieved ", comebacks$cb_games[1], " notable comeback wins/draws"),
@@ -1828,6 +1835,7 @@ SeasonAwards <- function(league = NULL,
                   ifelse(nrow(rookie_perfs) > 0, paste0("+", rookie_perfs$wins[1], "-", rookie_perfs$losses[1], "=", rookie_perfs$draws[1], " perf ", round(rookie_perfs$perf_rating[1]), ", initially ", round(rookie_perfs$initial_rating[1])), ""),
                   ifelse(aces != "", "", "No eligible players")
                   )
+  
   details_960 <- details_lw[c(2:8,10,12:13,16:17)]
   
   
@@ -1876,7 +1884,7 @@ SeasonAwards <- function(league = NULL,
       "Mentions" = mentions_team
     )
     
-  } else if (league %in% c("lwopen", "lwu1800")){
+  } else if (league == "lonewolf"){
     
     # LW awards
     awards <- tibble(

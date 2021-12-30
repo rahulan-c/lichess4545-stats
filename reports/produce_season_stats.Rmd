@@ -291,9 +291,20 @@ plt_wins_by_col
 </div>
 </div>
 
-### Podium positions
+### Final standings
+<br>
+```{r results='asis', echo=FALSE}
+# Hide team rosters text from LW reports
+if(lw_hide){cat("<!---")}
+```
 
 *Team rosters ordered by number of games played (shown in brackets)*
+
+```{r results='asis', echo=FALSE}
+# Stop hiding stuff from LW reports
+if(lw_hide){cat("-->")}
+```
+
 
 ```{r}
 # Identify top 3 teams (4545) or players (LW)
@@ -304,12 +315,34 @@ if(league == "team4545"){
   podium_places <- PodiumPlayers(summary_url)
 }
 
-first <- podium_places[[1]]
-first_link <- podium_places[[2]]
-second <- podium_places[[3]]
-second_link <- podium_places[[4]]
-third <- podium_places[[5]]
-third_link <- podium_places[[6]]
+if(league == "team4545"){
+  
+  first <- podium_places[[1]]
+  first_link <- podium_places[[2]]
+  second <- podium_places[[3]]
+  second_link <- podium_places[[4]]
+  third <- podium_places[[5]]
+  third_link <- podium_places[[6]]
+  
+} else {
+  
+  first <- podium_places[[1]]
+  first_link <- podium_places[[2]]
+  first_score <- podium_places[[3]]
+  first_perf <- podium_places[[4]]
+  
+  second <- podium_places[[5]]
+  second_link <- podium_places[[6]]
+  second_score <- podium_places[[7]]
+  second_perf <- podium_places[[8]]
+  
+  third <- podium_places[[9]]
+  third_link <- podium_places[[10]]
+  third_score <- podium_places[[11]]
+  third_perf <- podium_places[[12]]
+  
+}
+
 
 ```
 
@@ -460,7 +493,7 @@ aces <- top_scorers_list[[3]] # for the 'Aces' award
 
 :::aces
 
-Here's everyone who achieved a plus score of +5 or higher this season:
+Here's everyone who achieved a plus score of +5 or higher this season^["Plus" score = played wins - played losses. Also, these season scores exclude any unplayed games, forfeit results or byes.]:
 
 `r top_scorers_text`
 
@@ -1113,34 +1146,64 @@ alt_runnerup <- alt_award_list[[2]]
 if(movetimes_exist){
   if(league == "team4545"){
   # 4545 seasons after movetimes were available
-  awards <- SeasonAwards(league, league_col_dark, movetimes_exist, minacpl_players, drawers, 
-                         alt_award_list = alt_award_list, gambiteers, relative_perfs, 
-                         lowest_acpls, season_think = season_think,
-                           comebacks, upsets, upset_specialists,
+  awards <- SeasonAwards(league = league, 
+                         league_col_dark = league_col_dark, 
+                         movetimes_exist = movetimes_exist, 
+                         minacpl_players = minacpl_players, 
+                         drawers = drawers, 
+                         alt_award_list = alt_award_list, 
+                         gambiteers = gambiteers, 
+                         relative_perfs = relative_perfs, 
+                         lowest_acpls = lowest_acpls, 
+                         season_think = season_think,
+                           comebacks = comebacks,
+                         upsets = upsets, 
+                         upset_specialists = upset_specialists,
                            dawdlers = dawdlers, instamovers = instamovers,
                            movetimes = movetimes, timetrouble = timetrouble,
-                           savedbythebell = savedbythebell, david, rookie_perfs,
+                           savedbythebell = savedbythebell, david = david, 
+                         rookie_perfs = rookie_perfs,
                          gambiteer_award = gambiteer_award,
                          team_accuracy_award = team_accuracy_award,
                          egalitarian = egalitarian,
                          aces = aces)
   } else {
-    awards <- SeasonAwards(league, league_col_dark, movetimes_exist, minacpl_players, drawers, 
-                         alt_award_list = NULL, gambiteers, relative_perfs, 
-                         lowest_acpls, season_think = season_think,
-                           comebacks, upsets, upset_specialists,
-                           dawdlers = dawdlers, instamovers = instamovers,
-                           movetimes = movetimes, timetrouble = timetrouble,
-                           savedbythebell = savedbythebell, david, rookie_perfs,
-                         gambiteer_award = gambiteer_award,
-                         aces = aces)
+    awards <- SeasonAwards(league = league, 
+                         league_col_dark = league_col_dark, 
+                         movetimes_exist = movetimes_exist, 
+                         minacpl_players = minacpl_players, 
+                         drawers = drawers, 
+                       alt_award_list = NULL, 
+                       gambiteers = gambiteers, 
+                       relative_perfs = relative_perfs, 
+                       lowest_acpls = lowest_acpls, 
+                       season_think = season_think,
+                       comebacks = comebacks, 
+                       upsets = upsets, 
+                       upset_specialists = upset_specialists,
+                       dawdlers = dawdlers, 
+                       instamovers = instamovers,
+                       movetimes = movetimes, 
+                       timetrouble = timetrouble,
+                       savedbythebell = savedbythebell, 
+                       david = david,
+                       rookie_perfs = rookie_perfs,
+                       gambiteer_award = gambiteer_award,
+                       aces = aces)
   }
 } else {
   if(league == "team4545"){
     # 4545 seasons before movetimes were available
-    awards <- SeasonAwards(league, league_col_dark, movetimes_exist, minacpl_players, drawers, 
-                           alt_award_list = alt_award_list, gambiteers, relative_perfs, 
-                           lowest_acpls, season_think = NULL,
+    awards <- SeasonAwards(league = league, 
+                           league_col_dark = league_col_dark, 
+                           movetimes_exist = movetimes_exist, 
+                           minacpl_players = minacpl_players, 
+                           drawers = drawers, 
+                           alt_award_list = alt_award_list, 
+                           gambiteers = gambiteers, 
+                           relative_perfs = relative_perfs, 
+                           lowest_acpls = lowest_acpls, 
+                           season_think = NULL,
                              comebacks = comebacks,
                              upsets = upsets,
                              upset_specialists = upset_specialists,
@@ -1156,21 +1219,28 @@ if(movetimes_exist){
                            egalitarian = egalitarian,
                            aces = aces)
   } else {
-    awards <- SeasonAwards(league, league_col_dark, movetimes_exist, minacpl_players, drawers, 
-                           alt_award_list = NULL, gambiteers, relative_perfs, 
-                           lowest_acpls, season_think = NULL,
-                             comebacks = comebacks,
-                             upsets = upsets,
-                             upset_specialists = upset_specialists,
-                             dawdlers = NULL,
-                             instamovers = NULL,
-                             movetimes = NULL,
-                             timetrouble = NULL,
-                             savedbythebell = NULL,
-                             david = david,
-                             rookie_perfs = rookie_perfs,
-                           gambiteer_award = gambiteer_award,
-                           aces = aces)
+    awards <- SeasonAwards(league = league, 
+                         league_col_dark = league_col_dark, 
+                         movetimes_exist = movetimes_exist, 
+                         minacpl_players = minacpl_players, 
+                         drawers = drawers, 
+                         alt_award_list = NULL, 
+                         gambiteers = gambiteers, 
+                         relative_perfs = relative_perfs, 
+                         lowest_acpls = lowest_acpls, 
+                         season_think = season_think,
+                           comebacks = comebacks,
+                           upsets = upsets,
+                           upset_specialists = upset_specialists,
+                           dawdlers = dawdlers,
+                           instamovers = instamovers,
+                           movetimes = NULL,
+                           timetrouble = timetrouble,
+                           savedbythebell = savedbythebell,
+                           david = david,
+                           rookie_perfs = rookie_perfs,
+                         gambiteer_award = gambiteer_award,
+                         aces = aces)
   }
 }
 

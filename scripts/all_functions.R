@@ -1356,10 +1356,12 @@ report_season_stats <- function(league_choice, seasons){
 
   if(league_choice == "lwopen"){
     league <- "lonewolf"
+    rounds <- c(seq(1:11))
     lw_u1800_choice <- FALSE 
   }
   if(league_choice == "lwu1800"){
     league <- "lonewolf"
+    rounds <- c(seq(1:11))
     lw_u1800_choice <- TRUE 
   }
   
@@ -1601,10 +1603,11 @@ build_season_reports <- function(wipe_stats_first = FALSE,
                                  request_data = FALSE,
                                  team_range = NULL, 
                                  lwopen_range = NULL, 
-                                 lwu1800_range = NULL, 
+                                 lwu1800_range = NULL,
+                                 chess960_range = NULL,
                                  update_repo_after = 5){
   
-  tic("Built season reports, updated website")
+  tic("Compiled season reports")
   
   # Add scrub_cheats function HERE
   # TODO
@@ -1644,9 +1647,21 @@ build_season_reports <- function(wipe_stats_first = FALSE,
       }
     }
   }
+  # Chess960
+  if(!(is.null(chess960_range))){
+    chess960_range <- sort(chess960_range, decreasing = T)
+    chess960_range <- split(chess960_range, ceiling(seq_along(chess960_range)/update_repo_after))
+    for(i in seq(1:length(chess960_range))){
+      for(j in seq(1:length(chess960_range[[i]]))){
+        instareport_season("chess960", chess960_range[[i]][j], from_scratch = request_data)
+      }
+    }
+  }
+  
+  
   
   # Push all changes to repo
-  update_repo()
+  # update_repo()
   toc(log = TRUE)
 }
 
