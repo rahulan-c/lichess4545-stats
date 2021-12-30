@@ -1,0 +1,11 @@
+---
+title: "Players by country"
+description: |
+  Where do community members come from?
+output: distill::distill_article
+site: distill::distill_website
+---
+
+I recently made a map based on the national flags that league members have chosen for their public Lichess profiles. 
+
+I'll post it here soon...and show the R code, for anyone interested.

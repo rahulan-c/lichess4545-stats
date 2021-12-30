@@ -1,9 +1,0 @@
----
-title: "Players by country"
-description: |
-  Where do community members come from?
-output: distill::distill_article
-site: distill::distill_website
----
-
-TBC
