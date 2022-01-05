@@ -120,7 +120,8 @@ knitr::kable(completed, format = "simple",
 ```
 
 
-### Other stuff
+### Other pages
 
 - [Live standings](https://rahulan-c.github.io/lichess4545-stats/live.html) (only 4545 for now)
 - [Round reports](https://rahulan-c.github.io/lichess4545-stats/current.html) (4545 match summary plots for recent seasons/rounds)
+- [Players by country](https://rahulan-c.github.io/lichess4545-stats/countries.html)
