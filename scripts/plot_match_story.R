@@ -4,7 +4,7 @@
 # =============================================================================
 
 # Last updated:
-# 2021-12-17
+# 2022-01-05
 
 # NOTES
 # [1] Won't work for a round that hasn't been closed, because it requests team 
@@ -1500,9 +1500,27 @@ PlotMatchStory <- function(season_num, # season number
   extrafont::embed_fonts(combined_filename,
                          outfile = combined_filename)
   
-  # Now we're done, but all the individual match PDFs are still located in the 
-  #   output folder. So before we go, let's delete them.
+  # After producing the final composite PDF, delete the individual match PDFs
   fs::file_delete(files_to_delete)
+  
+  # Move final PDF from output folder to publication folder
+  # Overwrite any previously saved files with the same name
+  fs::file_copy(path = paste0(here::here(), 
+                              "/reports/stories/prod/",
+                              "s", 
+                              sprintf("%02d", season_num), 
+                              "_r",
+                              round_num,
+                              "_allmatches.pdf"),
+                new_path = paste0(here::here(), 
+                                  "/reports/stories/",
+                                  "s", 
+                                  sprintf("%02d", season_num), 
+                                  "_r",
+                                  round_num,
+                                  "_allmatches.pdf"),
+                overwrite = TRUE)
+  
   cli::cli_alert_success("Saved match story PDF")
   
   # # Open PDF  
@@ -1511,5 +1529,12 @@ PlotMatchStory <- function(season_num, # season number
 } # end function
 
 
-## Plot all matches in a completed round ----
-# PlotMatchStory(28, 7, plot_whole_round = T, request_data = T)
+# ---- Plot all match stories for a round ----
+# PlotMatchStory(28, 2, plot_whole_round = T, request_data = T)
+
+# ---- Plot all match stories for a season ----
+
+season <- 28
+for(r in c(1:8)){
+  PlotMatchStory(season, r, plot_whole_round = T, request_data = T)
+}
