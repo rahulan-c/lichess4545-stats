@@ -1,12 +1,10 @@
 ---
-title: "Live standings"
+title: "Standings"
+description: |
+  "Live" league standings    
 output: distill::distill_article
 site: distill::distill_website
 ---
-
-Standings that try to account for the results of games that have been played in current rounds. They might not always be consistent with the official standings published on the Lichess4545 website because they don't properly include every tiebreak measure.
-
-
 
 ```{r opts_packages, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
@@ -14,7 +12,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr, data.table, kableExtra, reactable, htmltools, 
                httr, jsonlite, xml2, rvest, ndjson, utf8, lubridate, 
-               tippy, here, glue, distill)
+               tippy, here, glue, distill, assertthat)
 
 # Custom reactable table theme
 options(reactable.theme = reactableTheme(
@@ -34,6 +32,11 @@ options(reactable.theme = reactableTheme(
 
 ```
 
+This page shows "live" standings for currently active leagues. 
+
+These try to account for games that have already been played in the current round. However, they don't account for every tiebreak used in the leagues, so the order of teams or players shown here won't always be accurate. They're also not fully automated yet, so this page might show old or outdated information, and so far I've only produced them for the 4545 league. 
+
+*Last updated: `r lubridate::now("UTC")`*
 
 
 ```{r}
@@ -57,11 +60,11 @@ round <- read_html(paste0("https://www.lichess4545.com/team4545/season/", season
 
 ```
 
-### 4545 Team League - Season `r season`
+### 4545 Team League
 
-*Last updated: `r lubridate::now("UTC")`*
+Current season/round:  `r paste0("S", season, " R", round)`
 
-```{r live_standings, layout="l-page"}
+```{r live_standings, layout="l-page", comment = ""}
 # Construct "live" 4545 standings
 
 # Steps:
@@ -69,6 +72,14 @@ round <- read_html(paste0("https://www.lichess4545.com/team4545/season/", season
 # - capture all team pairings in the current round
 # - calculate the effect that the current match scores would have on the standings
 
+# Only produce 4545 standings between Thu and Sun in rounds 3 or after
+if(round <= 2){
+  cat("Too early in the season. Check again after Round 3 starts :)")
+
+  } else if(lubridate::wday(lubridate::today(), week_start = 1) < 4) {
+  cat("Too early in the week. Check again from Thursday :)")
+  
+  } else {
 
 # Get current round's team pairings -------------------------------------------
 
@@ -234,14 +245,14 @@ reactable(scores2,
             colGroup(name = "Implications", columns = c("change_rank", "hypo_rank"))
   )
 )
-        
+ }    
         
 ```
 
 ### LoneWolf Open
 
-Soon.
+To be completed.
 
 ### LoneWolf U1800
 
-Ditto.
+To be completed.

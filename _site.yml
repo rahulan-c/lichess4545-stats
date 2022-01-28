@@ -10,10 +10,15 @@ output_dir: "."
 include:
 navbar:
   right:
-      - text: "Live Standings"
-        href: live.html
-      - text: "Round Reports"
-        href: current.html
+      - text: "Latest"
+        href: latest.html
+        menu:
+          - text: "League status"
+            href: league_status.html
+          - text: "Standings"
+            href: live.html
+          - text: "4545 stories"
+            href: current.html
       # - text: "All-time records"
       #   href: alltime.html
       #   menu: 

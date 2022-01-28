@@ -122,6 +122,7 @@ knitr::kable(completed, format = "simple",
 
 ### Other pages
 
-- [Live standings](https://rahulan-c.github.io/lichess4545-stats/live.html) (only 4545 for now)
-- [Round reports](https://rahulan-c.github.io/lichess4545-stats/current.html) (4545 match summary plots for recent seasons/rounds)
-- [Players by country](https://rahulan-c.github.io/lichess4545-stats/countries.html)
+- [Check which leagues are running](https://rahulan-c.github.io/lichess4545-stats/league_status.html)
+- [Latest 4545 standings](https://rahulan-c.github.io/lichess4545-stats/live.html)
+- [4545 match 'stories'](https://rahulan-c.github.io/lichess4545-stats/current.html) for S28 and S29
+- [Players by country (profile flags)](https://rahulan-c.github.io/lichess4545-stats/countries.html) (across all seasons)

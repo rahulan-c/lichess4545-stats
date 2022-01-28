@@ -965,7 +965,7 @@ reactable(top_gambits,
            )
     )
 } else{
-  print("No gambits were played this season :(")
+  cat("No gambits were played this season :(")
 }
 ```
 
@@ -1033,7 +1033,7 @@ reactable(gambiteers,
            )
     )
 } else {
-  print("There were no deserving gambiteers this season :(")
+  cat("There were no deserving gambiteers this season :(")
 }
 ```
 
@@ -1451,7 +1451,7 @@ reactable(season_think,
     duration_print = colDef(name = "Total time spent")),
     compact = TRUE)
 } else {
-  print(no_movetimes_print)
+  cat(no_movetimes_print)
 }
 
 ```
@@ -1476,7 +1476,7 @@ reactable(avg_think_times,
     prank = colDef(name = "Percentile", align = "center")),
     compact = TRUE)
 } else {
-  print(no_movetimes_print)
+  cat(no_movetimes_print)
 }
 
 ```
@@ -1617,7 +1617,7 @@ reactable(dawdlers,
           }),
           outcome = colDef(name = "Result", align = "center", show = F)))
 } else {
-  print(no_movetimes_print)
+  cat(no_movetimes_print)
 }
 ```
 
@@ -1642,7 +1642,7 @@ reactable(instamovers,
             instamoves = colDef(name = "Instant moves", align = "center")
           ))
 } else {
-  print(no_movetimes_print)
+  cat(no_movetimes_print)
 }   
 ```
 
@@ -1675,7 +1675,7 @@ reactable(movetimes,
           })),
     compact = TRUE)
 } else {
-  print(no_movetimes_print)
+  cat(no_movetimes_print)
 }
 ```
 
@@ -1701,7 +1701,7 @@ reactable(timetrouble,
                    format = colFormat(digits = 1, percent = TRUE))),
     compact = TRUE)
 } else {
-  print(no_movetimes_print)
+  cat(no_movetimes_print)
 }
 ```
 
@@ -1726,7 +1726,7 @@ reactable(savedbythebell,
             sprintf('<a href="%s" target="_blank">%s</a>', savedbythebell$url[index], value)
           })))
 } else {
-  print(no_movetimes_print)
+  cat(no_movetimes_print)
 }
 
 ```
@@ -1751,7 +1751,7 @@ if(notable_mates != ""){
                                      sprintf("%02d", season), 
                                      ".png"))
 } else {
-  print("No notable checkmates were identified.")
+  cat("No notable checkmates were identified.")
 }
 ```
 

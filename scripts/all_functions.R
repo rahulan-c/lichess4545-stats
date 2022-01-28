@@ -1059,9 +1059,7 @@ get_league_data <- function(league_choice,
   }
   
   toc(log = TRUE)
-  
   return(list(all_pairings, all_positions))
-  # return(list(all_pairings, collated_positions))
   
 }
 
@@ -1523,11 +1521,13 @@ move_sunburst <- function(path_orig, path_new, league, season){
   file.remove(paste0(path_root, "/sunburst.png"))
 }
 
-# Make a stats report from scratch
-# Requests and saves season data, requests PGN for openings sunburst, makes 
-# sunburst, then compiles and saves season stats HTML report.
+
 instareport_season <- function(league, season, 
                                from_scratch = T){
+  
+  # Make a stats report from scratch
+  # Requests and saves season data, requests PGN for openings sunburst, makes 
+  # sunburst, then compiles and saves season stats HTML report.
   
   if(from_scratch){tic("Produce season report from new data")}
   if(from_scratch == F){tic("Produce season report from saved data")}
@@ -1547,30 +1547,51 @@ instareport_season <- function(league, season,
 }
 
 
-# Updates index.md so https://rahulan-c.github.io/lichess4545-stats/ shows all
-# seasons that have completed season stats reports, then pushes all updates to
-# the public Github repo, so the website will be updated.
-update_repo <- function(){
-  # Push changes to repo
-  source(paste0(path_scripts, "update_repo.R"))
+
+
+
+UpdateSite <- function(update_stats = FALSE, 
+                       update_current = FALSE,
+                       update_standings = FALSE,
+                       update_status = FALSE){
   
-  # # Build footer
+  # Implements a general method for updating the Lichess4545 Stats site
+  
+  # Updates Github repo to match local repo, produces new site pages, then 
+  # pushes latest pages to Github. 
+  
+  # Order of operations:
+  # 1) Pushes latest repo changes to Github (scripts/update_repo.R)
+  # 2) Produces new footer with the current date ("Site updated on X")
+  # 3) Produces new index page by knitting index.rmd 
+  #      - required for the latest produced reports to show up
+  # 4) Produces new "current round" page by knitting current.rmd
+  # 5) Produces new live standings page by knitting live.rmd
+  # 6) Pushes updated pages to Github (and therefore the site)
+  #      - scripts/update_repo.R is run again
+  
+  # Note that each function call results in TWO separate commits (steps 1 + 6)
+  
   create_footer()
   
-  # rmarkdown::render_site(quiet = TRUE)
+  if(update_stats){
+    source(paste0(path_scripts, "update_repo.R"))
+    rmarkdown::render(paste0(path_root, "/index.rmd"))
+  }
   
-  # Render index.rmd
-  rmarkdown::render(paste0(path_root, "/index.rmd"))
+  if(update_current){rmarkdown::render(paste0(path_root, "/current.rmd"))}
+  if(update_standings){rmarkdown::render(paste0(path_root, "/live.rmd"))}
+  if(update_status){rmarkdown::render(paste0(path_root, "/league_status.rmd"))}
   
-  # Render other pages
-  rmarkdown::render(paste0(path_root, "/current.rmd"))
-  rmarkdown::render(paste0(path_root, "/live.rmd"))
-  rmarkdown::render(paste0(path_root, "/live.rmd"))
-  
-  # Then push the updated index.md
   source(paste0(path_scripts, "update_repo.R"))
+  cli::cli_alert_success("Site updated")
 }
 
+
+UpdateRepo <- function(){
+  # Pushes latest local repo changes to Github
+  source(paste0(here::here(), "/scripts/update_repo.R"))
+}
 
 # Delete all stats reports and sunburst plots in reports/
 wipe_all_stats <- function(){

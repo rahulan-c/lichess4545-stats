@@ -6,8 +6,4 @@ output: distill::distill_article
 site: distill::distill_website
 ---
 
-Coming soon! Yes, really! 
-
-x
-x
-xx
+Coming soon! Yes, really!
