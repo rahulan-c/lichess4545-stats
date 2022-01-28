@@ -13,13 +13,25 @@ pacman::p_load(tidyverse, knitr)
 
 
 
-### Notes on the numbers
+### FYI
 
-Some points worth remembering
+Some small points to bear in mind when interpreting specific stats or outputs.
 
-- All original gambit-related stats and awards were inaccurate due to my use of poor (incomplete) gambit data. I've now fixed this and corrected all relevant stats in the 4545 season reports, but I've yet to update most LoneWolf season reports.
+- The [4545 match 'story' plots](https://rahulan-c.github.io/lichess4545-stats/current.html) only reflect results at the time they were produced. So for example, if a player gets booted from the league late in a season, they will forfeit all their earlier games, but a 'match story' that was produced before these events won't capture those forfeits...unless it's re-created from scratch.
 
-- The [match visualisations](https://rahulan-c.github.io/lichess4545-stats/current.html) reflect the results of matches and games at the time they were produced (which, helpfully, isn't recorded anywhere). Just pointing this out because match/game results *can* be changed - eg if a player gets booted from the league and has to forfeit games - which won't be captured in these PDFs unless they're re-done.
+- There was an issue affecting the data used to compute gambit-related stats and awards. It's now been fixed - improved, even - but as of January 2022, the update has only been applied to all 4545 reports, not LW (yet).
+
+
+### Planned updates
+
+Some day, these might happen.
+
+- Adding more leagues: ~~Chess960~~, Series, Rapid Battle
+- All-time stats
+- Team logo gallery
+- Opening-related stats
+- Endgame-related stats (incl. tablebase positions)
+- League trivia
 
 
 ### Contact {#contact}
