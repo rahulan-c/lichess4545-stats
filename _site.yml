@@ -13,7 +13,7 @@ navbar:
       - text: "Latest"
         href: latest.html
         menu:
-          - text: "League status"
+          - text: "League info"
             href: league_status.html
           - text: "Standings"
             href: live.html

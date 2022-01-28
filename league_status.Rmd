@@ -1,7 +1,7 @@
 ---
-title: "Current leagues"
+title: "League info"
 description: |
-  Info on all active leagues     
+  Check which leagues are currently active     
 output: distill::distill_article
 site: distill::distill_website
 ---
@@ -15,6 +15,9 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, data.table, assertthat, xml2, rvest, lubridate, knitr)
 ```
 
+
+
+### League status checker
 
 ```{r check_status}
 
@@ -185,3 +188,11 @@ kable(statuses)
 
 
 ```
+
+**Notes**
+
+- The table shows the current status of the 4545 Team, LoneWolf and Chess960 leagues. In the future, I plan to extend this to cover some community leagues too (like Series, Rapid Battle and Infinite Quest). Check out the [Lichess4545 overview](https://bit.ly/35w1xqH) to learn about all the leagues and initiatives run by the community.
+- *status* - 'pre' means pre-season, 'mid' means mid-season, and 'post' means postseason (which may indicate that all games have been played but the final standings haven't been confirmed yet).
+- *active* - 'FALSE' means the current season is over but registrations for the next season aren't open yet.
+- *regs_open* - shows whether the league is currently accepting registrations. Note that for the 4545 league, if a season has started, then new registrants can only sign up to play as an alternate (since the teams for the season have already been made). 
+
