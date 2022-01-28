@@ -1550,10 +1550,13 @@ instareport_season <- function(league, season,
 
 
 
-UpdateSite <- function(update_stats = FALSE, 
+UpdateSite <- function(navbar_changed = FALSE,
+                       new_stats_produced = FALSE,
+                       update_index = FALSE,
                        update_current = FALSE,
                        update_standings = FALSE,
-                       update_status = FALSE){
+                       update_status = FALSE,
+                       update_about = FALSE){
   
   # Implements a general method for updating the Lichess4545 Stats site
   
@@ -1572,16 +1575,40 @@ UpdateSite <- function(update_stats = FALSE,
   
   # Note that each function call results in TWO separate commits (steps 1 + 6)
   
+  # Site footer
   create_footer()
   
-  if(update_stats){
+  # Update all pages if the nav bar has been changed
+  if(navbar_changed){
+    update_index <- TRUE
+    update_status <- TRUE
+    update_stats <- TRUE
+    update_current <- TRUE
+    update_standings <- TRUE
+    update_about <- TRUE
+  }
+  
+  # League statuses
+  if(update_status){rmarkdown::render(paste0(path_root, "/league_status.rmd"))}
+  
+  # Index page - if a new stats report has been produced
+  # All repo changes should be pushed first before the index page is re-knitted
+  if(new_stats_produced){
     source(paste0(path_scripts, "update_repo.R"))
     rmarkdown::render(paste0(path_root, "/index.rmd"))
   }
   
+  # Index page - if a new stats report hasn't been produced
+  if(update_index){rmarkdown::render(paste0(path_root, "/index.rmd"))}
+  
+  # Round updates page (currently just shows 4545 stories)
   if(update_current){rmarkdown::render(paste0(path_root, "/current.rmd"))}
+  
+  # Live standings
   if(update_standings){rmarkdown::render(paste0(path_root, "/live.rmd"))}
-  if(update_status){rmarkdown::render(paste0(path_root, "/league_status.rmd"))}
+  
+  # About page
+  if(update_about){rmarkdown::render(paste0(path_root, "/about.rmd"))}
   
   source(paste0(path_scripts, "update_repo.R"))
   cli::cli_alert_success("Site updated")

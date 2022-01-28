@@ -124,5 +124,5 @@ knitr::kable(completed, format = "simple",
 
 - [Check which leagues are running](https://rahulan-c.github.io/lichess4545-stats/league_status.html)
 - [Latest 4545 standings](https://rahulan-c.github.io/lichess4545-stats/live.html)
-- [4545 match 'stories'](https://rahulan-c.github.io/lichess4545-stats/current.html) for S28 and S29
+- [4545 match 'stories'](https://rahulan-c.github.io/lichess4545-stats/current.html) for S27 and S28
 - [Players by country (profile flags)](https://rahulan-c.github.io/lichess4545-stats/countries.html) (across all seasons)
