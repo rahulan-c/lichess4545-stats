@@ -3,15 +3,59 @@
 #                         PLOT 4545 MATCH STORIES
 # =============================================================================
 
-# Last updated:
-# 2022-01-05
+# METADATA
+# Author:   Rahulan C (izzie26)
+# Started:  August 2021
+# Updated:  February 2022
+# Status:   WORKING
 
-# NOTES
+
+# DESCRIPTION
+# Plots the 'story' of matches played in the Lichess4545 Team League.
+# Shows a match as a sequence of moves played in successive games, showing the 
+# evaluation trajectory of each game as it reaches its result (1-0, 0-1, 
+# 1/2-1/2, or other), while also showing how the overall match reached its final
+# score. Made by essentially stitching together the evaluation graphs of all the
+# games played in a match, ordering each game by the time it finished.
+
+
+# OUTPUT(S)
+# Produces a single PDF output.
+
+
+# IMPORTANT NOTES
 # [1] Won't work for a round that hasn't been closed, because it requests team 
 #     position data for the *following* round too, so obvs if a season's still 
 #     in Round 1, there won't be any data for Round 2.
 # [2] Remember to check for any un-analysed games in a round before creating
-#     stories, using get_league_games().
+#     stories, using get_league_games(). Process: 
+#     - Run get_league_games() once and identify games that require analysis
+#     - Manually request server analysis for these games
+#     - Once all games have been analysed, run PlotMatchStory()
+
+
+# KNOWN BUGS
+# 2022-02-03: New character encoding issues cause printed fractions to appear
+#             wrong in the output. Needs to be fixed urgently.
+
+
+# DEV TODOS
+# - Give single match plots a more informative name
+# - Improve team stats
+# - Make console messages more informative
+# - Explore alternative output formats (eg SVG)
+# - Refactor code to fully separate constituent functions, instead of
+#   bundling them all within PlotMatchStory()
+# - Explore other ideas: eg plotting...
+#     All matches played by a team in a season
+#     All matches played by a player in a season
+#     All matches played by a player over their career
+#     (NOTE: this probably requires re-factoring the code first!)
+
+# - [done] Fix new character encoding bug
+# - [done] Shorten long player names in Games section
+# - [done] Add date created to final PDF
+# - [done] Consider removing use of emo() package (doesn't add much)
 
 # Setup =======================================================================
 
@@ -37,21 +81,35 @@ extrafont::loadfonts(device = "pdf", quiet = TRUE)
 
 ## Fix character encoding issues ----------------------------------------------
 fix_character_encoding <- function(df){
-  df <- df %>% 
-    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
-    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>% 
-    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
-    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
-    mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
-    mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
-    mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
-    mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'"))) %>% 
-    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¤", "ä")))
+  
+  # df <- df %>%
+  #   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>%
+  #   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>%
+  #   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>%
+  #   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>%
+  #   mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>%
+  #   mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>%
+  #   mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>%
+  #   mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'"))) %>%
+  #   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¤", "ä")))
+  
+  # Approach 1: manually change wrong characters to correct Unicode
+  df <- df %>%
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "\u00fc"))) %>%
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "\u00f6"))) %>%
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "\u00f3"))) %>%
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "\u00e9"))) %>%
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "\u203e"))) %>%
+    mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "\u30c4"))) %>%
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "\u0027"))) %>%
+    mutate(across(where(is.character), ~ str_replace_all(.x, "’", "\u0027"))) %>%
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¤", "\u00e4")))
+  
+  # Approach 2: change encoding of strings in character columns to UTF-8 
+  df <- df %>%
+    mutate(across(where(is.character), ~ stringi::stri_enc_toutf8(.x)))
   return(df)
 }
-
-
-
 
 #' Makes a graphic visualising the story of a single Lichess4545 Team League 
 #' match or a set of matches in a specific round. Produces a single PDF output.
@@ -165,8 +223,8 @@ PlotMatchStory <- function(season_num, # season number
 
   # Identify match to plot ------------------------------------------------------
   
-  all_matches$X2 <- all_matches$X2 %>% str_replace_all("½", ".5")
-  all_matches$X3 <- all_matches$X3 %>% str_replace_all("½", ".5")
+  all_matches$X2 <- all_matches$X2 %>% str_replace_all("\u00bd", ".5")
+  all_matches$X3 <- all_matches$X3 %>% str_replace_all("\u00bd", ".5")
   all_matches_2 <- all_matches # for summarising round pairings
   
   
@@ -300,33 +358,44 @@ PlotMatchStory <- function(season_num, # season number
   
   }
   
-  
+  # Create empty list for match plots
   lst_plots <- vector("list", length = nrow(all_matches))
   
+  # For each match to be plotted...
   for (m in seq(1:length(lst_plots))) {
 
-    # Extract relevant data subset for each match ---------------------------------------------
+    # Extract match data subset -----------------------------------------------
       
-    # Pairings data
+    # Match pairings
     pairings <- all_pairings %>% 
       filter(white_team == all_matches$X1[m] | black_team == all_matches$X1[m])
     
-    # Match summary data
+    # Match summary
     matches <- all_matches %>% 
       filter(X1 %in% pairings$white_team)
       
-    # Games data
+    # Match games
     games <- all_games %>% 
       filter(id %in% pairings$game_id)
     
-    # Alt. pairings data (with scheduled times)
+    # Alt. form of pairings data, with scheduled times
     pairings2 <- all_pairings2 %>% 
       filter(str_detect(match, pairings$white_team[1]))
-    # Fix results in pairings2 - because you need to switch around even-numbered boards 
-    # when using data taken from the website pairings page
+    
+    # Fix the result column in the alt. pairings data
+    # Required because raw data extracted from the Lichess4545 pairings page 
+    # gives the wrong (reversed) result for all even-numbered boards. These 
+    # need to be reversed. 
+    results_first <- str_extract(pairings2$result, "^.+-") %>% str_remove("-")
+    results_second <- str_extract(pairings2$result, "-.+$") %>% str_remove("-")
+    pairings2$result2 <- paste0(results_second, 
+                               rep("-", nrow(pairings2)),
+                               results_first)
+    rm(results_first, results_second)
     pairings2$result <- ifelse(pairings2$board %% 2 == 0,
-                               glue("{str_sub(pairings2$result, 4, 5)}-{str_sub(pairings2$result, 1, 2 )}"),
+                               pairings2$result2,
                                pairings2$result)
+    pairings2$result2 <- NULL
     
     # Remove played forfeits from pairings and games data
     # Added back in as unplayed games so they can be shown just like unplayed 
@@ -448,16 +517,14 @@ PlotMatchStory <- function(season_num, # season number
         pregamescore_t2 = postgamescore_t2 - pts_t2,
         pregamediff = pregamescore_t1 - pregamescore_t2
       ) # diff. btw teams' match scores before game
-  
-  
-    pairings$finalscore_t1 <- ifelse(pairings$t1[1] == matches$X1,
-      as.numeric(matches$X2),
-      as.numeric(matches$X3)
-    )
-    pairings$finalscore_t2 <- ifelse(pairings$t2[1] == matches$X4,
-      as.numeric(matches$X3),
-      as.numeric(matches$X2)
-    )
+    
+    if(pairings$t1[1] == matches$X1){
+      pairings$finalscore_t1 <- as.numeric(matches$X2)
+      pairings$finalscore_t2 <- as.numeric(matches$X3)
+    } else if (pairings$t1[1] == matches$X4) {
+      pairings$finalscore_t1 <- as.numeric(matches$X3)
+      pairings$finalscore_t2 <- as.numeric(matches$X2)
+    }
   
     # Collate moves data from all games
     moves <- data.table::rbindlist(games$evals)
@@ -477,6 +544,8 @@ PlotMatchStory <- function(season_num, # season number
         postgamescore_t2, finalscore_t1, finalscore_t2, eco, started, ended,
         opening.name
       )
+    
+    
   
     moves <- dplyr::left_join(moves, pairings_sub, by = c("game_id")) %>%
       mutate(player = ifelse(colour == "white", white, black))
@@ -502,6 +571,10 @@ PlotMatchStory <- function(season_num, # season number
       # Add a set of moves for each unplayed game (so they're shown separately on the plot)
       uf <- pairings %>% 
         filter(str_detect(game_id, "forfeit"))
+      
+      # DEBUGGING - DELETE LATER
+      # cli::cli_inform("uf$finalscore_t1: {uf$finalscore_t1}")
+      
       for(u in seq(1:nrow(uf))){
         
         cli::cli_alert_warning("{uf$white[u]}-{uf$black[u]} {uf$result[u]}")
@@ -658,42 +731,47 @@ PlotMatchStory <- function(season_num, # season number
       filter(!(is.na(game_id)))
   
     # Get final match score for printing (convert .5 to fraction)
-    finalscore_t1 <- moves$finalscore_t1[1] %>% str_replace("\\.5", "½")
-    finalscore_t2 <- moves$finalscore_t2[1] %>% str_replace("\\.5", "½")
+    finalscore_t1 <- moves$finalscore_t1[1] %>% str_replace("\\.5", "\u00bd")
+    finalscore_t2 <- moves$finalscore_t2[1] %>% str_replace("\\.5", "\u00bd")
   
+    # 
     moves_extra$score <- moves_extra$score %>%
-      str_replace_all("\\.5", "½") %>%
-      str_replace_all("0½", "½")
+      str_replace_all("\\.5", "\u00bd") %>%
+      str_replace_all(paste0("0", "\u00bd"), "\u00bd")
     
-    # Convert 0.5 player to points to ½
+    # Convert 0.5 player to points to ½ ("\u00bd")
     moves_extra$pts_t1_print <- moves_extra$pts_t1 %>% 
-      stringr::str_replace("0.5", "½")
+      stringr::str_replace("0.5", "\u00bd")
     moves_extra$pts_t2_print <- moves_extra$pts_t2 %>% 
-      stringr::str_replace("0.5", "½")
+      stringr::str_replace("0.5", "\u00bd")
     # Ensure Fs, Xs and Zs show up in the final game summary results
     moves_extra <- moves_extra %>% 
       mutate(pts_t1_print = ifelse(str_detect(game_id, "forfeit"), 
                                    ifelse(pts_t1 == 1, "1X",
                                           ifelse(pts_t1 == 0, "0F",
-                                                 ifelse(pts_t1 == 0.5, "½Z",
+                                                 ifelse(pts_t1 == 0.5, paste0("\u00bd", "Z"),
                                                         pts_t1_print))),
                                    pts_t1_print)) %>% 
                mutate(pts_t2_print = ifelse(str_detect(game_id, "forfeit"), 
                                             ifelse(pts_t2 == 1, "1X",
                                                    ifelse(pts_t2 == 0, "0F",
-                                                          ifelse(pts_t2 == 0.5, "½Z",
+                                                          ifelse(pts_t2 == 0.5, paste0("\u00bd", "Z"),
                                                                  pts_t2_print))),
                                             pts_t2_print))
-  
+
+    
+    # Get min and max evals in match
     min_eval <- min(moves_extra$min_scaled_eval)
     max_eval <- max(moves_extra$max_scaled_eval)
   
+    # When the first game was played
     match_started <- paste0(
       as.character(lubridate::wday(pairings$started[1], label = TRUE, week_start = 1)), "\n",
       as.character(sprintf("%02d", lubridate::hour(pairings$started[1]))), ":",
       as.character(sprintf("%02d", lubridate::minute(pairings$started[1]))), ""
     )
   
+    # When the last game was played
     match_ended <- paste0(
       as.character(lubridate::wday(pairings$ended[length(pairings$ended)], label = TRUE, week_start = 1)), "\n",
       as.character(sprintf("%02d", lubridate::hour(pairings$ended[length(pairings$ended)]))), ":",
@@ -701,7 +779,7 @@ PlotMatchStory <- function(season_num, # season number
     )
     
     # Print match summary info
-    cli::cli_alert_success("Extracted details for #{rank_t1} {teams[[1]]} {moves$finalscore_t1[1]}-{moves$finalscore_t2[1]} #{rank_t2} {teams[[2]]}")
+    cli::cli_alert_success("Got data: {str_trunc(teams[[1]], 8, 'right')} vs {str_trunc(teams[[2]], 8, 'right')} ({moves$finalscore_t1[1]}-{moves$finalscore_t2[1]})")
     
     # Compile statistics for plot ---------------------------------------------
     
@@ -1172,9 +1250,7 @@ PlotMatchStory <- function(season_num, # season number
         aes(
           x = (first_ply / 2) + (((last_ply / 2) - (first_ply / 2)) * 0.05),
           y = max_eval + 4.2,
-          label = glue::glue("B{board} {ifelse(game_order == team_boards, emo::ji('chequered_flag'),
-                             ifelse(game_order == 1, emo::ji('play_button'),
-                             ''))}")
+          label = glue::glue("B{board}")
         ),
         family = plotinfo_font,
         colour = gamedetail_col,
@@ -1213,7 +1289,7 @@ PlotMatchStory <- function(season_num, # season number
       aes(
         x = (first_ply / 2) + (((last_ply / 2) - (first_ply / 2)) * 0.05),
         y = max_eval + 3.8,
-        label = glue::glue("{player_1}")
+        label = glue::glue("{ifelse(nchar(player_1) < 17, player_1, str_trunc(player_1, 17, 'right'))}")
       ),
       family = plotinfo_font,
       colour = team1_col,
@@ -1245,7 +1321,7 @@ PlotMatchStory <- function(season_num, # season number
       aes(
         x = (first_ply / 2) + (((last_ply / 2) - (first_ply / 2)) * 0.05),
         y = max_eval + 3.5,
-        label = glue::glue("{player_2}")
+        label = glue::glue("{ifelse(nchar(player_2) < 17, player_2, str_trunc(player_2, 17, 'right'))}")
       ),
       family = plotinfo_font,
       colour = team2_col,
@@ -1361,9 +1437,10 @@ PlotMatchStory <- function(season_num, # season number
         aes(
           x = ((max_ply * nrow(moves_extra)) / 2) * -0.025,
           y = min_eval - 3.9,
-          label = glue::glue("[Notes] 'Games': start times shown in UTC and rounded to the nearest 15 minutes; forfeited games are treated identically to unplayed games (even if they were played).
-                             'Story': y-axis tracks the match score gap between the teams while also showing in-game evaluations from Lichess's server analysis; x-axis tracks moves played; both axes scaled for consistency and legibility; games ordered from left to right by time of last move, with unplayed games assigned instead by scheduled time, and unplayed pairings without scheduled times shown last). 
-                             'Stats' - (F)W/D/L: (forfeit) wins/losses/draws, Clock: total clock time used, ACPL: team average centipawn loss (adjusted for moves), Inaccuracies/Mistakes/Blunders: % moves of each error type. Also: ranks only shown for the top 10 teams at the start of the round, ignoring tiebreaks; ranks not shown for Round 1.")
+          label = glue::glue("NOTES 'Games': all played and non-forfeited games have hyperlinked 8-character game IDs; the days/times show when each game started, shown in UTC and rounded to the nearest 15 minutes. 
+                             'Story': the y-axis tracks the difference between each team's overall match score, scaling each game's move-by-move evaluation accordingly, while the x-axis shows moves played in the match; both axes are scaled for consistency and legibility; games in the match are ordered from left to right by the time of their last move (unplayed games are then assigned a place by their original scheduled time, and pairings without a scheduled time are shown last). 
+                             'Stats' - (F)W/D/L: (forfeit) wins/losses/draws, Clock: total clock time used, ACPL: team average centipawn loss (adjusted for moves), Inaccuracies/Mistakes/Blunders: % moves of each error type. Also: ranks only shown for the top 10 teams at the start of the round, ignoring tiebreaks; ranks not shown for Round 1.
+                             This plot was compiled on {paste0(lubridate::day(lubridate::today()), ' ', lubridate::month(lubridate::today(), label = T, abbr = F), ' ', lubridate::year(lubridate::today()))}.")
         ),
         width = grid::unit(0.92, "npc"), # % of plot panel width
         size = 2.25,
@@ -1457,7 +1534,7 @@ PlotMatchStory <- function(season_num, # season number
     } else {
       # Save as "sXX_rYY_match.pdf"
       combined_filename <- paste0(here::here(), save_path, "s", sprintf("%02d", season_num), 
-                                  "_r", round_num, "_match.pdf")
+                                  "_r", round_num, "_singlematch.pdf")
     }
     
     # Combine match PDFs and save
@@ -1469,10 +1546,8 @@ PlotMatchStory <- function(season_num, # season number
   # Call combine_plots()
   combine_plots()
   
-  # OK, so we've produced a combined round "story" PDF, but now we want to 
-  # embed all our fonts in the PDF so that it will have the same appearance for 
-  # all viewers regardless of what fonts they have installed in their local
-  # environments. This essentially amounts to re-producing the PDF, with a twist.
+  # Now embed fonts into the PDF - ensures it looks the same to all viewers 
+  # regardless of which fonts happen to be locally installed.
   
   Sys.setenv(R_GSCMD = gspath) # required for extrafont's embedding functionality to work
   
@@ -1485,7 +1560,7 @@ PlotMatchStory <- function(season_num, # season number
   } else {
     # When plotting a single match, save as "sXX_rYY_match.pdf"
     combined_filename <- paste0(here::here(), save_path, "s", sprintf("%02d", season_num),
-                                "_r", round_num, "_match.pdf")
+                                "_r", round_num, "_singlematch.pdf")
   }
   
 
@@ -1496,35 +1571,41 @@ PlotMatchStory <- function(season_num, # season number
     select(path) %>% 
     dplyr::pull()
 
-  # Replace it with an embedded PDF
+  # Replace combined PDF with an embedded PDF
   extrafont::embed_fonts(combined_filename,
                          outfile = combined_filename)
   
-  # After producing the final composite PDF, delete the individual match PDFs
+  # Then delete the individual match PDFs
   fs::file_delete(files_to_delete)
   
   # Move final PDF from output folder to publication folder
   # Overwrite any previously saved files with the same name
-  fs::file_copy(path = paste0(here::here(), 
-                              "/reports/stories/prod/",
-                              "s", 
-                              sprintf("%02d", season_num), 
-                              "_r",
-                              round_num,
-                              "_allmatches.pdf"),
+  
+  # Filepath for final PDF (saved in /reports/stories/prod/)
+  final_prod_filepath <- fs::dir_info(glue::glue(here::here(), save_path)) %>% 
+    filter(type == "file") %>% 
+    filter(str_detect(path, paste0("s", sprintf("%02d", season_num), "_r", 
+                                   round_num))) %>% 
+    select(path) %>% 
+    dplyr::pull()
+  
+  # Filename of final PDF (saved in /reports/stories/prod/)
+  final_prod_filename <- final_prod_filepath %>% 
+    stringr::str_extract(paste0("s", sprintf("%02d", season_num), "_r", 
+                                round_num, ".+$"))
+  
+  # Save a copy of the final PDF in /reports/stories/
+  # Overwrites any files previously
+  fs::file_copy(path = final_prod_filepath,
                 new_path = paste0(here::here(), 
                                   "/reports/stories/",
-                                  "s", 
-                                  sprintf("%02d", season_num), 
-                                  "_r",
-                                  round_num,
-                                  "_allmatches.pdf"),
+                                  final_prod_filename),
                 overwrite = TRUE)
   
   cli::cli_alert_success("Saved match story PDF")
   
   # # Open PDF  
-  # fs::file_show(combined_filename)
+  fs::file_show(combined_filename)
   
 } # end function
 
@@ -1534,7 +1615,7 @@ PlotMatchStory <- function(season_num, # season number
 
 # ---- Plot all match stories for a season ----
 
-season <- 28
-for(r in c(1:8)){
-  PlotMatchStory(season, r, plot_whole_round = T, request_data = T)
-}
+# season <- 28
+# for(r in c(1:8)){
+#   PlotMatchStory(season, r, plot_whole_round = T, request_data = T)
+# }

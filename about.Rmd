@@ -15,10 +15,6 @@ pacman::p_load(tidyverse, knitr)
 
 ### FYI
 
-Some small points to bear in mind when interpreting specific stats or outputs.
-
-- The [4545 match 'story' plots](https://rahulan-c.github.io/lichess4545-stats/current.html) only reflect results at the time they were produced. So for example, if a player gets booted from the league late in a season, they will forfeit all their earlier games, but a 'match story' that was produced before these events won't capture those forfeits...unless it's re-created from scratch.
-
 - There was an issue affecting the data used to compute gambit-related stats and awards. It's now been fixed - improved, even - but as of January 2022, the update has only been applied to all 4545 reports, not LW (yet).
 
 

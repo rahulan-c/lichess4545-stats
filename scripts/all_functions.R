@@ -1,5 +1,5 @@
 
-# FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA
+# ==== FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA =====================
 
 # ---- Required packages ------------------------------------------------------
 
@@ -420,12 +420,13 @@ tidy_lichess_games <- function(games){
   
   # Tidy openings data (for non-960 games data)
   if(games$variant[1] != "chess960"){
-    # Fix foreign characters in openings names
-    games$opening.name <- games$opening.name %>%
-      str_replace_all("Ã¼", "ü") %>%
-      str_replace_all("Ã¶", "ö") %>%
-      str_replace_all("Ã³", "ó") %>%
-      str_replace_all("Ã©", "é")
+    
+    # # Fix foreign characters in openings names
+    # games$opening.name <- games$opening.name %>%
+    #   str_replace_all("Ã¼", "ü") %>%
+    #   str_replace_all("Ã¶", "ö") %>%
+    #   str_replace_all("Ã³", "ó") %>%
+    #   str_replace_all("Ã©", "é")
     
     # Add broad opening names to data
     # Creates another column that takes the Lichess opening name but: 

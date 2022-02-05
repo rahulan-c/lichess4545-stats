@@ -1,12 +1,20 @@
 ---
 title: "Round Reports"
 description: |
-  Updates on the latest rounds
+  Updates on the latest rounds (incl. match stories)
 output: distill::distill_article
 site: distill::distill_website
 ---
 
-### Round stories
+### 4545 match 'stories'
+
+These plots show how 4545 league matches unfold through the ups and downs of their games ([source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/plot_match_story.R)).
+
+#### Season 29
+
+[R1](reports/stories/s29_r1_allmatches.pdf) | R2 | R3 |
+R4 | R5 | R6 |
+R7 | R8
 
 #### Season 28 
 
