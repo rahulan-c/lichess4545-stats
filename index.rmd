@@ -80,6 +80,7 @@ Coming soon
 <div class="index-row l-page">
   <div class = "index-column-l l-page">
   
+
 <table class = "key-metric-t" style="width=300;">
   <tr>
     <th class = "t-left"></th>
@@ -89,21 +90,21 @@ Coming soon
   </tr>
   <tr>
     <td class = "t-left">4545</td>
-    <td class = "t-right">`r 'Active'`</td>
+    <td class = "t-right">`r 'S29 ongoing'`</td>
     <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/team4545/tv/)')`</td>
     <td class = "t-right">`r paste0('[Register](https://www.lichess4545.com/team4545/register/)')`</td>
   </tr>
   <tr>
     <td class = "t-left">LoneWolf</td>
-    <td class = "t-right">`r 'Inactive'`</td>
+    <td class = "t-right">`r 'S24 over'`</td>
     <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/lonewolf/tv/)')`</td>
     <td class = "t-right">`r paste0('Closed')`</td>
   </tr>
   <tr>
     <td class = "t-left">960</td>
-    <td class = "t-right">`r 'Active'`</td>
+    <td class = "t-right">`r 'S19 ongoing'`</td>
     <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/chess960/tv/)')`</td>
-    <td class = "t-right">`r paste0('[Register](https://www.lichess4545.com/chess960/register/)')`</td>
+    <td class = "t-right">`r paste0('Closed')`</td>
     
   </tr>
     <tr>
@@ -114,6 +115,12 @@ Coming soon
   </tr>
   
 </table>
+
+</br>
+<span style = "font-size:0.8rem;">
+The latest status of each of the 4545, LoneWolf and Chess960 leagues. Click 'TV' to see all league games being played right now. Note: this is still under construction, so it might not always be accurate. Always check the leagues' official site to be certain of any info.
+</span>
+
   </div>
   
   
@@ -121,9 +128,12 @@ Coming soon
   
   <div class = "index-column-r l-page" style = "font-size:1.2rem;line-height:1.2em;font-family:'Lato', sans-serif;">
 
-The Lichess4545 leagues are popular online chess leagues that have been running since 2015. They're regularly recommended by top players like IM [John Bartholomew](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s). Find out more at https://www.lichess4545.com/.
+This site provides stats on the [Lichess4545](https://www.lichess4545.com) online chess leagues.
 
-This site presents various unofficial compilations of stats by league and season. All content is presented for general interest purposes only.
+Here, you'll find [detailed reports](season_stats.html) on every season of the Team (4545), LoneWolf and Chess960 leagues. Each report gives an overview of the season, shows various key trends/measures, and recognises noteworthy performances through some quirkily-named awards. For ease of reference, a separate [page](reports/awards_search.html) provides a searchable table with all the award winners from every season of each league.
+
+In addition, there are also standalone statistical articles on various league-related themes, like my effort to identify the [global distribution of league players](countries.html) based on Lichess profile flags. I plan to publish more articles like this in the near future.
+
 
   </div>
   

@@ -69,8 +69,8 @@ d-appendix {
 .distill-site-header {
   --title-size:       20px;                      /* edited */
   --text-color:       #FFFFFF;                   /* edited */
-  --text-size:        20px;                      /* edited */
-  --hover-color:      "white";                   /* edited */
+  --text-size:        18px;                      /* edited */
+  --hover-color:      "black";                   /* edited */
   --bkgd-color:       #3d5a80;                  /* edited */
 }
 

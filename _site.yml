@@ -12,22 +12,22 @@ navbar:
   right:
       - icon: fa-home
         href: index.html
-      - text: "Current"
+      - text: "Current seasons"
         href: latest.html
         menu:
-          - text: "League info"
+          - text: "League status"
             href: league_status.html
-          - text: "Standings"
+          - text: "'Live' standings"
             href: live.html
-          - text: "4545 stories"
+          - text: "4545 round stories"
             href: current.html
-      - text: "Stats"
+      - text: "Past seasons"
         href: season_stats.html
-      - text: "Awards"
+      - text: "Awards search"
         href: /reports/awards_search.html
       # - text: "Records"
       #   href: alltime.html
-      - text: "Misc."
+      - text: "Themes"
         href: other.html
         menu:
         - text: "Players by country"
