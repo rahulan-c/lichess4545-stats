@@ -1,8 +1,6 @@
 ---
 title: "Lichess4545 Stats"
 description: "Unofficial stats, records and other stuff"
-output: distill::distill_article
-date: "Last updated: `r format(Sys.time(), '%B %Y')`"
 site: distill::distill_website
 ---
 
@@ -10,119 +8,140 @@ site: distill::distill_website
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(tidyverse, knitr)
+pacman::p_load(tidyverse, knitr, lubridate)
+
+# Utility functions from:
+# https://github.com/mfherman/westchester-covid/blob/master/R/build/utils.R
+
+day_month_year <- function(x, abbr = FALSE) {
+  if(all(lubridate::is.Date(x) || lubridate::is.POSIXt(x))) {
+  glue::glue("{lubridate::day(x)} {lubridate::month(x, label = TRUE, abbr = abbr)} {lubridate::year(x)}")
+  } else
+    stop("Input vector must be Date or POSIX format.")
+}
+
+pretty_time <- function(x) {
+  if(all(lubridate::is.POSIXt(x))) {
+  paste(as.numeric(format(x, "%I")), format(x, "%M %p"), sep = ":")
+  } else
+    stop("Input vector must be POSIX format.")
+}
 
 ```
+
+</br>
+</br>
+</br>
+
+<div class="index-row l-page">
+
+<!-- site logo(s) / image(s) -->
+
+  <div class="index-column-l l-page">
+  <img src="assets/img/site_logo.png" alt="Site Logo"></img>
+  </div>
+  
+<!-- site menu -->
+
+  <div class="index-column-r l-page" style = "font-family:'Lato', sans-serif;">
+<span style = "font-size:1.6rem;">
+[Latest &#10230;](league_status.html)
+</span></br>
+Updates on current seasons; latest standings; round summaries
+
+<span style = "font-size:1.6rem;">
+[Season stats and awards &#10230;](season_stats.html)
+</span></br>
+Detailed stats and insights by league and season
+
+<span style = "font-size:1.6rem;">
+[Search all awards &#10230;](reports/awards_search.html)
+</span></br>
+Search all previous award winners
+
+<span style = "font-size:1.6rem;">
+All-time records and trivia
+</span></br>
+Coming soon
+
+<span style = "font-size:1.6rem;">
+[About the site &#10230;](about.html)
+</span></br>
+    </div>
+  </div>
+
+
+<br>
+<br>
+<br>
+
+<!-- league status table -->
+
+<div class="index-row l-page">
+  <div class = "index-column-l l-page">
+  
+<table class = "key-metric-t" style="width=300;">
+  <tr>
+    <th class = "t-left"></th>
+    <th class = "t-right">Status</th>
+    <th class = "t-right">TV</th>
+    <th class = "t-right">Register</th>
+  </tr>
+  <tr>
+    <td class = "t-left">4545</td>
+    <td class = "t-right">`r 'Active'`</td>
+    <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/team4545/tv/)')`</td>
+    <td class = "t-right">`r paste0('[Register](https://www.lichess4545.com/team4545/register/)')`</td>
+  </tr>
+  <tr>
+    <td class = "t-left">LoneWolf</td>
+    <td class = "t-right">`r 'Inactive'`</td>
+    <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/lonewolf/tv/)')`</td>
+    <td class = "t-right">`r paste0('Closed')`</td>
+  </tr>
+  <tr>
+    <td class = "t-left">960</td>
+    <td class = "t-right">`r 'Active'`</td>
+    <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/chess960/tv/)')`</td>
+    <td class = "t-right">`r paste0('[Register](https://www.lichess4545.com/chess960/register/)')`</td>
+    
+  </tr>
+    <tr>
+    <td class = "t-left">Others...</td>
+    <td class = "t-right">`r ''`</td>
+    <td class = "t-right">`r ''`</td>
+    <td class = "t-right"></td>
+  </tr>
+  
+</table>
+  </div>
+  
+  
+<!-- intro text -->
+  
+  <div class = "index-column-r l-page" style = "font-size:1.2rem;line-height:1.2em;font-family:'Lato', sans-serif;">
 
 The Lichess4545 leagues are popular online chess leagues that have been running since 2015. They're regularly recommended by top players like IM [John Bartholomew](https://www.youtube.com/watch?v=sORvXN2tKZQ&t=410s). Find out more at https://www.lichess4545.com/.
 
-This site presents various unofficial compilations of stats by league and season. All content is presented for general interest purposes only. 
+This site presents various unofficial compilations of stats by league and season. All content is presented for general interest purposes only.
 
-### All-time records {#alltime}
+  </div>
+  
+  </div>
+  
+  </br>
 
-Coming soon.
+<!-- Show date when page was last updated -->
 
-### Stats and awards by league/season {#season-stats}
+<p style="text-align: center;">*Last updated on `r day_month_year(Sys.Date(), abbr = TRUE)`*</p>
 
-- [Search all awards](https://rahulan-c.github.io/lichess4545-stats/reports/awards_search.html)
 
-```{r season_reports_tbl}
-
-# Identify all seasons for which stats reports have been compiled 
-
-# 4545
-completed_4545 <- list.files(path = "reports/", pattern = "^stats_4545(.*)\\.html$") 
-any_4545 <- ifelse(length(completed_4545) > 0, T, F)
-if(length(completed_4545) > 0){
-  completed_4545 <- completed_4545 %>% 
-    str_remove_all("stats_4545_s") %>% 
-    str_remove_all("\\.html") %>% 
-    sort(decreasing = T) %>% 
-    paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s", ., ".html)")
+```{css}
+d-title, d-byline {
+  display: none
 }
-
-# LW Open
-completed_lwopen <- list.files(path = "reports/", pattern = "^stats_lwopen(.*)\\.html$")
-any_lwopen <- ifelse(length(completed_lwopen) > 0, T, F)
-if(length(completed_lwopen) > 0){
-  completed_lwopen <- completed_lwopen %>% 
-    str_remove_all("stats_lwopen_s") %>% 
-    str_remove_all("\\.html") %>% 
-    sort(decreasing = T) %>% 
-    paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s", ., ".html)")
-}
-
-# LW U1800
-completed_lwu1800 <- list.files(path = "reports/", pattern = "^stats_lwu1800(.*)\\.html$")
-any_lwu1800 <- ifelse(length(completed_lwu1800) > 0, T, F)
-if(length(completed_lwu1800) > 0){
- completed_lwu1800 <- completed_lwu1800 %>%  
-   str_remove_all("stats_lwu1800_s") %>% 
-   str_remove_all("\\.html") %>% 
-   sort(decreasing = T) %>% 
-   paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s", ., ".html)")
-}
-
-# Chess960
-completed_960 <- list.files(path = "reports/", pattern = "^stats_chess960(.*)\\.html$")
-any_960 <- ifelse(length(completed_960) > 0, T, F)
-if(length(completed_960) > 0){
- completed_960 <- completed_960 %>%  
-   str_remove_all("stats_chess960_s") %>% 
-   str_remove_all("\\.html") %>% 
-   sort(decreasing = T) %>% 
-   paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_chess960_s", ., ".html)")
-}
-
-
-
-# Make sure all completed season vectors are the same length
-most_completed <- max(c(length(completed_4545), 
-                      length(completed_lwopen), 
-                      length(completed_lwu1800),
-                      length(completed_960)))
-
-if(length(completed_4545) < most_completed){
-  completed_4545 <- c(completed_4545, rep("", most_completed - length(completed_4545)))
-}
-
-if(length(completed_lwopen) < most_completed){
-  completed_lwopen <- c(completed_lwopen, rep("", most_completed - length(completed_lwopen)))
-}
-
-if(length(completed_lwu1800) < most_completed){
-  completed_lwu1800 <- c(completed_lwu1800, rep("", most_completed - length(completed_lwu1800)))
-}
-
-if(length(completed_960) < most_completed){
-  completed_960 <- c(completed_960, rep("", most_completed - length(completed_960)))
-}
-
-
-# Make league cols empty if there are no completed seasons
-if(any_4545 == F){completed_4545 <- rep("", most_completed)}
-if(any_lwopen == F){completed_lwopen <- rep("", most_completed)}
-if(any_lwu1800 == F){completed_lwu1800 <- rep("", most_completed)}
-if(any_960 == F){completed_960 <- rep("", most_completed)}
-
-# Construct and show table of league reports by season
-completed <- tibble("team4545" = completed_4545,
-                    "lwopen" = completed_lwopen,
-                    "lwu1800" = completed_lwu1800,
-                    "chess960" = completed_960)
-
-knitr::kable(completed, format = "simple", 
-             col.names = c("4545 / Team", 
-                           "LW Open", 
-                           "LW U1800",
-                           "Chess960"))
-
 ```
 
 
-### Other pages
 
-- [Check which leagues are running](https://rahulan-c.github.io/lichess4545-stats/league_status.html)
-- [Latest 4545 standings](https://rahulan-c.github.io/lichess4545-stats/live.html)
-- [4545 match 'stories'](https://rahulan-c.github.io/lichess4545-stats/current.html) for S27 and S28
-- [Players by country (profile flags)](https://rahulan-c.github.io/lichess4545-stats/countries.html) (across all seasons)
+

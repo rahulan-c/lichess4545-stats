@@ -1552,8 +1552,9 @@ instareport_season <- function(league, season,
 
 
 UpdateSite <- function(navbar_changed = FALSE,
+                       update_frontpage = FALSE,
                        new_stats_produced = FALSE,
-                       update_index = FALSE,
+                       update_season_stats = FALSE,
                        update_current = FALSE,
                        update_standings = FALSE,
                        update_status = FALSE,
@@ -1581,7 +1582,8 @@ UpdateSite <- function(navbar_changed = FALSE,
   
   # Update all pages if the nav bar has been changed
   if(navbar_changed){
-    update_index <- TRUE
+    update_frontpage <- TRUE
+    update_season_stats <- TRUE
     update_status <- TRUE
     update_stats <- TRUE
     update_current <- TRUE
@@ -1589,28 +1591,35 @@ UpdateSite <- function(navbar_changed = FALSE,
     update_about <- TRUE
   }
   
-  # League statuses
+  # Update league status page
   if(update_status){rmarkdown::render(paste0(path_root, "/league_status.rmd"))}
   
-  # Index page - if a new stats report has been produced
-  # All repo changes should be pushed first before the index page is re-knitted
+  # If new season stats have been produced, then push the the latest changes to 
+  # Github before re-knitting the season stats (summary) page
   if(new_stats_produced){
     source(paste0(path_scripts, "update_repo.R"))
-    rmarkdown::render(paste0(path_root, "/index.rmd"))
+    rmarkdown::render(paste0(path_root, "/season_stats.rmd"))
   }
   
-  # Index page - if a new stats report hasn't been produced
-  if(update_index){rmarkdown::render(paste0(path_root, "/index.rmd"))}
+  # Even if new season stats haven't been produced...
   
-  # Round updates page (currently just shows 4545 stories)
+  # If desired, re-knit the season stats summary page
+  if(update_frontpage){rmarkdown::render(paste0(path_root, "/index.rmd"))}
+  
+  # If desired, re-knit the season stats summary page
+  if(update_season_stats){rmarkdown::render(paste0(path_root, "/season_stats.rmd"))}
+  
+  # If desired, re-knit the "round updates" page
   if(update_current){rmarkdown::render(paste0(path_root, "/current.rmd"))}
   
-  # Live standings
+  # If desired, re-knit the live standings page
   if(update_standings){rmarkdown::render(paste0(path_root, "/live.rmd"))}
   
-  # About page
+  # If desired, re-knit the 'about' page
   if(update_about){rmarkdown::render(paste0(path_root, "/about.rmd"))}
+    
   
+  # Push all local repo changes to Github / inform user
   source(paste0(path_scripts, "update_repo.R"))
   cli::cli_alert_success("Site updated")
 }

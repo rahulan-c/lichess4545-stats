@@ -10,7 +10,9 @@ output_dir: "."
 include:
 navbar:
   right:
-      - text: "Latest"
+      - icon: fa-home
+        href: index.html
+      - text: "Current"
         href: latest.html
         menu:
           - text: "League info"
@@ -19,22 +21,22 @@ navbar:
             href: live.html
           - text: "4545 stories"
             href: current.html
-      # - text: "All-time records"
+      - text: "Stats"
+        href: season_stats.html
+      - text: "Awards"
+        href: /reports/awards_search.html
+      # - text: "Records"
       #   href: alltime.html
-      #   menu: 
-      #     - text: "Award winners"
-      #       href: reports/alltime_stats.html
-          # - text: "All-time records (tbc)"
-          #   href: records.html
-      - text: "Other"
+      - text: "Misc."
         href: other.html
         menu:
+        - text: "Players by country"
+          href: countries.html
       #     # - text: "Openings (tbc)"
       #     #   href: openings.html
       #     # - text: "Endgames (tbc)"
       #     #   href: endgames.html
-          - text: "Players by country"
-            href: countries.html
+          
       #     # - text: "Random facts (tbc)"
       #     #   href: random.html
       - text: "About"
