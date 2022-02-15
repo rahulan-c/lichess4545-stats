@@ -1053,7 +1053,7 @@ Click on the image below to see a sunburst plot of all openings played in the se
 <!-- All the code to determine the awards has to be run before the awards table -->
 
  
-Assorted awards to celebrate the season. See the footnote for more details about each award.^[*Archbishop of Accuracy*: this is for the player with the lowest average centipawn loss (CPL) over all games. Note that this calculation isn't based on Lichess's ACPL figures. It excludes moves played in the first 10 moves of a game and moves with a centipawn loss < 150 in *decided* positions. These are considered to be positions with an evaluation greater than or equal to +300 centipawns for one side. All evaluation data is sourced from Lichess server analysis. To be eligible, players must have played at least five games in the season. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. One's opponents must have played over 20 games (against others) to qualify. Suggested by Tranzoo. *Egalitarian Award*: intended for the team whose players performed most similarly to each other. First, I compute all players' *relative* performance ratings -- the difference between their actual performance rating (using FIDE's method) and their initial rating. Then I group all players by team, and give the award to the team with the lowest standard deviation across its players' relative ratings. Suggested by Silkthewanderer. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
+Assorted awards to celebrate the season. See the footnote for more details about each award.^[*Archbishop of Accuracy*: this is for the player with the lowest average centipawn loss (CPL) over all games. Note that this calculation isn't based on Lichess's ACPL figures. It excludes moves played in the first 10 moves of a game and moves with a centipawn loss < 150 in *decided* positions. These are considered to be positions with an evaluation greater than or equal to +300 centipawns for one side. All evaluation data is sourced from Lichess server analysis. To be eligible, players must have played at least five games in the season. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. To be eligible, a player must have played at least 5 games over the season, and their opponents must have collectively played at least 30 games against others. Suggested by Tranzoo. *Egalitarian Award*: intended for the team whose players performed most similarly to each other. First, I compute all players' *relative* performance ratings -- the difference between their actual performance rating (using FIDE's method) and their initial rating. Then I group all players by team, and give the award to the team with the lowest standard deviation across its players' relative ratings. Suggested by Silkthewanderer. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
  
 
 ```{r}
@@ -1065,8 +1065,8 @@ all_moves <- AllMoves(games)
 
 # Get relative perf ratings (abs and relative to initial rating)
 relative_perfs_list <- RelativePerfs(pairings, min_games = 5, fide_tpr_lookup, tos_violators)
-perfs <- relative_perfs_list[[1]]
-relative_perfs <- relative_perfs_list[[2]]
+perfs <- relative_perfs_list[[1]] %>% tibble::as_tibble()
+relative_perfs <- relative_perfs_list[[2]] %>% tibble::as_tibble()
 
 # Get season ACPLs and blunder rates
 error_rates <- acpl_blunders[[3]]
@@ -1118,7 +1118,7 @@ savedbythebell <- SavedByTheBell(all_moves, max_secs_left = 5, tos_violators)
 timetrouble <- IntimateWithIncrement(all_moves, timetrouble_threshold = 60, min_moves_played = 100, tos_violators)
 
 # Strength of schedule (David Award)
-david <- DavidAward(games, perfs, min_comb_opp_games = 20, min_comb_opp_score = 0.5, tos_violators)
+david <- DavidAward(games, perfs, min_comb_opp_games = 30, min_comb_opp_score = 0.5, tos_violators)
 
 # Best performance by a player making their league debut (Rookie Award)
 rookie_perfs <- RookieAward(all_games, games, perfs, min_games = 4, tos_violators)
@@ -1731,15 +1731,14 @@ reactable(savedbythebell,
 
 ```
 
-####  Misc. facts {.tabset .tabset-fade .tabset-pills} 
-
-##### Notable mates
-
-All games in the season that ended in a notable checkmate pattern...that I can detect successfully `r emo::ji("smile")`. That means this currently includes all Anastasia's, Arabian, back rank, hook, and smothered mates. To see game details, open the image in a different tab or window. [Source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/checkmate_patterns.py).  
 
 
-```{r notable_checkmates, comment = ""}
+```{r notable_checkmates, comment = "", eval = FALSE}
 # Identify all season games with notable checkmate patterns (using Python script)
+# As of Feb 2021, I'm not showing these any more. I suspect the Python script and
+# image generation process consumes too much memory which makes it impossible
+# to batch-produce reports.
+
 notable_mates <- GetCheckmatePatterns(path_scripts, data_path, league_load_label, season, games)
 
 # If at least one notable mate has been identified, compile a single image with 

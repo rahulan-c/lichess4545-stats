@@ -3,11 +3,7 @@
 #                         PLOT 4545 MATCH STORIES
 # =============================================================================
 
-# METADATA
-# Author:   Rahulan C (izzie26)
-# Started:  August 2021
 # Updated:  February 2022
-# Status:   WORKING
 
 
 # DESCRIPTION
@@ -35,8 +31,8 @@
 
 
 # KNOWN BUGS
-# 2022-02-03: New character encoding issues cause printed fractions to appear
-#             wrong in the output. Needs to be fixed urgently.
+# 2022-02-03: New character encoding issues cause bugged non-English characters 
+#             - usually seen in opening names.
 
 
 # DEV TODOS

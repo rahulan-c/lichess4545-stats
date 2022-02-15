@@ -12,7 +12,7 @@ These plots show how 4545 league matches unfold through the ups and downs of the
 
 #### Season 29
 
-[R1](reports/stories/s29_r1_allmatches.pdf) | R2 | R3 |
+[R1](reports/stories/s29_r1_allmatches.pdf) | [R2](reports/stories/s29_r2_allmatches.pdf) | [R3](reports/stories/s29_r3_allmatches.pdf) |
 R4 | R5 | R6 |
 R7 | R8
 

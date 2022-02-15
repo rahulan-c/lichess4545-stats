@@ -1126,7 +1126,7 @@ TopScorers <- function(pairings, fide_tpr_lookup, tos_violators){
 }
 
 RelativePerfs <- function(pairings = pairings, min_games = 5, fide_tpr_lookup = fide_tpr_lookup, tos_violators = tos_violators){
-  perfs <- Perfs(pairings, fide_tpr_lookup)
+  perfs <- Perfs(pairings, fide_tpr_lookup) %>% tibble::as_tibble()
   
   # Produce relative perfs for report
   relative_perfs <- perfs %>% 
@@ -1513,11 +1513,15 @@ IntimateWithIncrement <- function(all_moves = all_moves, timetrouble_threshold =
 }
 
 
-DavidAward <- function(games = games, perfs = perfs, min_comb_opp_games = 20, min_comb_opp_score = 0.5, tos_violators = tos_violators){
+DavidAward <- function(games = games, perfs = perfs, 
+                       min_comb_opp_games = 30, 
+                       min_comb_opp_score = 0.5, 
+                       tos_violators = tos_violators){
   # David Award (suggested by Tranzoo)
   # For the player who faced the opponents with the highest collective score across
   # the season (excluding games against the player)
-  # Criteria: opponents must have played over 20 games (against others) 
+  # Criteria: opponents must have played over 20 games (against others)
+  
   david <- games %>% 
     select(white, black, result, score_w, score_b) %>%
     left_join(perfs, by = c("white" = "player")) %>% 
@@ -1527,6 +1531,19 @@ DavidAward <- function(games = games, perfs = perfs, min_comb_opp_games = 20, mi
     select(white, black, score_w, score_b, games_aw, points_aw, "games_b" = games, "points_b" = points) %>%
     mutate(games_ab = games_b - 1, points_ab = points_b - score_b) %>% 
     select(white, black, games_aw, games_ab, points_aw, points_ab)
+  
+  # Get list of players and games played over season, to apply a minimum games
+  # played filter to the final list
+  players_games <- rbind(tibble("player" = games$white, "id" = games$id),
+                         tibble("player" = games$black, "id" = games$id))
+  eligible_players <- players_games %>% 
+    group_by(player) %>% 
+    summarise(games = n()) %>% 
+    filter(games >= 5) %>% 
+    select(player) %>% 
+    dplyr::pull()
+  rm(players_games)
+  
   
   david <- rbind(tibble("player" = david$white,
                         "opp_adjgames" = david$games_ab,
@@ -1542,6 +1559,7 @@ DavidAward <- function(games = games, perfs = perfs, min_comb_opp_games = 20, mi
     filter(opp_perc >= min_comb_opp_score) %>% 
     mutate(opp_perc = opp_perc * 100) %>% 
     arrange(desc(opp_perc)) %>%
+    filter(player %in% eligible_players) %>%
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
     mutate(rank = dense_rank(desc(opp_perc))) %>% 
     select(rank, player, opp_games, opp_points, opp_perc)

@@ -1709,8 +1709,6 @@ build_season_reports <- function(wipe_stats_first = FALSE,
     }
   }
   
-  
-  
   # Push all changes to repo
   # update_repo()
   toc(log = TRUE)
