@@ -1567,7 +1567,6 @@ UpdateSite <- function(navbar_changed = FALSE,
   
   # Order of operations:
   # 1) Pushes latest repo changes to Github (scripts/update_repo.R)
-  # 2) Produces new footer with the current date ("Site updated on X")
   # 3) Produces new index page by knitting index.rmd 
   #      - required for the latest produced reports to show up
   # 4) Produces new "current round" page by knitting current.rmd
@@ -1577,8 +1576,6 @@ UpdateSite <- function(navbar_changed = FALSE,
   
   # Note that each function call results in TWO separate commits (steps 1 + 6)
   
-  # Site footer
-  create_footer()
   
   # Update all pages if the nav bar has been changed
   if(navbar_changed){
@@ -1739,25 +1736,6 @@ update_site <- function(wipe = FALSE,
   build_alltime_stats()
   toc(log = TRUE)
 }
-
-create_footer <- function() {
-  fileConn <- file(paste0(path_root, "/_footer.html"))
-  lang <- 
-  last_updated <- c("<html lang='en'>",
-                     "<head>",
-                     "<meta charset=\"utf-8\"/>",
-                    "</head>",
-                    "<body>",
-                    "<span>",
-                    paste0("Last updated on ", format(Sys.Date(), format="%d %B %Y")),
-                    "</span>",
-                    "</body>",
-                    "</html>"
-                    )
-  writeLines(last_updated, fileConn)
-  close(fileConn)
-}
-
 
 # Save a PGN file with all games in a season using the season's .RDS data file
 # Takes: (1) filename: season games RDS data filename, eg "games_lwopen_s22.rds" 
