@@ -11,23 +11,24 @@ include:
 navbar:
   right:
       - icon: fa-home
-        href: index.html
-      - text: "Current seasons"
+        href: index.
+      - text: "By league/season"
+        href: season_stats.html
+      - text: "Awards search"
+        href: /lichess4545-stats/reports/awards_search.html
+      - text: "Current season"
         href: latest.html
         menu:
-          - text: "League status"
+          - text: "Check league statuses"
             href: league_status.html
           - text: "'Live' standings"
             href: live.html
           - text: "4545 round stories"
             href: current.html
-      - text: "Past seasons"
-        href: season_stats.html
-      - text: "Awards search"
-        href: /reports/awards_search.html
+
       # - text: "Records"
       #   href: alltime.html
-      - text: "Themes"
+      - text: "Other"
         href: other.html
         menu:
         - text: "Players by country"
