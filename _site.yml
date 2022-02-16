@@ -11,7 +11,7 @@ include:
 navbar:
   right:
       - icon: fa-home
-        href: index.
+        href: index.html
       - text: "By league/season"
         href: season_stats.html
       - text: "Awards search"
