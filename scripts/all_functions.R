@@ -1,5 +1,7 @@
 
-# ==== FUNCTIONS FOR WORKING WITH LICHESS/LICHESS4545 DATA =====================
+# ==== LICHESS4545-STATS FUNCTIONS ============================================
+
+# Custom functions for working with Lichess and Lichess4545 data.
 
 # ---- Required packages ------------------------------------------------------
 
@@ -52,20 +54,9 @@ path_sunburst_new <- path_loadrmd
 
 # ---- Functions --------------------------------------------------------------
 
-#' Extract Lichess game data for all games in seasons of the Lichess4545 Team
-#' and LoneWolf leagues.
-#' 
-#' @param league_choice Lichess4545 league of choice: either "team4545" (for 4545) or "lonewolf" (for LoneWolf Open or U1800)
-#' @param seasons_choice Season(s) of choice, eg 12 or c(12:18)
-#' @param lw_u1800_choice TRUE if you want LW U1800 games, FALSE otherwise
-#'
-#' @return Tibble with game data for all requested season(s)
-#' @export
-#'
-#' @examples 
-#' get_league_games("team4545", 25, FALSE)
-#' get_league_games("lonewolf", 21, TRUE)
-get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL,
+# Extract Lichess game data for all games in seasons of the Lichess4545 Team
+# and LoneWolf leagues.
+LeagueGames <- function(league_choice, seasons_choice, rounds_choice = NULL,
                              lw_u1800_choice = FALSE){
   
   tic("Obtained game data")
@@ -283,25 +274,9 @@ get_league_games <- function(league_choice, seasons_choice, rounds_choice = NULL
 }
 
 
-#' Get data on any Lichess user's games
-#' 
-#' Queries the Lichess API for data on all rated games played by a user within 
-#' a specified time period in specified broad time controls. Returns a tibble
-#' with all Lichess data on all relevant games, including PGN, clock times and 
-#' eval data.
-#'
-#' @param username The account to search
-#' @param since The earliest date in the period of interest. Must be specified as "YYYY-MM-DD". Eg "2021-02-01" for 1 February 2021.
-#' @param until The latest date in the period of interest. Must be specified as "YYYY-MM-DD". Eg "2021-02-01" for 1 February 2021.
-#' @param perfs All relevant broad time controls. Eg "classical", "blitz. Multiple time controls can be selected, eg "blitz,rapid,classical".
-#'
-#' @return A tibble of Lichess data returned games data
-#' @export
-#'
-#' @examples 
-#' get_user_games("thibault", "2021-01-15", "2021-03-14", "blitz")
-#' get_user_games("izzie26, "2018-04-01", "2021-08-18", "classical")
-get_user_games <- function(username, since = NULL, until = NULL, perfs){
+# Get data on any Lichess user's games
+
+UserGames <- function(username, since = NULL, until = NULL, perfs){
   
   # Function that converts a date from the "YYYY-MM-DD" format to the correct  
   # numeric format for the Lichess API. Also adds "00:01" or "23:59" depending
@@ -348,8 +323,8 @@ get_user_games <- function(username, since = NULL, until = NULL, perfs){
 
 
 # Tidy Lichess games data
-# Eg tidied_games <- tidy_lichess_games(as_tibble(games[[1]]))
-tidy_lichess_games <- function(games){
+
+TidyGames <- function(games){
 
   tic("Tidied game data")
     
@@ -501,8 +476,10 @@ tidy_lichess_games <- function(games){
   names(mates) <- as.character(str_extract_all(names(mates), "[0-9]+"))
   mates$id <- games$id
   # mates <- melt(mates)
-  mates <- tidyr::pivot_longer(mates, where(is.numeric))
-  mates$name <- as.numeric(as.character(mates$name))
+  if(ncol(mates) > 1){
+    mates <- tidyr::pivot_longer(mates, where(is.numeric))
+    mates$name <- as.numeric(as.character(mates$name))
+  }
   
   # Combine eval and mates data and tidy
   evals <- bind_rows(evals, mates)
@@ -604,7 +581,7 @@ tidy_lichess_games <- function(games){
 
 
 # Get 4545/LW season pairings and player/team positions data
-get_league_data <- function(league_choice, 
+LeagueData <- function(league_choice, 
                             seasons_choice, 
                             rounds_choice, 
                             lw_u1800_choice = FALSE, 
@@ -1185,11 +1162,7 @@ GetGamesFromURLs <- function(ids = NULL, links = NULL){
 
 
 # Save all required data (games, pairings, positions) for a range of seasons
-# Eg save_season_data("team4545", c(12:15))
-#    save_season_data("lwopen", c(12:15))
-#    save_season_data("lwu1800", c(12:15))
-#    save_season_data("chess960", c(10:11))
-save_season_data <- function(league_choice, seasons){
+SaveSeasonData <- function(league_choice, seasons){
   
   tic("Obtained all season data")
   
@@ -1248,7 +1221,7 @@ save_season_data <- function(league_choice, seasons){
     
     
     # Get league games and pairings data
-    games_pairings <- get_league_games(league_choice = league, 
+    games_pairings <- LeagueGames(league_choice = league, 
                                        seasons_choice =  season, 
                                        rounds_choice = rounds,
                                        lw_u1800_choice = lw_u1800)
@@ -1265,7 +1238,7 @@ save_season_data <- function(league_choice, seasons){
     }
     
     # Tidy game data
-    tidied_games <- tidy_lichess_games(games) %>% tibble::as_tibble()
+    tidied_games <- TidyGames(games) %>% tibble::as_tibble()
     
     # Save game data with appropriate labels
     league_save_label <- league
@@ -1274,7 +1247,7 @@ save_season_data <- function(league_choice, seasons){
     }
     
     # Get league pairings/positions data
-    data <- get_league_data(league, season, rounds, lw_u1800, team_boards)
+    data <- LeagueData(league, season, rounds, lw_u1800, team_boards)
     
     pairings <- data[[1]] %>% tibble::as_tibble()
     positions <- data[[2]] %>% tibble::as_tibble()
@@ -1339,11 +1312,8 @@ save_season_data <- function(league_choice, seasons){
   
 }
 
-# Report season stats and player awards for a range of seasons
-# Eg report_season_stats("team4545", c(12:15)), 
-#    report_season_stats("lw_open", c(18:20))
-#    report_season_stats("lw_u1800", c(18))
-report_season_stats <- function(league_choice, seasons){
+# Report season stats and player awards for one or more seasons
+SeasonStats <- function(league_choice, seasons){
   
   tic("Produced season stats report")
   
@@ -1446,23 +1416,30 @@ report_season_stats <- function(league_choice, seasons){
 }
 
 
-# Save season data and report stats for range of seasons
-# (combining prev two functions)
-# Eg save_and_report_stats("team4545", c(12:15)), 
-#    save_and_report_stats("lw_open", c(18:20))
-#    save_and_report_stats("lw_u1800", c(18))
-save_and_report_stats <- function(league_choice, season_range){
-  for(x in season_range){
-    save_season_data(league_choice, x)
-    report_season_stats(league_choice, x)
-  }
-  print("Finished saving and reporting season stats!")
-}
-
-
 
 # Make sunburst plot of all openings in games data
-  make_sunburst_wrapper <- function(league, season){
+MakeSunburst <- function(league, season){
+  
+  # Renames and moves the openings sunburst HTML file created by 
+  # make_openings_sunburst.py to the reports folder, so it can be linked in
+  # the finals seasons stats reports
+  MoveSunburst <- function(path_orig, path_new, league, season){
+    
+    if(league == "team4545"){league_var <- "4545"} else {league_var <- league}
+    
+    # Copy sunburst HTML to reports folder
+    file.copy(from = paste0(path_root, "/sunburst.html"),
+              to   = paste0(path_new, "/openings_", league_var, "_s", season, ".html"))
+    
+    # Do same for PNG file
+    file.copy(from = paste0(path_root, "/sunburst.png"),
+              to   = paste0(path_new, "/openings_", league_var, "_s", season, ".png"))
+    
+    # Remove original sunburst files
+    file.remove(paste0(path_root, "/sunburst.html"))
+    file.remove(paste0(path_root, "/sunburst.png"))
+  }
+  
   
   # Load games data for requested league and season
   league_load_label <- league
@@ -1497,33 +1474,14 @@ save_and_report_stats <- function(league_choice, season_range){
   make_sunburst(pgn)
   
   # Move sunburst to reports folder
-  move_sunburst(path_sunburst_original, path_sunburst_new, league, season)
+  MoveSunburst(path_sunburst_original, path_sunburst_new, league, season)
   toc(log = TRUE)
 
 }
 
-# Renames and moves the openings sunburst HTML file created by 
-# make_openings_sunburst.py to the reports folder, so it can be linked in
-# the finals seasons stats reports
-move_sunburst <- function(path_orig, path_new, league, season){
-  
-  if(league == "team4545"){league_var <- "4545"} else {league_var <- league}
-  
-  # Copy sunburst HTML to reports folder
-  file.copy(from = paste0(path_root, "/sunburst.html"),
-            to   = paste0(path_new, "/openings_", league_var, "_s", season, ".html"))
-  
-  # Do same for PNG file
-  file.copy(from = paste0(path_root, "/sunburst.png"),
-            to   = paste0(path_new, "/openings_", league_var, "_s", season, ".png"))
-  
-  # Remove original sunburst files
-  file.remove(paste0(path_root, "/sunburst.html"))
-  file.remove(paste0(path_root, "/sunburst.png"))
-}
 
 
-instareport_season <- function(league, season, 
+MakeSeasonReport <- function(league, season, 
                                from_scratch = T){
   
   # Make a stats report from scratch
@@ -1534,15 +1492,15 @@ instareport_season <- function(league, season,
   if(from_scratch == F){tic("Produce season report from saved data")}
   
   # 1. Save season data (if necessary)
-  if(from_scratch){save_season_data(league, season)}
+  if(from_scratch){SaveSeasonData(league, season)}
   
   # 2. Make openings sunburst (only for 4545/LW reports)
   if(league %in% c("team4545", "lwopen", "lwu1800")){
-    make_sunburst_wrapper(league, season)
+    MakeSunburst(league, season)
   }
   
   # 3. Compile and produce season stats report
-  report_season_stats(league, season)
+  SeasonStats(league, season)
   
   toc(log = TRUE)
 }
@@ -1588,9 +1546,6 @@ UpdateSite <- function(navbar_changed = FALSE,
     update_about <- TRUE
   }
   
-  # Update league status page
-  if(update_status){rmarkdown::render(paste0(path_root, "/league_status.rmd"))}
-  
   # If new season stats have been produced, then push the the latest changes to 
   # Github before re-knitting the season stats (summary) page
   if(new_stats_produced){
@@ -1598,21 +1553,24 @@ UpdateSite <- function(navbar_changed = FALSE,
     rmarkdown::render(paste0(path_root, "/season_stats.rmd"))
   }
   
-  # Even if new season stats haven't been produced...
+  # Update site pages where necessary 
   
-  # If desired, re-knit the season stats summary page
+  # Front page
   if(update_frontpage){rmarkdown::render(paste0(path_root, "/index.rmd"))}
   
-  # If desired, re-knit the season stats summary page
+  # Season stats landing page
   if(update_season_stats){rmarkdown::render(paste0(path_root, "/season_stats.rmd"))}
   
-  # If desired, re-knit the "round updates" page
+  # League status check
+  if(update_status){rmarkdown::render(paste0(path_root, "/league_status.rmd"))}
+  
+  # Round updates / 4545 stories page
   if(update_current){rmarkdown::render(paste0(path_root, "/current.rmd"))}
   
-  # If desired, re-knit the live standings page
+  # Live standings page
   if(update_standings){rmarkdown::render(paste0(path_root, "/live.rmd"))}
   
-  # If desired, re-knit the 'about' page
+  # About page
   if(update_about){rmarkdown::render(paste0(path_root, "/about.rmd"))}
     
   
@@ -1627,34 +1585,9 @@ UpdateRepo <- function(){
   source(paste0(here::here(), "/scripts/update_repo.R"))
 }
 
-# Delete all stats reports and sunburst plots in reports/
-wipe_all_stats <- function(){
-  # Delete any directories in reports/ that aren't images/
-  dirs_to_delete <- dir_info(path_savereport) %>% 
-    filter(type == "directory") %>% 
-    filter(!(str_detect(path, "images")))
-  if(nrow(dirs_to_delete) > 0){
-    dirs_to_delete %>% 
-      select(path) %>% 
-      dplyr::pull() %>% 
-      dir_delete(.)
-    }
-  # Delete any files in reports/ that aren't style.css or produce_season_stats.Rmd
-  files_to_delete <- dir_info(path_savereport) %>% 
-    filter(type == "file") %>% 
-    filter(!(str_detect(path, "produce_season_stats.Rmd"))) %>% 
-    filter(!(str_detect(path, "style.css")))
-  if(nrow(files_to_delete) > 0){
-    files_to_delete %>% 
-      select(path) %>% 
-      dplyr::pull() %>% 
-      file_delete(.)
-    }
-  # Update repo
-  update_repo()
-}
 
-build_season_reports <- function(wipe_stats_first = FALSE,
+
+BuildSeasonReports <- function(wipe_stats_first = FALSE,
                                  request_data = FALSE,
                                  team_range = NULL, 
                                  lwopen_range = NULL, 
@@ -1671,7 +1604,7 @@ build_season_reports <- function(wipe_stats_first = FALSE,
     team_range <- split(team_range, ceiling(seq_along(team_range)/update_repo_after))
     for(i in seq(1:length(team_range))){
       for(j in seq(1:length(team_range[[i]]))){
-        instareport_season("team4545", team_range[[i]][j], from_scratch = request_data)
+        MakeSeasonReport("team4545", team_range[[i]][j], from_scratch = request_data)
       }
     }
   }
@@ -1681,7 +1614,7 @@ build_season_reports <- function(wipe_stats_first = FALSE,
     lwopen_range <- split(lwopen_range, ceiling(seq_along(lwopen_range)/update_repo_after))
     for(i in seq(1:length(lwopen_range))){
       for(j in seq(1:length(lwopen_range[[i]]))){
-        instareport_season("lwopen", lwopen_range[[i]][j], from_scratch = request_data)
+        MakeSeasonReport("lwopen", lwopen_range[[i]][j], from_scratch = request_data)
       }
     }
   }
@@ -1691,7 +1624,7 @@ build_season_reports <- function(wipe_stats_first = FALSE,
     lwu1800_range <- split(lwu1800_range, ceiling(seq_along(lwu1800_range)/update_repo_after))
     for(i in seq(1:length(lwu1800_range))){
       for(j in seq(1:length(lwu1800_range[[i]]))){
-        instareport_season("lwu1800", lwu1800_range[[i]][j], from_scratch = request_data)
+        MakeSeasonReport("lwu1800", lwu1800_range[[i]][j], from_scratch = request_data)
       }
     }
   }
@@ -1701,7 +1634,7 @@ build_season_reports <- function(wipe_stats_first = FALSE,
     chess960_range <- split(chess960_range, ceiling(seq_along(chess960_range)/update_repo_after))
     for(i in seq(1:length(chess960_range))){
       for(j in seq(1:length(chess960_range[[i]]))){
-        instareport_season("chess960", chess960_range[[i]][j], from_scratch = request_data)
+        MakeSeasonReport("chess960", chess960_range[[i]][j], from_scratch = request_data)
       }
     }
   }
@@ -1713,29 +1646,7 @@ build_season_reports <- function(wipe_stats_first = FALSE,
 
 
 
-# One stop shop for updating the site
-update_site <- function(wipe = FALSE, 
-                        request = FALSE,
-                        team = NULL,
-                        lwopen = NULL,
-                        lwu1800 = NULL){
-  
-  tic("Updated site")
-  
-  # First, build the necessary season reports
-  build_season_reports(wipe_stats_first = wipe,
-                       request_data = request,
-                       team_range = team, 
-                       lwopen_range = lwopen, 
-                       lwu1800_range = lwu1800)
-  
-  # Then wait a bit
-  Sys.sleep(45)
-  
-  # Then refresh the all time stats page
-  build_alltime_stats()
-  toc(log = TRUE)
-}
+
 
 # Save a PGN file with all games in a season using the season's .RDS data file
 # Takes: (1) filename: season games RDS data filename, eg "games_lwopen_s22.rds" 
@@ -1935,7 +1846,7 @@ UpdateAllTimeGames <- function(update_league, latest_season){
     valid_games_toadd <- tibble::as_tibble(valid_games_data[[1]])
     
     # Tidy new games data
-    tidied_games_toadd <- tidy_lichess_games(valid_games_toadd)
+    tidied_games_toadd <- TidyGames(valid_games_toadd)
     
     if(nrow(tidied_games_toadd) == 0) {
       cli::cli_inform("All 'new' games are invalid (probably just old invalid games)")
