@@ -1,17 +1,10 @@
 ---
-output:
-  html_document:
-    css: theme.css
-    theme: flatly
-    dev: svglite
-    toc: yes
-    toc_depth: 4
-    toc_float: true
-    includes:
-      in_header: head-custom-google-analytics.html
-    self-contained: FALSE
-title: "Awards search"
+title: "All award winners / details"
+description: |
+  Compiled into a single searchable table
+date: "2022-02-17"
 site: distill::distill_website
+output: distill::distill_article
 ---
 
 
@@ -44,14 +37,11 @@ options(reactable.theme = reactableTheme(
 
 ```
 
-> Search through all the award winners and details in published season reports.
 
 **Last updated: `r paste0(lubridate::day(lubridate::today()), " ", lubridate::month(lubridate::today(), label = T), " ", lubridate::year(lubridate::today()))`**
 
-[Return to home page](https://rahulan-c.github.io/lichess4545-stats/)
 
-
-```{r}
+```{r, layout="l-page"}
 # Crawl over the other reports and present all winners in one table
 
 cli::cli_h2("Updating all-time awards search page...")
@@ -162,3 +152,16 @@ reactable(awards,
 
 cli::cli_alert_success("Awards search page updated")
 ```
+
+#### Award definitions
+
+- **Aces**: scored +6 or better
+- **Archbishop of Accuracy**: lowest average centipawn loss (ACPL) in undecided positions after move 10
+- **Awesome Alt**: played for the most teams during the season
+- **Bullet Boss**: most moves made in under 0.5 seconds
+
+To be completed...
+
+
+[Return to home page](https://rahulan-c.github.io/lichess4545-stats/)
+

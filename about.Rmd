@@ -13,24 +13,57 @@ pacman::p_load(tidyverse, knitr)
 
 
 
-### FYI
+### FYIs
 
-- There was an issue affecting the data used to compute gambit-related stats and awards. It's now been fixed - improved, even - but as of January 2022, the update has only been applied to all 4545 reports, not LW (yet).
+- [Feb 2022] I still need to update most of the existing LoneWolf season reports to reflect necessary revisions to the computation of gambit-related stats and awards. These changes have already been reflected in all 4545 reports (except S1), and aren't applicable to the Chess960 league. 
 
 
-### Planned updates
 
-Some day, these might happen.
+### Recent updates
 
-- Adding more leagues: ~~Chess960~~, Series, Rapid Battle
-- All-time stats
+#### February 2022
+
+- Published the latest stats for the LoneWolf league (season 24)
+- Re-designed the homepage
+
+#### January 2022
+
+- Improved live standings page; still only works for 4545, and still not properly automated
+- Published season stats and awards for the Chess960 league
+- Published article on where league players come from, using the flags they choose to show on their Lichess profiles
+- Published the latest stats for the 4545 Team league (season 28)
+
+#### August 2021
+
+- Site first published
+
+
+### Future ideas
+
+Consider this a form of motivation through public commitment. In other words, these might be done next week, next month, next year...or never.
+
+- Adding new leagues: ~~Chess960~~ Series, Rapid Battle (yes, I know I've been promising these for ages)
+- Reporting all-time stats, records and trivia
 - Team logo gallery
-- Opening-related stats
-- Endgame-related stats (incl. tablebase positions)
-- League trivia
+- Stats about league openings
+- Stats about endgames reached in league games, à la *100 Endgames You Must Know*
+- Stats about 7-piece tablebase positions reached in league games...and their outcomes
+
+#### Stupidly ambitious ideas
+
+- A world map showing connections between players (a version for live games definitely can't be done, but even a static version based on historical data is ambitious and magnificently pointless)
 
 
-### Contact {#contact}
+### About the site
+
+[to be completed]
+
+#### Methods/sources
+
+[ditto]
+
+
+### Contact me {#contact}
 
 Please use the form below to provide any comments, suggestions or bug reports.
 

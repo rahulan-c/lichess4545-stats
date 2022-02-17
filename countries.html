@@ -111,7 +111,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","date","description","output","site"]}},"value":[{"type":"character","attributes":{},"value":["Players by country/continent"]},{"type":"character","attributes":{},"value":["2022-01-05"]},{"type":"character","attributes":{},"value":["Where do league players come from?\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","output","site"]}},"value":[{"type":"character","attributes":{},"value":["Players by country/continent"]},{"type":"character","attributes":{},"value":["Where do league players come from?\n"]},{"type":"character","attributes":{},"value":["2022-01-05"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2184,7 +2184,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   .distill-site-header {
     --title-size:       20px;                      /* edited */
     --text-color:       #FFFFFF;                   /* edited */
-    --text-size:        20px;                      /* edited */
+    --text-size:        18px;                      /* edited */
     --hover-color:      "black";                   /* edited */
     --bkgd-color:       #3d5a80;                  /* edited */
   }
@@ -2514,23 +2514,23 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <a href="index.html">
 <i class="fa fa-home" aria-hidden="true"></i>
 </a>
+<a href="season_stats.html">By league/season</a>
+<a href="/lichess4545-stats/reports/awards_search.html">Awards search</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-Current seasons
+Current season
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="league_status.html">League status</a>
+<a href="league_status.html">Check league statuses</a>
 <a href="live.html">'Live' standings</a>
 <a href="current.html">4545 round stories</a>
 </div>
 </div>
-<a href="season_stats.html">Past seasons</a>
-<a href="/reports/awards_search.html">Awards search</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-Themes
+Other
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
@@ -2559,7 +2559,7 @@ Themes
 
 
 <div class="d-article">
-<p>Here are some rough estimates of league players by country and continent, based on all classical league games played to date (January 2022). They’re purely based on the national flags shown on league members’ Lichess profile pages, which means that they definitely won’t be perfect, since many players don’t have a flag on their profile page (so they’re excluded), and others prefer to display a non-national flag (so they’re also excluded). Moreover, players can show any flag they want…which may well explain some of the countries listed in the results. 😆</p>
+<p>Here are some rough estimates of league players by country and continent, based on all classical league games played to date (January 2022). They’re purely based on the national flags shown on league members’ Lichess profile pages, which means that they definitely won’t be perfect, since many players don’t have a flag on their profile page (so they’re excluded), and others prefer to display a non-national flag (so they’re also excluded). Moreover, players can show any flag they want…which may well explain some of the countries listed in the results. 😄</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2722,7 +2722,7 @@ Show code
 </details>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["continent"],"name":[1],"type":["chr"],"align":["left"]},{"label":["players"],"name":[2],"type":["int"],"align":["right"]},{"label":["perc"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Europe","2":"875","3":"43.1"},{"1":"North America","2":"861","3":"42.5"},{"1":"Asia","2":"120","3":"5.9"},{"1":"Oceania","2":"67","3":"3.3"},{"1":"South America","2":"65","3":"3.2"},{"1":"Africa","2":"40","3":"2.0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["continent"],"name":[1],"type":["chr"],"align":["left"]},{"label":["players"],"name":[2],"type":["int"],"align":["right"]},{"label":["perc"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Europe","2":"873","3":"43.1"},{"1":"North America","2":"860","3":"42.5"},{"1":"Asia","2":"120","3":"5.9"},{"1":"Oceania","2":"67","3":"3.3"},{"1":"South America","2":"65","3":"3.2"},{"1":"Africa","2":"40","3":"2.0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -2747,7 +2747,7 @@ Show code
 </details>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["country"],"name":[1],"type":["chr"],"align":["left"]},{"label":["players"],"name":[2],"type":["int"],"align":["right"]},{"label":["perc"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"United States of America","2":"712","3":"35.4"},{"1":"United Kingdom","2":"130","3":"6.5"},{"1":"Germany","2":"123","3":"6.1"},{"1":"Canada","2":"111","3":"5.5"},{"1":"France","2":"76","3":"3.8"},{"1":"Poland","2":"54","3":"2.7"},{"1":"Netherlands","2":"48","3":"2.4"},{"1":"Italy","2":"44","3":"2.2"},{"1":"Australia","2":"42","3":"2.1"},{"1":"Norway","2":"40","3":"2.0"},{"1":"India","2":"35","3":"1.7"},{"1":"Sweden","2":"35","3":"1.7"},{"1":"Spain","2":"28","3":"1.4"},{"1":"Brazil","2":"27","3":"1.3"},{"1":"Mexico","2":"25","3":"1.2"},{"1":"Switzerland","2":"25","3":"1.2"},{"1":"Finland","2":"23","3":"1.1"},{"1":"New Zealand","2":"21","3":"1.0"},{"1":"Ireland","2":"20","3":"1.0"},{"1":"Belgium","2":"19","3":"0.9"},{"1":"Austria","2":"17","3":"0.8"},{"1":"Turkey","2":"16","3":"0.8"},{"1":"Croatia","2":"15","3":"0.7"},{"1":"Serbia","2":"15","3":"0.7"},{"1":"Argentina","2":"14","3":"0.7"},{"1":"Denmark","2":"14","3":"0.7"},{"1":"Russian Federation","2":"14","3":"0.7"},{"1":"Portugal","2":"13","3":"0.6"},{"1":"Greece","2":"12","3":"0.6"},{"1":"Czech Republic","2":"10","3":"0.5"},{"1":"Singapore","2":"10","3":"0.5"},{"1":"Estonia","2":"9","3":"0.4"},{"1":"Korea","2":"9","3":"0.4"},{"1":"Egypt","2":"8","3":"0.4"},{"1":"South Africa","2":"8","3":"0.4"},{"1":"Chile","2":"7","3":"0.3"},{"1":"Hungary","2":"7","3":"0.3"},{"1":"Philippines","2":"7","3":"0.3"},{"1":"Indonesia","2":"6","3":"0.3"},{"1":"Nepal","2":"6","3":"0.3"},{"1":"Peru","2":"6","3":"0.3"},{"1":"Romania","2":"6","3":"0.3"},{"1":"Ukraine","2":"6","3":"0.3"},{"1":"China","2":"5","3":"0.2"},{"1":"Israel","2":"5","3":"0.2"},{"1":"Japan","2":"5","3":"0.2"},{"1":"Lithuania","2":"4","3":"0.2"},{"1":"Malaysia","2":"4","3":"0.2"},{"1":"Puerto Rico","2":"4","3":"0.2"},{"1":"Slovenia","2":"4","3":"0.2"},{"1":"Taiwan","2":"4","3":"0.2"},{"1":"Algeria","2":"3","3":"0.1"},{"1":"Bangladesh","2":"3","3":"0.1"},{"1":"Belarus","2":"3","3":"0.1"},{"1":"Colombia","2":"3","3":"0.1"},{"1":"Ghana","2":"3","3":"0.1"},{"1":"Iran","2":"3","3":"0.1"},{"1":"Kazakhstan","2":"3","3":"0.1"},{"1":"Kenya","2":"3","3":"0.1"},{"1":"Latvia","2":"3","3":"0.1"},{"1":"Luxembourg","2":"3","3":"0.1"},{"1":"Morocco","2":"3","3":"0.1"},{"1":"Slovakia (Slovak Republic)","2":"3","3":"0.1"},{"1":"Tunisia","2":"3","3":"0.1"},{"1":"Venezuela","2":"3","3":"0.1"},{"1":"Bolivia","2":"2","3":"0.1"},{"1":"Bosnia and Herzegovina","2":"2","3":"0.1"},{"1":"Holy See (Vatican City State)","2":"2","3":"0.1"},{"1":"Iceland","2":"2","3":"0.1"},{"1":"Isle of Man","2":"2","3":"0.1"},{"1":"Mongolia","2":"2","3":"0.1"},{"1":"Pakistan","2":"2","3":"0.1"},{"1":"Syrian Arab Republic","2":"2","3":"0.1"},{"1":"Uruguay","2":"2","3":"0.1"},{"1":"Vietnam","2":"2","3":"0.1"},{"1":"Zimbabwe","2":"2","3":"0.1"},{"1":"Andorra","2":"1","3":"0.0"},{"1":"Bahrain","2":"1","3":"0.0"},{"1":"Belize","2":"1","3":"0.0"},{"1":"Bhutan","2":"1","3":"0.0"},{"1":"Bulgaria","2":"1","3":"0.0"},{"1":"Cameroon","2":"1","3":"0.0"},{"1":"Central African Republic","2":"1","3":"0.0"},{"1":"Christmas Island","2":"1","3":"0.0"},{"1":"Cuba","2":"1","3":"0.0"},{"1":"Cyprus","2":"1","3":"0.0"},{"1":"Faroe Islands","2":"1","3":"0.0"},{"1":"Georgia","2":"1","3":"0.0"},{"1":"Guadeloupe","2":"1","3":"0.0"},{"1":"Guam","2":"1","3":"0.0"},{"1":"Honduras","2":"1","3":"0.0"},{"1":"Hong Kong","2":"1","3":"0.0"},{"1":"Iraq","2":"1","3":"0.0"},{"1":"Jamaica","2":"1","3":"0.0"},{"1":"Kosovo","2":"1","3":"0.0"},{"1":"Kyrgyz Republic","2":"1","3":"0.0"},{"1":"Lebanon","2":"1","3":"0.0"},{"1":"Liechtenstein","2":"1","3":"0.0"},{"1":"Macao","2":"1","3":"0.0"},{"1":"Macedonia","2":"1","3":"0.0"},{"1":"Madagascar","2":"1","3":"0.0"},{"1":"Mauritius","2":"1","3":"0.0"},{"1":"Monaco","2":"1","3":"0.0"},{"1":"Mozambique","2":"1","3":"0.0"},{"1":"Nigeria","2":"1","3":"0.0"},{"1":"Panama","2":"1","3":"0.0"},{"1":"Paraguay","2":"1","3":"0.0"},{"1":"Rwanda","2":"1","3":"0.0"},{"1":"Saint Lucia","2":"1","3":"0.0"},{"1":"Saint Pierre and Miquelon","2":"1","3":"0.0"},{"1":"Sri Lanka","2":"1","3":"0.0"},{"1":"Svalbard & Jan Mayen Islands","2":"1","3":"0.0"},{"1":"Tokelau","2":"1","3":"0.0"},{"1":"Trinidad and Tobago","2":"1","3":"0.0"},{"1":"United States Minor Outlying Islands","2":"1","3":"0.0"},{"1":"Wallis and Futuna","2":"1","3":"0.0"},{"1":"Yemen","2":"1","3":"0.0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["country"],"name":[1],"type":["chr"],"align":["left"]},{"label":["players"],"name":[2],"type":["int"],"align":["right"]},{"label":["perc"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"United States of America","2":"711","3":"35.4"},{"1":"United Kingdom","2":"129","3":"6.4"},{"1":"Germany","2":"123","3":"6.1"},{"1":"Canada","2":"111","3":"5.5"},{"1":"France","2":"76","3":"3.8"},{"1":"Poland","2":"54","3":"2.7"},{"1":"Netherlands","2":"48","3":"2.4"},{"1":"Italy","2":"44","3":"2.2"},{"1":"Australia","2":"42","3":"2.1"},{"1":"Norway","2":"40","3":"2.0"},{"1":"India","2":"35","3":"1.7"},{"1":"Sweden","2":"35","3":"1.7"},{"1":"Spain","2":"28","3":"1.4"},{"1":"Brazil","2":"27","3":"1.3"},{"1":"Mexico","2":"25","3":"1.2"},{"1":"Switzerland","2":"25","3":"1.2"},{"1":"Finland","2":"23","3":"1.1"},{"1":"New Zealand","2":"21","3":"1.0"},{"1":"Ireland","2":"20","3":"1.0"},{"1":"Belgium","2":"19","3":"0.9"},{"1":"Austria","2":"17","3":"0.8"},{"1":"Turkey","2":"16","3":"0.8"},{"1":"Croatia","2":"15","3":"0.7"},{"1":"Serbia","2":"15","3":"0.7"},{"1":"Argentina","2":"14","3":"0.7"},{"1":"Russian Federation","2":"14","3":"0.7"},{"1":"Denmark","2":"13","3":"0.6"},{"1":"Portugal","2":"13","3":"0.6"},{"1":"Greece","2":"12","3":"0.6"},{"1":"Czech Republic","2":"10","3":"0.5"},{"1":"Singapore","2":"10","3":"0.5"},{"1":"Estonia","2":"9","3":"0.4"},{"1":"Korea","2":"9","3":"0.4"},{"1":"Egypt","2":"8","3":"0.4"},{"1":"South Africa","2":"8","3":"0.4"},{"1":"Chile","2":"7","3":"0.3"},{"1":"Hungary","2":"7","3":"0.3"},{"1":"Philippines","2":"7","3":"0.3"},{"1":"Indonesia","2":"6","3":"0.3"},{"1":"Nepal","2":"6","3":"0.3"},{"1":"Peru","2":"6","3":"0.3"},{"1":"Romania","2":"6","3":"0.3"},{"1":"Ukraine","2":"6","3":"0.3"},{"1":"China","2":"5","3":"0.2"},{"1":"Israel","2":"5","3":"0.2"},{"1":"Japan","2":"5","3":"0.2"},{"1":"Lithuania","2":"4","3":"0.2"},{"1":"Malaysia","2":"4","3":"0.2"},{"1":"Puerto Rico","2":"4","3":"0.2"},{"1":"Slovenia","2":"4","3":"0.2"},{"1":"Taiwan","2":"4","3":"0.2"},{"1":"Algeria","2":"3","3":"0.1"},{"1":"Bangladesh","2":"3","3":"0.1"},{"1":"Belarus","2":"3","3":"0.1"},{"1":"Colombia","2":"3","3":"0.1"},{"1":"Ghana","2":"3","3":"0.1"},{"1":"Iran","2":"3","3":"0.1"},{"1":"Kazakhstan","2":"3","3":"0.1"},{"1":"Kenya","2":"3","3":"0.1"},{"1":"Latvia","2":"3","3":"0.1"},{"1":"Luxembourg","2":"3","3":"0.1"},{"1":"Morocco","2":"3","3":"0.1"},{"1":"Slovakia (Slovak Republic)","2":"3","3":"0.1"},{"1":"Tunisia","2":"3","3":"0.1"},{"1":"Venezuela","2":"3","3":"0.1"},{"1":"Bolivia","2":"2","3":"0.1"},{"1":"Bosnia and Herzegovina","2":"2","3":"0.1"},{"1":"Holy See (Vatican City State)","2":"2","3":"0.1"},{"1":"Iceland","2":"2","3":"0.1"},{"1":"Isle of Man","2":"2","3":"0.1"},{"1":"Mongolia","2":"2","3":"0.1"},{"1":"Pakistan","2":"2","3":"0.1"},{"1":"Syrian Arab Republic","2":"2","3":"0.1"},{"1":"Uruguay","2":"2","3":"0.1"},{"1":"Vietnam","2":"2","3":"0.1"},{"1":"Zimbabwe","2":"2","3":"0.1"},{"1":"Andorra","2":"1","3":"0.0"},{"1":"Bahrain","2":"1","3":"0.0"},{"1":"Belize","2":"1","3":"0.0"},{"1":"Bhutan","2":"1","3":"0.0"},{"1":"Bulgaria","2":"1","3":"0.0"},{"1":"Cameroon","2":"1","3":"0.0"},{"1":"Central African Republic","2":"1","3":"0.0"},{"1":"Christmas Island","2":"1","3":"0.0"},{"1":"Cuba","2":"1","3":"0.0"},{"1":"Cyprus","2":"1","3":"0.0"},{"1":"Faroe Islands","2":"1","3":"0.0"},{"1":"Georgia","2":"1","3":"0.0"},{"1":"Guadeloupe","2":"1","3":"0.0"},{"1":"Guam","2":"1","3":"0.0"},{"1":"Honduras","2":"1","3":"0.0"},{"1":"Hong Kong","2":"1","3":"0.0"},{"1":"Iraq","2":"1","3":"0.0"},{"1":"Jamaica","2":"1","3":"0.0"},{"1":"Kosovo","2":"1","3":"0.0"},{"1":"Kyrgyz Republic","2":"1","3":"0.0"},{"1":"Lebanon","2":"1","3":"0.0"},{"1":"Liechtenstein","2":"1","3":"0.0"},{"1":"Macao","2":"1","3":"0.0"},{"1":"Macedonia","2":"1","3":"0.0"},{"1":"Madagascar","2":"1","3":"0.0"},{"1":"Mauritius","2":"1","3":"0.0"},{"1":"Monaco","2":"1","3":"0.0"},{"1":"Mozambique","2":"1","3":"0.0"},{"1":"Nigeria","2":"1","3":"0.0"},{"1":"Panama","2":"1","3":"0.0"},{"1":"Paraguay","2":"1","3":"0.0"},{"1":"Rwanda","2":"1","3":"0.0"},{"1":"Saint Lucia","2":"1","3":"0.0"},{"1":"Saint Pierre and Miquelon","2":"1","3":"0.0"},{"1":"Sri Lanka","2":"1","3":"0.0"},{"1":"Svalbard & Jan Mayen Islands","2":"1","3":"0.0"},{"1":"Tokelau","2":"1","3":"0.0"},{"1":"Trinidad and Tobago","2":"1","3":"0.0"},{"1":"United States Minor Outlying Islands","2":"1","3":"0.0"},{"1":"Wallis and Futuna","2":"1","3":"0.0"},{"1":"Yemen","2":"1","3":"0.0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -2816,7 +2816,7 @@ Show code
 </head>
 <body>
 <span>
-Last updated on 15 February 2022
+Last updated on 16 February 2022
 </span>
 </body>
 </html>

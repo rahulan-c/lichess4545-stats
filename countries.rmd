@@ -1,8 +1,8 @@
 ---
 title: "Players by country/continent"
-date: "2022-01-05"
 description: |
   Where do league players come from?
+date: "2022-01-05"
 output: 
   distill::distill_article:
     code_folding: true
