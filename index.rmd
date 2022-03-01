@@ -29,6 +29,11 @@ pretty_time <- function(x) {
 
 ```
 
+```{r}
+# TODO: check league status, update front-page table
+```
+
+
 </br>
 </br>
 </br>
@@ -96,13 +101,13 @@ Coming soon
   </tr>
   <tr>
     <td class = "t-left">LoneWolf</td>
-    <td class = "t-right">`r 'S24 over'`</td>
+    <td class = "t-right">`r 'S25 ongoing'`</td>
     <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/lonewolf/tv/)')`</td>
-    <td class = "t-right">`r paste0('Closed')`</td>
+    <td class = "t-right">`r paste0('[Register](https://www.lichess4545.com/lonewolf/register/)')`</td>
   </tr>
   <tr>
     <td class = "t-left">960</td>
-    <td class = "t-right">`r 'S19 ongoing'`</td>
+    <td class = "t-right">`r 'S19 over'`</td>
     <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/chess960/tv/)')`</td>
     <td class = "t-right">`r paste0('Closed')`</td>
     

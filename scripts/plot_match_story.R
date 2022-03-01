@@ -3,7 +3,8 @@
 #                         PLOT 4545 MATCH STORIES
 # =============================================================================
 
-# Updated:  February 2022
+# Last updated: March 2022
+# Created:      August 2021
 
 
 # DESCRIPTION
@@ -16,7 +17,8 @@
 
 
 # OUTPUT(S)
-# Produces a single PDF output.
+# Produces a single PDF output. Optimised for the production of outputs for
+# https://rahulan-c.github.io/lichess4545-stats/. 
 
 
 # IMPORTANT NOTES
@@ -24,15 +26,17 @@
 #     position data for the *following* round too, so obvs if a season's still 
 #     in Round 1, there won't be any data for Round 2.
 # [2] Remember to check for any un-analysed games in a round before creating
-#     stories, using get_league_games(). Process: 
-#     - Run get_league_games() once and identify games that require analysis
+#     stories, using LeagueGames(). Process: 
+#     - Run LeagueGames() once and identify games that require analysis
 #     - Manually request server analysis for these games
-#     - Once all games have been analysed, run PlotMatchStory()
+#     - Once all games have been analysed, then run PlotMatchStory()
 
 
-# KNOWN BUGS
-# 2022-02-03: New character encoding issues cause bugged non-English characters 
-#             - usually seen in opening names.
+# BUGS
+# 1) Opening names with foreign character show up as bugged characters, 
+#    presumably due to some character encoding issue that I haven't figured out
+#    how to fix. First noticed 2022-02-03. 
+#    Status: UNFIXED.
 
 
 # DEV TODOS
@@ -48,10 +52,6 @@
 #     All matches played by a player over their career
 #     (NOTE: this probably requires re-factoring the code first!)
 
-# - [done] Fix new character encoding bug
-# - [done] Shorten long player names in Games section
-# - [done] Add date created to final PDF
-# - [done] Consider removing use of emo() package (doesn't add much)
 
 # Setup =======================================================================
 
@@ -77,17 +77,6 @@ extrafont::loadfonts(device = "pdf", quiet = TRUE)
 
 ## Fix character encoding issues ----------------------------------------------
 fix_character_encoding <- function(df){
-  
-  # df <- df %>%
-  #   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>%
-  #   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>%
-  #   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>%
-  #   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>%
-  #   mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>%
-  #   mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>%
-  #   mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>%
-  #   mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'"))) %>%
-  #   mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¤", "ä")))
   
   # Approach 1: manually change wrong characters to correct Unicode
   df <- df %>%
@@ -127,8 +116,8 @@ fix_character_encoding <- function(df){
 #' @param request_data Whether game and team ranking data needs to be requested 
 #' from the Lichess4545 API, website and Lichess before making the plot. 
 #' Enter TRUE to request data. Default value: FALSE.
-#' @param plot_width Final plot width in mm. Default value: 340.
-#' @param plot_height Final plot height in mm. Default value: 200
+#' @param plot_width Final plot width in mm. Default value: 350.
+#' @param plot_height Final plot height in mm. Default value: 215.
 #' @param plot_format Final plot format. Default value: "pdf".
 #' @param save Whether to save the final PDF locally or not. Default value: TRUE.
 #' @param save_path Filepath for saving the final PDF, relative to the current 
@@ -321,7 +310,7 @@ PlotMatchStory <- function(season_num, # season number
   all_games <- as_tibble(all_games)
 
   # Tidy game data
-  all_games <- tidy_lichess_games(all_games)
+  all_games <- TidyGames(all_games)
   all_games <- as_tibble(all_games)
   all_games <- fix_character_encoding(all_games)
   
@@ -338,8 +327,8 @@ PlotMatchStory <- function(season_num, # season number
       if(season_num <= 15){team_boards <-  6} else 
         if(season_num <= 24){team_boards <-  8} else
           if(season_num <= 99){team_boards <-  10}
-  # Then call get_league_data() from scripts/all_functions.R
-  league_data <- get_league_data("team4545", season_num, round_num, FALSE, team_boards)
+  # Then get league data using LeagueData() function scripts/all_functions.R (already sourced)
+  league_data <- LeagueData("team4545", season_num, round_num, FALSE, team_boards)
   all_pairings2 <- league_data[[1]] %>% as_tibble()
   all_pairings2 <- fix_character_encoding(all_pairings2)
   
@@ -376,7 +365,8 @@ PlotMatchStory <- function(season_num, # season number
     
     # Alt. form of pairings data, with scheduled times
     pairings2 <- all_pairings2 %>% 
-      filter(str_detect(match, pairings$white_team[1]))
+      filter(str_detect(match, pairings$white_team[1]) | 
+               str_detect(match, pairings$black_team[1]))
     
     # Fix the result column in the alt. pairings data
     # Required because raw data extracted from the Lichess4545 pairings page 
@@ -498,14 +488,10 @@ PlotMatchStory <- function(season_num, # season number
         result == "0F-1X" & white_team == t1 ~ 0,
         result == "0F-1X" & white_team == t2 ~ 1,
         result == "0F-0F" ~ 0,
-        result == "½Z-½Z" ~ 0.5,  
+        str_count(result, "Z") == 2 ~  0.5,  # scheduling draws (½Z-½Z)
         TRUE ~ NA_real_
       )) %>%
-      mutate(pts_t2 = ifelse(result %in% c("0F-0F", "½Z-½Z"), 
-                             ifelse(result == "0F-0F", 0, 
-                                    ifelse(result == "½Z-½Z", 0.5, NA)), 
-                             1 - pts_t1)
-             ) %>%
+      mutate(pts_t2 = ifelse(result == "0F-0F", 0, 1 - pts_t1)) %>%
       mutate(
         postgamescore_t1 = cumsum(pts_t1), # team match score after game
         postgamescore_t2 = cumsum(pts_t2),
@@ -558,7 +544,6 @@ PlotMatchStory <- function(season_num, # season number
       ))
     
     
-    
     # Account for unplayed games...
     if(length(unique(moves$order)) != team_boards){
       
@@ -567,13 +552,10 @@ PlotMatchStory <- function(season_num, # season number
       # Add a set of moves for each unplayed game (so they're shown separately on the plot)
       uf <- pairings %>% 
         filter(str_detect(game_id, "forfeit"))
-      
-      # DEBUGGING - DELETE LATER
-      # cli::cli_inform("uf$finalscore_t1: {uf$finalscore_t1}")
-      
+
       for(u in seq(1:nrow(uf))){
         
-        cli::cli_alert_warning("{uf$white[u]}-{uf$black[u]} {uf$result[u]}")
+        cli::cli_alert_warning("Accounting for {uf$white[u]}-{uf$black[u]} {uf$result[u]}")
           
         # Find where the missing games should go
         
@@ -632,7 +614,6 @@ PlotMatchStory <- function(season_num, # season number
                   .after = row_before_unplayed)
         
         # Add ply number (0 to 29)
-        # moves$ply[moves$order == pairings2$sched_order[u]] <- seq(from = 0, to = 29)
         moves$ply[moves$order == uf$order[u]] <- seq(from = 0, to = 29)
         
         # Add player name per move
@@ -641,6 +622,8 @@ PlotMatchStory <- function(season_num, # season number
           moves$white[moves$order == uf$order[u]][1],
           moves$black[moves$order == uf$order[u]][1]
         )
+        
+        # print(glue::glue("{u} {uf$pregamediff[u]} {uf$postgamescore_t1[u] - uf$postgamescore_t2[u]}"))
         
         # Add match eval
         moves$eval_scaled_match[moves$order == uf$order[u]] <- seq(
