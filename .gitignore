@@ -9,8 +9,6 @@
 
 .env
 
-countries_files/**
-
 data/**
 scripts/test/**
 reports/images/mates/**

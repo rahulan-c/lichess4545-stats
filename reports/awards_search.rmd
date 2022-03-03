@@ -121,7 +121,8 @@ for(s in seq(1:length(season_reports))){
 
 # After going through all published reports
 # Combine everything into a single data frame
-awards <- data.table::rbindlist(all_awards)
+awards <- data.table::rbindlist(all_awards) %>% 
+  tibble::as_tibble()
 
 # Tidy the combined data
 awards <- awards %>% 
@@ -135,6 +136,16 @@ awards <- awards %>%
 awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
 
 rm(all_awards, awards_tidy)
+
+# Exclude all ToS violators from awards table
+source(paste0(here::here(), "/scripts/identify_tos_violators.R"))
+toscrub <- str_c(tos_violators, collapse = "|") 
+awards$Winner <- stringr::str_remove_all(awards$Winner, 
+                                                  toscrub)
+# Tidy up any after-effects
+awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
+awards$Winner <- str_replace_all(awards$Winner, ",\\s,", ",")
+awards$Winner <- str_replace_all(awards$Winner, ",\\s,", ",")
 
 # Show final table
 reactable(awards,

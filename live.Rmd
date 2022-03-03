@@ -32,9 +32,10 @@ options(reactable.theme = reactableTheme(
 
 ```
 
-This page shows "live" standings for currently active leagues. 
 
-These try to account for games that have already been played in the current round. However, they don't account for every tiebreak used in the leagues, so the order of teams or players shown here won't always be accurate. They're also not fully automated yet, so this page might show old or outdated information, and so far I've only produced them for the 4545 league. 
+These "live" standings account for games that have already been played in the current round. They show how each team's ranking would change if all matches ended at their current score. 
+
+However, the standings don't account for all the tiebreaks used in the [official standings](https://www.lichess4545.com/team4545/standings), so I can't guarantee that the rankings shown here will always be accurate. Also, this page doesn't get updated automatically (yet), so there's a good chance that at any given time, it will be showing outdated information.
 
 *Last updated: `r lubridate::now("UTC")`*
 
@@ -248,11 +249,3 @@ reactable(scores2,
  }    
         
 ```
-
-### LoneWolf Open
-
-To be completed.
-
-### LoneWolf U1800
-
-To be completed.

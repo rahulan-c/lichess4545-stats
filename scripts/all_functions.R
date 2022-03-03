@@ -332,6 +332,7 @@ TidyGames <- function(games){
   # disconnecting, b) cheat detection, or c) someone aborting the game
   # Also exclude games that started from custom positions
   games <- games %>% 
+    tibble::as_tibble() %>% 
     filter(!(status %in% c("timeout", "cheat", "aborted"))) %>% 
     filter(perf != "fromPosition")
     
