@@ -5,8 +5,8 @@
 
 
 # ---- Load all_functions.R and report_functions.R ----------------------------
-source(paste0(here::here(), "/scripts/all_functions.R"))
-source(paste0(here::here(), "/scripts/report_functions.R"))
+source(paste0(here::here(), "/R/all_functions.R"))
+source(paste0(here::here(), "/R/report_functions.R"))
 
 
 # ---- Fetch games played in a single round -----------------------------------
@@ -26,14 +26,14 @@ UpdateSite(navbar_changed = F,
 
 
 # ---- Push latest repo changes to site ---------------------------------------
-source(paste0(here::here(), "/scripts/all_functions.R"))
+source(paste0(here::here(), "/R/all_functions.R"))
 UpdateRepo()
 
 
 # ---- Produce season stats WITHOUT publishing anything -----------------------
 .rs.restartR()
-source(paste0(here::here(), "/scripts/all_functions.R"))
-source(paste0(here::here(), "/scripts/report_functions.R"))
+source(paste0(here::here(), "/R/all_functions.R"))
+source(paste0(here::here(), "/R/report_functions.R"))
 MakeSeasonReport(league = "team4545", 
                    season = 28,
                    from_scratch = F)
@@ -43,14 +43,14 @@ MakeSeasonReport(league = "team4545",
 # ---- Save season data for one or more seasons -------------------------------
 # Suggest doing this first before producing seasons stats for all seasons
 # Might avoid persistent R crashes this way
-source(paste0(here::here(), "/scripts/all_functions.R"))
+source(paste0(here::here(), "/R/all_functions.R"))
 SaveSeasonData("team4545", c(28))
 
 
 # ---- Compile season reports for one or more 4545/LW/C960 seasons ------------
 .rs.restartR()
-source(paste0(here::here(), "/scripts/all_functions.R"))
-source(paste0(here::here(), "/scripts/report_functions.R"))
+source(paste0(here::here(), "/R/all_functions.R"))
+source(paste0(here::here(), "/R/report_functions.R"))
 BuildSeasonReports(wipe_stats_first = FALSE,
                      request_data = TRUE,
                      team_range = NULL,
@@ -60,25 +60,26 @@ BuildSeasonReports(wipe_stats_first = FALSE,
 
 
 # ---- Update the awards search page ------------------------------------------
-source(paste0(here::here(), "/scripts/all_functions.R"))
-source(paste0(here::here(), "/scripts/report_functions.R"))
-rmarkdown::render(paste0(here::here(), "/reports/awards_search.rmd"))
+source(paste0(here::here(), "/R/all_functions.R"))
+source(paste0(here::here(), "/R/report_functions.R"))
+rmarkdown::render(paste0(here::here(), "/R/Rmd/awards_search.rmd"),
+                  output = paste0(here::here(), "/site/"))
 UpdateRepo()
 
 
 # ---- Update all-time league games datasets ----------------------------------
 library(here)
-source(paste0(here::here(), "/scripts/all_functions.R"))
+source(paste0(here::here(), "/R/all_functions.R"))
 # TBC
 
 
 # ---- Produce "match stories" PDF for a completed 4545 round -----------------
 # Check that all games have analysis by running get_league_games() first
-source(paste0(here::here(), "/scripts/plot_match_story.R"))
+source(paste0(here::here(), "/R/plot_match_story.R"))
 PlotMatchStory(29, 5, plot_whole_round = T, request_data = T)
 
 # Plot one match
-source(paste0(here::here(), "/scripts/plot_match_story.R"))
+source(paste0(here::here(), "/R/plot_match_story.R"))
 PlotMatchStory(29, 5, plot_whole_round = F, request_data = T, 
                method = "team", details = "Adult Decliners")
 

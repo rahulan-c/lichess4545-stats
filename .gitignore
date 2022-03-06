@@ -11,9 +11,10 @@
 
 data/**
 scripts/test/**
-reports/images/mates/**
-reports/stories/prod/**
+site/reports/images/mates/**
+site/reports/stories/prod/**
 
-scripts/scratchpad.R
-scripts/update_repo.R
-scripts/identify_tos_violators.R
+R/scratchpad.R
+R/update_repo.R
+R/identify_tos_violators.R
+R/wcc_match_stories.R

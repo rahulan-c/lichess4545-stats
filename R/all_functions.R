@@ -31,13 +31,13 @@ token <- Sys.getenv("LICHESS_TOKEN")
 # ---- Directory paths (do not change) ----------------------------------------
 
 # Directory where this functions script is saved
-path_scripts <- paste0(path_root, "/scripts/")
+path_scripts <- paste0(path_root, "/R/")
 
 # Directory where 4545/LW season data is saved
 path_savedata <- paste0(path_root, "/data/")
 
 # Directory where season stats R Markdown file is saved
-path_loadrmd <- paste0(path_root, "/reports/")
+path_loadrmd <- paste0(path_root, "/R/Rmd/")
 
 # R Markdown filenames
 # RMD file that produces season stats
@@ -46,7 +46,7 @@ stats_rmd_filename <- "produce_season_stats"
 alltime_stats_rmd_filename <- "alltime_records"
 
 # Directory where season stats HTML reports will be saved
-path_savereport <- paste0(path_root, "/reports/")
+path_savereport <- paste0(path_root, "/site/stats/")
 
 # Directory where openings sunburst plots will be saved initially
 path_sunburst_original <- path_scripts
@@ -1474,7 +1474,7 @@ MakeSunburst <- function(league, season){
   
   # Source make_openings_sunburst.py in R and call function to produce plot
   reticulate::import_from_path("chess_graph", path = chessgraph_path, convert = TRUE)
-  reticulate::source_python(paste0(path_scripts, "make_openings_sunburst.py"))
+  reticulate::source_python(paste0(path_scripts, "/Python/make_openings_sunburst.py"))
   make_sunburst(pgn)
   
   # Move sunburst to reports folder
@@ -1554,46 +1554,46 @@ UpdateSite <- function(navbar_changed = FALSE,
   # Github before re-knitting the season stats (summary) page
   if(new_stats_produced){
     source(paste0(path_scripts, "update_repo.R"))
-    rmarkdown::render(paste0(path_root, "/season_stats.rmd"),
+    rmarkdown::render(paste0(path_loadrmd, "season_stats.rmd"),
                       output_dir = path_web)
   }
   
   # Update site pages where necessary 
   
   # Front page
-  if(update_frontpage){rmarkdown::render(paste0(path_root, "/index.rmd"),
+  if(update_frontpage){rmarkdown::render(paste0(here::here(), "/R/Rmd/index.rmd"),
                                          output_dir = path_web)}
   
   # Season stats landing page
-  if(update_season_stats){rmarkdown::render(paste0(path_root, "/season_stats.rmd"),
+  if(update_season_stats){rmarkdown::render(paste0(here::here(), "/R/Rmd/season_stats.rmd"),
                                             output_dir = path_web)}
   
   # League status check
-  if(update_status){rmarkdown::render(paste0(path_root, "/league_status.rmd"),
+  if(update_status){rmarkdown::render(paste0(here::here(), "/R/Rmd/league_status.rmd"),
                                       output_dir = path_web)}
   
   # Round updates / 4545 stories page
-  if(update_current){rmarkdown::render(paste0(path_root, "/current.rmd"),
+  if(update_current){rmarkdown::render(paste0(here::here(), "/R/Rmd/current.rmd"),
                                        output_dir = path_web)}
   
   # Live standings page
-  if(update_standings){rmarkdown::render(paste0(path_root, "/live.rmd"),
+  if(update_standings){rmarkdown::render(paste0(here::here(), "/R/Rmd/live.rmd"),
                                          output_dir = path_web)}
   
   # About page
-  if(update_about){rmarkdown::render(paste0(path_root, "/about.rmd"),
+  if(update_about){rmarkdown::render(paste0(here::here(), "/R/Rmd/about.rmd"),
                                      output_dir = path_web)}
     
   
   # Push all local repo changes to Github / inform user
-  source(paste0(path_scripts, "update_repo.R"))
+  source(paste0(here::here(), "/R/update_repo.R"))
   cli::cli_alert_success("Site updated")
 }
 
 
 UpdateRepo <- function(){
   # Pushes latest local repo changes to Github
-  source(paste0(here::here(), "/scripts/update_repo.R"))
+  source(paste0(here::here(), "/R/update_repo.R"))
 }
 
 
