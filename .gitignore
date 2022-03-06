@@ -14,7 +14,6 @@ scripts/test/**
 docs/reports/images/mates/**
 docs/reports/stories/prod/**
 
-# R/scratchpad.R
-# R/update_repo.R
-# R/identify_tos_violators.R
-# R/wcc_match_stories.R
+R/scratchpad.R
+R/update_repo.R
+R/identify_tos_violators.R
