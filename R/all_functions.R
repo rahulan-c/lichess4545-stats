@@ -18,7 +18,7 @@ pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2,
 path_root <- here::here()
 
 # Path to website directory
-path_web <- paste0(path_root, "/site/")
+path_web <- paste0(path_root, "/docs/")
 
 # Path to Python environment and chess_graph module
 path_python <- Sys.getenv("RETICULATE_PYTHON")
@@ -46,7 +46,7 @@ stats_rmd_filename <- "produce_season_stats"
 alltime_stats_rmd_filename <- "alltime_records"
 
 # Directory where season stats HTML reports will be saved
-path_savereport <- paste0(path_root, "/site/stats/")
+path_savereport <- paste0(path_root, "/docs/stats/")
 
 # Directory where openings sunburst plots will be saved initially
 path_sunburst_original <- path_scripts
