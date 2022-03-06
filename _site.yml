@@ -6,29 +6,30 @@ base_url: "https://rahulan-c.github.io/lichess4545-stats/"
 google_analytics: "G-Q3CEQ766D1"
 description: |
   Statistical reports for the Lichess4545 online chess leagues
-output_dir: "."
+output_dir: "./site"
 include:
 navbar:
   right:
       - icon: fa-home
         href: index.html
-      - text: "By league/season"
+      - text: "Stats and awards"
         href: season_stats.html
-      - text: "Awards search"
-        href: /lichess4545-stats/reports/awards_search.html
-      - text: "Current season"
-        href: latest.html
         menu:
-          - text: "Check league statuses"
-            href: league_status.html
-          - text: "'Live' standings"
-            href: live.html
-          - text: "4545 round stories"
-            href: current.html
-
-      # - text: "Records"
-      #   href: alltime.html
-      - text: "Other"
+        - text: "By league and season"
+          href: season_stats.html
+        - text: "All award winners"
+          href: /lichess4545-stats/reports/awards_search.html
+        # - text: "All-time records"
+        #   href: alltime.html
+        # - text: "Random trivia"
+        #   href: trivia.html
+      - text: "4545 standings"
+        href: live.html
+      - text: "4545 stories"
+        href: current.html
+      # - text: "Check league statuses"
+      #   href: league_status.html
+      - text: "Articles"
         href: other.html
         menu:
         - text: "Players by country"
@@ -37,11 +38,8 @@ navbar:
       #     #   href: openings.html
       #     # - text: "Endgames (tbc)"
       #     #   href: endgames.html
-          
-      #     # - text: "Random facts (tbc)"
-      #     #   href: random.html
       - text: "About"
         href: about.html
-  # search: true
+  search: true
   source_url: https://github.com/rahulan-c/lichess4545-stats
 output: distill::distill_article

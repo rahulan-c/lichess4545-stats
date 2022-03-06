@@ -1,0 +1,178 @@
+---
+title: "All award winners / details"
+description: |
+  Compiled into a single searchable table
+date: "2022-02-17"
+site: distill::distill_website
+output: distill::distill_article
+---
+
+
+
+```{r packages_initial_opts, include = FALSE}
+# Set default R chunk options for Rmd file
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+# Load all required packages, incl. for functions
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
+               ggrepel, ggridges, reactable, htmltools, httr, jsonlite, xml2, 
+               rvest, ndjson, reshape2, utf8, lubridate, tictoc, cowplot, 
+               tippy)
+
+# Define custom default reactable theme for tables
+options(reactable.theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    searchInputStyle = list(width = "100%"),
+    headerStyle = list(
+      "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
+      "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
+      borderColor = "#555"
+    )
+  )
+)
+
+```
+
+
+**Last updated: `r paste0(lubridate::day(lubridate::today()), " ", lubridate::month(lubridate::today(), label = T), " ", lubridate::year(lubridate::today()))`**
+
+
+```{r, layout="l-page"}
+# Crawl over the other reports and present all winners in one table
+
+cli::cli_h2("Updating all-time awards search page...")
+
+# Extract all links from season reports table on homepage
+homepage_url <- "https://rahulan-c.github.io/lichess4545-stats/season_stats.html"
+
+season_reports <- read_html(homepage_url) %>% 
+  html_nodes("table") %>% 
+  html_nodes("tr") %>% 
+  html_nodes("a") %>%
+  html_attr("href")
+
+# Now loop through all reports and extract award winners/details
+all_awards <- list(rep(NA, length(season_reports)))
+for(s in seq(1:length(season_reports))){
+  url <- season_reports[s]
+  league <- ifelse(str_detect(url, "stats_4545"), 
+                   "4545", 
+                   ifelse(str_detect(url, "stats_lwopen"), 
+                          "LW Open", 
+                          ifelse(str_detect(url, "stats_lwu1800"), 
+                                 "LW U1800", 
+                                 ifelse(str_detect(url, "stats_chess960"),
+                                        "Chess960",
+                                        ""))))
+  
+  season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
+  
+  # Get the right XML child number for the league/season
+  # Required because the Dec 2021 changes to season reports changed the section
+  # order...so all reports produced since then should use 4, and all reports
+  # yet to be re-produced should use 5.
+  xml_child_number <- ifelse(league == "4545",
+                             ifelse(season %in% c(2:28),
+                                    4,
+                                    5),
+                             
+                             ifelse(league == "LW Open",
+                                    ifelse(season %in% c(10, 13, 22, 23, 24),
+                                           4,
+                                           5),
+                                    
+                                    ifelse(league == "LW U1800",
+                                           ifelse(season %in% c(11, 13, 22, 23, 24),
+                                                  4,
+                                                  5),
+                                           
+                                           ifelse(league == "Chess960",
+                                                  ifelse(season %in% c(2:18),
+                                                         4,
+                                                         5),
+                                                  NA_real_))))
+  
+  
+  # Read and parse each report's awards table
+  awards <- read_html(url) %>%
+    rvest::html_element("#awards") %>% 
+    xml_child(xml_child_number) %>% 
+    html_text2() %>% 
+    parse_json()
+  
+  # Tidy award data
+  awards_tidy <- as_tibble(awards$x$tag$attribs$data) %>%
+    mutate(League = league, Season = season) %>% 
+    select(-c(Image)) %>% 
+    select(League, Season, Award, Winner, Details) %>% 
+    # Flatten list to columns, turning NULL values to NAs
+    mutate(Award = Award %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist(),
+           Winner = Winner %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist(),
+           Details = Details %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist())
+  
+  all_awards[[s]] <- awards_tidy
+  cli::cli_inform("{league} S{season} done")
+  Sys.sleep(0.1)
+}
+
+# After going through all published reports
+# Combine everything into a single data frame
+awards <- data.table::rbindlist(all_awards) %>% 
+  tibble::as_tibble()
+
+# Tidy the combined data
+awards <- awards %>% 
+  filter(Winner != "") %>% # exclude non-awarded awards
+  filter(!(Award %in% c("Egalitarian Award", "Team Accuracy", "Radjabov Award"))) %>% # exclude team-based awards
+  arrange(Winner) %>% 
+  mutate(league_season = paste0(League, " S", Season)) %>% 
+  select(Winner, Award, Details, league_season)
+  
+
+awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
+
+rm(all_awards, awards_tidy)
+
+# Exclude all ToS violators from awards table
+source(paste0(here::here(), "/scripts/identify_tos_violators.R"))
+toscrub <- str_c(tos_violators, collapse = "|") 
+awards$Winner <- stringr::str_remove_all(awards$Winner, 
+                                                  toscrub)
+# Tidy up any after-effects
+awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
+awards$Winner <- str_replace_all(awards$Winner, ",\\s,", ",")
+awards$Winner <- str_replace_all(awards$Winner, ",\\s,", ",")
+
+# Show final table
+reactable(awards,
+          pagination = TRUE, 
+          fullWidth = TRUE,
+          resizable = TRUE,
+          searchable = TRUE,
+          columns = list(
+            Winner = colDef(name = "Player", align = "left", minWidth = 200),
+            Award = colDef(name = "Award", minWidth = 150),
+            Details = colDef(name = "Details", minWidth = 250),
+            league_season = colDef(name = "League / Season", minWidth = 150)
+            )
+)
+
+cli::cli_alert_success("Awards search page updated")
+```
+
+#### Award definitions
+
+- **Aces**: scored +6 or better
+- **Archbishop of Accuracy**: lowest average centipawn loss (ACPL) in undecided positions after move 10
+- **Awesome Alt**: played for the most teams during the season
+- **Bullet Boss**: most moves made in under 0.5 seconds
+
+To be completed...
+
+
+[Return to home page](https://rahulan-c.github.io/lichess4545-stats/)
+

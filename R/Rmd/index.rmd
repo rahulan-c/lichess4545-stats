@@ -1,0 +1,162 @@
+---
+title: "Lichess4545 Stats"
+description: "Unofficial stats, records and other stuff"
+site: distill::distill_website
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, knitr, lubridate)
+
+# Utility functions from:
+# https://github.com/mfherman/westchester-covid/blob/master/R/build/utils.R
+
+day_month_year <- function(x, abbr = FALSE) {
+  if(all(lubridate::is.Date(x) || lubridate::is.POSIXt(x))) {
+  glue::glue("{lubridate::day(x)} {lubridate::month(x, label = TRUE, abbr = abbr)} {lubridate::year(x)}")
+  } else
+    stop("Input vector must be Date or POSIX format.")
+}
+
+pretty_time <- function(x) {
+  if(all(lubridate::is.POSIXt(x))) {
+  paste(as.numeric(format(x, "%I")), format(x, "%M %p"), sep = ":")
+  } else
+    stop("Input vector must be POSIX format.")
+}
+
+```
+
+```{r}
+# TODO: check league status, update front-page table
+```
+
+
+</br>
+</br>
+</br>
+
+<div class="index-row l-page">
+
+<!-- site logo(s) / image(s) -->
+
+  <div class="index-column-l l-page">
+  <img src="assets/img/site_logo.png" alt="Site Logo"></img>
+  </div>
+  
+<!-- site menu -->
+
+  <div class="index-column-r l-page" style = "font-family:'Lato', sans-serif;">
+<span style = "font-size:1.6rem;">
+[Latest &#10230;](league_status.html)
+</span></br>
+Updates on current seasons; latest standings; round summaries
+
+<span style = "font-size:1.6rem;">
+[Season stats and awards &#10230;](season_stats.html)
+</span></br>
+Detailed stats and insights by league and season
+
+<span style = "font-size:1.6rem;">
+[Search all awards &#10230;](reports/awards_search.html)
+</span></br>
+Search all previous award winners
+
+<span style = "font-size:1.6rem;">
+All-time records and trivia
+</span></br>
+Coming soon
+
+<span style = "font-size:1.6rem;">
+[About the site &#10230;](about.html)
+</span></br>
+    </div>
+  </div>
+
+
+<br>
+<br>
+<br>
+
+<!-- league status table -->
+
+<div class="index-row l-page">
+  <div class = "index-column-l l-page">
+  
+
+<table class = "key-metric-t" style="width=300;">
+  <tr>
+    <th class = "t-left"></th>
+    <th class = "t-right">Status</th>
+    <th class = "t-right">TV</th>
+    <th class = "t-right">Register</th>
+  </tr>
+  <tr>
+    <td class = "t-left">4545</td>
+    <td class = "t-right">`r 'S29 ongoing'`</td>
+    <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/team4545/tv/)')`</td>
+    <td class = "t-right">`r paste0('[Register](https://www.lichess4545.com/team4545/register/)')`</td>
+  </tr>
+  <tr>
+    <td class = "t-left">LoneWolf</td>
+    <td class = "t-right">`r 'S25 ongoing'`</td>
+    <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/lonewolf/tv/)')`</td>
+    <td class = "t-right">`r paste0('[Register](https://www.lichess4545.com/lonewolf/register/)')`</td>
+  </tr>
+  <tr>
+    <td class = "t-left">960</td>
+    <td class = "t-right">`r 'S19 over'`</td>
+    <td class = "t-right">`r paste0('[TV](https://www.lichess4545.com/chess960/tv/)')`</td>
+    <td class = "t-right">`r paste0('Closed')`</td>
+    
+  </tr>
+    <tr>
+    <td class = "t-left">Others...</td>
+    <td class = "t-right">`r ''`</td>
+    <td class = "t-right">`r ''`</td>
+    <td class = "t-right"></td>
+  </tr>
+  
+</table>
+
+</br>
+<span style = "font-size:0.8rem;">
+The latest status of each of the 4545, LoneWolf and Chess960 leagues. Click 'TV' to see all league games being played right now. Note: this is still under construction, so it might not always be accurate. Always check the leagues' official site to be certain of any info.
+</span>
+
+  </div>
+  
+  
+<!-- intro text -->
+  
+  <div class = "index-column-r l-page" style = "font-size:1.2rem;line-height:1.2em;font-family:'Lato', sans-serif;">
+
+This site provides stats on the [Lichess4545](https://www.lichess4545.com) online chess leagues.
+
+Here, you'll find [detailed reports](season_stats.html) on every season of the Team (4545), LoneWolf and Chess960 leagues. Each report gives an overview of the season, shows various key trends/measures, and recognises noteworthy performances through some quirkily-named awards. For ease of reference, a separate [page](reports/awards_search.html) provides a searchable table with all the award winners from every season of each league.
+
+In addition, there are also standalone statistical articles on various league-related themes, like my effort to identify the [global distribution of league players](countries.html) based on Lichess profile flags. I plan to publish more articles like this in the near future.
+
+
+  </div>
+  
+  </div>
+  
+  </br>
+
+<!-- Show date when page was last updated -->
+
+<p style="text-align: center;">*Last updated on `r day_month_year(Sys.Date(), abbr = TRUE)`*</p>
+
+
+```{css}
+d-title, d-byline {
+  display: none
+}
+```
+
+
+
+
