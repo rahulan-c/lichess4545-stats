@@ -6,7 +6,7 @@ base_url: "https://rahulan-c.github.io/lichess4545-stats/"
 google_analytics: "G-Q3CEQ766D1"
 description: |
   Statistical reports for the Lichess4545 online chess leagues
-output_dir: "./site"
+output_dir: "docs"
 include:
 navbar:
   right:
