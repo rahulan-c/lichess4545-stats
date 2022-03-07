@@ -11,8 +11,11 @@
 # ---- FUNCTIONS THAT NEED ALL RELEVANT GAMES TO HAVE BEEN ANALYSED FIRST -----
 
 # PublishSeasonStats()
+# BuildSite()
 # PublishRoundStory() - TODO
 # PublishRoundReport() - TODO
+
+
 
 
 
@@ -31,8 +34,8 @@ PublishSeasonStats <- function(request = FALSE,
   sb <- cli::cli_status("{symbol$arrow_right} Preparing inputs...")
   
   # Load all required functions
-  source(paste0(here::here(), "/scripts/all_functions.R"))
-  source(paste0(here::here(), "/scripts/report_functions.R"))
+  source(paste0(here::here(), "/R/all_functions.R"))
+  source(paste0(here::here(), "/R/report_functions.R"))
   
   # Make season reports
   BuildSeasonReports(wipe_stats_first = FALSE,
@@ -51,10 +54,11 @@ PublishSeasonStats <- function(request = FALSE,
   cli_status_update(id = sb,
                     "{symbol$arrow_right} Waiting for {post_publication_wait / 60} minutes...")
   Sys.sleep(post_publication_wait / 60) # wait a bit
-  # Redo and publish the all-time awards search page
+  
+  # Reproduce all-time awards search page
   cli_status_update(id = sb,
                     "{symbol$arrow_right} Updating awards search page...")
-  rmarkdown::render(paste0(path_root, "/reports/awards_search.rmd"))
+  rmarkdown::render(paste0(path_root, "/site/_awards_search.rmd"))
   Sys.sleep(5)
   UpdateRepo()
   cli_status_update(id = sb,
@@ -62,5 +66,51 @@ PublishSeasonStats <- function(request = FALSE,
   cli_status_clear(id = sb)
   cli_alert_success("Process completed")
   
+}
+
+
+# Build site
+BuildSite <- function(quiet = FALSE,
+                      update_core = FALSE,
+                      update_countries = FALSE,
+                      update_allreports = FALSE,
+                      update_awards = FALSE){
+  
+  # Render core pages
+  if(update_core){
+    rmarkdown::render_site(input = "site", quiet = quiet)
+    # Copy site/docs to docs/
+    fs::dir_copy(path = "site/docs/", new_path = "docs/", overwrite = TRUE)
+    # Delete site/docs
+    fs::dir_delete(path = "site/docs/")
+    
+  }
+  
+  
+
+  
+  # Update article on league players by continent and country
+  if(update_countries){
+    rmarkdown::render("site/_countries.Rmd", 
+                      output_file = "countries.html",
+                      output_dir = "docs")
+  }
+  
+  # Update list of all season stats reports by league and season
+  if(update_allreports){
+  rmarkdown::render("site/_list-all-season-reports.Rmd",
+                    output_file = "season_stats.html",
+                    output_dir = "docs")
+  }
+  
+  # Update searchable all-time award winners page
+  if(update_awards){
+  rmarkdown::render("site/_awards_search.Rmd",
+                    output_file = "awards_search.html",
+                    output_dir = "docs")
+  }
+  
+  # Update remote repo with all changes
+  UpdateRepo()
 }
 
