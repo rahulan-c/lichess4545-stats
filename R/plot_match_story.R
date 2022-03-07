@@ -65,7 +65,7 @@ token <- Sys.getenv("LICHESS_TOKEN")       # Lichess API token
 gspath <- Sys.getenv("GHOSTSCRIPT_PATH")   # Ghostscript installation path (to embed fonts in PDF)
 
 # Load scripts/all_functions.R (for get_league_data())
-source(glue::glue("{here::here()}/scripts/all_functions.R"))
+source(glue::glue("{here::here()}/R/all_functions.R"))
 
 # Load fonts
 # Only needed once per session
@@ -137,7 +137,7 @@ PlotMatchStory <- function(season_num, # season number
                            plot_width = 350, # 350, 420
                            plot_height = 215, # 210, 297
                            save = T,
-                           save_path = "/reports/stories/prod/") {
+                           save_path = paste0("/docs/reports/stories/prod/")) {
 
   # Colours
   team1_col <- "#58508d"           
@@ -1534,7 +1534,7 @@ PlotMatchStory <- function(season_num, # season number
   if(plot_whole_round){
     # When plotting all matches in a round, save as "sXX_rYY_allmatches.pdf"
     # Save outside 'prod' folder - only do this for whole round plots
-    combined_filename <- paste0(here::here(), "/reports/stories/prod/", "s", sprintf("%02d", season_num),
+    combined_filename <- paste0(here::here(), save_path, "s", sprintf("%02d", season_num),
                                 "_r", round_num, "_allmatches.pdf")
   } else {
     # When plotting a single match, save as "sXX_rYY_match.pdf"
@@ -1574,17 +1574,17 @@ PlotMatchStory <- function(season_num, # season number
                                 round_num, ".+$"))
   
   # Save a copy of the final PDF in /reports/stories/
-  # Overwrites any files previously
+  # Overwrites any previously saved file with the same name
+  # Then delete the PDF from reports/stories/prod
   fs::file_copy(path = final_prod_filepath,
                 new_path = paste0(here::here(), 
-                                  "/reports/stories/",
+                                  paste0("/docs/reports/stories/"),
                                   final_prod_filename),
                 overwrite = TRUE)
-  
+  fs::file_delete(path = final_prod_filepath) # delete PDF in prod
   cli::cli_alert_success("Saved match story PDF")
   
-  # # Open PDF  
-  fs::file_show(combined_filename)
+  # fs::file_show(combined_filename) # show final PDF
   
 } # end function
 

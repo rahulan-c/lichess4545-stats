@@ -47,7 +47,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     color: #2c3e50;
     background-color: #fff2b1;
     border: solid 3px #ffd700;
-    background-image: url("images/trophy-1.png");
+    background-image: url("report_img/trophy-1.png");
   }
   
   div.second {
@@ -61,7 +61,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     color: #2c3e50;
     background-color: #e7e7e7;
     border: solid 3px #7b7b7b;
-    background-image: url("images/trophy-2.svg");
+    background-image: url("report_img/trophy-2.svg");
   }
   
   div.third {
@@ -75,7 +75,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     color: #2c3e50;
     background-color: #e4ba90;
     border: solid 3px #cd7f32;
-    background-image: url("images/trophy-3.svg");
+    background-image: url("report_img/trophy-3.svg");
   }
   
   div.about {
@@ -89,7 +89,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     color: #2c3e50;
     background-color: #bed3ec;
     border: solid 5px #dfedff;
-    background-image: url("images/fyi.png");
+    background-image: url("report_img/fyi.png");
   }
   
   div.stories {
@@ -103,7 +103,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     color: #2c3e50;
     background-color: #d3f5fb;
     border: solid 5px #a4eaf7;
-    background-image: url("images/spell-book.svg");
+    background-image: url("report_img/spell-book.svg");
   }
   
   div.aces {
@@ -117,7 +117,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     color: #2c3e50;
     background-color: #b7ade7;
     border: solid 5px #ac9df7;
-    background-image: url("images/ace.svg");
+    background-image: url("report_img/ace.svg");
   }
   
   div.close_wins {
@@ -131,7 +131,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     color: #2c3e50;
     background-color: #cdecbe;
     border: solid 5px #93d672;
-    background-image: url("images/horseshoe.svg");
+    background-image: url("report_img/horseshoe.svg");
   }
   
   div.heartbreak {
@@ -145,7 +145,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     color: #2c3e50;
     background-color: #bed3ec;
     border: solid 5px #dfedff;
-    background-image: url("images/heartbreak.svg");
+    background-image: url("report_img/heartbreak.svg");
   }
 
 

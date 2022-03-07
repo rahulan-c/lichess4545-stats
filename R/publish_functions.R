@@ -12,8 +12,6 @@
 
 # PublishSeasonStats()
 # BuildSite()
-# PublishRoundStory() - TODO
-# PublishRoundReport() - TODO
 
 # Load required packages
 if (!require("pacman")) install.packages("pacman")
@@ -29,7 +27,9 @@ PublishSeasonStats <- function(need_data = FALSE,
                                lwu1800_seasons = NULL,
                                chess960_seasons = NULL) {
   
-  post_publication_wait <- 240
+  # Define how many minutes to wait after publishing season reports before 
+  # updating the searchable awards page
+  post_publication_wait <- 4
   
   cli::cli_rule(left = "Compiling and publishing new {.field season report(s)}")
   
@@ -38,11 +38,6 @@ PublishSeasonStats <- function(need_data = FALSE,
   # Load all required functions
   source(paste0(here::here(), "/R/all_functions.R"))
   source(paste0(here::here(), "/R/report_functions.R"))
-  
-  # Make season reports
-  
-  # # Create a reports folder
-  # fs::dir_create(path = "site/reports/")
   
   # Produce all selected 4545/LW/960 season reports
   BuildSeasonReports(wipe_stats_first = FALSE,
@@ -84,7 +79,7 @@ PublishSeasonStats <- function(need_data = FALSE,
     cli_status_update(id = sb,
                       "{symbol$arrow_right} Waiting for {post_publication_wait / 60} minutes before updating awards search page.")
     
-    Sys.sleep(post_publication_wait / 60) # wait a bit
+    Sys.sleep(post_publication_wait * 60) # wait before updating the all-awards page
     
     # Reproduce all-time awards search page
     cli_status_update(id = sb,
