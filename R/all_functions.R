@@ -1398,7 +1398,7 @@ SeasonStats <- function(league_choice, seasons){
       
       # Render 960 season stats report 
       rmarkdown::render(paste0(path_loadrmd, paste0(stats960_rmd_filename, ".rmd")), 
-                        output_dir = "reports",
+                        output_dir = "docs/reports",
                         output_file = paste0("stats_chess960_",
                                              "s", 
                                              sprintf("%02d", s), 

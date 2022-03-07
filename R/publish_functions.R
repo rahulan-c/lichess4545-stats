@@ -52,11 +52,11 @@ PublishSeasonStats <- function(need_data = FALSE,
                      lwu1800_range = lwu1800_seasons,
                      chess960_range = chess960_seasons)
   
-  # # Copy site/reports into docs
-  # fs::dir_copy(path = "site/reports/", new_path = "docs/reports/", overwrite = TRUE)
-  # 
-  # # Clear contents of /site/reports
-  # fs::dir_delete(path = "site/reports/")
+  # Copy site/reports into docs
+  fs::dir_copy(path = "site/reports/", new_path = "docs/reports/", overwrite = TRUE)
+
+  # Clear contents of /site/reports
+  fs::dir_delete(path = "site/reports/")
   
   
   cli_status_update(id = sb,
