@@ -1561,27 +1561,27 @@ UpdateSite <- function(navbar_changed = FALSE,
   # Update site pages where necessary 
   
   # Front page
-  if(update_frontpage){rmarkdown::render(paste0(here::here(), "/R/Rmd/index.rmd"),
+  if(update_frontpage){rmarkdown::render(paste0(here::here(), "/site/index.rmd"),
                                          output_dir = path_web)}
   
   # Season stats landing page
-  if(update_season_stats){rmarkdown::render(paste0(here::here(), "/R/Rmd/season_stats.rmd"),
+  if(update_season_stats){rmarkdown::render(paste0(here::here(), "/site/season_stats.rmd"),
                                             output_dir = path_web)}
   
   # League status check
-  if(update_status){rmarkdown::render(paste0(here::here(), "/R/Rmd/league_status.rmd"),
+  if(update_status){rmarkdown::render(paste0(here::here(), "/site/league_status.rmd"),
                                       output_dir = path_web)}
   
   # Round updates / 4545 stories page
-  if(update_current){rmarkdown::render(paste0(here::here(), "/R/Rmd/current.rmd"),
+  if(update_current){rmarkdown::render(paste0(here::here(), "/site/current.rmd"),
                                        output_dir = path_web)}
   
   # Live standings page
-  if(update_standings){rmarkdown::render(paste0(here::here(), "/R/Rmd/live.rmd"),
+  if(update_standings){rmarkdown::render(paste0(here::here(), "/site/live.rmd"),
                                          output_dir = path_web)}
   
   # About page
-  if(update_about){rmarkdown::render(paste0(here::here(), "/R/Rmd/about.rmd"),
+  if(update_about){rmarkdown::render(paste0(here::here(), "/site/about.rmd"),
                                      output_dir = path_web)}
     
   
