@@ -1373,7 +1373,7 @@ SeasonStats <- function(league_choice, seasons){
     if(league != "chess960"){
       # Render 4545/LW season stats report 
       rmarkdown::render(paste0(path_loadrmd, paste0(stats_rmd_filename, '.Rmd')), 
-                        output_dir = "reports",
+                        output_dir = "docs/reports",
                         output_file = paste0("stats_",
                                              ifelse(league == "team4545", "4545", "lw"),
                                              ifelse(league == "lonewolf", 
@@ -1572,8 +1572,6 @@ BuildSeasonReports <- function(wipe_stats_first = FALSE,
     }
   }
   
-  # Push all changes to repo
-  # update_repo()
   toc(log = TRUE)
 }
 

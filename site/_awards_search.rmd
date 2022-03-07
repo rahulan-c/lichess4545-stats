@@ -81,7 +81,7 @@ for(s in seq(1:length(season_reports))){
                                     5),
                              
                              ifelse(league == "LW Open",
-                                    ifelse(season %in% c(10, 13, 22, 23, 24),
+                                    ifelse(season %in% c(10, 13, 21, 22, 23, 24),
                                            4,
                                            5),
                                     

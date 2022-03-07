@@ -40,6 +40,11 @@ PublishSeasonStats <- function(need_data = FALSE,
   source(paste0(here::here(), "/R/report_functions.R"))
   
   # Make season reports
+  
+  # Create a reports folder
+  fs::dir_create(path = "site/reports/")
+  
+  # Produce all selected 4545/LW/960 season reports
   BuildSeasonReports(wipe_stats_first = FALSE,
                      request_data = need_data,
                      team_range = team_seasons,
@@ -47,11 +52,11 @@ PublishSeasonStats <- function(need_data = FALSE,
                      lwu1800_range = lwu1800_seasons,
                      chess960_range = chess960_seasons)
   
-  # Copy site/reports into docs
-  fs::dir_copy(path = "site/reports/", new_path = "docs/reports/", overwrite = TRUE)
-  
-  # Clear contents of /site/reports
-  fs::dir_delete(path = "site/reports/")
+  # # Copy site/reports into docs
+  # fs::dir_copy(path = "site/reports/", new_path = "docs/reports/", overwrite = TRUE)
+  # 
+  # # Clear contents of /site/reports
+  # fs::dir_delete(path = "site/reports/")
   
   
   cli_status_update(id = sb,
@@ -59,7 +64,7 @@ PublishSeasonStats <- function(need_data = FALSE,
   Sys.sleep(5)
   BuildSite(update_core = F,
             update_countries = F,
-            update_allreports = T,
+            update_allreports = F,
             update_awards = F)
   
   cli_status_update(id = sb,
