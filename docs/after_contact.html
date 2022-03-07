@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -88,7 +89,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <title>Lichess4545 Statistics: After contact</title>
 
 
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="img/favicon.png"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -452,7 +453,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   </style>
 
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -2120,11 +2121,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   /* This must remain at the top of this file.                 */
   @import url('https://fonts.googleapis.com/css2?family=Lato');
   @import url('https://fonts.googleapis.com/css2?family=Fira+Mono');
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap');
+
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
 
   html {
     /*-- Main font sizes --*/
-    --title-size:      50px;
-    --body-size:       1.0rem;                     /* edited */
+    --title-size:      40px;
+    --body-size:       1.06rem;                     /* edited */
     --code-size:       0.9rem;                     /* edited */
     --aside-size:      12px;
     --fig-cap-size:    13px;
@@ -2169,8 +2179,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   .distill-site-header {
     --title-size:       20px;                      /* edited */
     --text-color:       #FFFFFF;                   /* edited */
-    --text-size:        20px;                      /* edited */
-    --hover-color:      #ee6c4d;                   /* edited */
+    --text-size:        18px;                      /* edited */
+    --hover-color:      "black";                   /* edited */
     --bkgd-color:       #3d5a80;                  /* edited */
   }
 
@@ -2201,12 +2211,106 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }
 
   .distill-site-header .logo img{
-    max-height: 40px; /* Makes logo bigger, default was 20px */
+    max-height: 20px; /* Makes logo bigger, default was 20px */
   }
 
   ul > li::marker {
     color: #3d5a80;
-  }</style>
+  }
+
+  .index-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .index-row > div {
+    margin: 0 15px 0 15px;
+  }
+
+  .index-column-l {
+    flex: 40%;
+  }
+
+  .index-column-r {
+    flex: 60%;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .index-row {
+      flex-direction: column !important;
+    }
+    .scatter-wide {
+      display: none !important;
+    }
+    .heat-desktop {
+      display: none !important;
+    }
+    .img-desktop {
+      display: none !important;
+    }  
+  }
+
+  @media only screen and (min-width: 1000px) {
+    .scatter-long {
+      display: none !important;
+    }
+    .heat-mobile {
+      display: none !important;
+    }
+    .img-mobile {
+      display: none !important;
+    }
+  }
+
+  .key-metric-t {
+    table-layout: fixed;
+    border-bottom: 0px !important;
+  }
+
+  .key-metric-t td:nth-of-type(1) {
+    width: 110px
+  }
+
+  .key-metric-t td:nth-of-type(2) {
+    width: 70px
+  }
+
+  .key-metric-t td:nth-of-type(3) {
+    width: 60px
+  }
+
+  .key-metric-t td:nth-of-type(3) {
+    width: 65px
+  }
+
+  @media only screen and (max-width: 600px) {
+    .key-metric-t td:nth-child(4), .key-metric-t th:nth-child(4) {
+      display: none;
+    }
+  }
+
+  .t-left {
+    text-align: left;
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    border-bottom: 0px !important;
+  }
+
+  .t-right {
+    text-align: right;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    border-bottom: 0px !important;
+  }
+
+  th.t-left, th.t-right {
+    font-size: 14px;
+    font-variant-caps: all-small-caps;
+    line-height: 1;
+    padding-bottom: 5px;
+    border-bottom: 0px !important;
+  }
+  </style>
   <style type="text/css">
   /* base style */
 
@@ -2362,7 +2466,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: var(--hover-color, white);
   }</style>
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2397,14 +2501,32 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
+<a class="logo" href="https://www.lichess.org">
+<img src="img/favicon.png" alt="Logo"/>
+</a>
 <a href="index.html" class="title">Lichess4545 Statistics</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
-<a href="live.html">Live Standings</a>
-<a href="current.html">Round Reports</a>
+<a href="index.html">
+<i class="fa fa-home" aria-hidden="true"></i>
+</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-Other
+Stats and awards
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="season_stats.html">By league and season</a>
+<a href="/lichess4545-stats/reports/awards_search.html">All award winners</a>
+</div>
+</div>
+<a href="live.html">4545 standings</a>
+<a href="current.html">4545 stories</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Articles
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
@@ -2434,8 +2556,11 @@ Other
 
 <div class="d-article">
 <p>Thanks for getting in touch!</p>
-<p>Click <a href="https://rahulan-c.github.io/lichess4545-stats">here</a> to return to the home page.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Click <a
+href="https://rahulan-c.github.io/lichess4545-stats">here</a> to return
+to the home page.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2450,20 +2575,7 @@ Other
 <div class="appendix-bottom"></div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
-<div class="distill-site-nav distill-site-footer">
-<html lang='en'>
-<head>
-<meta charset="utf-8"/>
-</head>
-<body>
-<span>
-Last updated on 29 December 2021
-</span>
-</body>
-</html>
-</div>
 <!--/radix_placeholder_navigation_after_body-->
-
 
 </body>
 
