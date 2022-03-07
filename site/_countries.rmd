@@ -1,0 +1,315 @@
+---
+title: "Players by country/continent"
+description: |
+  Where do league players come from?
+date: "2022-01-05"
+output: 
+  distill::distill_article:
+    code_folding: true
+site: distill::distill_website
+---
+
+Here are some rough estimates of league players by country and continent, based on all classical league games played to date (January 2022). They're purely based on the national flags shown on league members' Lichess profile pages, which means that they definitely won't be perfect, since many players don't have a flag on their profile page (so they're excluded), and others prefer to display a non-national flag (so they're also excluded). Moreover, players can show any flag they want...which may well explain some of the countries listed in the results. `r emo::ji("laugh")`
+
+
+```{r}
+
+# ==== PRELIMINARIES ==========================================================
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, data.table, here, httr, jsonlite, rmarkdown,
+               rvest, utf8, tmap, sf)
+
+token <- Sys.getenv("LICHESS_TOKEN") # Lichess API token
+
+cat(token) # DEBUGGING - DELETE LATER
+
+
+# ==== LOAD/TIDY SUPPORTING DATASETS ==========================================
+
+# --- Country lookup data -----------------------------------------------------
+countrycodes_url <-  "https://gist.githubusercontent.com/stevewithington/20a69c0b6d2ff846ea5d35e5fc47f26c/raw/13716ceb2f22b5643ce5e7039643c86a0e0c6da6/country-and-continent-codes-list-csv.csv"
+country_data <- readr::read_csv(countrycodes_url) 
+
+# Tidy duplicate records (dual continent countries)
+country_data <- country_data %>% 
+  filter(!((Country_Name == "Azerbaijan, Republic of") & (Continent_Name == "Asia")),
+         !((Country_Name == "Armenia, Republic of") & (Continent_Name == "Asia")),
+         !((Country_Name == "Cyprus, Republic of") & (Continent_Name == "Asia")),
+         !((Country_Name == "Georgia") & (Continent_Name == "Asia")),
+         !((Country_Name == "Kazakhstan, Republic of") & (Continent_Name == "Asia")),
+         !((Country_Name == "United States Minor Outlying Islands") & (Continent_Name == "North America")),
+         !((Country_Name == "Russian Federation") & (Continent_Name == "Asia")),
+         !((Country_Name == "Turkey, Republic of") & (Continent_Name == "Asia"))
+  )
+
+# Add Kosovo (missing due to being partially recognised)
+country_data <- country_data %>% 
+  add_row(Continent_Name = "Europe",
+            Continent_Code = "EU",
+            Country_Name = "Kosovo, Republic of",
+            Two_Letter_Country_Code = "XK",
+            Three_Letter_Country_Code = NA,
+            Country_Number = NA)
+
+
+# ---- World data (for map) ---------------------------------------------------
+data("World")
+World %>% mutate(across(where(is.factor), as.character)) -> World
+
+# ---- League games data ------------------------------------------------------
+
+print(paste0(here::here())) # DEBUGGING - DELETE LATER
+# Using all 4545, LoneWolf and Series games played to date
+games <- readRDS(paste0(here::here(), "/data/allgames_teamlwseries.rds"))
+
+
+# ==== GET PLAYER PROFILE DATA ================================================
+
+# Get user IDs of all players in the season games data
+player_ids <- rbind(tibble("player" = games$white),
+                    tibble("player" = games$black)) %>% 
+  select(player) %>% 
+  distinct() %>% 
+  arrange(player) %>% 
+  pull()
+
+# Request public profile data for all players
+# Max 300 per request
+all_player_ids <- split(player_ids, ceiling(seq_along(player_ids)/300))
+all_profiles <- list()
+for(l in seq(1:length(all_player_ids))){
+  batch_ids <- all_player_ids[[l]] %>% str_c(collapse = ",")
+  profiles <- httr::POST(
+    url = "https://lichess.org",
+    path = paste0("/api/users"),
+    body = batch_ids,
+    httr::add_headers(`Authorization` = sprintf("Bearer %s", token)),
+    accept("application/json"))
+  
+  profiles <- profiles %>% 
+    httr::content("text", encoding = stringi::stri_enc_detect(content(profiles, "raw"))[[1]][1,1]) %>% 
+    jsonlite::fromJSON()
+  
+  # Extract relevant info
+  player_profiles <- tibble("id" = profiles$id,
+                            "username" = profiles$username,
+                            "country" = profiles$profile$country,
+                            "location" = profiles$profile$location,
+                            "language" = profiles$language,
+                            "rating_classical" = profiles$perfs$classical$rating)
+  
+  all_profiles[[l]] <- player_profiles
+  # print(paste0("Requested batch ", l))
+  if(l != length(all_player_ids)){Sys.sleep(0.5)}
+}
+
+# Collate obtained profile datasets
+player_profiles <- data.table::rbindlist(all_profiles)
+
+
+# ==== COMPUTE PLAYERS BY COUNTRY AND CONTINENT ===============================
+
+# Tidy player country data
+players_by_country <- player_profiles %>% 
+  filter(!(is.na(country))) %>% 
+  tibble::as_tibble()
+
+# 1) Make GB-based players have the same country code
+players_by_country$country[players_by_country$country == "GB-ENG"] <- "GB"
+players_by_country$country[players_by_country$country == "GB-WLS"] <- "GB"
+players_by_country$country[players_by_country$country == "GB-SCT"] <- "GB"
+players_by_country$country[players_by_country$country == "GB-NIR"] <- "GB"
+
+# 2) Fix players with Belarus, Catalonia and Quebec flags
+players_by_country$country[players_by_country$country == "_belarus-wrw"] <- "BY"
+players_by_country$country[players_by_country$country == "ES-CT"] <- "ES"
+players_by_country$country[players_by_country$country == "CA-QC"] <- "CA"
+
+# 3) Exclude players with missing or non-country flags  
+players_by_country <- players_by_country %>% 
+  filter(!(country %in% c("_lichess", "_rainbow", "_pirate", "_earth", 
+                          "_united-nations", "AQ"))) %>% 
+  filter(!(is.na(country))) %>% 
+  tibble::as_tibble()
+
+# 4) Apply manual edits for players with insufficient/wrong/known info
+# DETAILS NOT SHOWN
+```
+
+
+
+```{r, include = FALSE}
+# Manual edits to player/country data (NOT SHOWN)
+manual_changes <- tibble::tibble(
+  id = c("jwwells42", 
+         "hausierer",
+         "howhorseymoves",
+         "lou-e",
+         "thibault",
+         "gandalftheperiwinkle",
+         "jaivl",
+         "mini_karpov",
+         "nyave",
+         "buddhastalin",
+         "hamhamslam",
+         "hemligagent",
+         "sgis",
+         "ssyx",
+         "mrmoo",
+         "salty-8k",
+         "scott9315",
+         "khasi1596",
+         "lambdac",
+         "leasy",
+         "lvdr",
+         "neilwang",
+         "qveen_sacrifice",
+         "roso97",
+         "sasha-nbo",
+         "wo_schrodinger",
+         "exirk",
+         "adande1",
+         "glbert",
+         "gingersquirrelnuts",
+         "jacade",
+         "landypjy",
+         "the_wayward_prince",
+         "pulsar512b",
+         "matt_chess_play",
+         "moistvonlipwig",
+         "zeebu"),
+  
+  country = c("US", 
+              "DE",
+              "ZA",
+              "GB",
+              "FR",
+              "US",
+              "ES",
+              "VN",
+              "US",
+              "US",
+              "US",
+              "SE",
+              "CH",
+              "GB",
+              "US",
+              "US",
+              "US",
+              "US",
+              "US",
+              "DE",
+              "FI",
+              "US",
+              "US",
+              "CH",
+              "GB",
+              "CA",
+              "US",
+              "US",
+              "AT",
+              "GB",
+              "DE",
+              "US",
+              "US",
+              "US",
+              "CH",
+              "DE",
+              "US")
+)
+
+# Apply manual changes
+for (r in seq(1:nrow(manual_changes))){
+  players_by_country$country[players_by_country$id == manual_changes$id[r]] <- manual_changes$country[r]
+}
+
+# Remove selected players from data 
+players_by_country <- players_by_country %>% 
+  filter(id != "erinyu") %>% 
+  filter(id != "stubenfisch") %>% 
+  filter(id != "ipr")
+```
+
+## Players by continent
+
+```{r}
+
+# After the data has been tidied, merge the the profile and country data
+players_by_country <- left_join(players_by_country, country_data, by = c("country" = "Two_Letter_Country_Code"))
+
+# Shorten some of the country names (eg "Armenia, Republic of" -> "Armenia")
+players_by_country <- players_by_country %>% 
+  mutate(country_name_2 = ifelse(str_detect(Country_Name, ","), str_sub(Country_Name, 1, str_locate(Country_Name, ",") - 1), Country_Name))
+
+# Shorten the United Kingdom label
+players_by_country$country_name_2[players_by_country$country_name_2 == "United Kingdom of Great Britain & Northern Ireland"] <- "United Kingdom"
+
+# Add continent data for players with EU flags
+players_by_country$Continent_Name[players_by_country$country == "EU"] <- "Europe"
+eu_players <- length(players_by_country$Continent_Name[players_by_country$country == "EU"])
+
+
+# Group and order players by continent (including 'EU' players)
+summary_continent <- players_by_country %>% 
+  group_by(Continent_Name) %>% 
+  summarise(players = n()) %>% 
+  mutate(perc = round((players / sum(players)) * 100, 1)) %>% 
+  arrange(desc(players)) %>% 
+  rename("continent" = Continent_Name)
+paged_table(summary_continent)
+```
+
+## Players by country
+
+```{r}
+
+# Group and order players by country
+summary_country <- players_by_country %>% 
+  filter(!(country == "EU")) %>% # exclude players with EU flags
+  group_by(country_name_2) %>% 
+  summarise(players = n()) %>% 
+  mutate(perc = round((players / sum(players)) * 100, 1)) %>% 
+  arrange(desc(players)) %>% 
+  rename("country" = country_name_2)
+paged_table(summary_country)
+
+```
+
+## Map
+
+```{r}
+
+# Revise country names in World data to match those in players data
+World$name[World$name == "United States"] <- "United States of America"
+World$name[World$name == "Russia"] <- "Russian Federation"
+World$name[World$name == "Slovakia"] <- "Slovakia (Slovak Republic)"
+World$name[World$name == "Czech Rep."] <- "Czech Republic"
+World$name[World$name == "Palestine"] <- "Palestinian Territory"
+
+# Note: the 'World' data doesn't have records for some countries (eg Singapore,
+# Kosovo) so slightly fewer players will be shown on the map vs the table
+
+# Create map dataset
+players_by_country_map <- left_join(World, summary_country, by = c("name" = "country"))
+players_by_country_map <- players_by_country_map %>% 
+  select(name, players, perc, continent, geometry) %>% 
+  st_as_sf()
+
+players_by_country_map <-  st_transform(players_by_country_map, crs = "+proj=moll")
+
+
+# Make/show world map
+world_map <- tm_shape(players_by_country_map) + 
+  tm_polygons("players", 
+              title = "Players by country", 
+              colorNA = "#b5b5b5",
+              style = "jenks",
+              palette = "YlGn") +
+  tm_layout(earth.boundary = c(-180, -88, 180, 88),
+            frame = F,
+            legend.position = c("left", "bottom")) +
+  tm_format("World_wide")
+world_map
+```
+
