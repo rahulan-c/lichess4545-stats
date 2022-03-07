@@ -52,12 +52,13 @@ PublishSeasonStats <- function(need_data = FALSE,
                      lwu1800_range = lwu1800_seasons,
                      chess960_range = chess960_seasons)
   
-  # I
   
-  # Copy all non-RMD files in site/ to docs/
-  files_to_move <- fs::dir_info(glue::glue(here::here(), "/site/")) %>% 
+  # Copy each non-RMD file in site/reports/ to docs/reports/ before deleting it
+  # Make sure you don't delete the site/reports folder though
+  files_to_move <- fs::dir_info(glue::glue(here::here(), "/site/reports")) %>% 
     filter(type == "file") %>% 
     filter(str_detect(path, "html|png")) %>% 
+    filter(!(str_detect(path, "head-custom-google-analytics"))) %>% 
     select(path) %>% 
     dplyr::pull()
   
