@@ -1044,7 +1044,7 @@ Click on the image below to see a sunburst plot of all openings played in the se
 
 
 <center>
-[![Opening star placeholder](`r paste0("reports/openings_", ifelse(league_load_label == "team4545", "4545", league_load_label), "_s", season, ".png")`){width=50%}](`r paste0("reports/openings_", ifelse(league_load_label == "team4545", "4545", league_load_label), "_s", season, ".html")`){width=50%}
+[![Opening star placeholder](`r paste0("openings_", ifelse(league_load_label == "team4545", "4545", league_load_label), "_s", season, ".png")`){width=50%}](`r paste0("openings_", ifelse(league_load_label == "team4545", "4545", league_load_label), "_s", season, ".html")`){width=50%}
 </center>
 
 

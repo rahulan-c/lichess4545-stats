@@ -48,7 +48,7 @@ stats960_rmd_filename <- "_produce_960_season_stats"
 alltime_stats_rmd_filename <- "_alltime_records"
 
 # Directory where season stats HTML reports will be saved
-path_savereport <- paste0(path_root, "/site/reports")
+path_savereport <- paste0(path_root, "/site")
 
 # Directory where openings sunburst plots will be saved initially
 path_sunburst_original <- path_scripts
@@ -1373,7 +1373,6 @@ SeasonStats <- function(league_choice, seasons){
     if(league != "chess960"){
       # Render 4545/LW season stats report 
       rmarkdown::render(paste0(path_loadrmd, paste0(stats_rmd_filename, '.Rmd')), 
-                        output_dir = "docs/reports",
                         output_file = paste0("stats_",
                                              ifelse(league == "team4545", "4545", "lw"),
                                              ifelse(league == "lonewolf", 
@@ -1398,7 +1397,6 @@ SeasonStats <- function(league_choice, seasons){
       
       # Render 960 season stats report 
       rmarkdown::render(paste0(path_loadrmd, paste0(stats960_rmd_filename, ".rmd")), 
-                        output_dir = "docs/reports",
                         output_file = paste0("stats_chess960_",
                                              "s", 
                                              sprintf("%02d", s), 

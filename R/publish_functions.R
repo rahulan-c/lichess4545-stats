@@ -41,8 +41,8 @@ PublishSeasonStats <- function(need_data = FALSE,
   
   # Make season reports
   
-  # Create a reports folder
-  fs::dir_create(path = "site/reports/")
+  # # Create a reports folder
+  # fs::dir_create(path = "site/reports/")
   
   # Produce all selected 4545/LW/960 season reports
   BuildSeasonReports(wipe_stats_first = FALSE,
@@ -52,11 +52,26 @@ PublishSeasonStats <- function(need_data = FALSE,
                      lwu1800_range = lwu1800_seasons,
                      chess960_range = chess960_seasons)
   
-  # Copy site/reports into docs
-  fs::dir_copy(path = "site/reports/", new_path = "docs/reports/", overwrite = TRUE)
-
-  # Clear contents of /site/reports
-  fs::dir_delete(path = "site/reports/")
+  # I
+  
+  # Copy all non-RMD files in site/ to docs/
+  files_to_move <- fs::dir_info(glue::glue(here::here(), "/site/")) %>% 
+    filter(type == "file") %>% 
+    filter(str_detect(path, "html|png")) %>% 
+    select(path) %>% 
+    dplyr::pull()
+  
+  for(file in files_to_move){
+    print(file)
+    fs::file_copy(path = file, new_path = "docs/reports/", overwrite = T)
+    fs::file_delete(file)
+  }
+  
+  # fs::file_create()
+  # fs::dir_copy(path = "site/reports/", new_path = "docs/reports/", overwrite = TRUE)
+  # 
+  # # Clear contents of /site/reports
+  # fs::dir_delete(path = "site/reports/")
   
   
   cli_status_update(id = sb,
