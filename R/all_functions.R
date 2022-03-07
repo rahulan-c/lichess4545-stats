@@ -37,22 +37,22 @@ path_scripts <- paste0(path_root, "/R/")
 path_savedata <- paste0(path_root, "/data/")
 
 # Directory where season stats R Markdown file is saved
-path_loadrmd <- paste0(path_root, "/R/Rmd/")
+path_loadrmd <- paste0(path_root, "/site/")
 
 # R Markdown filenames
 # RMD file that produces season stats
-stats_rmd_filename <- "produce_season_stats"
+stats_rmd_filename <- "_produce_season_stats"
 # RMD file that produces all-time stats
-alltime_stats_rmd_filename <- "alltime_records"
+alltime_stats_rmd_filename <- "_alltime_records"
 
 # Directory where season stats HTML reports will be saved
-path_savereport <- paste0(path_root, "/docs/stats/")
+path_savereport <- paste0(path_root, "/site/reports")
 
 # Directory where openings sunburst plots will be saved initially
 path_sunburst_original <- path_scripts
 
 # Directory where openings sunburst plots will be copied to
-path_sunburst_new <- path_loadrmd
+path_sunburst_new <- path_savereport
 
 
 # ---- Functions --------------------------------------------------------------

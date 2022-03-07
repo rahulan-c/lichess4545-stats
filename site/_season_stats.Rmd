@@ -16,10 +16,12 @@ pacman::p_load(tidyverse, knitr)
 
 ```{r season_reports_tbl}
 
-# Identify all seasons for which stats reports have been compiled 
+# Identify all seasons for which stats reports have been compiled
+
+reports_path <- paste0(here::here(), "/docs/reports/")
 
 # 4545
-completed_4545 <- list.files(path = "reports/", pattern = "^stats_4545(.*)\\.html$") 
+completed_4545 <- list.files(path = reports_path, pattern = "^stats_4545(.*)\\.html$") 
 any_4545 <- ifelse(length(completed_4545) > 0, T, F)
 if(length(completed_4545) > 0){
   completed_4545 <- completed_4545 %>% 
@@ -30,7 +32,7 @@ if(length(completed_4545) > 0){
 }
 
 # LW Open
-completed_lwopen <- list.files(path = "reports/", pattern = "^stats_lwopen(.*)\\.html$")
+completed_lwopen <- list.files(path = reports_path, pattern = "^stats_lwopen(.*)\\.html$")
 any_lwopen <- ifelse(length(completed_lwopen) > 0, T, F)
 if(length(completed_lwopen) > 0){
   completed_lwopen <- completed_lwopen %>% 
@@ -41,7 +43,7 @@ if(length(completed_lwopen) > 0){
 }
 
 # LW U1800
-completed_lwu1800 <- list.files(path = "reports/", pattern = "^stats_lwu1800(.*)\\.html$")
+completed_lwu1800 <- list.files(path = reports_path, pattern = "^stats_lwu1800(.*)\\.html$")
 any_lwu1800 <- ifelse(length(completed_lwu1800) > 0, T, F)
 if(length(completed_lwu1800) > 0){
  completed_lwu1800 <- completed_lwu1800 %>%  
@@ -52,7 +54,7 @@ if(length(completed_lwu1800) > 0){
 }
 
 # Chess960
-completed_960 <- list.files(path = "reports/", pattern = "^stats_chess960(.*)\\.html$")
+completed_960 <- list.files(path = reports_path, pattern = "^stats_chess960(.*)\\.html$")
 any_960 <- ifelse(length(completed_960) > 0, T, F)
 if(length(completed_960) > 0){
  completed_960 <- completed_960 %>%  

@@ -61,12 +61,12 @@ options(reactable.theme = reactableTheme(
 )
 
 # Source required functions
-source(paste0(here::here(), "/scripts/all_functions.R"))
-source(paste0(here::here(), "/scripts/report_functions.R"))
+source(paste0(here::here(), "/R/all_functions.R"))
+source(paste0(here::here(), "/R/report_functions.R"))
 
 # Key file paths
 data_path <- glue::glue("{here::here()}/data/")
-scripts_path <- glue::glue("{here::here()}/scripts/")
+scripts_path <- glue::glue("{here::here()}/R/")
 
 # Load gambits and FIDE TPR lookup data
 lookup_list <- LoadLookups()
@@ -884,7 +884,7 @@ TopGambits <- function(path_scripts, data_path, league_load_label, season,
   
   # Identify all game IDs where gambits were played and the side (w/b) that 
   # played the gambit
-  reticulate::source_python(paste0(path_scripts, "identify_gambits.py"))
+  reticulate::source_python(paste0(path_scripts, "Python/identify_gambits.py"))
   gambit_cols <- IdentifyGambits(pgn_file = paste0(data_path, 
                                                    "/games_noevals_", 
                                                    league_load_label, 

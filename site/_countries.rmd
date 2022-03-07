@@ -22,8 +22,6 @@ pacman::p_load(tidyverse, data.table, here, httr, jsonlite, rmarkdown,
 
 token <- Sys.getenv("LICHESS_TOKEN") # Lichess API token
 
-cat(token) # DEBUGGING - DELETE LATER
-
 
 # ==== LOAD/TIDY SUPPORTING DATASETS ==========================================
 
@@ -59,27 +57,26 @@ World %>% mutate(across(where(is.factor), as.character)) -> World
 
 # ---- League games data ------------------------------------------------------
 
-print(paste0(here::here())) # DEBUGGING - DELETE LATER
 # Using all 4545, LoneWolf and Series games played to date
 games <- readRDS(paste0(here::here(), "/data/allgames_teamlwseries.rds"))
-
+games <- tibble::as_tibble(games)
 
 # ==== GET PLAYER PROFILE DATA ================================================
 
 # Get user IDs of all players in the season games data
 player_ids <- rbind(tibble("player" = games$white),
                     tibble("player" = games$black)) %>% 
-  select(player) %>% 
-  distinct() %>% 
-  arrange(player) %>% 
-  pull()
+  dplyr::select(player) %>% 
+  dplyr::distinct() %>% 
+  dplyr::arrange(player) %>% 
+  dplyr::pull()
 
 # Request public profile data for all players
 # Max 300 per request
 all_player_ids <- split(player_ids, ceiling(seq_along(player_ids)/300))
 all_profiles <- list()
 for(l in seq(1:length(all_player_ids))){
-  batch_ids <- all_player_ids[[l]] %>% str_c(collapse = ",")
+  batch_ids <- all_player_ids[[l]] %>% stringr::str_c(collapse = ",")
   profiles <- httr::POST(
     url = "https://lichess.org",
     path = paste0("/api/users"),
@@ -88,7 +85,7 @@ for(l in seq(1:length(all_player_ids))){
     accept("application/json"))
   
   profiles <- profiles %>% 
-    httr::content("text", encoding = stringi::stri_enc_detect(content(profiles, "raw"))[[1]][1,1]) %>% 
+    httr::content("text", encoding = stringi::stri_enc_detect(httr::content(profiles, "raw"))[[1]][1,1]) %>% 
     jsonlite::fromJSON()
   
   # Extract relevant info
@@ -112,7 +109,7 @@ player_profiles <- data.table::rbindlist(all_profiles)
 
 # Tidy player country data
 players_by_country <- player_profiles %>% 
-  filter(!(is.na(country))) %>% 
+  dplyr::filter(!(is.na(country))) %>% 
   tibble::as_tibble()
 
 # 1) Make GB-based players have the same country code
@@ -128,9 +125,9 @@ players_by_country$country[players_by_country$country == "CA-QC"] <- "CA"
 
 # 3) Exclude players with missing or non-country flags  
 players_by_country <- players_by_country %>% 
-  filter(!(country %in% c("_lichess", "_rainbow", "_pirate", "_earth", 
+  dplyr::filter(!(country %in% c("_lichess", "_rainbow", "_pirate", "_earth", 
                           "_united-nations", "AQ"))) %>% 
-  filter(!(is.na(country))) %>% 
+  dplyr::filter(!(is.na(country))) %>% 
   tibble::as_tibble()
 
 # 4) Apply manual edits for players with insufficient/wrong/known info
