@@ -91,7 +91,7 @@ for(s in seq(1:length(season_reports))){
                                                   5),
                                            
                                            ifelse(league == "Chess960",
-                                                  ifelse(season %in% c(2:18),
+                                                  ifelse(season %in% c(2:19),
                                                          4,
                                                          5),
                                                   NA_real_))))

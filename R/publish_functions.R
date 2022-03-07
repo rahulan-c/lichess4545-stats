@@ -63,16 +63,9 @@ PublishSeasonStats <- function(need_data = FALSE,
     dplyr::pull()
   
   for(file in files_to_move){
-    print(file)
     fs::file_copy(path = file, new_path = "docs/reports/", overwrite = T)
     fs::file_delete(file)
   }
-  
-  # fs::file_create()
-  # fs::dir_copy(path = "site/reports/", new_path = "docs/reports/", overwrite = TRUE)
-  # 
-  # # Clear contents of /site/reports
-  # fs::dir_delete(path = "site/reports/")
   
   
   cli_status_update(id = sb,
