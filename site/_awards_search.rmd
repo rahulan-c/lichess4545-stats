@@ -138,7 +138,7 @@ awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
 rm(all_awards, awards_tidy)
 
 # Exclude all ToS violators from awards table
-source(paste0(here::here(), "/scripts/identify_tos_violators.R"))
+source(paste0(here::here(), "/R/identify_tos_violators.R"))
 toscrub <- str_c(tos_violators, collapse = "|") 
 awards$Winner <- stringr::str_remove_all(awards$Winner, 
                                                   toscrub)
