@@ -15,13 +15,15 @@
 # PublishRoundStory() - TODO
 # PublishRoundReport() - TODO
 
-
-
+# Load required packages
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, data.table, cli, fs, glue, here, distill)
 
 
 # Create new season stats/awards report(s), push them to the site, wait a bit, 
 # re-make the all-time awards search page, then publish that
-PublishSeasonStats <- function(request = FALSE, 
+PublishSeasonStats <- function(need_data = FALSE,
+                               update_awards = FALSE,
                                team_seasons = NULL, 
                                lwopen_seasons = NULL, 
                                lwu1800_seasons = NULL,
@@ -39,28 +41,41 @@ PublishSeasonStats <- function(request = FALSE,
   
   # Make season reports
   BuildSeasonReports(wipe_stats_first = FALSE,
-                     request_data = request,
+                     request_data = need_data,
                      team_range = team_seasons,
                      lwopen_range = lwopen_seasons,
                      lwu1800_range = lwu1800_seasons,
                      chess960_range = chess960_seasons)
   
+  
+  
+  # Clear contents of /site/reports
+  # TODO
+  
   cli_status_update(id = sb,
                     "{symbol$arrow_right} New season report(s) produced...")
-  Sys.sleep(10)
-  UpdateSite(new_stats_produced = TRUE)
+  Sys.sleep(5)
+  BuildSite(update_core = F,
+            update_countries = F,
+            update_allreports = T,
+            update_awards = F)
+  
   cli_status_update(id = sb,
                     "{symbol$arrow_right} Website updated...")
-  cli_status_update(id = sb,
-                    "{symbol$arrow_right} Waiting for {post_publication_wait / 60} minutes...")
-  Sys.sleep(post_publication_wait / 60) # wait a bit
   
-  # Reproduce all-time awards search page
-  cli_status_update(id = sb,
-                    "{symbol$arrow_right} Updating awards search page...")
-  rmarkdown::render(paste0(path_root, "/site/_awards_search.rmd"))
-  Sys.sleep(5)
-  UpdateRepo()
+  # Update awards search page
+  if(update_awards){
+    cli_status_update(id = sb,
+                      "{symbol$arrow_right} Waiting for {post_publication_wait / 60} minutes before updating awards search page.")
+    
+    Sys.sleep(post_publication_wait / 60) # wait a bit
+    
+    # Reproduce all-time awards search page
+    cli_status_update(id = sb,
+                      "{symbol$arrow_right} Updating awards search page...")
+    BuildSite(update_awards = T)
+  }
+  
   cli_status_update(id = sb,
                     "{symbol$arrow_right} Awards search page updated...")
   cli_status_clear(id = sb)
