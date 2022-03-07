@@ -87,8 +87,6 @@ BuildSite <- function(quiet = FALSE,
   }
   
   
-
-  
   # Update article on league players by continent and country
   if(update_countries){
     rmarkdown::render("site/_countries.Rmd", 

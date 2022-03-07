@@ -60,7 +60,7 @@ Updates on current seasons; latest standings; round summaries
 Detailed stats and insights by league and season
 
 <span style = "font-size:1.6rem;">
-[Search all awards &#10230;](reports/awards_search.html)
+[Search all awards &#10230;](awards_search.html)
 </span></br>
 Search all previous award winners
 
