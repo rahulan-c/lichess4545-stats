@@ -1624,6 +1624,36 @@ SavePGN_EvalsClocks <- function(games,
   close(fileConn)
 }
 
+
+# Save 'clean' PGN (no variations or comments)
+SaveCleanPGN <- function(filename, new_filename){
+  tic("Saved clean PGN")
+  reticulate::source_python(paste0(path_scripts, "Python/save_clean_pgn.py"))
+  save_clean_pgn(read_path =  paste0(path_savedata, filename, ".pgn"),
+                 write_path = paste0(path_savedata, new_filename, ".pgn"),
+                 new_name = new_filename)
+  # Move clean PGN to data/
+  fs::file_move(paste0(path_root, "/", new_filename, ".pgn"),
+                paste0(path_savedata))
+  toc(log = T)
+}
+
+# Save PGN with evals
+SaveEvalsPGN <- function(filename, new_filename){
+  tic("Saved PGN with evals")
+  reticulate::source_python(paste0(path_scripts, "Python/save_clean_pgn.py"))
+  save_evals_pgn(read_path =  paste0(path_savedata, filename, ".pgn"),
+                 write_path = paste0(path_savedata, new_filename, ".pgn"),
+                 new_name = new_filename)
+  # Move PGN to data/
+  fs::file_move(paste0(path_root, "/", new_filename, ".pgn"),
+                paste0(path_savedata))
+  toc(log = T)
+}
+
+
+
+# PROBABLY SUPERSEDED - DELETE AFTER CONFIRMING
 GetPlayedPairings <- function(league, latest_season){
   
   # poss league values: 
@@ -1670,7 +1700,7 @@ GetPlayedPairings <- function(league, latest_season){
   return(res_league)
 }
 
-
+# PROBABLY SUPERSEDED - CONFIRM THEN DELETE
 UpdateAllTimeGames <- function(update_league, latest_season){
   
   # For league l and season number s:

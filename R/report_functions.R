@@ -2166,7 +2166,7 @@ Dawdlers <- function(all_moves = all_moves, games = games, tos_violators = tos_v
 
 GetCheckmatePatterns <- function(path_scripts, data_path, league_load_label, season, games){
   # Load and run the Python script that identifies checkmate patterns 
-  reticulate::source_python(paste0(path_scripts, "checkmate_patterns.py"))
+  reticulate::source_python(paste0(path_scripts, "Python/checkmate_patterns.py"))
   mate_patterns <- IdentifyCheckmatePatterns(pgn_file =  paste0(data_path, 
                                                                 "/games_noevals_", 
                                                                 league_load_label, 

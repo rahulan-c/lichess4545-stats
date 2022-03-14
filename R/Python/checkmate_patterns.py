@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
-"""
-IDENTIFY CHECKMATE PATTERNS
+"""Identify common checkmate patterns in games.
 
-Identify notable checkmate patterns in games
+Identifies all games in a PGN file that ended in a common checkmate pattern.
 
-- Input:   PGN file
-- Returns: list containing identified pattern ("Arabian"), game ID, and checkmate ply (integer)
-
-Used for compiling images of notable checkmates reached in league games
-
-Last updated: 2021-11-20
+Currently identifiable patterns:
+  back rank, hook, Anastasia's, Arabian, smothered. 
+  
+Mostly adapted from Thibault's Duplessis code for Lichess puzzles v2: 
+  https://github.com/ornicar/lichess-puzzler.
 """
 
 from typing import List, Optional, Tuple
@@ -35,9 +33,7 @@ import glob
 import os
 
 
-# Back rank mate
 def back_rank_mate(fen: str) -> bool:
-    
     board = chess.Board(fen)
     pov = not board.turn
     king = board.king(not pov)
@@ -86,8 +82,7 @@ def hook_mate(fen: str) -> bool:
         return False
     return False
 
-# Anastasia's mate
-# Note: typically 
+
 def anastasia_mate(fen: str) -> bool:
     board = chess.Board(fen)
     pov = not board.turn

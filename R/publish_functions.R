@@ -100,7 +100,8 @@ BuildSite <- function(quiet = FALSE,
                       update_core = FALSE,
                       update_countries = FALSE,
                       update_allreports = FALSE,
-                      update_awards = FALSE){
+                      update_awards = FALSE,
+                      update_standings = FALSE){
   
   # Render core pages
   if(update_core){
@@ -132,6 +133,14 @@ BuildSite <- function(quiet = FALSE,
   rmarkdown::render("site/_awards_search.Rmd",
                     output_file = "awards_search.html",
                     output_dir = "docs")
+  }
+  
+  # Update live standings page
+  # Note: update_core also updates live standings
+  if(update_standings){
+    rmarkdown::render("site/live.Rmd",
+                      output_file = "live.html",
+                      output_dir = "docs")
   }
   
   # Update remote repo with all changes
