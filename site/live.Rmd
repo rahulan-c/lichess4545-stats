@@ -37,8 +37,6 @@ These "live" standings account for games that have already been played in the cu
 
 However, the standings don't account for all the tiebreaks used in the [official standings](https://www.lichess4545.com/team4545/standings), so I can't guarantee that the rankings shown here will always be accurate. Also, this page doesn't get updated automatically (yet), so there's a good chance that at any given time, it will be showing outdated information.
 
-*Last updated: `r lubridate::now("UTC")`*
-
 
 ```{r}
 
@@ -57,13 +55,29 @@ round <- read_html(paste0("https://www.lichess4545.com/team4545/season/", season
   str_extract("\\d+") %>% 
   as.integer()
 
-# Get current date 
+# Get current date
+# "Last updated at 09:00 UTC on Mon 14 March 2022"
+updated <- paste0(
+  lubridate::hour(lubridate::now()),
+  ":",
+  lubridate::minute(lubridate::now()),
+  " on ",
+  lubridate::wday(lubridate::now(), label = T, week_start = 1),
+  " ",
+  lubridate::month(lubridate::now(), label = T),
+  " ",
+  lubridate::year(lubridate::now())
+)
 
 ```
 
+
+
 ### 4545 Team League
 
-Current season/round:  `r paste0("S", season, " R", round)`
+Latest published `r paste0("S", season)` standings after `r paste0("Round ", round)`: `r paste0("https://www.lichess4545.com/team4545/season/", season, "/standings/")`
+
+Live standings last updated at `r paste0(updated)`.
 
 ```{r live_standings, layout="l-page", comment = ""}
 # Construct "live" 4545 standings
