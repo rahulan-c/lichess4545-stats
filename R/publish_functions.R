@@ -29,7 +29,7 @@ PublishSeasonStats <- function(need_data = FALSE,
   
   # Define how many minutes to wait after publishing season reports before 
   # updating the searchable awards page
-  post_publication_wait <- 4
+  post_publication_wait <- 10
   
   cli::cli_rule(left = "Compiling and publishing new {.field season report(s)}")
   
@@ -66,22 +66,23 @@ PublishSeasonStats <- function(need_data = FALSE,
   cli_status_update(id = sb,
                     "{symbol$arrow_right} New season report(s) produced...")
   Sys.sleep(5)
+  
+  # Re-knit and publish the all season reports page
   BuildSite(update_core = F,
             update_countries = F,
-            update_allreports = F,
+            update_allreports = T,
             update_awards = F)
   
   cli_status_update(id = sb,
                     "{symbol$arrow_right} Website updated...")
   
-  # Update awards search page
+  # If necessary, wait and then update the all-time awards search page
   if(update_awards){
     cli_status_update(id = sb,
                       "{symbol$arrow_right} Waiting for {post_publication_wait} minutes before updating awards search page.")
     
     Sys.sleep(post_publication_wait * 60) # wait before updating the all-awards page
     
-    # Reproduce all-time awards search page
     cli_status_update(id = sb,
                       "{symbol$arrow_right} Updating awards search page...")
     BuildSite(update_awards = T)
@@ -95,7 +96,7 @@ PublishSeasonStats <- function(need_data = FALSE,
 }
 
 
-# Build site
+# Build site function
 BuildSite <- function(quiet = FALSE,
                       update_core = FALSE,
                       update_countries = FALSE,

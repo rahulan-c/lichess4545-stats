@@ -1467,6 +1467,14 @@ MakeSunburst <- function(league, season){
   writeLines(pgn_noevals, fileConn)
   close(fileConn)
   
+  # Now convert this PGN into an *actual* clean PGN :)
+  # Uses Python code originally suggested by wdhorton
+  # Required because the code above doesn't produce a totally valid clean PGN
+  # for even a relative small sample of games (~1500)
+  SaveCleanPGN(filename = paste0("games_noevals_", league, "_s", season), 
+               new_filename = paste0("games_noevals_", league, "_s", season)
+               )
+  
   # Make sunburst
   pgn <- paste0(path_savedata, "games_noevals_", league, "_s", season, ".pgn")
   tic("Made openings sunburst plot")
