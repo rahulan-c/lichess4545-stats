@@ -58,26 +58,28 @@ round <- read_html(paste0("https://www.lichess4545.com/team4545/season/", season
 # Get current date
 # "Last updated at 09:00 UTC on Mon 14 March 2022"
 updated <- paste0(
-  lubridate::hour(lubridate::now()),
+  hour(with_tz(now(), tzone = "UTC")),
   ":",
-  lubridate::minute(lubridate::now()),
-  " on ",
-  lubridate::wday(lubridate::now(), label = T, week_start = 1),
+  sprintf("%02d", minute(with_tz(now(), tzone = "UTC"))),
+  " UTC on ",
+  wday(with_tz(now(), tzone = "UTC"), label = T, week_start = 1),
   " ",
-  lubridate::month(lubridate::now(), label = T),
+  day(with_tz(now(), tzone = "UTC")),
   " ",
-  lubridate::year(lubridate::now())
+  month(with_tz(now(), tzone = "UTC"), label = T),
+  " ",
+  year(with_tz(now(), tzone = "UTC"))
 )
 
 ```
 
 
 
-### 4545 Team League
+### 4545 Team League standings
 
-Latest published `r paste0("S", season)` standings after `r paste0("Round ", round)`: `r paste0("https://www.lichess4545.com/team4545/season/", season, "/standings/")`
+Link to latest official 4545 `r paste0("S", season)` standings after `r paste0("Round ", round)`: `r paste0("https://www.lichess4545.com/team4545/season/", season, "/standings/")`
 
-Live standings last updated at `r paste0(updated)`.
+The 'live' standings below were last updated at `r paste0(updated)`.
 
 ```{r live_standings, layout="l-page", comment = ""}
 # Construct "live" 4545 standings

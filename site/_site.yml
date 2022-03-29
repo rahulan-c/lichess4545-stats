@@ -21,7 +21,7 @@ navbar:
         - text: "By league and season"
           href: season_stats.html
         - text: "All award winners"
-          href: /lichess4545-stats/reports/awards_search.html
+          href: /lichess4545-stats/awards_search.html
         # - text: "All-time records"
         #   href: alltime.html
         # - text: "Random trivia"
