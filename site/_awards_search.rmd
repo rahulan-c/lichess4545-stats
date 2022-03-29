@@ -76,7 +76,7 @@ for(s in seq(1:length(season_reports))){
   # order...so all reports produced since then should use 4, and all reports
   # yet to be re-produced should use 5.
   xml_child_number <- ifelse(league == "4545",
-                             ifelse(season %in% c(2:28),
+                             ifelse(season %in% c(2:29),
                                     4,
                                     5),
                              

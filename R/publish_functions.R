@@ -77,7 +77,7 @@ PublishSeasonStats <- function(need_data = FALSE,
   # Update awards search page
   if(update_awards){
     cli_status_update(id = sb,
-                      "{symbol$arrow_right} Waiting for {post_publication_wait / 60} minutes before updating awards search page.")
+                      "{symbol$arrow_right} Waiting for {post_publication_wait} minutes before updating awards search page.")
     
     Sys.sleep(post_publication_wait * 60) # wait before updating the all-awards page
     
