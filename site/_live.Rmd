@@ -1,0 +1,267 @@
+---
+title: "Standings"
+description: |
+  "Live" league standings    
+output: distill::distill_article
+site: distill::distill_website
+---
+
+```{r opts_packages, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, knitr, data.table, kableExtra, reactable, htmltools, 
+               httr, jsonlite, xml2, rvest, ndjson, utf8, lubridate, 
+               tippy, here, glue, distill, assertthat)
+
+# Custom reactable table theme
+options(reactable.theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    searchInputStyle = list(width = "100%"),
+    headerStyle = list(
+      "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
+      "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
+      borderColor = "#555"
+    ),
+    style = list(fontSize = "16px")
+  )
+)
+
+```
+
+
+These "live" standings account for games that have already been played in the current round. They show how each team's ranking would change if all matches ended at their current score. 
+
+However, the standings don't account for all the tiebreaks used in the [official standings](https://www.lichess4545.com/team4545/standings), so I can't guarantee that the rankings shown here will always be accurate. Also, this page doesn't get updated automatically (yet), so there's a good chance that at any given time, it will be showing outdated information.
+
+
+```{r}
+
+# Get current 4545 season (integer)
+season <- read_html("https://www.lichess4545.com/team4545/") %>% 
+  rvest::html_element(".col-xs-12+ .col-xs-12 .well:nth-child(1) h3") %>% 
+  html_text2() %>% 
+  str_extract("\\d+") %>% 
+  as.integer()
+
+# Get current 4545 round (integer)
+Sys.sleep(0.5)
+round <- read_html(paste0("https://www.lichess4545.com/team4545/season/", season, "/pairings/")) %>% 
+  rvest::html_element(".round-switcher:nth-child(1) .dropdown-toggle") %>% 
+  html_text2() %>% 
+  str_extract("\\d+") %>% 
+  as.integer()
+
+# Get current date
+# "Last updated at 09:00 UTC on Mon 14 March 2022"
+updated <- paste0(
+  hour(with_tz(now(), tzone = "UTC")),
+  ":",
+  sprintf("%02d", minute(with_tz(now(), tzone = "UTC"))),
+  " UTC on ",
+  wday(with_tz(now(), tzone = "UTC"), label = T, week_start = 1),
+  " ",
+  day(with_tz(now(), tzone = "UTC")),
+  " ",
+  month(with_tz(now(), tzone = "UTC"), label = T),
+  " ",
+  year(with_tz(now(), tzone = "UTC"))
+)
+
+```
+
+
+
+### 4545 Team League standings
+
+Link to latest official 4545 `r paste0("S", season)` standings after `r paste0("Round ", round)`: `r paste0("https://www.lichess4545.com/team4545/season/", season, "/standings/")`
+
+The 'live' standings below were last updated at `r paste0(updated)`.
+
+```{r live_standings, layout="l-page", comment = ""}
+# Construct "live" 4545 standings
+
+# Steps:
+# - capture standings after the last completed round
+# - capture all team pairings in the current round
+# - calculate the effect that the current match scores would have on the standings
+
+# Only produce 4545 standings between Thu and Sun in rounds 3 or after
+if(round <= 2){
+  cat("Too early in the season. Check again after Round 3 starts :)")
+
+  } else if(lubridate::wday(lubridate::today(), week_start = 1) < 4) {
+  cat("Too early in the week. Check again from Thursday :)")
+  
+  } else {
+
+# Get current round's team pairings -------------------------------------------
+
+# Number of boards per team
+boards <- 99
+if(season == 1){boards <- 4} else
+  if(season == 2){boards <- 5} else
+    if(season <= 15){boards <-  6} else 
+      if(season <= 24){boards <-  8} else
+        if(season <= 99){boards <-  10}
+
+# Get team pairings
+url <- paste0(
+  "https://www.lichess4545.com/team4545/season/",
+  as.character(season),
+  "/round/",
+  as.character(round),
+  "/pairings/"
+)
+
+# Tidy pairings data
+Sys.sleep(0.5)
+pairings <- read_html(url) %>%
+  rvest::html_element("table") %>%
+  rvest::html_table(header = FALSE)
+pairings$X5[pairings$X5 == "Calendar"] <- ""
+
+## Fix any character encoding issues
+fix_character_encoding <- function(df){
+  df <- df %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¤", "ä")))
+  return(df)
+}
+pairings <- fix_character_encoding(pairings)
+
+# Extract team scores
+scores <- pairings %>%
+  filter(X5 == "") %>%
+  filter(X2 != "", X3 != "") %>% 
+  filter(!(str_detect(X2, "Z|F|X"))) %>% 
+  filter(!(str_detect(X3, "Z|F|X"))) %>% 
+  filter(!(str_detect(X2, "01|10"))) %>% 
+  filter(!(str_detect(X3, "01|10")))
+
+# Get current standings
+Sys.sleep(0.5)
+standings <- read_html(paste0("https://www.lichess4545.com/team4545/season/",
+                              season, 
+                              "/standings/")) %>% 
+  rvest::html_elements("td") %>%
+  rvest::html_text2()
+
+# Compile and tidy standings
+standings <- cbind.data.frame(split(standings, rep(1:13, times=length(standings)/13)), stringsAsFactors=F)
+names(standings) <- c("rank", "team", "avg_rtg", "match_pts", "game_pts", paste0("round_", seq(1:8)))
+standings <- standings %>% 
+  select(rank, team, match_pts, game_pts)
+standings <- fix_character_encoding(standings)
+
+# Tidy current round scores data
+scores$X5 <- NULL
+colnames(scores) <- c("team1", "score1", "score2", "team2")
+scores <- scores %>% 
+  mutate(score1 = as.numeric(stringr::str_replace(score1, "½", ".5")),
+         score2 = as.numeric(stringr::str_replace(score2, "½", ".5")))
+
+# Add teams' latest (official) rankings to scores data
+scores <- dplyr::left_join(scores, standings, by = c("team1" = "team"))
+scores <- scores %>% 
+  select(team1, score1, score2, team2, "rank1" = rank)
+scores <- dplyr::left_join(scores, standings, by = c("team2" = "team"))
+scores <- scores %>% 
+  select(team1, score1, score2, team2, rank1, "rank2" = rank)
+
+# Get teams, official ranks, current match scores, and opponents' official ranks
+scores2 <- dplyr::bind_rows(
+  tibble("team" = scores$team1, "rank" = scores$rank1, "score" = scores$score1, "opp_rank" = scores$rank2, "opp_score" = scores$score2),
+  tibble("team" = scores$team2, "rank" = scores$rank2, "score" = scores$score2, "opp_rank" = scores$rank1, "opp_score" = scores$score1)
+)
+
+# Compute teams' hypothetical match/game pts based on their current match scores
+scores2 <- scores2 %>% 
+  mutate(hypo_mp = ifelse(score > opp_score, 2, ifelse(score < opp_score, 0, ifelse(score == opp_score, 1, NA))),
+         hypo_gp = score)
+
+# Combine score and standings data
+standings_sub <- standings %>% select(-c(rank))
+scores2 <- dplyr::left_join(scores2, standings_sub, by = c("team"))
+scores2$rank <- as.integer(scores2$rank)
+scores2$opp_rank <- as.integer(scores2$opp_rank)
+scores2$match_pts <- as.numeric(scores2$match_pts)
+scores2$game_pts <- as.numeric(scores2$game_pts)
+
+# Compute total hypothetical match/game points
+scores2 <- scores2 %>% 
+  mutate(hypo_mp = hypo_mp + match_pts,
+         hypo_gp = hypo_gp + game_pts) %>% 
+  arrange(desc(hypo_mp), desc(hypo_gp))
+
+# Compute hypothetical team rankings
+scores2$hypo_rank <- data.table::frank(scores2, -hypo_mp, -hypo_gp, ties.method = "first")
+
+# Compute teams' change in rank between the official and hypothetical standings
+scores2 <- scores2 %>% 
+  mutate(change_rank = paste0(ifelse(rank < hypo_rank, 
+                                     "-", 
+                                     ifelse(rank > hypo_rank, 
+                                            "+", 
+                                            ifelse(rank == hypo_rank, 
+                                                   "=", NA))),
+         ifelse(rank == hypo_rank, "", abs(rank - hypo_rank)))) %>% 
+  mutate(games_left = boards - (score + opp_score)) %>%
+  mutate(opp_rank = paste0("#", as.character(opp_rank))) %>% 
+  mutate(live_score = paste0(score, " - ", opp_score)) %>% 
+  # mutate(result_confirmed = ifelse(games_left < abs(score - opp_score), TRUE, FALSE)) %>% 
+  mutate(status = case_when(
+    score > opp_score & (score - opp_score) > games_left ~ "Won",
+    score > opp_score & (score - opp_score) <= games_left ~ "Winning",
+    score < opp_score & (opp_score - score) > games_left ~ "Lost",
+    score < opp_score & (opp_score - score) <= games_left ~ "Losing",
+    score == opp_score & games_left == 0 ~ "Drawn",
+    score == opp_score & games_left > 0 ~ "Tied",
+    TRUE ~ NA_character_
+  )) %>% 
+  select(rank, team, match_pts, game_pts, opp_rank, live_score, status, change_rank, hypo_rank) %>% 
+  arrange(rank)
+
+# Publish hypothetical standings table
+reactable(scores2, 
+          fullWidth = TRUE,
+          compact = TRUE,
+          striped = TRUE,
+          highlight = FALSE,
+          columns = list(
+            rank = colDef(name = "#", align = "center", minWidth = 70),
+            team = colDef(name = "Team", align = "left", minWidth = 250),
+            match_pts = colDef(name = "Match pts", align = "center", minWidth = 70, format = colFormat(digits = 0)),
+            game_pts = colDef(name = "Game pts", align = "center", minWidth = 70, format = colFormat(digits = 0)),
+            
+            opp_rank = colDef(name = "Playing", align = "center", minWidth = 70),
+            live_score = colDef(name = "Latest score", align = "center", minWidth = 120),
+            status =  colDef(cell = function(value) {
+            # Render as an X mark or check mark
+    if (value %in% c("Won", "Lost", "Drawn")) paste0(value, " \u2714") else value # \u274c No
+  },
+  name = "Result", align = "center", minWidth = 90),
+            
+            change_rank = colDef(name = "Change", align = "center", minWidth = 70),
+            hypo_rank = colDef(name = "New rank", align = "center", minWidth = 70)
+            
+          ),
+          columnGroups = list(
+            colGroup(name = paste0("Standings after R", round - 1), columns = c("rank", "team", "match_pts", "game_pts")),
+            colGroup(name = "Current round", columns = c("opp_rank", "live_score", "status")),
+            colGroup(name = "Implications", columns = c("change_rank", "hypo_rank"))
+  )
+)
+ }    
+        
+```
