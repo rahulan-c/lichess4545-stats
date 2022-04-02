@@ -2205,18 +2205,31 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-size: 0.9em;
   }
 
+  /* Style hyperlinks by adding extra space below text */
   d-article a {
       border-bottom: 2px solid #98c1d9;
       text-decoration: none;
   }
 
-  .distill-site-header .logo img{
-    max-height: 20px; /* Makes logo bigger, default was 20px */
+  /* Change colour of lines under hyperlinked text on hover */
+  d-article a:hover {
+    border-bottom: 2px solid #609fc4;
+    text-decoration: none;
   }
 
+  /* Change site logo size, default: 20px */
+  .distill-site-header .logo img{
+    max-height: 20px; 
+  }
+
+  /* Change default bullet point colour */
   ul > li::marker {
     color: #3d5a80;
   }
+
+
+
+  /* ---- EVERYTHING BELOW IS NO LONGER NECESSARY ---------------------------- */
 
   .index-row {
     display: flex;

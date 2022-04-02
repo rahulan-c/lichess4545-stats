@@ -98,14 +98,15 @@ PublishSeasonStats <- function(need_data = FALSE,
 
 # Build site function
 BuildSite <- function(quiet = FALSE,
-                      update_core = FALSE,
+                      update_frontpage = FALSE,
                       update_countries = FALSE,
                       update_allreports = FALSE,
                       update_awards = FALSE,
-                      update_standings = FALSE){
+                      update_standings = FALSE,
+                      update_about = FALSE){
   
-  # Render core pages
-  if(update_core){
+  # Render frontpage
+  if(update_frontpage){
     rmarkdown::render_site(input = "site", quiet = quiet)
     # Copy site/docs to docs/
     fs::dir_copy(path = "site/docs/", new_path = "docs/", overwrite = TRUE)
@@ -137,10 +138,16 @@ BuildSite <- function(quiet = FALSE,
   }
   
   # Update live standings page
-  # Note: update_core also updates live standings
   if(update_standings){
-    rmarkdown::render("site/live.Rmd",
+    rmarkdown::render("site/_live.Rmd",
                       output_file = "live.html",
+                      output_dir = "docs")
+  }
+  
+  # Update "about" page
+  if(update_about){
+    rmarkdown::render("site/_about.Rmd",
+                      output_file = "about.html",
                       output_dir = "docs")
   }
   
