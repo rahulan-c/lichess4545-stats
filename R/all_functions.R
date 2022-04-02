@@ -1635,6 +1635,8 @@ SavePGN_EvalsClocks <- function(games,
 
 # Save 'clean' PGN (no variations or comments)
 SaveCleanPGN <- function(filename, new_filename){
+  # filename: path from root, excluding first / and ".pgn"
+  # new_filename: similar
   tic("Saved clean PGN")
   reticulate::source_python(paste0(path_scripts, "Python/save_clean_pgn.py"))
   save_clean_pgn(read_path =  paste0(path_savedata, filename, ".pgn"),

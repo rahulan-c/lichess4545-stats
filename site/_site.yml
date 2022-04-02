@@ -30,8 +30,6 @@ navbar:
         href: live.html
       - text: "4545 stories"
         href: current.html
-      # - text: "Check league statuses"
-      #   href: league_status.html
       - text: "Articles"
         href: other.html
         menu:

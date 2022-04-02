@@ -7,22 +7,64 @@
 # Last updated: 2022-03-08
 
 # Various functions for compiling league datasets and game data to support 
-# further analysis. Full list:
+# further analysis. 
+
+# League-specific workflows:
+
+# When a 4545 season ends...
+# 1. CompileCombinedData(league_choice == "team4545)
+# 2. SaveLeaguePGN("team4545")
+# 3. CombineTeamLWSeriesGames()
+# 4. SaveTeamLWSeriesPGN()
+
+# When a LW season ends...
+# 1. CompileCombinedData("lwopen")
+# 2. CompileCombinedData("lwu1800")
+# 3. SaveLeaguePGN("lwopen")
+# 4. SaveLeaguePGN("lwu1800")
+# 5. CombineTeamLWSeriesGames()
+# 6. SaveTeamLWSeriesPGN()
+
+# When a Chess960 league season ends...
+# 1. CompileCombinedData("chess960")
+# 2. SaveChess960PGN()
+
+# When a Series season ends...
+# 1. UpdateAllSeriesGames(series_sheets)
+# 2. SaveLeaguePGN("series")
+# 3. CombineTeamLWSeriesGames()
+# 4. SaveTeamLWSeriesPGN()
+# 5. TODO: compile non-games season data across all seasons
+
+# When a Rapid Battle season ends...
+# 1. UpdateAllRapidBattleGames(rb_sheets)
+# 2. SaveLeaguePGN("rb")
+# 3. TODO: combine rapid leagues' games data into single .RDS file
+# 4. TODO: save single PGN with all rapid league games
+
+
+
+# Full list:
 
 # - CompileCombinedData(league_choice)
-#     Compiles season-specific games, pairings, website pairings, and player/team 
-#     positions datasets for all reported seasons of the 4545, LW Open, LW 
-#     U1800 and Chess960 leagues, and saves resulting all-seasons datasets in
-#     data/.
+#   Compiles season-specific games, pairings, website pairings, and player/team 
+#   positions datasets for all reported seasons of the 4545, LW Open, LW 
+#   U1800 and Chess960 leagues, and saves resulting all-seasons datasets in
+#   data/.
 
-# - SaveLeaguePGN(league) - saves a PGN of league games played over all seasons in 
-#     either 4545, LW Open, LW U1800 or Chess960.
+# - SaveLeaguePGN(league)
+#   Saves a single PGN with all games played over all previous completed seasons 
+#   in a specified league (4545, LW Open, LW U1800 or Chess960)
 
-# - SaveTeamLWSeriesPGN() - saves a single PGN for all 4545, LW Open, LW U1800 
-#     and Series games played over all seasons.
+# - SaveTeamLWSeriesPGN()
+#   Saves a single PGN with all 4545, LW Open, LW U1800 and Series games saved in
+#   the latest versions of each league's all-seasons PGN, which is assumed to cover
+#   all previous seasons to date.
 
-# - CombineTeamLWSeriesGames() - saves a single RDS file covering all 4545, LW
-#     Open, LW U1800 and Series games played over all seasons.
+# - CombineTeamLWSeriesGames()
+#   Saves a single RDS file with the games saved in the latest versions of the 
+#   individual league-specific all-seasons RDS files for 4545, LW Open, LW U1800 
+#   and Series, which are assumed to cover all previously played seasons to date.
 
 # - SaveChess960PGN() - saves a single PGN with all 960 league games played in
 #     reported seasons.
@@ -36,35 +78,6 @@
 # - GetSeriesSeasonData(season) - UNFINISHED
 
 # - GetRapidBattleSeasonData(season) - UNFINISHED
-
-# FUNCTION DESCRIPTIONS
-
-# CompileCombinedData(league_choice)
-
-# Collates datasets across all previously reported seasons of the 4545, 
-# LoneWolf (Open), LoneWolf (U1800) or Chess960 leagues.
-# - games
-# - pairings
-# - Lichess4545 website pairings
-# - player/team round positions/scores 
-# Args: 
-#   league_choice (str): one of "team4545", "lwopen", "lwu1800", "chess960"
-# Returns:
-#   TODO
-
-
-# SaveTeamLWSeriesPGN()
-
-# Saves a single PGN without evals or clock times with all 4545, LoneWolf and
-# Series games recorded in each league's all-time games data.
-
-# CombineTeamLWSeriesGames()
-# Combines the all-times games RDS files for 4545, LW and Series into a single
-# RDS file.
-
-# TODO:
-# - Add integrity checks for games datasets. Investigate and resolve any issues.
-# - Incorporate wdhorton's Python code to produce clean no-evals PGNs.
 
 
 
@@ -263,8 +276,8 @@ SaveLeaguePGN <- function(league){
   tic(paste0("Save all-time games PGN for ", league))
   league_games <- readRDS(paste0(here::here(), "/data/allgames_", league, ".rds")) %>% 
     select(pgn)
-  # Remove evals and clock times from PGN data
-  league_games$pgn_noevals <- str_replace_all(league_games$pgn, 
+  # Make a first attempt to remove evals and clock times from PGN data
+  league_games$pgn <- str_replace_all(league_games$pgn, 
                                           "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
                                           "") %>% 
     str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
@@ -272,16 +285,15 @@ SaveLeaguePGN <- function(league){
     str_replace_all("\\s(?=1-0)", "") %>% 
     str_replace_all("\\s(?=1/2)", "") %>% 
     str_replace_all("\\s(?=0-1)", "")
-  
-  # Replace this with wdhorton's Python code
-  
-  # Produce single PGN with all leagues' games
-  pgn_noevals <- str_c(league_games$pgn_noevals, collapse = "")
-  
-  # Save PGN
+  pgn <- str_c(league_games$pgn, collapse = "")
+  # Save this effort locally
   fileConn <- file(paste0(here::here(), "/data/allgames_", league, ".pgn"))
-  writeLines(pgn_noevals, fileConn)
+  writeLines(pgn, fileConn)
   close(fileConn)
+  # Then use python-chess to save a properly cleaned PGN without evals, clock times or errors
+  SaveCleanPGN(filename = paste0("allgames_", league), 
+               new_filename = paste0("allgames_", league)
+  )
   toc(log = TRUE)
 }
 
@@ -300,7 +312,7 @@ SaveTeamLWSeriesPGN <- function(){
   combined <- rbind(team4545_games, lwopen_games, lwu1800_games, series_games)
   
   # Remove evals and clock times from PGN data
-  combined$pgn_noevals <- str_replace_all(combined$pgn, 
+  combined$pgn <- str_replace_all(combined$pgn, 
                                           "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
                                           "") %>% 
     str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
@@ -310,12 +322,16 @@ SaveTeamLWSeriesPGN <- function(){
     str_replace_all("\\s(?=0-1)", "")
   
   # Produce single PGN with all leagues' games
-  pgn_noevals <- str_c(combined$pgn_noevals, collapse = "")
+  pgn <- str_c(combined$pgn, collapse = "")
   
   # Save PGN
   fileConn <- file(paste0(here::here(), "/data/allgames_teamlwseries.pgn"))
-  writeLines(pgn_noevals, fileConn)
+  writeLines(pgn, fileConn)
   close(fileConn)
+  # Then use python-chess to save a properly cleaned PGN without evals, clock times or errors
+  SaveCleanPGN(filename = paste0("allgames_teamlwseries"), 
+               new_filename = paste0("allgames_teamlwseries")
+  )
   toc(log = TRUE)
 }
 
@@ -328,7 +344,7 @@ SaveChess960PGN <- function(){
   chess960_games <- readRDS(paste0(here::here(), "/data/allgames_chess960.rds")) %>% select(pgn)
   
   # Remove evals and clock times from PGN data
-  pgn_noevals <- str_replace_all(chess960_games$pgn, 
+  pgn <- str_replace_all(chess960_games$pgn, 
                                           "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
                                           "") %>% 
     str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
@@ -338,12 +354,17 @@ SaveChess960PGN <- function(){
     str_replace_all("\\s(?=0-1)", "")
   
   # Produce single PGN with all leagues' games
-  pgn_noevals <- str_c(pgn_noevals, collapse = "")
+  pgn <- str_c(pgn, collapse = "")
   
   # Save PGN
   fileConn <- file(paste0(here::here(), "/data/allgames_chess960.pgn"))
   writeLines(pgn_noevals, fileConn)
   close(fileConn)
+  # Then use python-chess to save a properly cleaned PGN without evals, clock times or errors
+  SaveCleanPGN(filename = paste0("allgames_chess960"), 
+               new_filename = paste0("allgames_chess960")
+  )
+  
   toc(log = TRUE)
 }
 
@@ -687,20 +708,20 @@ CombineTeamLWSeriesGames <- function(){
 # datasets for 4545, LW and Chess960
 
 # 4545
-CompileCombinedData(league_choice = "team4545")
-SaveLeaguePGN("team4545")
+# CompileCombinedData(league_choice = "team4545")
+# SaveLeaguePGN("team4545") # warning: took 4 mins for S1-S29
 
 # LW Open
-CompileCombinedData(league_choice = "lwopen")
-SaveLeaguePGN("lwopen")
+# CompileCombinedData(league_choice = "lwopen")
+# SaveLeaguePGN("lwopen")
 
 # LW U1800
-CompileCombinedData(league_choice = "lwu1800")
-SaveLeaguePGN("lwu1800")
+# CompileCombinedData(league_choice = "lwu1800")
+# SaveLeaguePGN("lwu1800")
 
 # Chess960
-CompileCombinedData(league_choice = "chess960")
-SaveLeaguePGN("chess960")
+# CompileCombinedData(league_choice = "chess960")
+# SaveLeaguePGN("chess960")
 
 # # Update all-seasons Series games data (.rds)
 # UpdateAllSeriesGames(series_sheets)
@@ -712,8 +733,7 @@ SaveLeaguePGN("chess960")
 CombineTeamLWSeriesGames()
 
 # Save single PGN with all 4545, LW (both sections) and Series games (no evals or clock times)
-# TODO: change this to use wdhorton's Python code (now in R/Python/save_clean_pgn.py)
-# SaveTeamLWSeriesPGN()
+SaveTeamLWSeriesPGN()
 
 
 
