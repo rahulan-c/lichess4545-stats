@@ -38,7 +38,7 @@ options(reactable.theme = reactableTheme(
 ```
 
 
-**Last updated: `r paste0(lubridate::day(lubridate::today()), " ", lubridate::month(lubridate::today(), label = T), " ", lubridate::year(lubridate::today()))`**
+**Last refreshed on `r paste0(lubridate::day(lubridate::today()), " ", lubridate::month(lubridate::today(), label = T), " ", lubridate::year(lubridate::today()))`**
 
 
 ```{r, layout="l-page"}
@@ -47,131 +47,248 @@ options(reactable.theme = reactableTheme(
 cli::cli_h2("Updating all-time awards search page...")
 
 # Extract all links from season reports table on homepage
+cli::cli_inform("Identifying published reports...")
 homepage_url <- "https://rahulan-c.github.io/lichess4545-stats/season_stats.html"
 
 season_reports <- read_html(homepage_url) %>% 
   html_nodes("table") %>% 
   html_nodes("tr") %>% 
   html_nodes("a") %>%
-  html_attr("href")
+  html_attr("href") %>% 
+  sort()
 
-# Now loop through all reports and extract award winners/details
-all_awards <- list(rep(NA, length(season_reports)))
-for(s in seq(1:length(season_reports))){
-  url <- season_reports[s]
-  league <- ifelse(str_detect(url, "stats_4545"), 
-                   "4545", 
-                   ifelse(str_detect(url, "stats_lwopen"), 
-                          "LW Open", 
-                          ifelse(str_detect(url, "stats_lwu1800"), 
-                                 "LW U1800", 
-                                 ifelse(str_detect(url, "stats_chess960"),
-                                        "Chess960",
-                                        ""))))
+cli::cli_inform("Found {length(season_reports)} published reports")
+
+# # Save list of season reports locally
+# season_reports_tidied <- tibble::tibble(id = seq(1:length(season_reports)),
+#                                   link = season_reports)
+# readr::write_csv(season_reports_tidied, 
+#                  file = glue::glue(here::here(), "/data/published_reports.csv"))
+
+# Find newly published reports 
+prev_published <- readr::read_csv(glue::glue(here::here(), "/data/published_reports.csv")) %>% 
+  dplyr::select(link) %>% 
+  dplyr::pull()
+newly_published <- setdiff(season_reports, prev_published)
+
+
+if(length(newly_published) > 0) {
+
+  # If new season reports have been published...
+  # Need to loop through the new reports and extract award winners/details
+  all_awards <- list(rep(NA, length(newly_published))) # need to change season_reports to newly_published later
+  for(s in seq(1:length(newly_published))){ # ditto
+    url <- newly_published[s] # ditto
+    league <- ifelse(str_detect(url, "stats_4545"), 
+                     "4545", 
+                     ifelse(str_detect(url, "stats_lwopen"), 
+                            "LW Open", 
+                            ifelse(str_detect(url, "stats_lwu1800"), 
+                                   "LW U1800", 
+                                   ifelse(str_detect(url, "stats_chess960"),
+                                          "Chess960",
+                                          ""))))
+    
+    season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
+    
+    # Get the right XML child number for the league/season
+    # Required because the Dec 2021 changes to season reports changed the section
+    # order...so all reports produced since then should use 4, and all reports
+    # yet to be re-produced should use 5.
+    xml_child_number <- ifelse(league == "4545",
+                               4,
+                               
+                               ifelse(league == "LW Open",
+                                     4,
+                                      
+                                      ifelse(league == "LW U1800",
+                                             4,
+                                             
+                                             ifelse(league == "Chess960",
+                                                    4,
+                                                    NA_real_))))
+    
+    
+    # Read and parse each report's awards table
+    awards <- read_html(url) %>%
+      rvest::html_element("#awards") %>% 
+      xml_child(xml_child_number) %>% 
+      html_text2() %>% 
+      parse_json()
+    
+    # Tidy award data
+    awards_tidy <- as_tibble(awards$x$tag$attribs$data) %>%
+      mutate(League = league, Season = season) %>% 
+      select(-c(Image)) %>% 
+      select(League, Season, Award, Winner, Details, Mentions) %>% 
+      # Flatten list to columns, turning NULL values to NAs
+      mutate(Award = Award %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist(),
+             Winner = Winner %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist(),
+             Details = Details %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist(),
+             Mentions = Mentions %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist()
+             )
+    
+    all_awards[[s]] <- awards_tidy
+    cli::cli_inform("{league} S{season} done")
+    Sys.sleep(0.1)
+  }
   
-  season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
+  # After going through the newly published reports
+  # Combine everything into a single data frame
+  awards <- data.table::rbindlist(all_awards) %>% 
+    tibble::as_tibble()
   
-  # Get the right XML child number for the league/season
-  # Required because the Dec 2021 changes to season reports changed the section
-  # order...so all reports produced since then should use 4, and all reports
-  # yet to be re-produced should use 5.
-  xml_child_number <- ifelse(league == "4545",
-                             ifelse(season %in% c(2:29),
-                                    4,
-                                    5),
-                             
-                             ifelse(league == "LW Open",
-                                    ifelse(season %in% c(10, 13, 21, 22, 23, 24),
-                                           4,
-                                           5),
-                                    
-                                    ifelse(league == "LW U1800",
-                                           ifelse(season %in% c(11, 13, 22, 23, 24),
-                                                  4,
-                                                  5),
-                                           
-                                           ifelse(league == "Chess960",
-                                                  ifelse(season %in% c(2:19),
-                                                         4,
-                                                         5),
-                                                  NA_real_))))
+  # Tidy the combined data
+  awards <- awards %>% 
+    filter(Winner != "") %>% # exclude non-awarded awards
+    filter(!(Award %in% c("Egalitarian Award", "Team Accuracy", "Radjabov Award"))) %>% # exclude team-based awards
+    arrange(Winner) %>% 
+    mutate(league_season = paste0(League, " S", Season)) %>% 
+    select(Winner, league_season, Award, Details, Mentions)
+    
+  awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
+  rm(all_awards, awards_tidy)
+  
+  # Exclude all ToS violators from awards table
+  source(paste0(here::here(), "/R/identify_tos_violators.R"))
+  toscrub <- str_c(tos_violators, collapse = "|") 
+  awards$Winner <- stringr::str_remove_all(awards$Winner, 
+                                                    toscrub)
+  # Tidy up any after-effects
+  awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
+  awards$Winner <- str_replace_all(awards$Winner, ",\\s,", ",")
+  awards$Winner <- str_replace_all(awards$Winner, ",\\s,", ",")
+  
+  # Save awards permanently
+  # readr::write_csv(awards, 
+  #                  file = glue::glue(here::here(), "/data/all_award_winners.csv")
+  
+  # # Read previous published all-seasons awards table
+  # prev_awards <- readr::read_csv(glue::glue(here::here(), "/data/all_award_winners.csv"))
+  # 
+  # # Add newly published awards to previous all-seasons table
+  # latest_awards <- rbind(prev_awards, awards)
+  # latest_awards <- latest_awards %>% 
+  #   arrange(Winner)
+  
+  latest_awards <- awards %>% arrange(Winner)
+  
+} else {
   
   
-  # Read and parse each report's awards table
-  awards <- read_html(url) %>%
-    rvest::html_element("#awards") %>% 
-    xml_child(xml_child_number) %>% 
-    html_text2() %>% 
-    parse_json()
+  # If no new reports have been published, we still need to check if any names
+  # in the current all-seasons table need to be scrubbed due to ToS violations
+  cli::cli_alert_warning("No new season reports have been published.")
   
-  # Tidy award data
-  awards_tidy <- as_tibble(awards$x$tag$attribs$data) %>%
-    mutate(League = league, Season = season) %>% 
-    select(-c(Image)) %>% 
-    select(League, Season, Award, Winner, Details) %>% 
-    # Flatten list to columns, turning NULL values to NAs
-    mutate(Award = Award %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist(),
-           Winner = Winner %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist(),
-           Details = Details %>% lapply(function(x) ifelse(is.null(x), NA, x)) %>% purrr::flatten() %>% unlist())
+  # Read previous published all-seasons awards table
+  latest_awards <- readr::read_csv(glue::glue(here::here(), "/data/all_award_winners.csv"))
+  latest_awards <- latest_awards %>% tibble::as_tibble()
   
-  all_awards[[s]] <- awards_tidy
-  cli::cli_inform("{league} S{season} done")
-  Sys.sleep(0.1)
+  source(paste0(here::here(), "/R/identify_tos_violators.R"))
+  toscrub <- str_c(tos_violators, collapse = "|") 
+  latest_awards$Winner <- stringr::str_remove_all(latest_awards$Winner, 
+                                                    toscrub)
+  # Tidy up any after-effects
+  latest_awards$Winner <- str_replace_all(latest_awards$Winner, "^,\\s", "")
+  latest_awards$Winner <- str_replace_all(latest_awards$Winner, ",\\s,", ",")
+  latest_awards$Winner <- str_replace_all(latest_awards$Winner, ",\\s,", ",")
+  
 }
 
-# After going through all published reports
-# Combine everything into a single data frame
-awards <- data.table::rbindlist(all_awards) %>% 
-  tibble::as_tibble()
+# Save and publish new all-seasons table
+readr::write_csv(latest_awards,
+                 file = glue::glue(here::here(), "/data/all_award_winners.csv"))
 
-# Tidy the combined data
-awards <- awards %>% 
-  filter(Winner != "") %>% # exclude non-awarded awards
-  filter(!(Award %in% c("Egalitarian Award", "Team Accuracy", "Radjabov Award"))) %>% # exclude team-based awards
-  arrange(Winner) %>% 
-  mutate(league_season = paste0(League, " S", Season)) %>% 
-  select(Winner, Award, Details, league_season)
-  
+# Publish latest awards table
 
-awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
+# First read it again
+latest_awards <- readr::read_csv(glue::glue(here::here(), "/data/all_award_winners.csv"))
+latest_awards <- latest_awards %>% tibble::as_tibble()
 
-rm(all_awards, awards_tidy)
+# Tidy final table
+latest_awards_tidied <- latest_awards %>% 
+  tidyr::separate(col = league_season,
+                  into = c("league", "season"),
+                  sep = "S(?=\\d+)") %>% 
+  mutate(league = str_trim(league), 
+         season = str_trim(season)) %>% 
+  tidyr::separate_rows(Winner, sep = ",\\s") %>% 
+  mutate(Winner = str_trim(Winner)) %>% 
+  tidyr::separate_rows(Mentions, sep = ",\\s") %>% 
+  mutate(Mentions = str_trim(Mentions))
 
-# Exclude all ToS violators from awards table
-source(paste0(here::here(), "/R/identify_tos_violators.R"))
-toscrub <- str_c(tos_violators, collapse = "|") 
-awards$Winner <- stringr::str_remove_all(awards$Winner, 
-                                                  toscrub)
-# Tidy up any after-effects
-awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
-awards$Winner <- str_replace_all(awards$Winner, ",\\s,", ",")
-awards$Winner <- str_replace_all(awards$Winner, ",\\s,", ",")
+winners_tidied <- latest_awards_tidied %>% 
+  filter(!(is.na(Winner))) %>% 
+  dplyr::select(-c(Mentions)) %>% 
+  mutate(winner = TRUE,
+         runnerup = FALSE) %>% 
+  rename("Player" = Winner) %>% 
+  dplyr::select(Player, Award, league, season, winner, runnerup, Details)
+
+mentions_tidied <- latest_awards_tidied %>% 
+  filter(!(is.na(Mentions))) %>% 
+  dplyr::select(-c(Winner)) %>% 
+  mutate(winner = FALSE,
+         runnerup = TRUE,
+         Details = "") %>% 
+  rename("Player" = Mentions) %>% 
+  dplyr::select(Player, Award, league, season, winner, runnerup, Details)
+
+awards_final <- rbind(winners_tidied, mentions_tidied)
+
+awards_final <- awards_final %>% 
+  dplyr::distinct(., .keep_all = T) %>% 
+  mutate(position = case_when(
+    winner == TRUE ~ "Winner",
+    runnerup == TRUE ~ "2nd/3rd",
+    TRUE ~ NA_character_
+  )) %>% 
+  mutate(season = as.numeric(season)) %>% 
+  dplyr::select(Player, Award, league, season, position, Details)
 
 # Show final table
-reactable(awards,
+reactable(awards_final,
+          filterable = TRUE,
           pagination = TRUE, 
           fullWidth = TRUE,
           resizable = TRUE,
           searchable = TRUE,
+         
           columns = list(
-            Winner = colDef(name = "Player", align = "left", minWidth = 200),
+            Player = colDef(name = "Player", align = "left", minWidth = 200),
             Award = colDef(name = "Award", minWidth = 150),
-            Details = colDef(name = "Details", minWidth = 250),
-            league_season = colDef(name = "League / Season", minWidth = 150)
-            )
+            league = colDef(name = "League", minWidth = 100),
+            season = colDef(name = "Season", minWidth = 90),
+            position = colDef(name = "Rank", minWidth = 100),
+            Details = colDef(name = "Details", minWidth = 250)
+            ),
+           defaultSorted = c("Award", "Player", "position")
 )
 
-cli::cli_alert_success("Awards search page updated")
+cli::cli_alert_success("The all-seasons awards page has been updated")
+
 ```
 
-#### Award definitions
+Includes all eligible players mentioned in a published 4545, LoneWolf or Chess960 awards tables ([example](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s05.html#Awards)). Details are only published for award winners. See below for a list of award definitions.
 
 - **Aces**: scored +6 or better
 - **Archbishop of Accuracy**: lowest average centipawn loss (ACPL) in undecided positions after move 10
 - **Awesome Alt**: played for the most teams during the season
 - **Bullet Boss**: most moves made in under 0.5 seconds
-
-To be completed...
+- **David Award**: faced the strongest opposition
+- **Gambit Guru**: best score playing gambits
+- **Giri Award**: most draws
+- **Grischuk's Cousin**: least time remaining after move 10 while going on to win
+- **Houdini Award**: biggest comebacks
+- **Intimate with Increment**: highest % of moves played with less than a minute on the clock
+- **Musing or Snoozing**: longest time spent on a single move
+- **MVP Award**: best season performance rating relative to initial rating
+- **Primates of Precision**: most games < 10 ACPL
+- **Rookie Award**: best season performance rating for a new league player
+- **Saved by the Bell**: most moves made with < 5s left before winning
+- **Slingshot Specialist**: most upset wins across the season
+- **Tarjan Award**: achieved the biggest upset
+- **Tetrarch of Time**: spent the most clock time across the season
 
 
 [Return to home page](https://rahulan-c.github.io/lichess4545-stats/)
