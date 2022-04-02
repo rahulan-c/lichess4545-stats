@@ -337,7 +337,7 @@ status_tbl <-
 Statistical reports summarising every season of the 4545, LoneWolf and Chess960 leagues
 
 <span style = "font-size:1.6rem;">
-[Current season stats &#10230;](league_status.html)
+[Current season stats &#10230;](https://rahulan-c.github.io/lichess4545-stats/current.html)
 </span></br>
 [Live 4545 standings](https://rahulan-c.github.io/lichess4545-stats/live.html); [match story plots](https://rahulan-c.github.io/lichess4545-stats/current.html) for the latest rounds 
 
