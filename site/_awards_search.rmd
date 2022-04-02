@@ -246,6 +246,11 @@ awards_final <- awards_final %>%
   mutate(season = as.numeric(season)) %>% 
   dplyr::select(Player, Award, league, season, position, Details)
 
+# Do a final scrub of all ineligible players
+awards_final$Player <- stringr::str_remove_all(
+  stringr::str_to_lower(awards_final$Player), 
+  stringr::str_to_lower(toscrub))
+
 # Show final table
 reactable(awards_final,
           filterable = TRUE,
