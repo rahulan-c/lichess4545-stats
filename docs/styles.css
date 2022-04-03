@@ -24,8 +24,8 @@
 html {
   /*-- Main font sizes --*/
   --title-size:      40px;
-  --body-size:       1.06rem;                     /* edited */
-  --code-size:       0.9rem;                     /* edited */
+  --body-size:       1.0rem;                     /* edited */
+  --code-size:       0.8rem;                     /* edited */
   --aside-size:      12px;
   --fig-cap-size:    13px;
   /*-- Main font colors --*/
@@ -70,7 +70,7 @@ d-appendix {
   --title-size:       20px;                      /* edited */
   --text-color:       #FFFFFF;                   /* edited */
   --text-size:        18px;                      /* edited */
-  --hover-color:      #609fc4;                   /* edited */
+  --hover-color:      #98c1d9;                   /* edited */
   --bkgd-color:       #3d5a80;                  /* edited */
 }
 

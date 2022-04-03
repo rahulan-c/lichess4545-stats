@@ -2,7 +2,8 @@ name: "lichess4545-stats"
 title: "Lichess4545 Statistics"
 theme: styles.css
 favicon: img/favicon.png
-base_url: "https://rahulan-c.github.io/lichess4545-stats/"
+base_url: https://rahulan-c.github.io/lichess4545-stats/
+repository_url: https://github.com/rahulan-c/lichess4545-stats
 google_analytics: "G-Q3CEQ766D1"
 description: |
   Statistical reports for the Lichess4545 online chess leagues
