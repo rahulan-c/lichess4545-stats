@@ -1,0 +1,680 @@
+---
+title: "Round summary"
+description: |
+  `r paste0(ifelse(league == 'lonewolf', 'LoneWolf', '4545 Team League:'), ifelse(lw_section == 'open', ' (Open):', ifelse(lw_section == 'u1800', ' (U1800):', '')), ' Season ', season, ' Round ', round)`
+date: "2022-01-05"
+output: distill::distill_article
+params:
+  league: "league"
+  season: "season"
+  lw_section: "lw_section"
+  round: "round"
+---
+
+
+```{r setup, include = FALSE}
+# Report setup, parameters, and data
+
+# Remove ToS violators from final tables
+scrub_cheats <- TRUE
+# should always be TRUE -- UNLESS TESTING!
+
+# Update league-specific all-time games data before producing report
+update_alltime_data <- FALSE
+# Should be FALSE unless specifically required
+
+# Request round data from scratch?
+request_data <- TRUE
+
+# Default R chunk options
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+# Load all required packages
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, knitr, rio, kableExtra, gghighlight, data.table,
+               ggrepel, ggridges, reactable, htmltools, httr, jsonlite, xml2, 
+               rvest, ndjson, reshape2, utf8, lubridate, tictoc, cowplot, 
+               tippy, here, glue, distill)
+
+# Define custom default reactable theme for tables
+options(reactable.theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    searchInputStyle = list(width = "100%"),
+    headerStyle = list(
+      "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
+      "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
+      borderColor = "#555"
+    ),
+    style = list(fontSize = "16px")
+  )
+)
+
+# Source required functions
+source(paste0(here::here(), "/R/all_functions.R"))
+source(paste0(here::here(), "/R/report_functions.R"))
+
+# Key file paths
+data_path <- glue::glue("{here::here()}/data/")
+scripts_path <- glue::glue("{here::here()}/R/")
+
+# Load gambits and FIDE TPR lookup data
+lookup_list <- LoadLookups()
+gambits_lookup <- lookup_list[[1]]
+fide_tpr_lookup <- lookup_list[[2]]
+
+# Set report parameters
+league <- params$league
+season <- params$season
+rounds <- params$rounds
+lw_section <- params$lw_section
+
+######################################
+# FOR TESTING
+# league <- "team4545"
+# season <- 29
+# round <- 4
+# lw_section <- FALSE
+######################################
+
+lw_u1800 <- ifelse(league == "lonewolf", ifelse(lw_section == "u1800", TRUE, FALSE), FALSE)
+
+# Get league colours
+league_col <- LeagueColours(league)[[1]]
+league_col_dark <- LeagueColours(league)[[2]]
+
+# Get the correct # boards per team for 4545 reports
+team_boards <- BoardsPerTeam(league, season)
+
+# Load the relevant datasets: season games, pairings, website pairings, positions, all-time games
+league_load_label <- league
+if(league == "lonewolf"){
+  if(lw_u1800){league_load_label <- "lwu1800"} else {league_load_label <- "lwopen"}
+}
+
+# Compile round data
+# This bit is different from the season reports. For those, the relevant season 
+# datasets have already been extracted and saved. For these, we're going to 
+# extract the data from scratch.
+
+if(request_data) {
+  
+  games_pairings <- LeagueGames(league_choice = league, 
+                                seasons_choice =  season, 
+                                rounds_choice = round,
+                                lw_u1800_choice = lw_u1800)
+
+  games <- games_pairings[[1]] %>% tibble::as_tibble()
+  website_pairings <- games_pairings[[2]] %>% tibble::as_tibble()
+  
+  # For 4545, add both players' teams to games data (from website pairings data)
+  # Increases the robustness of the subsequent merge with pairings data
+  if(league == "team4545"){
+    websub <- website_pairings %>% select(game_id, "teamw_web" = white_team, 
+                                          "teamb_web" = black_team)
+    games <- dplyr::left_join(games, websub, by = c("id" = "game_id"))
+  }
+  
+  # Tidy game data
+  tidied_games <- TidyGames(games) %>% tibble::as_tibble()
+  
+  
+  # Save game data with appropriate labels
+  league_save_label <- league
+  if(league == "lonewolf"){
+    if(lw_u1800){league_save_label <- "lwu1800"} else {league_save_label <- "lwopen"}
+  }
+  
+  # Get league pairings/positions data
+  data <- LeagueData(league, season, round, lw_u1800, team_boards)
+  
+  pairings <- data[[1]] %>% tibble::as_tibble()
+  positions <- data[[2]] %>% tibble::as_tibble()
+  
+  # For 4545 datasets, add team information to games data (from pairings data)
+  if(league == "team4545"){
+    pairings_subset <- pairings %>% 
+      select(season, round, board, "pairings_white" = white, 
+             "pairings_black" = black, match, team_w, team_b, gp_w, gp_b, 
+             team_res_w, team_res_b)
+    tidied_games <- dplyr::left_join(tidied_games, pairings_subset, 
+                              by = c("players.white.user.id" = "pairings_white",
+                                     "teamw_web" = "team_w",
+                                     "players.black.user.id" = "pairings_black",
+                                     "teamb_web" = "team_b"))
+    tidied_games <- tidied_games %>% 
+      rename("team_w" = teamw_web, "team_b" = teamb_web)
+  
+  # For LoneWolf and 960, just add season and round fields to the games data
+  } else {
+    
+    pairings_subset <- pairings %>% 
+      select(season, round, "pairings_white" = white, "pairings_black" = black)
+    tidied_games <- left_join(tidied_games, pairings_subset, 
+                              by = c("players.white.user.id" = "pairings_white",
+                                     "players.black.user.id" = "pairings_black"))
+  }
+  
+  # For all leagues, make sure the usernames in the pairings data match 
+  # those in the games data -- at least for played games
+  for(i in seq(1:nrow(pairings))){
+    matches <- str_extract(tidied_games$white, fixed(pairings$white[i], ignore_case=TRUE)) 
+    matches <- matches[!is.na(matches)] %>% unique()
+    pairings$white[i] <- ifelse(length(matches) > 0, matches, pairings$white[i])
+    matches <- str_extract(tidied_games$black, fixed(pairings$black[i], ignore_case=TRUE)) 
+    matches <- matches[!is.na(matches)] %>% unique()
+    pairings$black[i] <- ifelse(length(matches) > 0, matches, pairings$black[i])
+  }
+  
+  # Save round datasets
+  # Game data
+  rio::export(tidied_games, paste0(path_savedata, "round/", "games_", league_save_label, "_s", season, "r", round, ".rds"))
+  
+  # Played pairings data (from Lichess4545 API) - aka website pairings
+  rio::export(website_pairings, paste0(path_savedata, "round/", "website_pairings_", league_save_label, "_s", season, "r", round, ".rds"))
+  
+  # Pairings data from round pairing pages
+  # Not the same as website pairings - this includes unplayed pairing info
+  rio::export(pairings, paste0(path_savedata, "round/", "pairings_", league_save_label, "_s", season, "r", round, ".rds"))
+  
+  # Player/team positions data
+  rio::export(positions, paste0(path_savedata, "round/", "positions_", league_save_label, "_s", season, "r", round, ".rds"))
+  
+  cli::cli_inform("Saved data for {league} S{season} R{round}")
+
+}
+
+# Identify Lichess ToS violators so their names don't appear in any final tables
+if(scrub_cheats){
+  source(paste0(scripts_path, "identify_tos_violators.R"))
+} else {
+  tos_violators <- c("username")
+}
+
+
+# Tidy datasets - fix any character encoding issues
+FixCharEncodingIssues <- function(df){
+  df <- df %>% 
+    tibble::as_tibble() %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¼", "ü"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¶", "ö"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã³", "ó"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã©", "é"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€¾", "‾"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "ãƒ„", "ツ"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "â€™", "'"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "’", "'"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¤", "ä"))) %>% 
+    mutate(across(where(is.character), ~ str_replace_all(.x, "Ã¡", "á")))
+  return(tibble::as_tibble(df))
+}
+games <- FixCharEncodingIssues(tidied_games)
+website_pairings <- FixCharEncodingIssues(website_pairings)
+pairings <- FixCharEncodingIssues(pairings)
+positions <- FixCharEncodingIssues(positions)
+gambits_lookup <- FixCharEncodingIssues(gambits_lookup)
+# all_games <- FixCharEncodingIssues(all_games)
+
+
+# If the latest season game was played before 2017-03-28, assume there is no 
+# move time data available, so any related stats/awards shouldn't be shown
+movetimes_exist <- TRUE
+if(max(games$started) <= lubridate::ymd("2017-03-28")){movetimes_exist <- FALSE}
+no_movetimes_print <- "Not available for seasons that began before April 2017."
+
+# Set team-based variables
+# Required to avoid errors when producing LW reports
+team_most_close_wins <- NA_character_
+num_most_close_wins <- NA_integer_
+team_most_close_losses <- NA_character_
+num_most_close_losses <- NA_integer_
+
+```
+
+
+```{r lw_hide}
+# Hide team-based stuff from LW reports
+lw_hide <- FALSE
+if(league != "team4545"){lw_hide <- TRUE}
+```
+
+
+
+### Overview
+
+
+```{r round_overview_stats}
+
+round_dates <- SeasonDates(games)
+
+wdl <- GetWDLStats(website_pairings, games)
+games_w <- wdl %>% filter(result == "1-0") %>% dplyr::pull(n)
+perc_w <- wdl %>% filter(result == "1-0") %>% dplyr::pull(perc)
+games_b <- wdl %>% filter(result == "0-1") %>% dplyr::pull(n)
+perc_b <- wdl %>% filter(result == "0-1") %>% dplyr::pull(perc)
+games_d <- wdl %>% filter(result == "1/2-1/2") %>% dplyr::pull(n)
+perc_d <- wdl %>% filter(result == "1/2-1/2") %>% dplyr::pull(perc)
+num_players <- length(unique(c(unique(website_pairings$white), unique(website_pairings$black))))
+num_players <- formatC(num_players, big.mark = ",")
+
+```
+
+```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
+# Get match stats (for 4545 reports)
+matches <- pairings %>% 
+  select(match, team_w, team_b, gp_w, gp_b) %>% 
+  slice(which(row_number() %% 2 == 0)) %>% 
+  mutate(margin = gp_w - gp_b) %>% 
+  mutate(winner = case_when(
+    margin == 0 ~ "",
+    margin > 0 ~ team_w,
+    margin < 0 ~ team_b,
+    TRUE ~ NA_character_
+  )) %>%
+  mutate(loser = case_when(
+    winner == "" ~ "",
+    winner == team_w ~ team_b,
+    winner == team_b ~ team_w,
+    TRUE ~ NA_character_
+  )) %>% 
+  distinct(match, team_w, team_b, margin, winner, loser)
+draws <- matches %>% filter(margin == 0)
+close <- matches %>% filter(margin %in% c(1, -1))
+
+num_matches <- nrow(matches)
+num_drawn <- nrow(draws)
+perc_drawn <- num_drawn / num_matches
+num_close <- nrow(close)
+perc_close <- num_close / num_matches
+
+# Get the team(s) with the most close wins
+close_wins <- close %>% 
+  group_by(winner) %>% 
+  summarise(close_wins = n()) %>% 
+  slice_max(close_wins)
+team_most_close_wins <- close_wins %>% select(winner) %>% dplyr::pull()
+team_most_close_wins <- ifelse(length(team_most_close_wins) > 4, 
+                               "multiple",
+                               team_most_close_wins)
+num_most_close_wins <- close_wins %>% select(close_wins) %>% dplyr::pull()
+num_most_close_wins <- num_most_close_wins[1]
+
+# Get the team(s) with the most close losses
+close_losses <- close %>% 
+  group_by(loser) %>% 
+  summarise(close_losses = n()) %>% 
+  slice_max(close_losses)
+team_most_close_losses <- close_losses %>% select(loser) %>% dplyr::pull()
+team_most_close_losses <- ifelse(length(team_most_close_losses) > 4, 
+                               "multiple",
+                               team_most_close_losses)
+num_most_close_losses <- close_losses %>% select(close_losses) %>% dplyr::pull()
+num_most_close_losses <- num_most_close_losses[1]
+
+```
+
+
+```{r}
+# Plot wins by colour by board (4545) or rating band (LW)
+if(league == "team4545"){
+  plt_wins_by_col <- ResultByColourByBoard(games)
+} else {
+  plt_wins_by_col <- ResultByColourByRatingBand(games)
+}
+```
+
+
+<div class = "row">
+  
+<div class = "col-md-5">
+
+<br>
+
+This round's games were played between `r round_dates`.
+
+`r num_players` players participated.
+
+`r glue::glue(ifelse(league == 'team4545', "{(num_matches / 8) * 2} teams played {num_matches} matches over the season's eight weeks. {num_drawn} matches ({round(perc_drawn*100, 0)}%) were drawn, and {num_close} ({round(perc_close*100, 0)}%) were won by just a single point.", ""))`
+
+In all, `r formatC(nrow(website_pairings), big.mark = ",")` games were played in the season. The round's 'unplayed pairing' rate was `r round(((nrow(pairings) - nrow(website_pairings)) / nrow(pairings)) * 100, 1)`%.^[There are several reasons why a pairing might not end up being played, including scheduling difficulties, a lack of available replacements, or one of the players not showing up at the start time!]
+
+White won `r formatC(games_w, big.mark=",")` games (`r round(perc_w*100, 1)`%), `r formatC(games_d, big.mark=",")` games (`r round(perc_d*100, 1)`%) were drawn, and Black won `r formatC(games_b, big.mark=",")` games (`r round(perc_b*100, 1)`%). The right-hand chart shows game results by colour for each board or average rating band.^[The number of games played in this statistic can differ from the number of games played in the season, as it excludes games where the result of the pairing was later changed to a forfeit win or loss.]
+
+
+
+</div>
+  
+<div class = "col-md-7">
+<br>
+```{r}
+plt_wins_by_col
+```
+</div>
+</div>
+
+
+
+:::stories
+**Match stories**
+Click [here](`r paste0("stories/s", season, "_r", round, "_allmatches.pdf")`) to see the story of every match in the round.  
+:::
+
+### Stats - overview {.tabset .tabset-fade .tabset-pills}
+
+```{r results='asis', echo=FALSE}
+# Hide match results tab from LW reports
+if (lw_hide) {cat("<!---")}
+```
+
+```{r results='asis', echo=FALSE}
+# Stop hiding stuff from LW reports
+if (lw_hide) {cat("-->")}
+```
+
+
+#### Timing `r emo::ji("bar_chart")`
+
+```{r games_by_day, fig.show="hold", out.width = "50%"}
+GamesByDay(games, league_col)
+GamesByDayAndHour(games, league_col)
+```
+
+
+
+#### Length `r emo::ji("bar_chart")`
+
+```{r hists, fig.show="hold", out.width = "50%"}
+MovesPerGameHist(games, league_col)
+GameDurationHist(games, league_col)
+```
+
+#### Most moves 
+
+*Includes games ranked at or above the 90th percentile by number of moves.*
+
+```{r longest_moves}
+# Longest games (by # moves)
+longest_moves <- LongestGamesByMoves(games, 90)
+reactable(longest_moves,
+          pagination = TRUE,
+          searchable = TRUE,
+          fullWidth = FALSE,
+          resizable = TRUE,
+          compact = T,
+          columns = list(
+            rank = colDef(name = "Rank",
+                          align = "center",
+                          minWidth = 50),
+          players = colDef(name = "Players / Link",
+                           minWidth = 300,
+                           html = TRUE, 
+                           cell = function(value, index){
+            sprintf('<a href="%s" target="_blank">%s</a>', longest_moves$url[index], value)
+          }),
+          date = colDef(name = "Date",
+                        minWidth = 140),
+          url = colDef(name = "URL",
+                       show = FALSE),
+          num_moves = colDef(name = "Moves",
+                                  minWidth = 100)
+          )
+          )
+```
+
+
+
+#### Longest games
+
+*Includes games ranked at or above the 90th percentile by total clock time.*^[A game's total clock time is the sum of both players' move times from move 2 onwards.]
+
+```{r longest_time}
+# Longest games (by duration)
+longest_duration <- LongestGamesByDuration(games, 90)
+reactable(longest_duration,
+          pagination = TRUE,
+          searchable = TRUE,
+          fullWidth = FALSE,
+          resizable = TRUE,
+          compact = T,
+          columns = list(
+            rank = colDef(name = "Rank",
+                          align = "center",
+                          minWidth = 50),
+          players = colDef(name = "Players / Link",
+                           minWidth = 300,
+                           html = TRUE, 
+                           cell = function(value, index){
+            sprintf('<a href="%s" target="_blank">%s</a>', longest_duration$url[index], value)
+          }),
+          date = colDef(name = "Date",
+                        minWidth = 140),
+          url = colDef(name = "URL",
+                       show = FALSE),
+          duration_print = colDef(name = "Total time",
+                                  minWidth = 100)
+          )
+          )
+```
+
+
+
+
+### Stats - by board/rating {.tabset .tabset-fade .tabset-pills}
+
+
+#### ACPL and blunder rate `r emo::ji("bar_chart")`
+
+```{r acpl_blunders, fig.show="hold", out.width = "50%"}
+acpl_blunders <- ErrorRates(league, games, league_col)
+acpl_blunders[[1]]
+acpl_blunders[[2]]
+```
+
+
+#### Lowest combined ACPL
+
+The games with the lowest combined ACPL (including draws).
+
+
+```{r lowest_acpl_games}
+
+lowest_acpl_games_all <- LowestACPLGames(league, games, tos_violators)
+
+if(league == "team4545"){
+  
+  reactable(lowest_acpl_games_all,
+            pagination = FALSE,
+            searchable = FALSE,
+            fullWidth = TRUE,
+            resizable = TRUE,
+            compact = T,
+            columns = list(
+            board = colDef(name = "Board", align = "center", minWidth = 70),
+            date = colDef(name = "Date", minWidth = 140),
+            players = colDef(name = "Players / Link",
+                             minWidth = 250,
+                             html = TRUE,
+                             cell = function(value, index){
+              sprintf('<a href="%s" target="_blank">%s</a>', lowest_acpl_games_all$url[index], value)
+            }),
+            url = colDef(show = FALSE),
+            result = colDef(name = "Result", align = "center"),
+            sum_acpl = colDef(name = "Sum ACPL", align = "center")
+            )
+  )
+}
+
+if(league == "lonewolf"){
+  reactable(lowest_acpl_games_all,
+            pagination = FALSE,
+            searchable = FALSE,
+            fullWidth = TRUE,
+            resizable = TRUE,
+            compact = T,
+            columns = list(
+            date = colDef(name = "Date", minWidth = 140),
+            players = colDef(name = "Players / Link",
+                             minWidth = 250,
+                             html = TRUE,
+                             cell = function(value, index){
+              sprintf('<a href="%s" target="_blank">%s</a>', lowest_acpl_games_all$url[index], value)
+            }),
+            url = colDef(show = FALSE),
+            result = colDef(name = "Result", align = "center"),
+            sum_acpl = colDef(name = "Sum ACPL", align = "center")
+            )
+  )
+}
+
+```
+
+#### Decisive games only
+
+The *decisive* games with the lowest combined ACPL.
+
+```{r}
+# Show same but for decisive games
+
+lowest_acpl_games_decisive <- LowestACPLGamesDecisive(league, games, tos_violators)
+
+if(league == "team4545"){
+  reactable(lowest_acpl_games_decisive,
+            pagination = FALSE,
+            searchable = FALSE,
+            fullWidth = TRUE,
+            resizable = TRUE,
+            compact = T,
+            columns = list(
+            board = colDef(name = "Board", align = "center", minWidth = 70),
+            date = colDef(name = "Date", minWidth = 140),
+            players = colDef(name = "Players / Link",
+                             minWidth = 250,
+                             html = TRUE,
+                             cell = function(value, index){
+              sprintf('<a href="%s" target="_blank">%s</a>', lowest_acpl_games_decisive$url[index], value)
+            }),
+            url = colDef(show = FALSE),
+            result = colDef(name = "Result", align = "center"),
+            sum_acpl = colDef(name = "Sum ACPL", align = "center")
+            ))
+}
+
+if(league == "lonewolf") {
+  reactable(lowest_acpl_games_decisive,
+          pagination = FALSE,
+          searchable = FALSE,
+          fullWidth = TRUE,
+          resizable = TRUE,
+          compact = T,
+          columns = list(
+          date = colDef(name = "Date", minWidth = 140),
+          players = colDef(name = "Players / Link",
+                           minWidth = 250,
+                           html = TRUE,
+                           cell = function(value, index){
+            sprintf('<a href="%s" target="_blank">%s</a>', lowest_acpl_games_decisive$url[index], value)
+          }),
+          url = colDef(show = FALSE),
+          result = colDef(name = "Result", align = "center"),
+          sum_acpl = colDef(name = "Sum ACPL", align = "center")
+          ))
+}
+
+```
+
+
+### Openings {.tabset .tabset-fade .tabset-pills} 
+
+#### First moves `r emo::ji("bar_chart")`
+
+```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
+
+# White and Black's first moves, % games by board (stacked) 
+games %>%
+  select(board, first_moves) %>% 
+  group_by(board, first_moves) %>% 
+  summarise(games = n()) %>% 
+  arrange(desc(games)) %>% 
+  tibble::as_tibble() %>% 
+  ggplot(aes(fill = factor(first_moves, levels = c("e4 e5", "e4 c5", "e4 c6", "e4 e6",
+                                                   "e4 d5", "e4 Nf6",
+                                                    "d4 d5", "d4 Nf6", "d4 e6", "d4 d6",
+                                                   "d4 f5", "d4 b6",
+                                                   "Nf3 d5", "Nf3 Nf6", "Nf3 c5",
+                                                   "c4 c5", "c4 Nf6", "c4 e5", "c4 c6")), 
+             y = games, 
+             x = board)) +
+  geom_bar(position = "fill", stat = "identity") +
+  theme_cowplot() +
+  labs(x = "Board",
+       y = "Proportion of games") +
+  theme(legend.position = "right") +
+  scale_x_continuous(breaks = integer_breaks()) +
+  scale_fill_manual(values = c("#002d9c", "#0043ce", "#0f62fe", "#4589ff", 
+                               "#78a9ff", "#a6c8ff",
+                               "#491d8b", "#6929c4", "#8a3ffc", "#a56eff", 
+                               "#be95ff", "#d4bbff",
+                               "#00539a", "#0072c3", "#1192e8",
+                               "#005d5d", "#007d79", "#009d9a", "#08bdba"), 
+                    na.value = "#8C979A",
+                    name = "First moves")
+```
+
+
+#### Top openings
+
+All openings played in the round, excluding variations.
+
+```{r}
+
+# header = with_tooltip("Size", "# players who played for the team through the season")
+openings_exclvar <- PopularOpenings(games)
+reactable(openings_exclvar, pagination = TRUE, fullWidth = TRUE, resizable = TRUE,
+          searchable = TRUE,
+           columns = list(
+             rank = colDef(minWidth = 60, align = "center",
+                           header = with_tooltip("#", "Rank")),
+    opening.broad = colDef(minWidth = 200,
+                           header = with_tooltip("Opening", "Opening name (broad, excl. variations)")),
+    games = colDef(minWidth = 70, align = "center",
+                   header = with_tooltip("G", "Games")),
+    perc_w = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                    header = with_tooltip("%", "Score (%) for White")),
+    white_wins = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                        header = with_tooltip("1-0", "White wins (%)")),
+    draws = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                   header = with_tooltip("½-½", "Draws (%)")),
+    black_wins = colDef(minWidth = 70, align = "center", format = colFormat(digits = 0),
+                        header = with_tooltip("0-1", "Black wins (%)")),
+    mean_eval_after_15 = colDef(minWidth = 100, align = "center", format = colFormat(digits = 1),
+                                header = with_tooltip("Eval", "Average evaluation after 15 moves (for White)")),
+    mean_rating = colDef(minWidth = 100, align = "center", format = colFormat(digits = 0),
+                         header = with_tooltip("Rating", "Average rating (both sides)"))
+    ),
+    compact = T)
+```
+
+
+
+
+
+
+
+
+---
+
+### About
+
+:::about
+- This report was compiled on `r format(Sys.Date(), '%d %B %Y')`.
+- These statistics are presented for general interest only. They are not guaranteed to be comprehensive, complete^[For example, this report excludes from its analysis all games of less than 5 plies (half-moves), games that ended in a disconnection or by "cheat detected", games that were aborted, and games that started from a custom position.], accurate, or up to date. They may be periodically revised to incorporate updates and bugfixes.
+- Any player determined by Lichess to have violated their Terms of Service when this report was compiled should not appear in the detailed statistics.^[However, players who were banned from the Lichess4545 leagues after finishing a season in the top three places are still shown with a podium place in that season's report.]
+- [Homepage](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
+:::
+
+
+
+
+
