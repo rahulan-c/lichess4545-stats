@@ -31,7 +31,8 @@ options(reactable.theme = reactableTheme(
       "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
       "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
       borderColor = "#555"
-    )
+    ),
+    style = list(fontSize = "16px")
   )
 )
 
@@ -258,6 +259,8 @@ reactable(awards_final,
           fullWidth = TRUE,
           resizable = TRUE,
           searchable = TRUE,
+          compact = TRUE,
+          striped = TRUE,
          
           columns = list(
             Player = colDef(name = "Player", align = "left", minWidth = 200),

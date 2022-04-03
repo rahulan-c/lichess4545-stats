@@ -334,22 +334,22 @@ status_tbl <-
 <span style = "font-size:1.6rem;">
 [Season stats and awards &#10230;](season_stats.html)
 </span></br>
-Statistical reports summarising every season of the 4545, LoneWolf and Chess960 leagues
+Detailed reports on every [Lichess4545](https://www.lichess4545.com/team4545/), [LoneWolf](https://www.lichess4545.com/lonewolf/) and [Lichess960](https://www.lichess4545.com/chess960/) season
 
 <span style = "font-size:1.6rem;">
-[Current season stats &#10230;](https://rahulan-c.github.io/lichess4545-stats/current.html)
+[Current season updates &#10230;](https://rahulan-c.github.io/lichess4545-stats/current.html)
 </span></br>
-[Live 4545 standings](https://rahulan-c.github.io/lichess4545-stats/live.html); [match story plots](https://rahulan-c.github.io/lichess4545-stats/current.html) for the latest rounds 
+Also includes [live 4545 standings](https://rahulan-c.github.io/lichess4545-stats/live.html)
 
 <span style = "font-size:1.6rem;">
 [Search all awards &#10230;](awards_search.html)
 </span></br>
-Search all previous award winners
+See and search through all previous award winners; now includes 2nd/3rd place finishers too
 
 <span style = "font-size:1.6rem;">
 Other stuff
 </span></br>
-Statistical scribblings on various league-related topics, like my attempt to guess the [global distribution of league members](https://rahulan-c.github.io/lichess4545-stats/countries.html). More coming soon...
+Articles on assorted league-related questions such as the [global distribution of league members](https://rahulan-c.github.io/lichess4545-stats/countries.html). More coming soon...
 
 <span style = "font-size:1.6rem;">
 [About the site &#10230;](about.html)
@@ -377,7 +377,7 @@ Statistical scribblings on various league-related topics, like my attempt to gue
 
 Welcome to my (unofficial) stats site for the [Lichess4545](https://www.lichess4545.com) online chess leagues.
 
-Here you'll find [detailed reports](season_stats.html) on every season of the Team (4545), LoneWolf and Chess960 leagues, providing a detailed overview of each season while celebrating noteworthy performances through a range of whimsically named awards. There's also a page that lists [all award winners](awards_search.html) across all leagues and seasons in a easy to search format.
+Here you'll find [detailed reports](season_stats.html) on every season of the Lichess4545, LoneWolf and Lichess960 league, a page that [all award winners](awards_search.html) across all leagues and seasons in a easy to search format.
 
 
   </div>
