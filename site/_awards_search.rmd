@@ -1,13 +1,21 @@
 ---
-title: "All award winners / details"
+title: "Season, prize and award winners"
 description: |
-  Compiled into a single searchable table
-date: "2022-02-17"
+  All winners, medallists and prize winners from past Lichess4545, LoneWolf and Lichess960 seasons.
+date: 2022-04-03
 site: distill::distill_website
 output: distill::distill_article
 ---
 
+[Return to home page](https://rahulan-c.github.io/lichess4545-stats/)
 
+## Previous season winners
+
+When finished, this section will show every team or player that either finished on the podium or was awarded a rating prize in past Lichess4545, LoneWolf and Lichess960 seasons.
+
+*To be completed*
+
+## Published award winners and honourable mentions
 
 ```{r packages_initial_opts, include = FALSE}
 # Set default R chunk options for Rmd file
@@ -299,5 +307,5 @@ Includes all eligible players mentioned in a published 4545, LoneWolf or Chess96
 - **Tetrarch of Time**: spent the most clock time across the season
 
 
-[Return to home page](https://rahulan-c.github.io/lichess4545-stats/)
+
 

@@ -190,10 +190,7 @@ PublishSeasonStats <- function(need_data = FALSE,
   Sys.sleep(5)
   
   # Re-knit and publish the all season reports page
-  BuildSite(update_core = F,
-            update_countries = F,
-            update_allreports = T,
-            update_awards = F)
+  BuildSite(update_allreports = T)
   
   cli_status_update(id = sb,
                     "{symbol$arrow_right} Website updated...")
