@@ -2179,7 +2179,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   .distill-site-header {
     --title-size:       20px;                      /* edited */
     --text-color:       #FFFFFF;                   /* edited */
-    --text-size:        18px;                      /* edited */
+    --text-size:        16px;                      /* edited */
     --hover-color:      #98c1d9;                   /* edited */
     --bkgd-color:       #3d5a80;                  /* edited */
   }
@@ -2240,12 +2240,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     margin: 0 15px 0 15px;
   }
 
+  .index-row-narrow > div {
+    margin: 0 30px 0 30px;
+  }
+
   .index-column-l {
     flex: 40%;
   }
 
   .index-column-r {
     flex: 60%;
+  }
+
+  .index-column-m {
+    flex: 50%;
   }
 
   @media only screen and (max-width: 1000px) {
@@ -2518,7 +2526,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <img src="img/favicon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title">Lichess4545 Statistics</a>
-<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
 <a href="index.html">
@@ -2535,8 +2542,17 @@ Stats and awards
 <a href="/lichess4545-stats/awards_search.html">All award winners</a>
 </div>
 </div>
-<a href="live.html">4545 standings</a>
-<a href="current.html">4545 stories</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Round updates
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="current.html">Round updates</a>
+<a href="live.html">Live standings</a>
+</div>
+</div>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
 Articles
@@ -2547,7 +2563,20 @@ Articles
 <a href="countries.html">Players by country</a>
 </div>
 </div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+About
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
 <a href="about.html">About</a>
+<hr/>
+<span class="nav-dropdown-header">Links</span>
+<a href="https://www.lichess4545.com/">Lichess4545</a>
+<a href="https://www.lichess.org">Lichess</a>
+</div>
+</div>
 <a href="https://github.com/rahulan-c/lichess4545-stats" aria-label="Link to source">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>

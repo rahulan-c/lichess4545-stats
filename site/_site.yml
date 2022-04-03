@@ -27,10 +27,13 @@ navbar:
         #   href: alltime.html
         # - text: "Random trivia"
         #   href: trivia.html
-      - text: "4545 standings"
-        href: live.html
-      - text: "4545 stories"
+      - text: "Round updates"
         href: current.html
+        menu:
+        - text: "Round updates"
+          href: current.html
+        - text: "Live standings"
+          href: live.html
       - text: "Articles"
         href: other.html
         menu:
@@ -41,7 +44,16 @@ navbar:
       #     # - text: "Endgames (tbc)"
       #     #   href: endgames.html
       - text: "About"
-        href: about.html
-  search: true
+        icon: fa-info
+        menu:
+        - text: "About"
+          href: about.html
+        - text: "---------"
+        - text: "Links"
+        - text: "Lichess4545"
+          href: https://www.lichess4545.com/
+        - text: "Lichess"
+          href: https://www.lichess.org
+        search: true
   source_url: https://github.com/rahulan-c/lichess4545-stats
 output: distill::distill_article

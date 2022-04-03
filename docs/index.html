@@ -2182,7 +2182,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   .distill-site-header {
     --title-size:       20px;                      /* edited */
     --text-color:       #FFFFFF;                   /* edited */
-    --text-size:        18px;                      /* edited */
+    --text-size:        16px;                      /* edited */
     --hover-color:      #98c1d9;                   /* edited */
     --bkgd-color:       #3d5a80;                  /* edited */
   }
@@ -2243,12 +2243,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     margin: 0 15px 0 15px;
   }
 
+  .index-row-narrow > div {
+    margin: 0 30px 0 30px;
+  }
+
   .index-column-l {
     flex: 40%;
   }
 
   .index-column-r {
     flex: 60%;
+  }
+
+  .index-column-m {
+    flex: 50%;
   }
 
   @media only screen and (max-width: 1000px) {
@@ -2521,7 +2529,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <img src="img/favicon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title">Lichess4545 Statistics</a>
-<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
 <a href="index.html">
@@ -2538,8 +2545,17 @@ Stats and awards
 <a href="/lichess4545-stats/awards_search.html">All award winners</a>
 </div>
 </div>
-<a href="live.html">4545 standings</a>
-<a href="current.html">4545 stories</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Round updates
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="current.html">Round updates</a>
+<a href="live.html">Live standings</a>
+</div>
+</div>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
 Articles
@@ -2550,7 +2566,20 @@ Articles
 <a href="countries.html">Players by country</a>
 </div>
 </div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+About
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
 <a href="about.html">About</a>
+<hr/>
+<span class="nav-dropdown-header">Links</span>
+<a href="https://www.lichess4545.com/">Lichess4545</a>
+<a href="https://www.lichess.org">Lichess</a>
+</div>
+</div>
 <a href="https://github.com/rahulan-c/lichess4545-stats" aria-label="Link to source">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
@@ -2574,13 +2603,21 @@ Articles
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<p></br> </br> </br></p>
+<p></br> </br></p>
+<!-- top element: intro text -->
+<div class="index-row-narrow l-page"
+style="font-size:1.2rem;line-height:1.2em;font-family:&#39;Lato&#39;, sans-serif;">
+<p>Welcome to my unofficial <a
+href="https://www.lichess4545.com">Lichess4545</a> stats site!</p>
+</div>
+<p></br></p>
+<!-- central elements: 3 x 3 image matrix / main links -->
 <div class="index-row l-page">
-<!-- site logo(s) / image(s) -->
+<!-- left element: 3 x 3 image matrix -->
 <div class="index-column-l l-page">
 <img src="img/site_logo.png" alt="Site Logo"></img>
 </div>
-<!-- site menu -->
+<!-- right element: site menu -->
 <div class="index-column-r l-page"
 style="font-family:&#39;Lato&#39;, sans-serif;">
 <p><span style="font-size:1.6rem;"> <a href="season_stats.html">Season
@@ -2605,15 +2642,15 @@ distribution of league members</a>. More coming soon…</p>
 </div>
 </div>
 <p><br> <br></p>
-<!-- league status table -->
-<div class="index-row l-page">
-<div class="index-column-l l-page">
-<div id="rphhxhhnwb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<!-- bottom element: league status table -->
+<div class="index-row-narrow l-page">
+<div class="index-column-m l-page">
+<div id="cronacrwnk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rphhxhhnwb .gt_table {
+#cronacrwnk .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2638,7 +2675,7 @@ distribution of league members</a>. More coming soon…</p>
   border-left-color: #D3D3D3;
 }
 
-#rphhxhhnwb .gt_heading {
+#cronacrwnk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2650,7 +2687,7 @@ distribution of league members</a>. More coming soon…</p>
   border-right-color: #D3D3D3;
 }
 
-#rphhxhhnwb .gt_title {
+#cronacrwnk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2662,7 +2699,7 @@ distribution of league members</a>. More coming soon…</p>
   border-bottom-width: 0;
 }
 
-#rphhxhhnwb .gt_subtitle {
+#cronacrwnk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2674,13 +2711,13 @@ distribution of league members</a>. More coming soon…</p>
   border-top-width: 0;
 }
 
-#rphhxhhnwb .gt_bottom_border {
+#cronacrwnk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rphhxhhnwb .gt_col_headings {
+#cronacrwnk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2695,7 +2732,7 @@ distribution of league members</a>. More coming soon…</p>
   border-right-color: #D3D3D3;
 }
 
-#rphhxhhnwb .gt_col_heading {
+#cronacrwnk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2715,7 +2752,7 @@ distribution of league members</a>. More coming soon…</p>
   overflow-x: hidden;
 }
 
-#rphhxhhnwb .gt_column_spanner_outer {
+#cronacrwnk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2727,15 +2764,15 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 4px;
 }
 
-#rphhxhhnwb .gt_column_spanner_outer:first-child {
+#cronacrwnk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rphhxhhnwb .gt_column_spanner_outer:last-child {
+#cronacrwnk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rphhxhhnwb .gt_column_spanner {
+#cronacrwnk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2747,7 +2784,7 @@ distribution of league members</a>. More coming soon…</p>
   width: 100%;
 }
 
-#rphhxhhnwb .gt_group_heading {
+#cronacrwnk .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2772,7 +2809,7 @@ distribution of league members</a>. More coming soon…</p>
   vertical-align: middle;
 }
 
-#rphhxhhnwb .gt_empty_group_heading {
+#cronacrwnk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2787,15 +2824,15 @@ distribution of league members</a>. More coming soon…</p>
   vertical-align: middle;
 }
 
-#rphhxhhnwb .gt_from_md > :first-child {
+#cronacrwnk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rphhxhhnwb .gt_from_md > :last-child {
+#cronacrwnk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rphhxhhnwb .gt_row {
+#cronacrwnk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2814,7 +2851,7 @@ distribution of league members</a>. More coming soon…</p>
   overflow-x: hidden;
 }
 
-#rphhxhhnwb .gt_stub {
+#cronacrwnk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2827,7 +2864,7 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 5px;
 }
 
-#rphhxhhnwb .gt_stub_row_group {
+#cronacrwnk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2841,11 +2878,11 @@ distribution of league members</a>. More coming soon…</p>
   vertical-align: top;
 }
 
-#rphhxhhnwb .gt_row_group_first td {
+#cronacrwnk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rphhxhhnwb .gt_summary_row {
+#cronacrwnk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2855,16 +2892,16 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 5px;
 }
 
-#rphhxhhnwb .gt_first_summary_row {
+#cronacrwnk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rphhxhhnwb .gt_first_summary_row.thick {
+#cronacrwnk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rphhxhhnwb .gt_last_summary_row {
+#cronacrwnk .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2874,7 +2911,7 @@ distribution of league members</a>. More coming soon…</p>
   border-bottom-color: #D3D3D3;
 }
 
-#rphhxhhnwb .gt_grand_summary_row {
+#cronacrwnk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2884,7 +2921,7 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 5px;
 }
 
-#rphhxhhnwb .gt_first_grand_summary_row {
+#cronacrwnk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2894,11 +2931,11 @@ distribution of league members</a>. More coming soon…</p>
   border-top-color: #D3D3D3;
 }
 
-#rphhxhhnwb .gt_striped {
+#cronacrwnk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rphhxhhnwb .gt_table_body {
+#cronacrwnk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2907,7 +2944,7 @@ distribution of league members</a>. More coming soon…</p>
   border-bottom-color: #D3D3D3;
 }
 
-#rphhxhhnwb .gt_footnotes {
+#cronacrwnk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2921,7 +2958,7 @@ distribution of league members</a>. More coming soon…</p>
   border-right-color: #D3D3D3;
 }
 
-#rphhxhhnwb .gt_footnote {
+#cronacrwnk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2930,7 +2967,7 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 5px;
 }
 
-#rphhxhhnwb .gt_sourcenotes {
+#cronacrwnk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2944,7 +2981,7 @@ distribution of league members</a>. More coming soon…</p>
   border-right-color: #D3D3D3;
 }
 
-#rphhxhhnwb .gt_sourcenote {
+#cronacrwnk .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2952,60 +2989,60 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 5px;
 }
 
-#rphhxhhnwb .gt_left {
+#cronacrwnk .gt_left {
   text-align: left;
 }
 
-#rphhxhhnwb .gt_center {
+#cronacrwnk .gt_center {
   text-align: center;
 }
 
-#rphhxhhnwb .gt_right {
+#cronacrwnk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rphhxhhnwb .gt_font_normal {
+#cronacrwnk .gt_font_normal {
   font-weight: normal;
 }
 
-#rphhxhhnwb .gt_font_bold {
+#cronacrwnk .gt_font_bold {
   font-weight: bold;
 }
 
-#rphhxhhnwb .gt_font_italic {
+#cronacrwnk .gt_font_italic {
   font-style: italic;
 }
 
-#rphhxhhnwb .gt_super {
+#cronacrwnk .gt_super {
   font-size: 65%;
 }
 
-#rphhxhhnwb .gt_footnote_marks {
+#cronacrwnk .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#rphhxhhnwb .gt_asterisk {
+#cronacrwnk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rphhxhhnwb .gt_slash_mark {
+#cronacrwnk .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#rphhxhhnwb .gt_fraction_numerator {
+#cronacrwnk .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#rphhxhhnwb .gt_fraction_denominator {
+#cronacrwnk .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -3046,23 +3083,12 @@ Lichess4545 leagues and initiatives are listed <a href="https://bit.ly/35w1xqH">
 </table>
 </div>
 </div>
-<!-- intro text -->
-<div class="index-column-r l-page"
-style="font-size:1.2rem;line-height:1.2em;font-family:&#39;Lato&#39;, sans-serif;">
-<p>Welcome to my (unofficial) stats site for the <a
-href="https://www.lichess4545.com">Lichess4545</a> online chess
-leagues.</p>
-<p>Here you’ll find <a href="season_stats.html">detailed reports</a> on
-every season of the Lichess4545, LoneWolf and Lichess960 league, a page
-that <a href="awards_search.html">all award winners</a> across all
-leagues and seasons in a easy to search format.</p>
 </div>
-</div>
-<p></br></p>
 <!-- Show date when page was last updated -->
-<p style="text-align: center;">
-<em>Last updated on 3 Apr 2022</em>
-</p>
+<h2 class="appendix" id="last-updated-on">Last updated on</h2>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>3 Apr 2022</code></pre>
+</div>
 <div class="layout-chunk" data-layout="l-body">
 <style type="text/css">
 d-title, d-byline {
@@ -3070,7 +3096,7 @@ d-title, d-byline {
 }
 </style>
 </div>
-<div class="sourceCode" id="cb1"><pre
+<div class="sourceCode" id="cb2"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

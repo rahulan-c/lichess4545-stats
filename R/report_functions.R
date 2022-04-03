@@ -54,7 +54,7 @@ BoardsPerTeam <- function(league = league, season = season){
       if(season == 2){team_boards <- 5} else
         if(season <= 15){team_boards <-  6} else
           if(season <= 24){team_boards <-  8} else
-            if(season <= 26){team_boards <-  10}
+            if(season <= 99){team_boards <-  10}
   
   return(team_boards)
 }

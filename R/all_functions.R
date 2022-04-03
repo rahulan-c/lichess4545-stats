@@ -1318,6 +1318,8 @@ SaveSeasonData <- function(league_choice, seasons){
   
 }
 
+
+
 # Report season stats and player awards for one or more seasons
 SeasonStats <- function(league_choice, seasons){
   
@@ -1418,6 +1420,109 @@ SeasonStats <- function(league_choice, seasons){
   }
 }
 
+# Report round stats for one or more league/season/round combinations
+RoundStats <- function(league_choice, seasons, rounds){
+  
+  tic("Produced round stats report(s)")
+  
+  if(league_choice == "team4545"){
+    league <- "team4545"
+    rounds <- rounds
+    lw_u1800_choice <- FALSE
+  } 
+  
+  if(league_choice == "lwopen"){
+    league <- "lonewolf"
+    rounds <- rounds
+    lw_u1800_choice <- FALSE 
+  }
+  if(league_choice == "lwu1800"){
+    league <- "lonewolf"
+    rounds <- rounds
+    lw_u1800_choice <- TRUE 
+  }
+  
+  if(league_choice == "chess960"){
+    league <- "chess960"
+    rounds <- rounds
+    lw_u1800_choice <- FALSE
+  }
+  
+  for (s in seasons) {
+    
+    for (r in rounds){
+    
+      league <- league
+      season <- s
+      rounds <- r
+      lw_section <- NULL
+      lw_section <- ifelse(lw_u1800_choice, "u1800", "")
+      get_data <- F
+      load_data <- T
+      
+      
+      
+      if(league == "chess960"){
+        if(season == 1){
+          cli::cli_inform("Can't produce a report for Chess960 League S1 - no data available.")
+        }
+      }
+      
+      if(league != "chess960"){
+        # Render 4545/LW season stats report 
+        rmarkdown::render(paste0(path_loadrmd, paste0(stats_rmd_filename, '.Rmd')), 
+                          output_file = paste0("stats_",
+                                               ifelse(league == "team4545", "4545", "lw"),
+                                               ifelse(league == "lonewolf", 
+                                                      ifelse(lw_u1800_choice, "u1800", "open"),
+                                                      ""),
+                                               "_",
+                                               "s", 
+                                               sprintf("%02d", s),
+                                               "r",
+                                               sprintf("%02d", r),
+                                               ".html"),
+                          params = list(
+                            league = league,
+                            season = s,
+                            rounds = r,
+                            lw_section = lw_section
+                          ),
+                          quiet = TRUE)
+        print(paste0("Produced report for ", 
+                     ifelse(league == "team4545", "4545 S", "LoneWolf S"),
+                     s, " R", r))
+        
+      } else {
+        
+        # Render 960 season stats report 
+        rmarkdown::render(paste0(path_loadrmd, paste0(stats960_rmd_filename, ".rmd")), 
+                          output_file = paste0("stats_chess960_",
+                                               "s", 
+                                               sprintf("%02d", s),
+                                               "r",
+                                               sprintf("%02d", r),
+                                               ".html"),
+                          params = list(
+                            league = league,
+                            season = s,
+                            rounds = r,
+                            lw_section = lw_section
+                          ),
+                          quiet = TRUE)
+        print(paste0("Produced report for Chess960 S",
+                     s,
+                     " R",
+                     r))
+        
+      }
+      
+      toc(log = TRUE)
+      
+    }
+  }
+}
+
 
 
 # Make sunburst plot of all openings in games data
@@ -1494,6 +1599,30 @@ MakeSunburst <- function(league, season){
 
 MakeSeasonReport <- function(league, season, 
                                from_scratch = T){
+  
+  # Make a stats report from scratch
+  # Requests and saves season data, requests PGN for openings sunburst, makes 
+  # sunburst, then compiles and saves season stats HTML report.
+  
+  if(from_scratch){tic("Produce season report from new data")}
+  if(from_scratch == F){tic("Produce season report from saved data")}
+  
+  # 1. Save season data (if necessary)
+  if(from_scratch){SaveSeasonData(league, season)}
+  
+  # 2. Make openings sunburst (only for 4545/LW reports)
+  if(league %in% c("team4545", "lwopen", "lwu1800")){
+    MakeSunburst(league, season)
+  }
+  
+  # 3. Compile and produce season stats report
+  SeasonStats(league, season)
+  
+  toc(log = TRUE)
+}
+
+MakeRoundReport <- function(league, season, round,
+                             from_scratch = T){
   
   # Make a stats report from scratch
   # Requests and saves season data, requests PGN for openings sunburst, makes 

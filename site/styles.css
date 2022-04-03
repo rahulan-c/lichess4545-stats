@@ -69,7 +69,7 @@ d-appendix {
 .distill-site-header {
   --title-size:       20px;                      /* edited */
   --text-color:       #FFFFFF;                   /* edited */
-  --text-size:        18px;                      /* edited */
+  --text-size:        16px;                      /* edited */
   --hover-color:      #98c1d9;                   /* edited */
   --bkgd-color:       #3d5a80;                  /* edited */
 }
@@ -130,12 +130,20 @@ ul > li::marker {
   margin: 0 15px 0 15px;
 }
 
+.index-row-narrow > div {
+  margin: 0 30px 0 30px;
+}
+
 .index-column-l {
   flex: 40%;
 }
 
 .index-column-r {
   flex: 60%;
+}
+
+.index-column-m {
+  flex: 50%;
 }
 
 @media only screen and (max-width: 1000px) {

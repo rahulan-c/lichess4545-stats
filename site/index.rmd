@@ -317,17 +317,29 @@ status_tbl <-
 
 </br>
 </br>
+
+
+<!-- top element: intro text -->
+
+<div class = "index-row-narrow l-page" style = "font-size:1.2rem;line-height:1.2em;font-family:'Lato', sans-serif;">
+
+Welcome to my unofficial [Lichess4545](https://www.lichess4545.com) stats site!
+
+
+</div>
 </br>
+
+<!-- central elements: 3 x 3 image matrix / main links -->
 
 <div class="index-row l-page">
 
-<!-- site logo(s) / image(s) -->
+<!-- left element: 3 x 3 image matrix -->
 
   <div class="index-column-l l-page">
   <img src="img/site_logo.png" alt="Site Logo"></img>
   </div>
   
-<!-- site menu -->
+<!-- right element: site menu -->
 
   <div class="index-column-r l-page" style = "font-family:'Lato', sans-serif;">
 
@@ -361,34 +373,21 @@ Articles on assorted league-related questions such as the [global distribution o
 <br>
 <br>
 
-<!-- league status table -->
+<!-- bottom element: league status table -->
 
-<div class="index-row l-page">
-  <div class = "index-column-l l-page">
-
+<div class="index-row-narrow l-page">
+  <div class = "index-column-m l-page">
 `r status_tbl`
-
   </div>
-  
-  
-<!-- intro text -->
-  
-  <div class = "index-column-r l-page" style = "font-size:1.2rem;line-height:1.2em;font-family:'Lato', sans-serif;">
-
-Welcome to my (unofficial) stats site for the [Lichess4545](https://www.lichess4545.com) online chess leagues.
-
-Here you'll find [detailed reports](season_stats.html) on every season of the Lichess4545, LoneWolf and Lichess960 league, a page that [all award winners](awards_search.html) across all leagues and seasons in a easy to search format.
-
-
   </div>
-  
-  </div>
-  
-  </br>
+
 
 <!-- Show date when page was last updated -->
 
-<p style="text-align: center;">*Last updated on `r day_month_year(Sys.Date(), abbr = TRUE)`*</p>
+## Last updated on {.appendix}
+```{r,echo=FALSE}
+day_month_year(Sys.Date(), abbr = TRUE)
+```
 
 
 ```{css}
