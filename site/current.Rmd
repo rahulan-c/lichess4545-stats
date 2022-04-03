@@ -1,7 +1,7 @@
 ---
-title: "Round Reports"
+title: "Round updates"
 description: |
-  Updates on the latest rounds (incl. match stories)
+  Updates on the latest league rounds
 output: distill::distill_article
 site: distill::distill_website
 ---
@@ -12,102 +12,52 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr)
 ```
 
-```{r round_stats_table, eval = FALSE}
+
+
+
+### Round stats
+
+*Under construction*
+
+```{r round_stats_table}
 # Compile all round stats reports into a single table
 
 # First, identify all compiled round stats
-reports_path <- paste0(here::here(), "/docs/round/")
-
-# 4545
-completed_4545 <- list.files(path = reports_path, pattern = "^team4545(.*)\\.html$") 
-any_4545 <- ifelse(length(completed_4545) > 0, T, F)
-if(length(completed_4545) > 0){
-  completed_4545 <- completed_4545 %>% 
-    str_remove_all("team4545_s") %>% 
-    str_remove_all("\\.html") %>% 
-    sort(decreasing = T) %>% 
-    paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/round/stats_4545_s", ., ".html)")
-}
-
-# LW Open
-completed_lwopen <- list.files(path = reports_path, pattern = "^stats_lwopen(.*)\\.html$")
-any_lwopen <- ifelse(length(completed_lwopen) > 0, T, F)
-if(length(completed_lwopen) > 0){
-  completed_lwopen <- completed_lwopen %>% 
-    str_remove_all("stats_lwopen_s") %>% 
-    str_remove_all("\\.html") %>% 
-    sort(decreasing = T) %>% 
-    paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s", ., ".html)")
-}
-
-# LW U1800
-completed_lwu1800 <- list.files(path = reports_path, pattern = "^stats_lwu1800(.*)\\.html$")
-any_lwu1800 <- ifelse(length(completed_lwu1800) > 0, T, F)
-if(length(completed_lwu1800) > 0){
- completed_lwu1800 <- completed_lwu1800 %>%  
-   str_remove_all("stats_lwu1800_s") %>% 
-   str_remove_all("\\.html") %>% 
-   sort(decreasing = T) %>% 
-   paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s", ., ".html)")
-}
-
-# Chess960
-completed_960 <- list.files(path = reports_path, pattern = "^stats_chess960(.*)\\.html$")
-any_960 <- ifelse(length(completed_960) > 0, T, F)
-if(length(completed_960) > 0){
- completed_960 <- completed_960 %>%  
-   str_remove_all("stats_chess960_s") %>% 
-   str_remove_all("\\.html") %>% 
-   sort(decreasing = T) %>% 
-   paste0("[Season ", ., "]", "(https://rahulan-c.github.io/lichess4545-stats/reports/stats_chess960_s", ., ".html)")
-}
-
-
-
-# Make sure all completed season vectors are the same length
-most_completed <- max(c(length(completed_4545), 
-                      length(completed_lwopen), 
-                      length(completed_lwu1800),
-                      length(completed_960)))
-
-if(length(completed_4545) < most_completed){
-  completed_4545 <- c(completed_4545, rep("", most_completed - length(completed_4545)))
-}
-
-if(length(completed_lwopen) < most_completed){
-  completed_lwopen <- c(completed_lwopen, rep("", most_completed - length(completed_lwopen)))
-}
-
-if(length(completed_lwu1800) < most_completed){
-  completed_lwu1800 <- c(completed_lwu1800, rep("", most_completed - length(completed_lwu1800)))
-}
-
-if(length(completed_960) < most_completed){
-  completed_960 <- c(completed_960, rep("", most_completed - length(completed_960)))
-}
-
-
-# Make league cols empty if there are no completed seasons
-if(any_4545 == F){completed_4545 <- rep("", most_completed)}
-if(any_lwopen == F){completed_lwopen <- rep("", most_completed)}
-if(any_lwu1800 == F){completed_lwu1800 <- rep("", most_completed)}
-if(any_960 == F){completed_960 <- rep("", most_completed)}
-
-# Construct and show table of league reports by season
-completed <- tibble("team4545" = completed_4545,
-                    "lwopen" = completed_lwopen,
-                    "lwu1800" = completed_lwu1800,
-                    "chess960" = completed_960)
-
-knitr::kable(completed, format = "simple", 
-             col.names = c("4545 / Team", 
-                           "LW Open", 
-                           "LW U1800",
-                           "Chess960"))
+reports_path <- paste0(here::here(), "/docs/")
+round_reports <- list.files(path = reports_path, pattern = "^round_stats_(.*)\\.html$")
+reports_md <- paste0("[", round_reports, "]", 
+                       "(", round_reports, ")")
+reports_md <- str_c(reports_md, collapse = ", ")
 
 ```
 
-```{r, eval = FALSE}
+`r reports_md`
+
+
+
+
+### 4545 match 'stories'
+
+These plots show how 4545 league matches unfold through the ups and downs of their games ([source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/plot_match_story.R)).
+
+#### Season 29
+
+[R1](reports/stories/s29_r1_allmatches.pdf) | [R2](reports/stories/s29_r2_allmatches.pdf) | [R3](reports/stories/s29_r3_allmatches.pdf) |
+[R4](reports/stories/s29_r4_allmatches.pdf) | [R5](reports/stories/s29_r5_allmatches.pdf) | [R6](reports/stories/s29_r6_allmatches.pdf) |
+[R7](reports/stories/s29_r7_allmatches.pdf) | [R8](reports/stories/s29_r8_allmatches.pdf)
+
+#### Season 28 
+
+[R1](reports/stories/s28_r1_allmatches.pdf) | [R2](reports/stories/s28_r2_allmatches.pdf) | [R3](reports/stories/s28_r3_allmatches.pdf) | 
+[R4](reports/stories/s28_r4_allmatches.pdf) | [R5](reports/stories/s28_r5_allmatches.pdf) | [R6](reports/stories/s28_r6_allmatches.pdf) | [R7](reports/stories/s28_r7_allmatches.pdf) | [R8](reports/stories/s28_r8_allmatches.pdf)
+
+#### Season 27
+
+[R1](reports/stories/s27_r1_allmatches.pdf) | [R2](reports/stories/s27_r2_allmatches.pdf) | [R3](reports/stories/s27_r3_allmatches.pdf) | [R4](reports/stories/s27_r4_allmatches.pdf) | [R5](reports/stories/s27_r5_allmatches.pdf) | [R6](reports/stories/s27_r6_allmatches.pdf) | [R7](reports/stories/s27_r7_allmatches.pdf) | [R8](reports/stories/s27_r8_allmatches.pdf)
+
+#### Sandbox
+
+```{r}
 # Show all produced match story plots within /docs/reports/stories
 # Only show files ending in "allmatches.pdf"
 
@@ -137,23 +87,3 @@ knitr::kable(story_tbl, format = "simple",
              col.names = c("Season/Round"))
 
 ```
-
-
-### 4545 match 'stories'
-
-These plots show how 4545 league matches unfold through the ups and downs of their games ([source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/plot_match_story.R)).
-
-#### Season 29
-
-[R1](reports/stories/s29_r1_allmatches.pdf) | [R2](reports/stories/s29_r2_allmatches.pdf) | [R3](reports/stories/s29_r3_allmatches.pdf) |
-[R4](reports/stories/s29_r4_allmatches.pdf) | [R5](reports/stories/s29_r5_allmatches.pdf) | [R6](reports/stories/s29_r6_allmatches.pdf) |
-[R7](reports/stories/s29_r7_allmatches.pdf) | [R8](reports/stories/s29_r8_allmatches.pdf)
-
-#### Season 28 
-
-[R1](reports/stories/s28_r1_allmatches.pdf) | [R2](reports/stories/s28_r2_allmatches.pdf) | [R3](reports/stories/s28_r3_allmatches.pdf) | 
-[R4](reports/stories/s28_r4_allmatches.pdf) | [R5](reports/stories/s28_r5_allmatches.pdf) | [R6](reports/stories/s28_r6_allmatches.pdf) | [R7](reports/stories/s28_r7_allmatches.pdf) | [R8](reports/stories/s28_r8_allmatches.pdf)
-
-#### Season 27
-
-[R1](reports/stories/s27_r1_allmatches.pdf) | [R2](reports/stories/s27_r2_allmatches.pdf) | [R3](reports/stories/s27_r3_allmatches.pdf) | [R4](reports/stories/s27_r4_allmatches.pdf) | [R5](reports/stories/s27_r5_allmatches.pdf) | [R6](reports/stories/s27_r6_allmatches.pdf) | [R7](reports/stories/s27_r7_allmatches.pdf) | [R8](reports/stories/s27_r8_allmatches.pdf)

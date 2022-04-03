@@ -16,10 +16,10 @@ navbar:
   right:
       - icon: fa-home
         href: index.html
-      - text: "Stats and awards"
+      - text: "Season stats"
         href: season_stats.html
         menu:
-        - text: "By league and season"
+        - text: "Stats by league/season"
           href: season_stats.html
         - text: "All award winners"
           href: "/lichess4545-stats/awards_search.html"
@@ -27,11 +27,11 @@ navbar:
         #   href: alltime.html
         # - text: "Random trivia"
         #   href: trivia.html
-      - text: "Round updates"
-        href: current.html
+      - text: "Round stats"
+        href: round_updates.html
         menu:
-        - text: "Round updates"
-          href: current.html
+        - text: "Round stats"
+          href: round_updates.html
         - text: "Live standings"
           href: live.html
       - text: "Articles"

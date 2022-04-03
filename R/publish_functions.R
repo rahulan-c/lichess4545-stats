@@ -37,13 +37,14 @@ pacman::p_load(tidyverse, data.table, cli, fs, glue, here, distill)
 #' @export
 #'
 #' @examples
-BuildSite <- function(quiet = TRUE,
+BuildSite <- function(quiet = FALSE,
                       update_frontpage = FALSE,
                       update_allreports = FALSE,
                       update_awards = FALSE,
                       update_standings = FALSE,
                       update_about = FALSE,
-                      update_articles = FALSE){
+                      update_articles = FALSE,
+                      update_roundstats = FALSE){
   
   # Render frontpage
   if(update_frontpage){
@@ -92,6 +93,15 @@ BuildSite <- function(quiet = TRUE,
     # Players by continent/country
     rmarkdown::render("site/_countries.Rmd", 
                       output_file = "countries.html",
+                      output_dir = "docs",
+                      quiet = quiet)
+  }
+  
+  # Update round updates page
+  if(update_roundstats){
+    # Players by continent/country
+    rmarkdown::render("site/_round_updates.Rmd", 
+                      output_file = "round_updates.html",
                       output_dir = "docs",
                       quiet = quiet)
   }
@@ -219,27 +229,15 @@ PublishRoundStats <- function(league_choice = NULL,
   
   
   rmarkdown::render(paste0(here::here(), "/site/_round_stats.rmd"),
-                    output_file = paste0(here::here(), "/site/", league, 
-                                         "_s", sprintf("%02d", season), "r",
+                    output_file = paste0("round_stats_", league, "_s", sprintf("%02d", season), "r",
                                          sprintf("%02d", round),
                                          ".html"),
+                    output_dir = "docs",
                     params = list(
                       league = league, 
                       season = season,
                       round = round,
                       lw_section = lw_u1800
                     ))
-  
-  # Move produced round stats report to /docs/
-  roundstats_to_move <- fs::dir_info(glue::glue(here::here(), "/site/")) %>% 
-    filter(type == "file") %>% 
-    filter(str_detect(path, "_r\\d+\\.html")) %>% 
-    select(path) %>% 
-    dplyr::pull()
-  
-  for(file in roundstats_to_move){
-    fs::file_copy(path = file, new_path = "docs/", overwrite = T)
-    fs::file_delete(file)
-  }
   
 }
