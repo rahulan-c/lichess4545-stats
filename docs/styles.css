@@ -107,7 +107,9 @@ d-article a:hover {
   background: #d0e3ee;
 }
 
-
+.list-group-item.active {
+  background-color: #609fc4;
+}
 
 /* Change site logo size, default: 20px */
 .distill-site-header .logo img{
