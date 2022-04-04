@@ -925,7 +925,7 @@ TopGambits <- function(path_scripts, data_path, league_load_label, season,
     dplyr::select(gambit_name, col, gambit_score, opp_rating, pgn, epd) %>%
     dplyr::group_by(gambit_name) %>%
     dplyr::summarise(games = n(),
-              score = sum(gambit_score) / games,
+              score = ((sum(gambit_score) / games) * 100),
               col = col[1]
               ) %>%
     dplyr::arrange(desc(games), desc(score))

@@ -2,8 +2,9 @@
 title: "Round summary"
 description: |
   `r paste0(ifelse(league == 'lonewolf', 'LoneWolf', '4545 Team League:'), ifelse(lw_section == 'open', ' (Open):', ifelse(lw_section == 'u1800', ' (U1800):', '')), ' Season ', season, ' Round ', round)`
-date: "2022-01-05"
+date: "2022-04-03"
 output: distill::distill_article
+site: distill::distill_website
 params:
   league: "league"
   season: "season"

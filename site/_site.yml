@@ -44,7 +44,7 @@ navbar:
       #     # - text: "Endgames (tbc)"
       #     #   href: endgames.html
       - text: "About"
-        icon: fa-info
+      - icon: fa-info
         menu:
         - text: "About"
           href: about.html

@@ -2208,17 +2208,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-size: 0.9em;
   }
 
-  /* Change link appearance */
+  /* Amend hyperlinks */
   d-article a {
       border-bottom: 2px solid #98c1d9;
       text-decoration: none;
   }
 
-  /* Change colour of lines under hyperlinked text on hover */
   d-article a:hover {
     border-bottom: 2px solid #609fc4;
     text-decoration: none;
+    background: #98c1d9;
   }
+
+
 
   /* Change site logo size, default: 20px */
   .distill-site-header .logo img{
@@ -2232,7 +2234,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 
-  /* ---- EVERYTHING BELOW IS NO LONGER NECESSARY ---------------------------- */
+  /* Some of what's below is used in specific front-page elements */
+  /* Other bits aren't used at all. Need to clean up. */
 
   .index-row {
     display: flex;
@@ -2566,9 +2569,9 @@ Articles
 <a href="countries.html">Players by country</a>
 </div>
 </div>
+<span class="nav-dropdown-header">About</span>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-About
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
@@ -2645,12 +2648,12 @@ distribution of league members</a>. More coming soon…</p>
 <!-- bottom element: league status table -->
 <div class="index-row-narrow l-page">
 <div class="index-column-m l-page">
-<div id="umtvrowxbq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="gllkgxlyhn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#umtvrowxbq .gt_table {
+#gllkgxlyhn .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2675,7 +2678,7 @@ distribution of league members</a>. More coming soon…</p>
   border-left-color: #D3D3D3;
 }
 
-#umtvrowxbq .gt_heading {
+#gllkgxlyhn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2687,7 +2690,7 @@ distribution of league members</a>. More coming soon…</p>
   border-right-color: #D3D3D3;
 }
 
-#umtvrowxbq .gt_title {
+#gllkgxlyhn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2699,7 +2702,7 @@ distribution of league members</a>. More coming soon…</p>
   border-bottom-width: 0;
 }
 
-#umtvrowxbq .gt_subtitle {
+#gllkgxlyhn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2711,13 +2714,13 @@ distribution of league members</a>. More coming soon…</p>
   border-top-width: 0;
 }
 
-#umtvrowxbq .gt_bottom_border {
+#gllkgxlyhn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#umtvrowxbq .gt_col_headings {
+#gllkgxlyhn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2732,7 +2735,7 @@ distribution of league members</a>. More coming soon…</p>
   border-right-color: #D3D3D3;
 }
 
-#umtvrowxbq .gt_col_heading {
+#gllkgxlyhn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2752,7 +2755,7 @@ distribution of league members</a>. More coming soon…</p>
   overflow-x: hidden;
 }
 
-#umtvrowxbq .gt_column_spanner_outer {
+#gllkgxlyhn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2764,15 +2767,15 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 4px;
 }
 
-#umtvrowxbq .gt_column_spanner_outer:first-child {
+#gllkgxlyhn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#umtvrowxbq .gt_column_spanner_outer:last-child {
+#gllkgxlyhn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#umtvrowxbq .gt_column_spanner {
+#gllkgxlyhn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2784,7 +2787,7 @@ distribution of league members</a>. More coming soon…</p>
   width: 100%;
 }
 
-#umtvrowxbq .gt_group_heading {
+#gllkgxlyhn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2809,7 +2812,7 @@ distribution of league members</a>. More coming soon…</p>
   vertical-align: middle;
 }
 
-#umtvrowxbq .gt_empty_group_heading {
+#gllkgxlyhn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2824,15 +2827,15 @@ distribution of league members</a>. More coming soon…</p>
   vertical-align: middle;
 }
 
-#umtvrowxbq .gt_from_md > :first-child {
+#gllkgxlyhn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#umtvrowxbq .gt_from_md > :last-child {
+#gllkgxlyhn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#umtvrowxbq .gt_row {
+#gllkgxlyhn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2851,7 +2854,7 @@ distribution of league members</a>. More coming soon…</p>
   overflow-x: hidden;
 }
 
-#umtvrowxbq .gt_stub {
+#gllkgxlyhn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2864,7 +2867,7 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 5px;
 }
 
-#umtvrowxbq .gt_stub_row_group {
+#gllkgxlyhn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2878,11 +2881,11 @@ distribution of league members</a>. More coming soon…</p>
   vertical-align: top;
 }
 
-#umtvrowxbq .gt_row_group_first td {
+#gllkgxlyhn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#umtvrowxbq .gt_summary_row {
+#gllkgxlyhn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2892,16 +2895,16 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 5px;
 }
 
-#umtvrowxbq .gt_first_summary_row {
+#gllkgxlyhn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#umtvrowxbq .gt_first_summary_row.thick {
+#gllkgxlyhn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#umtvrowxbq .gt_last_summary_row {
+#gllkgxlyhn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2911,7 +2914,7 @@ distribution of league members</a>. More coming soon…</p>
   border-bottom-color: #D3D3D3;
 }
 
-#umtvrowxbq .gt_grand_summary_row {
+#gllkgxlyhn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2921,7 +2924,7 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 5px;
 }
 
-#umtvrowxbq .gt_first_grand_summary_row {
+#gllkgxlyhn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2931,11 +2934,11 @@ distribution of league members</a>. More coming soon…</p>
   border-top-color: #D3D3D3;
 }
 
-#umtvrowxbq .gt_striped {
+#gllkgxlyhn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#umtvrowxbq .gt_table_body {
+#gllkgxlyhn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2944,7 +2947,7 @@ distribution of league members</a>. More coming soon…</p>
   border-bottom-color: #D3D3D3;
 }
 
-#umtvrowxbq .gt_footnotes {
+#gllkgxlyhn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2958,7 +2961,7 @@ distribution of league members</a>. More coming soon…</p>
   border-right-color: #D3D3D3;
 }
 
-#umtvrowxbq .gt_footnote {
+#gllkgxlyhn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2967,7 +2970,7 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 5px;
 }
 
-#umtvrowxbq .gt_sourcenotes {
+#gllkgxlyhn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2981,7 +2984,7 @@ distribution of league members</a>. More coming soon…</p>
   border-right-color: #D3D3D3;
 }
 
-#umtvrowxbq .gt_sourcenote {
+#gllkgxlyhn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2989,60 +2992,60 @@ distribution of league members</a>. More coming soon…</p>
   padding-right: 5px;
 }
 
-#umtvrowxbq .gt_left {
+#gllkgxlyhn .gt_left {
   text-align: left;
 }
 
-#umtvrowxbq .gt_center {
+#gllkgxlyhn .gt_center {
   text-align: center;
 }
 
-#umtvrowxbq .gt_right {
+#gllkgxlyhn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#umtvrowxbq .gt_font_normal {
+#gllkgxlyhn .gt_font_normal {
   font-weight: normal;
 }
 
-#umtvrowxbq .gt_font_bold {
+#gllkgxlyhn .gt_font_bold {
   font-weight: bold;
 }
 
-#umtvrowxbq .gt_font_italic {
+#gllkgxlyhn .gt_font_italic {
   font-style: italic;
 }
 
-#umtvrowxbq .gt_super {
+#gllkgxlyhn .gt_super {
   font-size: 65%;
 }
 
-#umtvrowxbq .gt_footnote_marks {
+#gllkgxlyhn .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#umtvrowxbq .gt_asterisk {
+#gllkgxlyhn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#umtvrowxbq .gt_slash_mark {
+#gllkgxlyhn .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#umtvrowxbq .gt_fraction_numerator {
+#gllkgxlyhn .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#umtvrowxbq .gt_fraction_denominator {
+#gllkgxlyhn .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -3087,7 +3090,7 @@ Lichess4545 leagues and initiatives are listed <a href="https://bit.ly/35w1xqH">
 <!-- Show date when page was last updated -->
 <h2 class="appendix" id="last-updated-on">Last updated on</h2>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>3 Apr 2022</code></pre>
+<pre><code>4 Apr 2022</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <style type="text/css">

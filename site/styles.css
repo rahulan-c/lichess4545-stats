@@ -95,17 +95,19 @@ d-article p code {
   font-size: 0.9em;
 }
 
-/* Change link appearance */
+/* Amend hyperlinks */
 d-article a {
     border-bottom: 2px solid #98c1d9;
     text-decoration: none;
 }
 
-/* Change colour of lines under hyperlinked text on hover */
 d-article a:hover {
   border-bottom: 2px solid #609fc4;
   text-decoration: none;
+  background: #98c1d9;
 }
+
+
 
 /* Change site logo size, default: 20px */
 .distill-site-header .logo img{
@@ -119,7 +121,8 @@ ul > li::marker {
 
 
 
-/* ---- EVERYTHING BELOW IS NO LONGER NECESSARY ---------------------------- */
+/* Some of what's below is used in specific front-page elements */
+/* Other bits aren't used at all. Need to clean up. */
 
 .index-row {
   display: flex;
