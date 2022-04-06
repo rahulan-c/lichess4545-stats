@@ -87,7 +87,7 @@ lapply(list_png, resize_image)
 ```{r include = FALSE}
 
 img_path <- paste0(here::here(), "/docs/img/team_logos/")
-site_path <- "https://github.com/rahulan-c/lichess4545-stats/docs/img/team_logos/" 
+site_path <- "https://raw.githubusercontent.com/rahulan-c/lichess4545-stats/main/docs/img/team_logos/" 
 
 make_gallery_layout <- function() {
 
