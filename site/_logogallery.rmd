@@ -87,6 +87,7 @@ lapply(list_png, resize_image)
 ```{r include = FALSE}
 
 img_path <- paste0(here::here(), "/docs/img/team_logos/")
+site_path <- "https://github.com/rahulan-c/lichess4545-stats/docs/img/team_logos/" 
 
 make_gallery_layout <- function() {
 
@@ -107,8 +108,8 @@ make_gallery_layout <- function() {
   # Create the HTML structure for each image
   tagList(apply(images, 1, function(x) {
       tags$a(
-        href = paste0(img_path, x[["images_full_size"]]),
-        tags$img(src = paste0(img_path, x[["images_thumb"]]))
+        href = paste0(site_path, x[["images_full_size"]]),
+        tags$img(src = paste0(site_path, x[["images_thumb"]]))
       )
   }))
 
