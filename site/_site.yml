@@ -27,6 +27,8 @@ navbar:
         #   href: alltime.html
         # - text: "Random trivia"
         #   href: trivia.html
+        - text: "Team logos"
+          href: team_logos.html
       - text: "Round stats"
         href: round_updates.html
         menu:

@@ -349,7 +349,7 @@ Welcome to my unofficial [Lichess4545](https://www.lichess4545.com) stats site!
 Detailed statistical reports on every Lichess4545, LoneWolf and Lichess960 season
 
 <span style = "font-size:1.6rem;">
-[Current season updates &#10230;](https://rahulan-c.github.io/lichess4545-stats/current.html)
+[Round updates &#10230;](https://rahulan-c.github.io/lichess4545-stats/current.html)
 </span></br>
 Stats, match plots, and occasionally updated "live" standings
 

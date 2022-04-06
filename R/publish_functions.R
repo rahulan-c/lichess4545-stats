@@ -25,13 +25,15 @@ pacman::p_load(tidyverse, data.table, cli, fs, glue, here, distill)
 #' Rebuild stats site by rendering one or more of the frontpage, the all-seasons 
 #' reports page, the all-seasons awards page, the live standings page, the 
 #' "about" page, and the various standalone article pages.
-#' @param quiet 
-#' @param update_frontpage 
-#' @param update_allreports 
-#' @param update_awards 
-#' @param update_standings 
-#' @param update_about 
-#' @param update_articles 
+#' @param quiet Do you want the console to show intermediate output as each RMD file is compiled?  
+#' @param update_frontpage If TRUE, rebuilds the site frontpage
+#' @param update_allreports Update the page listing all 4545/LW/C960 season reports?
+#' @param update_awards Update the all-seasons award details page?
+#' @param update_standings Update the 'live' standings page?
+#' @param update_about Update the 'about' paeg?
+#' @param update_articles If TRUE, re-knits all standalone articles
+#' @param update_roundstats If TRUE, re-knits the round stats page
+#' @param update_logogallery If TRUE, re-knits the team logo gallery page
 #'
 #' @return
 #' @export
@@ -44,7 +46,8 @@ BuildSite <- function(quiet = FALSE,
                       update_standings = FALSE,
                       update_about = FALSE,
                       update_articles = FALSE,
-                      update_roundstats = FALSE){
+                      update_roundstats = FALSE,
+                      update_logogallery = FALSE){
   
   # Render frontpage
   if(update_frontpage){
@@ -105,6 +108,15 @@ BuildSite <- function(quiet = FALSE,
                       output_dir = "docs",
                       quiet = quiet)
   }
+  
+  # Update team logo gallery page
+  if(update_logogallery){
+    rmarkdown::render("site/_logogallery.rmd", 
+                      output_file = "team_logos.html",
+                      output_dir = "docs",
+                      quiet = quiet)
+  }
+  
   
   # Update remote repo with all changes
   UpdateRepo()
