@@ -118,7 +118,7 @@ make_gallery_layout <- function() {
 }
 ```
 
-```{r, layout = "l-page"}
+```{r}
 # Create layout
 htmltools::withTags(
   div(
