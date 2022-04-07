@@ -68,7 +68,7 @@ pacman::p_load(magick, here, htmltools)
 ```
 
 
-```{r, include = FALSE, eval = TRUE}
+```{r, include = FALSE, eval = FALSE}
 # Make thumbnails of all full-size team logo images
 # NOTE TO FUTURE ME
 # If and when this page needs to be rebuilt in the future with more logos, the 
@@ -78,7 +78,7 @@ img_path <- paste0(here::here(), "/docs/img/team_logos/")
 
 resize_image <- function(image) {
   imFile <- image_read(paste0(img_path, image))
-  imFile_resized <- magick::image_resize(imFile, "100")
+  imFile_resized <- magick::image_resize(imFile, "x100")
   magick::image_write(imFile_resized, paste0(img_path, "thumb-", image))
 }
 
@@ -108,10 +108,10 @@ make_gallery_layout <- function() {
                        images_full_size = images_full_size)
 
   # Create the HTML structure for each image
-  tagList(apply(images, 1, function(x) {
-      tags$a(
+  htmltools::tagList(apply(images, 1, function(x) {
+      htmltools::tags$a(
         href = paste0(site_path, x[["images_full_size"]]),
-        tags$img(src = paste0(site_path, x[["images_thumb"]]))
+        htmltools::tags$img(src = paste0(site_path, x[["images_thumb"]]))
       )
   }))
 
