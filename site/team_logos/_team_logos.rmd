@@ -74,14 +74,14 @@ pacman::p_load(magick, here, htmltools)
 img_path <- paste0("fullsize/")
 thumb_path <- paste0("thumbs/")
 
-resize_image <- function(image) {
-  imFile <- image_read(paste0(img_path, image))
+resize_image <- function(img_path, thumb_path) {
+  imFile <- magick::image_read(paste0(img_path))
   imFile_resized <- magick::image_resize(imFile, "x100")
   magick::image_write(imFile_resized, paste0(thumb_path, "thumb-", image))
 }
 
-list_png <- list.files(img_path)
-lapply(list_png, resize_image)
+# list_png <- list.files(img_path)
+# lapply(list_png, resize_image)
 ```
 
 
