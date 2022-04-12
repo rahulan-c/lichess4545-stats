@@ -111,7 +111,7 @@ BuildSite <- function(quiet = FALSE,
   
   # Update team logo gallery page
   if(update_logogallery){
-    rmarkdown::render("site/_logogallery.rmd", 
+    rmarkdown::render("site/team_logos/_team_logos.rmd", 
                       output_file = "team_logos.html",
                       output_dir = "docs",
                       quiet = quiet)

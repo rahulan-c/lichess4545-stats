@@ -1734,8 +1734,7 @@ SavePGN_NoEvalsClocks <- function(games,
                                       save_path = "/data/tidied_games_noevals.pgn", 
                                       path_root = path_root){
   save_path <- paste0(path_root, save_path)
-  pgn_data <- games$pgn
-  pgn_data$noevals <- str_replace_all(pgn_data$pgn, 
+  pgn <- str_replace_all(games$pgn, 
                                        "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
                                        "") %>% 
     str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
@@ -1743,9 +1742,9 @@ SavePGN_NoEvalsClocks <- function(games,
     str_replace_all("\\s(?=1-0)", "") %>% 
     str_replace_all("\\s(?=1/2)", "") %>% 
     str_replace_all("\\s(?=0-1)", "")
-  pgn_noevals <- str_c(pgn_data$noevals, collapse = "")
+  pgn <- str_c(pgn, collapse = "")
   fileConn <- file(save_path)
-  writeLines(pgn_noevals, fileConn)
+  writeLines(pgn, fileConn)
   close(fileConn)
 }
 

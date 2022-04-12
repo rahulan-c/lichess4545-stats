@@ -1,5 +1,8 @@
 ---
 title: "About"
+author:
+  - name: izzie26
+date: "`r Sys.Date()`"
 output: distill::distill_article
 site: distill::distill_website
 ---
@@ -12,43 +15,41 @@ pacman::p_load(tidyverse, knitr)
 ```
 
 
+### About the site
 
-### FYIs
+In early 2021, I started compiling stats for the [Lichess4545 Ledger](https://www.lichess4545.com/team4545/document/ledger-archive/) in the form of round summary dashboards, which were first published in [Ledger #143](https://www.lichess4545.com/team4545/document/ledger-143/). A few months later, I began to expand these round summary stats into standalone season reports, which I first collated and published in August 2021. Thus this site was born.
 
-- Still need to update most LW season reports to reflect necessary revisions to the computation of gambit-related stats and awards. These changes have already been reflected in all 4545 reports except S1, and aren't applicable to the Chess960 league. 
+####  Recent updates
 
-
-### Recent updates
-
-- Published stats for 4545 S29 [Mar '22]
-- Published stats for LoneWolf S24 [Feb '22]
-- Re-designed homepage
-- Improved live standings [Jan '22]
-- Published stats for all Chess960 seasons
-- Published article on the estimated global distribution of league players
+- Added [team logos gallery](https://rahulan-c.github.io/lichess4545-stats/team_logos.html) [Apr '22]
+- Published stats for [4545 S29](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s29.html) [Mar '22]
+- Published stats for LoneWolf S24 ([Open](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s24.html), [U1800](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s24.html))
+- Re-designed [homepage](https://rahulan-c.github.io/lichess4545-stats/) [Feb '22]
+- Improved live standings 
+- Published stats for all [Chess960 seasons](https://rahulan-c.github.io/lichess4545-stats/season_stats.html)
+- Published article on the estimated global distribution of league players [Jan '22]
 - Published stats for 4545 S28
 - Site first published [Aug '21]
 
 
-### Future ideas
+#### Future ideas
 
-Consider this a form of motivation through public commitment. In other words, these might be done next week, next month, next year...or never.
+Things that may be done tomorrow, next week, next month, next year...
 
-- Adding new leagues: ~~Chess960~~ Series, Rapid Battle (yes, I know I've been promising these for ages)
-- Reporting all-time stats, records and trivia
-- Team logo gallery
+- Stats for community leagues, especially **Series** `in progress!` and **Rapid Battle**
+- All-time stats, records and trivia `in progress!`
+- Stats for the latest rounds `in progress!`
 - Stats about league openings
-- Stats about endgames reached in league games, à la *100 Endgames You Must Know*
-- Stats about 7-piece tablebase positions reached in league games...and their outcomes
+- Stats about endgames reached in league games, à la *100 Endgames You Must Know* `done, just need to publish`
 
-
-### About the site
-
-[to be completed]
 
 #### Methods/sources
 
-[ditto]
+TBC
+
+### Acknowledgements
+
+TBC
 
 
 ### Contact me {#contact}

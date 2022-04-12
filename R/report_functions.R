@@ -1275,7 +1275,10 @@ MostTimeSpentAcrossSeason <- function(games = games, players_to_show = 50, tos_v
     arrange(desc(total_duration)) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
     mutate(rank = dense_rank(desc(total_duration))) %>% 
-    mutate(duration_print = sprintf('%2dh %2dm %2ds', lubridate::hour(total_duration), lubridate::minute(total_duration), lubridate::second(total_duration))) %>% 
+    mutate(duration_print = sprintf('%2dh %2dm %2ds',
+                                    lubridate::hour(total_duration), 
+                                    lubridate::minute(total_duration), 
+                                    lubridate::second(total_duration))) %>% 
     select(rank, player, games, duration_print) %>% 
     head(players_to_show)
   return(season_think)
