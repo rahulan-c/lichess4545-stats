@@ -117,15 +117,23 @@ BuildSite <- function(quiet = FALSE,
                       quiet = quiet)
     
     # Copy full-size team logos to /docs
-    files_to_move <- fs::dir_info(glue::glue(here::here(), "/site/team_logos/fullsize/")) %>% 
+    fullsize_files <- fs::dir_info(glue::glue(here::here(), "/site/team_logos/fullsize/")) %>% 
       filter(type == "file") %>% 
       select(path) %>% 
       dplyr::pull()
-    
-    for(file in files_to_move){
-      fs::file_copy(path = file, new_path = "docs/", overwrite = T)
-      fs::file_delete(file)
+    for(file in fullsize_files){
+      fs::file_copy(path = file, new_path = "docs/fullsize/", overwrite = T)
     }
+    
+    thumb_files <- fs::dir_info(glue::glue(here::here(), "/site/team_logos/thumbs/")) %>% 
+      filter(type == "file") %>% 
+      select(path) %>% 
+      dplyr::pull()
+    for(file in thumb_files){
+      fs::file_copy(path = file, new_path = "docs/thumbs/", overwrite = T)
+    }
+    
+    
   }
   
   
