@@ -2,9 +2,6 @@
 title: "Team logo gallery"
 description: |
   Much requested, finally here!  
-author:
-  - name: izzie26
-date: "`r Sys.Date()`"
 output:
   distill::distill_article
 site: distill_website
