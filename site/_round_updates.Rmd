@@ -15,32 +15,33 @@ pacman::p_load(tidyverse, knitr)
 
 
 
-### Round stats
+<!-- ### Round stats -->
 
-**Under construction - not done yet**
+<!-- **Under construction - not done yet** -->
 
-Yes, round summary stats are coming. What you see here is just work in progress. Best to ignore for now. 
+<!-- Yes, round summary stats are coming. What you see here is just work in progress. Best to ignore for now.  -->
 
-```{r round_stats_table}
+```{r round_stats_table, eval = FALSE}
 # Compile all round stats reports into a single table
 
 # First, identify all compiled round stats
 reports_path <- paste0(here::here(), "/docs/")
 round_reports <- list.files(path = reports_path, pattern = "^round_stats_(.*)\\.html$")
-reports_md <- paste0("[", round_reports, "]", 
+reports_md <- paste0("[", round_reports, "]",
                        "(", round_reports, ")")
 reports_md <- str_c(reports_md, collapse = ", ")
 
 ```
-
-`r reports_md`
-
 
 
 
 ### 4545 match 'stories'
 
 These plots show how 4545 league matches unfold through the ups and downs of their games ([source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/plot_match_story.R)).
+
+#### Season 30
+
+[R1](reports/stories/s30_r1_allmatches.pdf) | [R2](reports/stories/s30_r2_allmatches.pdf) | [R3](reports/stories/s30_r3_allmatches.pdf) | R4 | [R5](reports/stories/s30_r5_allmatches.pdf) | [R6](reports/stories/s30_r6_allmatches.pdf) | R7 | R8
 
 #### Season 29
 
@@ -57,11 +58,11 @@ These plots show how 4545 league matches unfold through the ups and downs of the
 
 [R1](reports/stories/s27_r1_allmatches.pdf) | [R2](reports/stories/s27_r2_allmatches.pdf) | [R3](reports/stories/s27_r3_allmatches.pdf) | [R4](reports/stories/s27_r4_allmatches.pdf) | [R5](reports/stories/s27_r5_allmatches.pdf) | [R6](reports/stories/s27_r6_allmatches.pdf) | [R7](reports/stories/s27_r7_allmatches.pdf) | [R8](reports/stories/s27_r8_allmatches.pdf)
 
-#### Sandbox
+<!-- #### Sandbox -->
 
-This is me testing a different (cleverer) way to compile and present links to match story plots. Although granted, it doesn't look so clever now. 
+<!-- This is me testing a different (cleverer) way to compile and present links to match story plots. Although granted, it doesn't look so clever now.  -->
 
-```{r}
+```{r, eval=FALSE}
 # Show all produced match story plots within /docs/reports/stories
 # Only show files ending in "allmatches.pdf"
 

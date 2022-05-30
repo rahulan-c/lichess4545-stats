@@ -146,6 +146,11 @@ LeagueGames <- function(league_choice, seasons_choice, rounds_choice = NULL,
           jsonlite::fromJSON() %>% 
           purrr::pluck("games")
         
+        # Filter by round (if rounds_choice specified)
+        if(!(is.null(rounds_choice))){
+          res <- res %>% filter(round %in% rounds_choice)
+        }
+        
         # Add returned game data to season game IDs list
         season_data[[i]] <- res
         
@@ -333,41 +338,27 @@ TidyGames <- function(games){
 
   tic("Tidied game data")
     
-  # Exclude games that ended due to a) someone claiming a result due to their opponent 
-  # disconnecting, b) cheat detection, or c) someone aborting the game
-  # Also exclude games that started from custom positions
   games <- games %>% 
     tibble::as_tibble() %>% 
-    filter(!(status %in% c("timeout", "cheat", "aborted"))) %>% 
     filter(perf != "fromPosition")
-    
-  # Only include analysed games
-  games <- games %>% 
-    filter(!(is.na(players.white.analysis.acpl))) %>% 
-    filter(!(is.na(players.black.analysis.acpl)))
   
   # Add number of moves per game to data
   games$num_moves <- ifelse(str_count(games$moves, "\\s") %% 2 == 1,
                             (str_count(games$moves, "\\s") / 2) + 0.5,
                             (str_count(games$moves, "\\s") / 2) + 1)
   
-  # Only include games with at least 3 moves
-  games <- games %>% 
-    filter(num_moves >= 3)
-  
   if(!(nrow(games) > 0)){
     cli::cli_inform("No valid games in data. Nothing to tidy!")
     return(as_tibble(games))
   }
   
-  # Add 'white' and 'black' fields to make it easier to refer to the players
   games <- games %>% 
     mutate(white = players.white.user.name,
            black = players.black.user.name)
   
   # Revise results field
   games <- games %>% 
-    mutate(result = case_when(
+    mutate(game_result = case_when(
       winner == "white" ~ "1-0",
       winner == "black" ~ "0-1",
       status == "draw" ~ "1/2-1/2",
@@ -375,73 +366,51 @@ TidyGames <- function(games){
       TRUE ~ NA_character_
     ))
   
-  # Add game scores for both colours
-  games <- games %>% 
-    mutate(
-      score_w = case_when(
-        result == "1-0" ~ 1,
-        result == "0-1" ~ 0,
-        result == "1/2-1/2" ~ 0.5,
-        TRUE ~ NA_real_
-      )) %>% 
-    mutate(
-      score_b = case_when(
-        result == "1-0" ~ 0,
-        result == "0-1" ~ 1,
-        result == "1/2-1/2" ~ 0.5,
-        TRUE ~ NA_real_
-      ))
+  # # Add game scores for both colours
+  # games <- games %>% 
+  #   mutate(
+  #     score_w = case_when(
+  #       result == "1-0" ~ 1,
+  #       result == "0-1" ~ 0,
+  #       result == "1/2-1/2" ~ 0.5,
+  #       TRUE ~ NA_real_
+  #     )) %>% 
+  #   mutate(
+  #     score_b = case_when(
+  #       result == "1-0" ~ 0,
+  #       result == "0-1" ~ 1,
+  #       result == "1/2-1/2" ~ 0.5,
+  #       TRUE ~ NA_real_
+  #     ))
   
   # Add average rating for each game
   games <- games %>% 
     mutate(rating_w = players.white.rating,
            rating_b = players.black.rating,
-           mean_rating = (rating_w + rating_b) / 2)
+           mean_rating = (rating_w + rating_b) / 2) %>% 
+    select(-c(players.white.rating, players.black.rating))
   
   
   # Tidy openings data (for non-960 games data)
   if(games$variant[1] != "chess960"){
-    
-    # # Fix foreign characters in openings names
-    # games$opening.name <- games$opening.name %>%
-    #   str_replace_all("Ã¼", "ü") %>%
-    #   str_replace_all("Ã¶", "ö") %>%
-    #   str_replace_all("Ã³", "ó") %>%
-    #   str_replace_all("Ã©", "é")
-    
-    # Add broad opening names to data
-    # Creates another column that takes the Lichess opening name but: 
-    #   - removes variation names, ie any text after ":"
-    #   - reduces any remaining names with "," to the stem opening
-    #   - fixes remaining discrepancies, eg Guioco Piano amended to Italian Game
     games <- games %>% 
       mutate(opening.broad = str_replace_all(opening.name, "(?<=:).*$", "")) %>% 
       mutate(opening.broad = if_else(str_detect(opening.broad, ":"), str_replace(opening.broad, ":", ""), opening.broad)) %>% 
       mutate(opening.broad = str_replace_all(opening.broad, "(?<=,).*$", "")) %>% 
       mutate(opening.broad = if_else(str_detect(opening.broad, ","), str_replace(opening.broad, ",", ""), opening.broad)) %>% 
       mutate(opening.broad = if_else(opening.broad == "Guioco Piano", "Italian Game", opening.broad))
-  
   }
   
   # Make game creation times more readable
   games$started <- lubridate::as_datetime(games$createdAt / 1000)
   games$ended <- lubridate::as_datetime(games$lastMoveAt / 1000)
-  
-  # Add year, month, day of week and hour to data
-  games$year <- lubridate::year(games$started)
-  games$month <- lubridate::month(games$started, label = TRUE)
-  games$day <- lubridate::day(games$started)
-  games$wday <- lubridate::wday(games$started, label = TRUE, week_start = 1)
-  games$hour <- lubridate::hour(games$started)
-  games$week <- lubridate::week(games$started)
-  # games$minute <- lubridate::minute(games$started)
   games$date <- lubridate::date(games$started)
   
-  # Add first moves to games data
-  games <- games %>% 
-    mutate(first_moves = str_extract(moves, "^[:graph:]+\\s[:graph:]+")) %>% 
-    mutate(first_move_w = str_extract(moves, "^[:graph:]+")) %>% 
-    mutate(first_move_b = str_trim(str_extract(moves, "\\s[:graph:]+")))
+  # # Add first moves to games data
+  # games <- games %>% 
+  #   mutate(first_moves = str_extract(moves, "^[:graph:]+\\s[:graph:]+")) %>% 
+  #   mutate(first_move_w = str_extract(moves, "^[:graph:]+")) %>% 
+  #   mutate(first_move_b = str_trim(str_extract(moves, "\\s[:graph:]+")))
   
   # Add move times to data
   
@@ -459,21 +428,15 @@ TidyGames <- function(games){
     map2(games$clock.increment, ~ .x - .y)
   
   # Add eval data
-  # Isolate and melt eval data
   evals <- games %>% select(ends_with("eval"))
   names(evals) <- as.character(str_extract_all(names(evals), "[0-9]+"))
   evals$id <- games$id
-  # evals <- reshape2::melt(evals, id.vars = c("id"))
-  # Use tidyr::pivot_longer() instead
   evals <- tidyr::pivot_longer(evals, where(is.numeric))
-  # evals <- tidyr::pivot_longer(evals, names_to = "id")
   evals$name <- as.numeric(as.character(evals$name))
   
   # Isolate and melt mate data (ie moves until mate)
   mates <- games %>% select(ends_with("mate"))
   
-  # Convert "mate in x moves" evals to cpls using the formula [x / abs(x)] * [300,000 - (abs(x) * 1000)]
-  # mates <- mates %>% mutate_at(vars(ends_with("mate")), ~((./abs(.)) * (300000 - (abs(.)*1000))))
   # Alternative formula
   # Source: https://www.landonlehman.com/post/2021-01-25-how-to-reproduce-a-lichess-advantage-chart-in-python/)
   # Apparently this is used in python-chess
@@ -481,7 +444,6 @@ TidyGames <- function(games){
   
   names(mates) <- as.character(str_extract_all(names(mates), "[0-9]+"))
   mates$id <- games$id
-  # mates <- melt(mates)
   if(ncol(mates) > 1){
     mates <- tidyr::pivot_longer(mates, where(is.numeric))
     mates$name <- as.numeric(as.character(mates$name))
@@ -490,7 +452,7 @@ TidyGames <- function(games){
   # Combine eval and mates data and tidy
   evals <- bind_rows(evals, mates)
   rm(mates)
-  evals <- na.omit(evals) # remove any rows with NA values
+  evals <- na.omit(evals)
   colnames(evals)[2:3] <- c("ply", "eval")
   evals$ply <- as.numeric(as.character(evals$ply))
   evals$id <- as.character(evals$id)
@@ -501,6 +463,9 @@ TidyGames <- function(games){
   # Source: https://github.com/ornicar/lila/blob/49705e68e2fc2e0c08c929dc96447d12c844108e/public/javascripts/chart/acpl.js
   evals <- evals %>% mutate(eval_scaled = 2 / (1 + exp(-0.004 * eval)) - 1) %>% 
     arrange(ply)
+  
+  # Leela's equation: 
+  # cp = 111.714640912 * tan(1.5620688421 * Q)
   
   
   # Extract info on individual inaccuracies, mistakes and blunders 
@@ -1837,6 +1802,8 @@ GetPlayedPairings <- function(league, latest_season){
   toc(log = TRUE)
   return(res_league)
 }
+
+
 
 # PROBABLY SUPERSEDED - CONFIRM THEN DELETE
 UpdateAllTimeGames <- function(update_league, latest_season){

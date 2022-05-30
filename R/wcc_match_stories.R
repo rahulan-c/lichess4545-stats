@@ -62,8 +62,8 @@ lst_matchsummary <- list()
 
 # For testing, only use a small sample of games
 sample_size <- 1
-pgn_links <- sample(pgn_links, sample_size)
-# pgn_links <- pgn_links[length(pgn_links)-1] # to manually test Carlsen-Caruana
+# pgn_links <- sample(pgn_links, sample_size)
+pgn_links <- pgn_links[length(pgn_links)-1] # to manually test Carlsen-Caruana
 
 # Get match data by parsing PGNs
 for (m in seq(1:length(pgn_links))) {
@@ -233,8 +233,10 @@ matchdata <- matchdata %>%
   # Compute a scaled match eval measure - this is what gets plotted as the eval line
   mutate(mevalsc = premargin + evalsc)
 
-players <- sort(c(matchdata$white[1], matchdata$black[1]))
 
+
+
+game_numbers <- as_labeller(paste0("Game ", matchdata$round))
 
 # Make plot
 plt_story <- ggplot(data = matchdata) +
@@ -281,7 +283,9 @@ plt_story <- ggplot(data = matchdata) +
   theme_minimal() +
   # theme_cowplot() +
   
-  facet_wrap(~round, ncol = 4, scales = "fixed") +
+  facet_wrap(~paste0("Game ", sprintf("%02d", round), " (", result, ")", " [", post1, "-", post2, "]"), 
+             ncol = 4, 
+             scales = "fixed") +
   
   
   

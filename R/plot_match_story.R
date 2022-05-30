@@ -326,7 +326,8 @@ PlotMatchStory <- function(season_num, # season number
     if(season_num == 2){team_boards <- 5} else
       if(season_num <= 15){team_boards <-  6} else 
         if(season_num <= 24){team_boards <-  8} else
-          if(season_num <= 99){team_boards <-  10}
+          if (season_num <= 29){team_boards <- 10} else
+            if(season_num <= 99){team_boards <- 8}
   # Then get league data using LeagueData() function scripts/all_functions.R (already sourced)
   league_data <- LeagueData("team4545", season_num, round_num, FALSE, team_boards)
   all_pairings2 <- league_data[[1]] %>% as_tibble()

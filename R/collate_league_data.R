@@ -4,7 +4,7 @@
 #     (4545, LW [Open, U1800], Chess960, Series, Rapid Battle)
 # =============================================================================
 
-# Last updated: 2022-03-08
+# Last updated: 2022-05-16
 
 # Various functions for compiling league datasets and game data to support 
 # further analysis. 
@@ -74,6 +74,15 @@
 
 # - UpdateAllRapidBattleGames(rb_sheets)
 #     Adds new Rapid Battle games to current RB version of all-seasons games data.  
+
+# - UpdateQuestGames()
+#     Adds new Quest games to current Quest version of all-seasons games data
+
+# - CombineTeamLWSeriesRBQuestGames()
+#     Combines all prev saved games datasets for 4545, LW, Series, Rapid Battle
+#     and Quest into a single .RDS file
+
+
 
 # - GetSeriesSeasonData(season) - UNFINISHED
 
@@ -148,7 +157,10 @@ rb_sheets <- tibble(
   # S9 has to appear twice to account for the additional S9 loser's bracket sheet
 )
 
+# ---- QUEST HISTORY PARAMETERS -----------------------------------------------
 
+quest_sheet_id <- "1Y_jYuHJUnDqfYMpO3YIainspTJa7o3hgd6smeiHfe20"
+quest_sheet_name <- "Raw Data"
 
 
 # ---- FUNCTIONS ---------------------------------------------------------------
@@ -624,7 +636,7 @@ UpdateAllRapidBattleGames <- function(rb_sheets){
     # ---- Add new games data to all-time data ------------------------------------
     
     # Tidy new games data
-    new_games <- tidy_lichess_games(new_games)
+    new_games <- TidyGames(new_games)
     
     # Add season numbers to all-time data
     all_games <- all_games %>%
@@ -697,6 +709,152 @@ CombineTeamLWSeriesGames <- function(){
 }
 
 
+UpdateQuestGames <- function(){
+  
+  # Update all-time Infinite Quest games dataset
+  
+  cli_h1("COMPILE / UPDATE INFINITE QUEST ALL-TIME GAMES DATA")
+  
+  cli_h2("Step 1 - Identify all Quest games from Quest history spreadsheet")
+  
+  sheetdata <- range_read_cells(
+    ss = quest_sheet_id, 
+    sheet = quest_sheet_name,
+    cell_data = "full",
+    discard_empty = FALSE
+  )
+  
+  # Extract gamelinks
+  contents <- sheetdata$cell
+  contents <- paste0(unlist(contents), collapse = "")
+  links <- stringr::str_extract_all(contents, "https://lichess.org/[:alnum:]{8}")
+  links <- links[[1]]
+  links <- unique(links)
+  cli::cli_inform("Quest: extracted {length(links)} gamelinks")
+  Sys.sleep(2)
+  
+  cli_h2("Step 2 - Identify games to add to all-time games data")
+  
+  # Read current all-time RB games data (if file exists)
+  data_exists <- fs::dir_info(paste0(here::here(), "/data/")) %>% 
+    filter(type == "file") %>% 
+    filter(str_detect(path, "allgames_quest.rds")) %>% 
+    nrow()
+  data_exists <- ifelse(data_exists == 0, FALSE, TRUE)
+  
+  if(data_exists){
+    
+    current_allgames <- readRDS(paste0(here::here(), "/data/allgames_quest.rds"))
+    current_allgames <- tibble::as_tibble(current_allgames)
+    
+    current_oldest <- current_allgames %>% slice_min(date) %>% select(date) %>% dplyr::pull()
+    current_latest <- current_allgames %>% slice_max(date) %>% select(date) %>% dplyr::pull()
+    cli::cli_inform("Reading current Quest all-seasons games data...")
+    cli::cli_inform("The current dataset has {nrow(current_allgames)} games.")
+    cli::cli_inform("Oldest game: {current_oldest}. Most recent game: {current_latest}.")
+    
+    # Identify any Quest gamelinks identified that aren't in the all-time data
+    new <- setdiff(links, paste0("https://lichess.org/", current_allgames$id))
+    cli::cli_inform("{length(new)} Quest games aren't in the current all-time dataset")
+    
+    # Request data on new games
+    new_data <- GetGamesFromURLs(links = new)
+    new_games <- new_data[[1]] %>% tibble::as_tibble()
+    
+    # ---- Check for un-analysed new games ----------------------------------------
+    
+    new_unanalysed <- new_data[[2]] %>% tibble::as_tibble()
+    
+    # ---- Add new games data to all-time data ------------------------------------
+    
+    # Tidy new games data
+    new_games <- TidyGames(new_games)
+    
+    # Add new games to all-time data
+    new_allgames <- data.table::rbindlist(list(current_allgames,
+                                               new_games),
+                                          fill = T) %>% 
+      tibble::as_tibble()
+    new_allgames <- dplyr::left_join(new_allgames, all_games, by = c("id"))
+    
+    # ---- Save updated all-time games data --------------------------------------- 
+    saveRDS(new_allgames, 
+            paste0(here::here(), "/data/allgames_quest.rds"))
+    
+    cli::cli_alert_success("Quest all-time games data updated and saved - now contains {nrow(new_allgames)} games.")
+    
+  } else {
+    
+    cli::cli_inform("No all-time games dataset found, so all identified games need to be saved.")
+    
+    # ---- Get data on new games --------------------------------------------------
+    
+    # Request data on new games
+    new_data <- GetGamesFromURLs(links = links)
+    new_games <- new_data[[1]] %>% tibble::as_tibble()
+    
+    # ---- Check for un-analysed new games ----------------------------------------
+    
+    new_unanalysed <- new_data[[2]] %>% tibble::as_tibble()
+    # # Open unanalysed games in the browser in batches of max 20
+    # batch <- 1
+    # for (l in c(((20*batch)-19):min(20*batch, length(new_unanalysed$id)))) {
+    #   browseURL(new_unanalysed$id[l], browser = getOption("browser"),
+    #             encodeIfNeeded = FALSE)
+    #   Sys.sleep(0.3)
+    # }
+    
+    # ---- Add new games data to all-time data ------------------------------------
+    
+    # Tidy new games data
+    new_games <- TidyGames(new_games)
+    # new_allgames <- dplyr::left_join(new_games, all_games, by = c("id"))
+    
+    # ---- Save updated all-time games data ---------------------------------------
+    saveRDS(new_games,
+            paste0(here::here(), "/data/allgames_quest.rds"))
+    
+    cli::cli_alert_success("Quest all-time games data saved for the first time ({nrow(new_games)} games)")
+    
+  }
+  
+}
+
+CombineTeamLWSeriesRBQuestGames <- function(){
+  
+  cli::cli_h1("Combining prev saved games from 4545, LW, Series, RB and Quest")
+  leagues <- c("team4545", "lwopen", "lwu1800", "series", "rb", "quest")
+  league_games <- list()
+  
+  for (league in leagues) {
+    games <- readRDS(paste0(here::here(), 
+                            "/data/allgames_", 
+                            league, 
+                            ".rds"))
+    games <- tibble::as_tibble(games) %>% 
+      mutate(
+             "acplw" = players.white.analysis.acpl,
+             "acplb" = players.black.analysis.acpl,
+             "sum_acpl" = acplw + acplb,
+             "blundersw" = players.white.analysis.blunder,
+             "blundersb" = players.black.analysis.blunder,
+             "mistakesw" = players.white.analysis.mistake,
+             "mistakesb" = players.black.analysis.mistake,
+             "inaccuraciesw" = players.white.analysis.inaccuracy,
+             "inaccuraciesb" = players.black.analysis.inaccuracy
+      )
+    league_games[[which(leagues == league)]] <- games
+  }
+  
+  games <- data.table::rbindlist(league_games, fill = T)
+  
+  games <- games %>% 
+    tibble::as_tibble()
+  saveRDS(games, paste0(here::here(), "/data/allgames_tlsrq.rds"))
+  cli::cli_alert_success("Saved combined 4545/LW/Series/RB/Quest dataset ({nrow(games)} games)")
+  
+}
+
 ###############################################################################
 
 
@@ -730,16 +888,18 @@ CombineTeamLWSeriesGames <- function(){
 # UpdateAllRapidBattleGames(rb_sheets)
 
 # Collate all-time 4545/LW/Series games data into single RDS file
-CombineTeamLWSeriesGames()
+# CombineTeamLWSeriesGames()
 
 # Save single PGN with all 4545, LW (both sections) and Series games (no evals or clock times)
-SaveTeamLWSeriesPGN()
+# SaveTeamLWSeriesPGN()
 
 
+# Update Infinite Quest all-times games dataset
+# UpdateQuestGames()
 
+# Combine all prev. saved games in 4545/LW/Series/RB/Quest into one RDS file
+CombineTeamLWSeriesRBQuestGames()
 
-# Update all-time Infinite Quest games dataset
-# TODO
 
 
                  
