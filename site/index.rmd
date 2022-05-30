@@ -306,8 +306,7 @@ status_tbl <-
   ) %>% 
   tab_source_note(
     md(
-      "Community league statuses: Series Season 17 is in progress (7 March to 15 May). Rapid Battle is on hiatus. Infinite Quest is *still* running :) All 
-      Lichess4545 leagues and initiatives are listed [here](https://bit.ly/35w1xqH)."
+      "Community leagues: Series S17 has just ended; S18 will start on 6 June. Rapid Battle S16 ended in Dec 2021; the league is on hiatus. Infinite Quest is still going :) All Lichess4545 leagues and initiatives are listed [here](https://bit.ly/35w1xqH)."
     )
   )
 
