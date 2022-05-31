@@ -54,7 +54,8 @@ BoardsPerTeam <- function(league = league, season = season){
       if(season == 2){team_boards <- 5} else
         if(season <= 15){team_boards <-  6} else
           if(season <= 24){team_boards <-  8} else
-            if(season <= 99){team_boards <-  10}
+            if (season <= 29){team_boards <- 10} else
+              if(season <= 99){team_boards <-  8}
   
   return(team_boards)
 }
@@ -610,6 +611,12 @@ BoardPerfRatings <- function(pairings, fide_tpr_lookup, tos_violators) {
 
 
 GamesByDay <- function(games, league_col){
+  
+  games <- games %>% 
+    as_tibble() %>% 
+    mutate(wday = lubridate::wday(started, label = TRUE, week_start = 1),
+           hour = lubridate::hour(games$started))
+  
   # Create summary table with info for heatmap
   games_by_day_time <- plyr::ddply(games, c("hour", "wday"),
                                    summarise,
@@ -640,6 +647,12 @@ GamesByDay <- function(games, league_col){
 
 
 GamesByDayAndHour <- function(games, league_col){
+  
+  games <- games %>% 
+    as_tibble() %>% 
+    mutate(wday = lubridate::wday(started, label = TRUE, week_start = 1),
+           hour = lubridate::hour(games$started))
+  
   # Create summary table with info for heatmap
   games_by_day_time <- plyr::ddply(games, c("hour", "wday"),
                                    summarise,
@@ -2263,3 +2276,106 @@ GetCheckmatePatterns <- function(path_scripts, data_path, league_load_label, sea
               format = "png")
   # return(mate_tibble)
 }
+
+
+
+TimeTurners <- function(moves = all_moves,
+                        games = games,
+                        league = league,
+                        season = season,
+                        tos_violators = tos_violators){
+  
+  # Time Turner award
+  # For whoever wins or draws the most games longer than 15 moves where they
+  # end up having gained time on the clock 
+  
+  if(league == "team4545"){timeleft_threshold <- 45 * 60}
+  if(league == "lonewolf"){timeleft_threshold <- 30 * 60}
+  if(league == "chess960"){
+    timeleft_threshold <- ifelse(season <= 13, 15 * 60, 20 * 60)
+    }
+  
+  games <- games %>% tibble() %>% 
+    distinct(id, .keep_all = T)
+  
+  games_sub <- games %>% select(num_moves, id, result, moves) %>% 
+    mutate(plies = stringr::str_count(moves, "[:graph:]+"))
+  
+  last_plies <- moves %>% 
+    select(ply, time_left, game_id, player) %>% 
+    group_by(game_id, player) %>% 
+    summarise(last_ply = pmax(ply)) %>% 
+    slice_max(last_ply) %>% 
+    distinct(game_id, player, last_ply)
+  
+  moves_sub <- moves %>% 
+    select(ply, game_id, player, time_left)
+  
+  timeturner <- left_join(last_plies, moves_sub, 
+                          by = c("last_ply" = "ply", "game_id", "player")) %>% 
+    mutate(last_ply = last_ply + 1) %>% 
+    mutate(colour = ifelse(last_ply %% 2 == 0, "black", "white")) %>% 
+    filter(time_left >= timeleft_threshold)
+  
+  # Only include wins and draws
+  timeturners <- left_join(timeturner, games_sub, by = c("game_id" = "id")) %>% 
+    select(-c(moves)) %>% 
+    mutate(outcome = case_when(
+      result == "1-0" & colour == "white" ~ "win",
+      result == "0-1" & colour == "black" ~ "win",
+      result == "1-0" & colour == "black" ~ "loss",
+      result == "0-1" & colour == "white" ~ "loss",
+      result == "1/2-1/2" ~ "draw",
+      TRUE ~ NA_character_
+    )) %>% 
+    filter(outcome %in% c("win", "draw")) %>% # exclude losses
+    filter(num_moves >= 15) %>% # exclude short wins/draws
+    group_by(player) %>%
+    summarise(games = n(),
+              ids = str_c(game_id, collapse = ", "),
+              max_left = lubridate::seconds_to_period(max(time_left)),
+              avg_left = lubridate::seconds_to_period(mean(time_left))) %>%
+    arrange(desc(games), desc(max_left)) %>% 
+    filter(games > 1) %>% 
+    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators)))
+  
+  return(timeturners)
+}
+
+
+
+MostMovesPlayed <- function(games = games, 
+                            rows_to_show = 100, 
+                            tos_violators = tos_violators){
+  # Marathon Moves award
+  # For whoever plays the most moves in a season
+  # Longstanding award. Suggested for new awards by TimothyHa
+  
+  msub <- games %>%
+    select(id, white, black, moves) %>% 
+    mutate(plies = stringr::str_count(moves, "[:graph:]+"),
+           moves_w = ifelse(plies %% 2 == 0, plies/2, plies/2 + 0.5),
+           moves_b = ifelse(plies %% 2 == 0, plies/2, plies/2 - 0.5))
+  
+  mostmoves <- rbind(
+    tibble(id = msub$id, player = msub$white, moves = msub$moves_w),
+    tibble(id = msub$id, player = msub$black, moves = msub$moves_b)
+  ) %>% 
+    as_tibble() %>% 
+    group_by(player) %>% 
+    summarise(moves = sum(moves)) %>% 
+    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
+    slice_max(order_by = moves, n = rows_to_show)
+  
+  return(mostmoves)
+}
+
+
+
+
+
+
+
+# "I'm not trapped in here with you" award
+# For whoever wins/plays the most games where they don't castle
+# TODO

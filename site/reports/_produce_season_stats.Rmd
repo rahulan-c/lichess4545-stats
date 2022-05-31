@@ -1122,6 +1122,12 @@ david <- DavidAward(games, perfs, min_comb_opp_games = 30, min_comb_opp_score = 
 
 # Best performance by a player making their league debut (Rookie Award)
 rookie_perfs <- RookieAward(all_games, games, perfs, min_games = 4, tos_violators)
+
+# Time Turner Award
+timeturners <- TimeTurners(moves = all_moves, games, league, season, tos_violators)
+
+# Marathon Moves Award
+marathon_moves <- MostMovesPlayed(games, rows_to_show = 100, tos_violators)
 ```
 
 
@@ -1730,6 +1736,52 @@ reactable(savedbythebell,
 }
 
 ```
+
+
+###### Marathon Moves 
+
+The players who made the most moves across the season.
+
+```{r marathon_moves}
+reactable(marathon_moves,
+          fullWidth = FALSE,
+          resizable = TRUE,
+          compact = TRUE,
+          columns = list(
+            player = colDef(name = "Player", minWidth = 200),
+            moves = colDef(name = "Moves", align = "center", minWidth = 60)
+            )
+          )
+
+```
+
+
+###### Time Turners
+
+Everyone who won or drew at least three games in the season where they ended up gaining time on the clock. Excludes losses and games shorter than 15 moves.
+
+```{r time_turners}
+
+if(movetimes_exist){
+reactable(timeturners,
+          fullWidth = FALSE,
+          resizable = TRUE,
+          compact = TRUE,
+          columns = list(
+            player = colDef(name = "Player", minWidth = 200),
+            ids = colDef(show = F),
+            games = colDef(name = "Games where they gained time", align = "center", minWidth = 60),
+            max_left = colDef(name = "Max time left", align = "center", minWidth = 100),
+            avg_left = colDef(show = F)
+            )
+          )
+} else {
+  cat(no_movetimes_print)
+}
+
+```
+
+
 
 
 

@@ -358,7 +358,7 @@ TidyGames <- function(games){
   
   # Revise results field
   games <- games %>% 
-    mutate(game_result = case_when(
+    mutate(result = case_when(
       winner == "white" ~ "1-0",
       winner == "black" ~ "0-1",
       status == "draw" ~ "1/2-1/2",
@@ -366,22 +366,22 @@ TidyGames <- function(games){
       TRUE ~ NA_character_
     ))
   
-  # # Add game scores for both colours
-  # games <- games %>% 
-  #   mutate(
-  #     score_w = case_when(
-  #       result == "1-0" ~ 1,
-  #       result == "0-1" ~ 0,
-  #       result == "1/2-1/2" ~ 0.5,
-  #       TRUE ~ NA_real_
-  #     )) %>% 
-  #   mutate(
-  #     score_b = case_when(
-  #       result == "1-0" ~ 0,
-  #       result == "0-1" ~ 1,
-  #       result == "1/2-1/2" ~ 0.5,
-  #       TRUE ~ NA_real_
-  #     ))
+  # Add game scores for both colours
+  games <- games %>%
+    mutate(
+      score_w = case_when(
+        result == "1-0" ~ 1,
+        result == "0-1" ~ 0,
+        result == "1/2-1/2" ~ 0.5,
+        TRUE ~ NA_real_
+      )) %>%
+    mutate(
+      score_b = case_when(
+        result == "1-0" ~ 0,
+        result == "0-1" ~ 1,
+        result == "1/2-1/2" ~ 0.5,
+        TRUE ~ NA_real_
+      ))
   
   # Add average rating for each game
   games <- games %>% 
@@ -406,11 +406,11 @@ TidyGames <- function(games){
   games$ended <- lubridate::as_datetime(games$lastMoveAt / 1000)
   games$date <- lubridate::date(games$started)
   
-  # # Add first moves to games data
-  # games <- games %>% 
-  #   mutate(first_moves = str_extract(moves, "^[:graph:]+\\s[:graph:]+")) %>% 
-  #   mutate(first_move_w = str_extract(moves, "^[:graph:]+")) %>% 
-  #   mutate(first_move_b = str_trim(str_extract(moves, "\\s[:graph:]+")))
+  # Add first moves to games data
+  games <- games %>%
+    mutate(first_moves = str_extract(moves, "^[:graph:]+\\s[:graph:]+")) %>%
+    mutate(first_move_w = str_extract(moves, "^[:graph:]+")) %>%
+    mutate(first_move_b = str_trim(str_extract(moves, "\\s[:graph:]+")))
   
   # Add move times to data
   
