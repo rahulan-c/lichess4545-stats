@@ -1738,7 +1738,7 @@ reactable(savedbythebell,
 ```
 
 
-###### Marathon Moves 
+##### Marathon Moves 
 
 The players who made the most moves across the season.
 
@@ -1756,7 +1756,7 @@ reactable(marathon_moves,
 ```
 
 
-###### Time Turners
+##### Time Turners
 
 Everyone who won or drew at least three games in the season where they ended up gaining time on the clock. Excludes losses and games shorter than 15 moves.
 
@@ -1770,8 +1770,8 @@ reactable(timeturners,
           columns = list(
             player = colDef(name = "Player", minWidth = 200),
             ids = colDef(show = F),
-            games = colDef(name = "Games where they gained time", align = "center", minWidth = 60),
-            max_left = colDef(name = "Max time left", align = "center", minWidth = 100),
+            games = colDef(name = "Time-gaining games", align = "center", minWidth = 100),
+            max_left = colDef(name = "Max time left", align = "center", minWidth = 200),
             avg_left = colDef(show = F)
             )
           )
