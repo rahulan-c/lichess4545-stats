@@ -298,17 +298,7 @@ plt_wins_by_col
 
 <br>
 
-```{r results='asis', echo=FALSE}
-# Hide team rosters text from LW reports
-if(lw_hide){cat("<!---")}
-```
 
-*Team rosters ordered by number of games played (shown in brackets)*
-
-```{r results='asis', echo=FALSE}
-# Stop hiding stuff from LW reports
-if(lw_hide){cat("-->")}
-```
 
 
 ```{r}
@@ -459,12 +449,28 @@ if(team_hide){cat("<!---")}
 
 </div>
 
+
+
 ```{r results='asis', echo=FALSE}
 # Resume showing everything
 if(team_hide){cat("-->")}
 ```
 
 </div>
+
+<br>
+
+```{r results='asis', echo=FALSE}
+# Hide team rosters text from LW reports
+if(lw_hide){cat("<!---")}
+```
+
+*Podium team rosters (incl. alternates, ordered by games played)*
+
+```{r results='asis', echo=FALSE}
+# Stop hiding stuff from LW reports
+if(lw_hide){cat("-->")}
+```
 
 
 
