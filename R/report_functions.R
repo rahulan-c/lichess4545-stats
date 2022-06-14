@@ -617,8 +617,7 @@ BoardPerfRatings <- function(pairings, fide_tpr_lookup, tos_violators,
     arrange(desc(bperf_rating)) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
     slice_max(order_by = bperf_rating, n = 3) %>% 
-    mutate(rank = paste0("brank_", rep(1:3, n = team_boards))) %>% 
-    select(board, rank, player, games, points, bperf_rating)
+    select(board, player, games, points, bperf_rating)
   return(bperfs)
 }
 
@@ -2480,7 +2479,7 @@ FirstMoves <- function(games = games, league = league){
       labs(x = "Board",
            y = "Proportion of games") +
       theme(legend.position = "right") +
-      scale_x_continuous(breaks = seq(1:max(games$board))) +
+      scale_x_continuous(breaks = seq(1:max(games$board, na.rm = T))) +
       scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
       scale_fill_manual(values = c("#002d9c", "#0043ce", "#0f62fe", "#4589ff", 
                                    "#78a9ff", "#a6c8ff",

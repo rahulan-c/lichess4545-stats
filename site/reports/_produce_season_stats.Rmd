@@ -442,7 +442,7 @@ if(league == "lonewolf"){
 
 <div class = "col-md-5">
 
-:::award
+:::prize
 <p style="font-size:12pt; font-weight: 900;">
 `r paste0(prize_label)`
 <br>
@@ -524,13 +524,6 @@ reactable(bperfs, groupBy = "board",
             board = colDef(name = "Board",
                           align = "center",
                           minWidth = 100),
-            rank = colDef(cell = function(value) {
-              image <- img(src = sprintf("report_img/%s.png", value), style = "height: 24px;", alt = value)
-              tagList(
-                div(style = "display: inline-block; width: 45px;", image),
-                value
-                )
-              }),
             player = colDef(name = "Player(s)",
                             aggregate = "unique",
                            minWidth = 200),

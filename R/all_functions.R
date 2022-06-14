@@ -1173,7 +1173,8 @@ SaveSeasonData <- function(league_choice, seasons){
         if(season == 2){team_boards <- 5} else
           if(season <= 15){team_boards <-  6} else 
             if(season <= 24){team_boards <-  8} else
-              if(season <= 99){team_boards <-  10}
+              if(season <= 29){team_boards <- 10} else
+                if(season <= 99){team_boards <-  8}
     
     if(league == "chess960"){
       if(season == 1){rounds <- c(1:7)}
