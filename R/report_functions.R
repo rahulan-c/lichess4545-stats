@@ -263,6 +263,15 @@ ResultByColourByRatingBand <- function(games = games){
 PodiumTeams <- function(summary_url){
   # For 4545...
   
+  # First extract the standings table
+  standings <- rvest::read_html(summary_url) %>%
+    rvest::html_table() %>% 
+    as_tibble(.name_repair = "unique")
+  
+  standings <- standings[[1]]
+  names(standings) <- c("rank", "team", "mp", "gp", 
+                        paste0("round_", c(1:(ncol(standings) - 4))))
+
   # 1st place team name
   first <- read_html(summary_url) %>% 
     html_element(".first-place .team-link") %>% 
@@ -272,6 +281,7 @@ PodiumTeams <- function(summary_url){
     html_element(".first-place .team-link") %>%
     html_attr("href")
   first_link <- paste0("https://www.lichess4545.com", first_link)
+  first_perf <- paste0(standings$mp[1], " pts (", standings$gp[1], " GP)")
   
   # 2nd place team name
   second <- read_html(summary_url) %>% 
@@ -282,6 +292,7 @@ PodiumTeams <- function(summary_url){
     html_element(".second-place .team-link") %>%
     html_attr("href")
   second_link <- paste0("https://www.lichess4545.com", second_link)
+  second_perf <- paste0(standings$mp[2], " pts (", standings$gp[2], " GP)")
   
   # 3rd place team name
   third <- read_html(summary_url) %>% 
@@ -292,7 +303,9 @@ PodiumTeams <- function(summary_url){
     html_element(".third-place .team-link") %>%
     html_attr("href")
   third_link <- paste0("https://www.lichess4545.com", third_link)
-  return(list(first, first_link, second, second_link, third, third_link))
+  third_perf <- paste0(standings$mp[3], " pts (", standings$gp[3], " GP)")
+  return(list(first, first_link, first_perf, second, second_link, second_perf,
+              third, third_link, third_perf))
 }
 
 
@@ -306,7 +319,8 @@ PodiumPlayers <- function(summary_url){
       rvest::html_text() %>% 
       stringr::str_replace_all("[\r\n]" , "") %>% 
       stringr::str_squish() %>% 
-      stringr::str_c()
+      stringr::str_c() %>% 
+      str_replace("Score: ", "")
     return(score)
   }
   
@@ -329,8 +343,8 @@ PodiumPlayers <- function(summary_url){
     html_element(".first-place .player-link") %>%
     html_attr("href")
   first_link <- paste0("https://www.lichess4545.com", first_link)
-  first_score <- GetSeasonScore(first_link)
-  first_perf <- GetSeasonPerf(first_link)
+  first_perf <- paste0(GetSeasonScore(first_link), " (", 
+                       GetSeasonPerf(first_link), " perf)")
   
   
   # 2nd place finisher
@@ -341,8 +355,8 @@ PodiumPlayers <- function(summary_url){
     html_element(".second-place .player-link") %>%
     html_attr("href")
   second_link <- paste0("https://www.lichess4545.com", second_link)
-  second_score <- GetSeasonScore(second_link)
-  second_perf <- GetSeasonPerf(second_link)
+  second_perf <- paste0(GetSeasonScore(second_link), " (", 
+                       GetSeasonPerf(second_link), " perf)")
   
   # 3rd place finisher
   third <- read_html(summary_url) %>% 
@@ -352,8 +366,8 @@ PodiumPlayers <- function(summary_url){
     html_element(".third-place .player-link") %>%
     html_attr("href")
   third_link <- paste0("https://www.lichess4545.com", third_link)
-  third_score <- GetSeasonScore(third_link)
-  third_perf <- GetSeasonPerf(third_link)
+  third_perf <- paste0(GetSeasonScore(third_link), " (", 
+                        GetSeasonPerf(third_link), " perf)")
   
   # LW U2000 (Open) or U1600 (U1800) prize winners
   prize <- read_html(summary_url) %>% 
@@ -363,14 +377,14 @@ PodiumPlayers <- function(summary_url){
     html_element(".u1600-winner .player-link") %>%
     html_attr("href")
   prize_link <- paste0("https://www.lichess4545.com", prize_link)
-  prize_score <- GetSeasonScore(prize_link)
-  prize_perf <- GetSeasonPerf(prize_link)
+  prize_perf <- paste0(GetSeasonScore(prize_link), " (", 
+                       GetSeasonPerf(prize_link), " perf)")
   
   
-  return(list(first, first_link, first_score, first_perf,
-              second, second_link, second_score, second_perf,
-              third, third_link, third_score, third_perf, prize, prize_link, 
-              prize_score, prize_perf))
+  return(list(first, first_link, first_perf,
+              second, second_link, second_perf,
+              third, third_link, third_perf, 
+              prize, prize_link, prize_perf))
 }
 
 
