@@ -233,7 +233,7 @@ close_wins <- close %>%
   slice_max(close_wins)
 team_most_close_wins <- close_wins %>% select(winner) %>% dplyr::pull()
 team_most_close_wins <- ifelse(length(team_most_close_wins) > 4, 
-                               "multiple",
+                               "five or more teams",
                                team_most_close_wins)
 num_most_close_wins <- close_wins %>% select(close_wins) %>% dplyr::pull()
 num_most_close_wins <- num_most_close_wins[1]
@@ -245,7 +245,7 @@ close_losses <- close %>%
   slice_max(close_losses)
 team_most_close_losses <- close_losses %>% select(loser) %>% dplyr::pull()
 team_most_close_losses <- ifelse(length(team_most_close_losses) > 4, 
-                               "multiple",
+                               "five or more teams",
                                team_most_close_losses)
 num_most_close_losses <- close_losses %>% select(close_losses) %>% dplyr::pull()
 num_most_close_losses <- num_most_close_losses[1]
@@ -728,37 +728,12 @@ if(league == "lonewolf") {
 
 #### First moves `r emo::ji("bar_chart")`
 
-```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
+The frequency of first move pairs by board (4545) or average rating band (LoneWolf).
 
-# White and Black's first moves, % games by board (stacked) 
-games %>%
-  select(board, first_moves) %>% 
-  group_by(board, first_moves) %>% 
-  summarise(games = n()) %>% 
-  arrange(desc(games)) %>% 
-  tibble::as_tibble() %>% 
-  ggplot(aes(fill = factor(first_moves, levels = c("e4 e5", "e4 c5", "e4 c6", "e4 e6",
-                                                   "e4 d5", "e4 Nf6",
-                                                    "d4 d5", "d4 Nf6", "d4 e6", "d4 d6",
-                                                   "d4 f5", "d4 b6",
-                                                   "Nf3 d5", "Nf3 Nf6", "Nf3 c5",
-                                                   "c4 c5", "c4 Nf6", "c4 e5", "c4 c6")), 
-             y = games, 
-             x = board)) +
-  geom_bar(position = "fill", stat = "identity") +
-  theme_cowplot() +
-  labs(x = "Board",
-       y = "Proportion of games") +
-  theme(legend.position = "right") +
-  scale_x_continuous(breaks = integer_breaks()) +
-  scale_fill_manual(values = c("#002d9c", "#0043ce", "#0f62fe", "#4589ff", 
-                               "#78a9ff", "#a6c8ff",
-                               "#491d8b", "#6929c4", "#8a3ffc", "#a56eff", 
-                               "#be95ff", "#d4bbff",
-                               "#00539a", "#0072c3", "#1192e8",
-                               "#005d5d", "#007d79", "#009d9a", "#08bdba"), 
-                    na.value = "#8C979A",
-                    name = "First moves")
+```{r, eval = ifelse(league %in% c("team4545", "lonewolf"), TRUE, FALSE)}
+
+firstmoves <- FirstMoves(games = games, league = league)
+firstmoves
 ```
 
 
@@ -1053,7 +1028,9 @@ Click on the image below to see a sunburst plot of all openings played in the se
 <!-- All the code to determine the awards has to be run before the awards table -->
 
  
-Assorted awards to celebrate the season. See the footnote for more details about each award.^[*Archbishop of Accuracy*: this is for the player with the lowest average centipawn loss (CPL) over all games. Note that this calculation isn't based on Lichess's ACPL figures. It excludes moves played in the first 10 moves of a game and moves with a centipawn loss < 150 in *decided* positions. These are considered to be positions with an evaluation greater than or equal to +300 centipawns for one side. All evaluation data is sourced from Lichess server analysis. To be eligible, players must have played at least five games in the season. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. To be eligible, a player must have played at least 5 games over the season, and their opponents must have collectively played at least 30 games against others. Suggested by Tranzoo. *Egalitarian Award*: intended for the team whose players performed most similarly to each other. First, I compute all players' *relative* performance ratings -- the difference between their actual performance rating (using FIDE's method) and their initial rating. Then I group all players by team, and give the award to the team with the lowest standard deviation across its players' relative ratings. Suggested by Silkthewanderer. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
+Assorted awards to celebrate the season - see the footnote for more details.[^awards]
+
+[^awards]: **Aces**: all players who achieved a plus/minus score - wins minus losses - of +6 or better over the season. **Archbishop of Accuracy**: the player with the lowest average centipawn loss (ACPL) over the season, accounting for moves played. **Giri Award**: named for [Anish Giri](https://chess24.com/en/read/news/giri-s-60-memorable-draws-exclusive-excerpt). **Grischuk's Cousin**: named for [Alexander Grischuk](https://www.chessbase.in/news/Candidates-2020-21-Round-10). **Houdini Award**: the player with the most comeback "points" over the season - players earn 1 point for winning a game after being in a position with an evaluation worse than -6, 0.7 points for winning after being worse than -3, 0.5 points for drawing after being worse than -6, and 0.3 points for drawing after being worse than -3. **MVP Award**: players must play at least five games to qualify, and perf. ratings are calculated using FIDE's method. **Primates of Precision**: based on Lichess game analysis ACPLs. **Rookie Award**: to be eligible, players must have played at least four games in the season and not have played in any previous 960 league season. **Tarjan Award**: named for James Tarjan, who [famously defeated Vladimir Kramnik in 2017](https://www.chess.com/news/view/3-year-old-tarjan-beats-kramnik-in-battle-of-generations). **David Award**: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. To be eligible, a player must have played at least 5 games over the season, and their opponents must have collectively played at least 30 games against others. **Egalitarian Award**: the team with the lowest standard deviation across players' relative performance ratings. *Other*: all other awards should be self-explanatory.
  
 
 ```{r}
@@ -1172,7 +1149,8 @@ if(movetimes_exist){
                          gambiteer_award = gambiteer_award,
                          team_accuracy_award = team_accuracy_award,
                          egalitarian = egalitarian,
-                         aces = aces)
+                         aces = aces,
+                         marathonmovers = marathon_moves)
   } else {
     awards <- SeasonAwards(league = league, 
                          league_col_dark = league_col_dark, 
@@ -1195,7 +1173,8 @@ if(movetimes_exist){
                        david = david,
                        rookie_perfs = rookie_perfs,
                        gambiteer_award = gambiteer_award,
-                       aces = aces)
+                       aces = aces,
+                       marathonmovers = marathon_moves)
   }
 } else {
   if(league == "team4545"){
@@ -1223,7 +1202,8 @@ if(movetimes_exist){
                            gambiteer_award = gambiteer_award,
                            team_accuracy_award = team_accuracy_award,
                            egalitarian = egalitarian,
-                           aces = aces)
+                           aces = aces,
+                           marathonmovers = marathon_moves)
   } else {
     awards <- SeasonAwards(league = league, 
                          league_col_dark = league_col_dark, 
@@ -1246,7 +1226,8 @@ if(movetimes_exist){
                            david = david,
                            rookie_perfs = rookie_perfs,
                          gambiteer_award = gambiteer_award,
-                         aces = aces)
+                         aces = aces,
+                         marathonmovers = marathon_moves)
   }
 }
 
@@ -1454,8 +1435,9 @@ reactable(season_think,
              rank = colDef(name = "Rank", align = "center"),
     player = colDef(name = "Player", minWidth = 200),
     games = colDef(name = "Games", align = "center"),
-    duration_print = colDef(name = "Total time spent")),
-    compact = TRUE)
+    duration_print = colDef(name = "Total time spent", minWidth = 150)),
+    compact = TRUE
+    )
 } else {
   cat(no_movetimes_print)
 }
@@ -1652,7 +1634,7 @@ reactable(instamovers,
 }   
 ```
 
-#### Longest thinks, time trouble addicts, and lucky escapes {.tabset .tabset-fade .tabset-pills} 
+#### Long thinks, lucky escapes, time trouble/travel, most moves {.tabset .tabset-fade .tabset-pills} 
 
 ##### Longest thinks
 
@@ -1738,9 +1720,9 @@ reactable(savedbythebell,
 ```
 
 
-##### Marathon Moves 
+##### Marathon Movers
 
-The players who made the most moves across the season.
+The ten players who made the most moves across the season.
 
 ```{r marathon_moves}
 reactable(marathon_moves,
@@ -1748,6 +1730,7 @@ reactable(marathon_moves,
           resizable = TRUE,
           compact = TRUE,
           columns = list(
+            rank = colDef(name = "Rank", minWidth = 60),
             player = colDef(name = "Player", minWidth = 200),
             moves = colDef(name = "Moves", align = "center", minWidth = 60)
             )
@@ -1758,7 +1741,7 @@ reactable(marathon_moves,
 
 ##### Time Turners
 
-Everyone who won or drew at least three games in the season where they ended up gaining time on the clock. Excludes losses and games shorter than 15 moves.
+Everyone who won or drew at least two games where they finished with more than 45 minutes left on their clock (30 for LoneWolf). Excludes losses and games shorter than 15 moves. *Inspired by NLance and pulsar512b*
 
 ```{r time_turners}
 
@@ -1768,6 +1751,7 @@ reactable(timeturners,
           resizable = TRUE,
           compact = TRUE,
           columns = list(
+            rank = colDef(name = "Rank", minWidth = 60),
             player = colDef(name = "Player", minWidth = 200),
             ids = colDef(show = F),
             games = colDef(name = "Time-gaining games", align = "center", minWidth = 100),

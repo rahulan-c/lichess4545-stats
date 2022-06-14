@@ -41,7 +41,7 @@ These plots show how 4545 league matches unfold through the ups and downs of the
 
 #### Season 30
 
-[R1](reports/stories/s30_r1_allmatches.pdf) | [R2](reports/stories/s30_r2_allmatches.pdf) | [R3](reports/stories/s30_r3_allmatches.pdf) | R4 | [R5](reports/stories/s30_r5_allmatches.pdf) | [R6](reports/stories/s30_r6_allmatches.pdf) | [R7](reports/stories/s30_r7_allmatches.pdf) | R8
+[R1](reports/stories/s30_r1_allmatches.pdf) | [R2](reports/stories/s30_r2_allmatches.pdf) | [R3](reports/stories/s30_r3_allmatches.pdf) | R4 | [R5](reports/stories/s30_r5_allmatches.pdf) | [R6](reports/stories/s30_r6_allmatches.pdf) | [R7](reports/stories/s30_r7_allmatches.pdf) | [R8](reports/stories/s30_r8_allmatches.pdf)
 
 #### Season 29
 

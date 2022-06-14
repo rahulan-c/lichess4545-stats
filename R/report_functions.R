@@ -32,7 +32,7 @@ LeagueColours <- function(league = league){
   # Set league-specific colours to use in plots
   if(league == "team4545"){
     league_col <- "#557f97"
-    league_col_dark <- league_col
+    league_col_dark <- "#245164"
   }
   if(league == "lonewolf"){
     league_col <- "#699486"
@@ -458,7 +458,7 @@ SeasonRankTracker <- function(league = league, positions = positions, league_col
       # scale_y_reverse(limits = c(20, 1), breaks = integer_breaks()) +
       scale_y_reverse(limits = c(max(positions$rank), 1), breaks = floor(seq(max(positions$rank), 1, length.out = 4))) +
       scale_x_discrete(expand = expansion(add = c(0.1, 0.1))) +
-      scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", "#d9e7ff", "#d9e7ff"),
+      scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", "#a6c7ff", "#d9e7ff"),
                          breaks = c(top_places),
                          labels = c(top_places)) +
       gghighlight::gghighlight(team %in% top_places, use_direct_label = F,
@@ -502,7 +502,7 @@ SeasonRankTracker <- function(league = league, positions = positions, league_col
       labs(x = "Round",
            y = "Rank before round") +
       theme(legend.position = "right") +
-      scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", rep("#9fd6ce", 2)),
+      scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", "#69bfb3", "#9fd6ce"),
                          breaks = c(top_places),
                          labels = c(top_places)) +
       theme(panel.grid.minor = element_blank()) +
@@ -1761,7 +1761,8 @@ SeasonAwards <- function(league = NULL,
                          gambiteer_award = FALSE,
                          team_accuracy_award = NULL,
                          egalitarian = NULL,
-                         aces = NULL
+                         aces = NULL,
+                         marathonmovers = NULL
                          ){
   
   # Show all eligible Primates of Precision (most games with sub-10 ACPL)
@@ -1775,8 +1776,6 @@ SeasonAwards <- function(league = NULL,
   }
   
   # Giri Award winners (and their number of draws)
-  
-  
   if(nrow(drawers) > 0){
     giri_winners <- tibble::tibble(drawers) %>% select(player) %>% dplyr::pull()
     giri_games <- tibble::tibble(drawers) %>% select(n) %>% dplyr::pull()
@@ -1803,6 +1802,38 @@ SeasonAwards <- function(league = NULL,
     alt_runnerup_value <- alt_award_list[[2]] %>% select(teams) %>% distinct() %>% dplyr::pull() 
   }
   
+  # Identify correct Gambit Guru winner(s)
+  # Properly account for ties
+  if(gambiteer_award){
+    # Winners
+    gambiteer_winners <- gambiteers %>% 
+      filter(rank == 1) %>% 
+      arrange(player) %>% 
+      select(player) %>% 
+      dplyr::pull() %>% 
+      str_c(collapse = ", ")
+    # Hon. mentions
+    gambiteer_mentions <- gambiteers %>% 
+      filter(rank %in% c(2, 3)) %>% 
+      arrange(player) %>% 
+      select(player) %>% 
+      dplyr::pull() %>% 
+      str_c(collapse = ", ")
+      
+  } else {
+    gambiteer_winners <- ""
+    gambiteer_mentions <- ""
+  }
+  
+  marathonmovers_winners <- marathonmovers %>% 
+    filter(rank == 1) %>% 
+    arrange(player)
+  
+  marathonmovers_mentions <- marathonmovers %>% 
+    arrange(rank, player) %>% 
+    filter(rank %in% c(2:3))
+    
+  
   
   # All award names
   award_names_lw <- c("Gambit Guru", "MVP Award", "Archbishop of Accuracy",
@@ -1810,10 +1841,10 @@ SeasonAwards <- function(league = NULL,
                       "Houdini Award", "Tarjan Award", "Slingshot Specialist",
                       "Grischuk's Cousin", "Bullet Boss", "Musing or Snoozing",
                       "Intimate with Increment", "Saved by the Bell", 
-                      "David Award", "Rookie Award", "Aces")
+                      "David Award", "Rookie Award", "Aces", "Marathon Mover")
   award_names_team <- c(award_names_lw, "Awesome Alt", "Team Accuracy", 
                         "Egalitarian Award")
-  award_names_960 <- award_names_lw[c(2:8,10,12:13,16:17)]
+  award_names_960 <- award_names_lw[c(2:8,10,12:13,16:18)]
 
   
   # All award descriptions
@@ -1833,14 +1864,15 @@ SeasonAwards <- function(league = NULL,
                             "Most moves made with < 5s left before winning",
                             "Faced the strongest opposition",
                             "Best relative perf. by a new league player",
-                            "Scored +6 or better")
+                            "Scored +6 or better",
+                            "Most moves played")
   award_definitions_team <- c(award_definitions_lw, "Played for the most teams during the season", 
                               "Lowest team ACPL", "Team with the lowest SD across players' relative perfs")
-  award_definitions_960 <- award_definitions_lw[c(2:8,10,12:13,16:17)]
+  award_definitions_960 <- award_definitions_lw[c(2:8,10,12:13,16:18)]
 
   
   # Identify all award winners to show in reports
-  winners_lw <- c(gambiteers$player[1],
+  winners_lw <- c(gambiteer_winners,
                   relative_perfs$player[1],
                   lowest_acpls$player[1],
                   str_c(single_fig_acpl_players, collapse = ", "),
@@ -1856,7 +1888,8 @@ SeasonAwards <- function(league = NULL,
                   ifelse(movetimes_exist, savedbythebell$player[1], ""),
                   david$player[1],
                   ifelse(nrow(rookie_perfs) > 0, rookie_perfs$player[1], ""),
-                  aces
+                  aces,
+                  str_c(marathonmovers_winners$player, collapse = ", ")
   )
   winners_960 <- winners_lw[c(2:8,10,12:13,16:17)]
   
@@ -1878,14 +1911,15 @@ SeasonAwards <- function(league = NULL,
                   ifelse(movetimes_exist, paste0(savedbythebell$panic_moves[1], " move(s) in ", savedbythebell$url[1]), "Can't be awarded"),
                   paste0("Opponents' record: ", david$opp_points[1], "/", david$opp_games[1]),
                   ifelse(nrow(rookie_perfs) > 0, paste0("+", rookie_perfs$wins[1], "-", rookie_perfs$losses[1], "=", rookie_perfs$draws[1], " perf ", round(rookie_perfs$perf_rating[1]), ", initially ", round(rookie_perfs$initial_rating[1])), ""),
-                  ifelse(aces != "", "", "No eligible players")
+                  ifelse(aces != "", "", "No eligible players"),
+                  paste0(marathonmovers_winners$moves[1], " moves")
                   )
   
-  details_960 <- details_lw[c(2:8,10,12:13,16:17)]
+  details_960 <- details_lw[c(2:8,10,12:13,16:18)]
   
   
   # Honourable mentions (2nd and 3rd ranked players)
-  mentions_lw <- c(ifelse(gambiteer_award, str_c(gambiteers$player[2:3], collapse = ", "), ""),
+  mentions_lw <- c(gambiteer_mentions,
                    str_c(relative_perfs$player[2:3], collapse = ", "),
                    str_c(lowest_acpls$player[2:3], collapse = ", "),
                    "",
@@ -1901,9 +1935,10 @@ SeasonAwards <- function(league = NULL,
                    ifelse(movetimes_exist, str_c(savedbythebell$player[2:3], collapse = ", "), ""),
                    str_c(david$player[2:3], collapse = ", "),
                    ifelse(nrow(rookie_perfs) >= 3, str_c(rookie_perfs$player[2:3], collapse = ", "), ""),
-                   ""
+                   "",
+                   str_c(marathonmovers_mentions$player, collapse = ", ")
                    )
-  mentions_960 <- mentions_lw[c(2:8,10,12:13,16:17)]
+  mentions_960 <- mentions_lw[c(2:8,10,12:13,16:18)]
   
   # Construct awards table
   if(league == "team4545"){
@@ -2333,11 +2368,15 @@ TimeTurners <- function(moves = all_moves,
     group_by(player) %>%
     summarise(games = n(),
               ids = str_c(game_id, collapse = ", "),
-              max_left = lubridate::seconds_to_period(max(time_left)),
-              avg_left = lubridate::seconds_to_period(mean(time_left))) %>%
+              max_left = max(time_left),
+              avg_left = mean(time_left)) %>%
     arrange(desc(games), desc(max_left)) %>% 
     filter(games > 1) %>% 
-    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators)))
+    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
+    mutate(rank = data.table::frank(., games, max_left, ties.method = "min")) %>%
+    mutate(max_left = lubridate::seconds_to_period(max_left),
+           avg_left = lubridate::seconds_to_period(avg_left)) %>% 
+    select(rank, player, ids, games, max_left, avg_left)
   
   return(timeturners)
 }
@@ -2365,13 +2404,98 @@ MostMovesPlayed <- function(games = games,
     group_by(player) %>% 
     summarise(moves = sum(moves)) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
-    slice_max(order_by = moves, n = rows_to_show)
+    slice_max(order_by = moves, n = rows_to_show) %>% 
+    mutate(rank = dense_rank(desc(moves))) %>%
+    filter(rank <= 10) %>% 
+    arrange(rank) %>% 
+    select(rank, player, moves)
   
   return(mostmoves)
 }
 
-
-
+FirstMoves <- function(games = games, league = league){
+  
+  # Make chart showing first moves played in games split by board number or 
+  # average rating band
+  
+  if(league == "team4545"){
+    
+    # For 4545, show first moves played by board
+    firstmoves <- games %>%
+      select(board, first_moves) %>% 
+      group_by(board, first_moves) %>% 
+      summarise(games = n()) %>% 
+      arrange(desc(games)) %>% 
+      tibble::as_tibble() %>% 
+      ggplot(aes(fill = factor(first_moves, levels = c("e4 e5", "e4 c5", "e4 c6", "e4 e6",
+                                                       "e4 d5", "e4 Nf6",
+                                                       "d4 d5", "d4 Nf6", "d4 e6", "d4 d6",
+                                                       "d4 f5", "d4 b6",
+                                                       "Nf3 d5", "Nf3 Nf6", "Nf3 c5",
+                                                       "c4 c5", "c4 Nf6", "c4 e5", "c4 c6")), 
+                 y = games, 
+                 x = board)) +
+      geom_bar(position = "fill", stat = "identity") +
+      theme_cowplot() +
+      labs(x = "Board",
+           y = "Proportion of games") +
+      theme(legend.position = "right") +
+      scale_x_continuous(breaks = seq(1:max(games$board))) +
+      scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+      scale_fill_manual(values = c("#002d9c", "#0043ce", "#0f62fe", "#4589ff", 
+                                   "#78a9ff", "#a6c8ff",
+                                   "#491d8b", "#6929c4", "#8a3ffc", "#a56eff", 
+                                   "#be95ff", "#d4bbff",
+                                   "#00539a", "#0072c3", "#1192e8",
+                                   "#005d5d", "#007d79", "#009d9a", "#08bdba"), 
+                        na.value = "#8C979A",
+                        name = "First moves")
+    
+  } else if(league == "lonewolf"){
+    
+    # For LW, show first moves played by average rating band
+    games$rating_group <- cut(games$mean_rating, 
+                              breaks=c(800, 1000, 1200, 1400, 1600, 1800, 2000,
+                                       2200, 2400, 2600),
+                              labels = c("800-1000", "1000-1200",
+                                         "1200-1400", "1400-1600", "1600-1800",
+                                         "1800-2000", "2000-2200",
+                                         "2200-2400", "2400-2600"),
+                              include.lowest=TRUE, dig.lab = 4)
+    
+    firstmoves <- games %>%
+      select(rating_group, first_moves) %>% 
+      group_by(rating_group, first_moves) %>% 
+      summarise(games = n()) %>% 
+      arrange(desc(games)) %>% 
+      tibble::as_tibble() %>% 
+      ggplot(aes(fill = factor(first_moves, levels = c("e4 e5", "e4 c5", "e4 c6", "e4 e6",
+                                                       "e4 d5", "e4 Nf6",
+                                                       "d4 d5", "d4 Nf6", "d4 e6", "d4 d6",
+                                                       "d4 f5", "d4 b6",
+                                                       "Nf3 d5", "Nf3 Nf6", "Nf3 c5",
+                                                       "c4 c5", "c4 Nf6", "c4 e5", "c4 c6")), 
+                 y = games, 
+                 x = rating_group)) +
+      geom_bar(position = "fill", stat = "identity") +
+      theme_cowplot() +
+      labs(x = "Avg rating band",
+           y = "Proportion of games") +
+      theme(legend.position = "right") +
+      scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+      scale_fill_manual(values = c("#002d9c", "#0043ce", "#0f62fe", "#4589ff", 
+                                   "#78a9ff", "#a6c8ff",
+                                   "#491d8b", "#6929c4", "#8a3ffc", "#a56eff", 
+                                   "#be95ff", "#d4bbff",
+                                   "#00539a", "#0072c3", "#1192e8",
+                                   "#005d5d", "#007d79", "#009d9a", "#08bdba"), 
+                        na.value = "#8C979A",
+                        name = "First moves")
+    
+  }
+  
+  return(firstmoves)
+}
 
 
 

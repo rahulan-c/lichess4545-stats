@@ -101,8 +101,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     background-position: 15px center;
     min-height: 120px;
     color: #2c3e50;
-    background-color: #d3f5fb;
-    border: solid 5px #a4eaf7;
+    background-color: #d3dbfb;
+    border: solid 5px #a4b5f7;
     background-image: url("report_img/spell-book.svg");
   }
   
