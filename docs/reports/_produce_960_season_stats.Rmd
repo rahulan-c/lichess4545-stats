@@ -726,6 +726,7 @@ reactable(upsets,
 - Any player determined by Lichess to have violated their Terms of Service when this report was compiled should not appear in the detailed statistics.^[However, players who were banned from the Lichess4545 leagues after finishing a season in the top three places are still shown with a podium place in that season's report.]
 - [Homepage](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
 - Acknowledgements: [Noun Project](https://thenounproject.com/) for the award icons; [Simon Ilincev](https://simonilincev.com/) for [chess_graph](https://github.com/Destaq/chess_graph), which produces the openings sunburst plots.
+- [Return to season reports](https://rahulan-c.github.io/lichess4545-stats/season_stats.html)
 :::
 
 

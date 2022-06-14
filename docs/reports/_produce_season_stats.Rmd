@@ -148,10 +148,12 @@ num_most_close_losses <- NA_integer_
 ```
 
 
-```{r lw_hide}
-# Hide team-based stuff from LW reports
+```{r hide}
+# Hide team-based stuff from LW reports (and vice versa)
 lw_hide <- FALSE
 if(league != "team4545"){lw_hide <- TRUE}
+team_hide <- FALSE
+if(league != "lonewolf"){team_hide <- TRUE}
 ```
 
 <!-- Show league logo -->
@@ -233,7 +235,7 @@ close_wins <- close %>%
   slice_max(close_wins)
 team_most_close_wins <- close_wins %>% select(winner) %>% dplyr::pull()
 team_most_close_wins <- ifelse(length(team_most_close_wins) > 4, 
-                               "multiple",
+                               "five or more teams",
                                team_most_close_wins)
 num_most_close_wins <- close_wins %>% select(close_wins) %>% dplyr::pull()
 num_most_close_wins <- num_most_close_wins[1]
@@ -245,7 +247,7 @@ close_losses <- close %>%
   slice_max(close_losses)
 team_most_close_losses <- close_losses %>% select(loser) %>% dplyr::pull()
 team_most_close_losses <- ifelse(length(team_most_close_losses) > 4, 
-                               "multiple",
+                               "five or more teams",
                                team_most_close_losses)
 num_most_close_losses <- close_losses %>% select(close_losses) %>% dplyr::pull()
 num_most_close_losses <- num_most_close_losses[1]
@@ -291,19 +293,12 @@ plt_wins_by_col
 </div>
 </div>
 
+
 ### Final standings
+
 <br>
-```{r results='asis', echo=FALSE}
-# Hide team rosters text from LW reports
-if(lw_hide){cat("<!---")}
-```
 
-*Team rosters ordered by number of games played (shown in brackets)*
 
-```{r results='asis', echo=FALSE}
-# Stop hiding stuff from LW reports
-if(lw_hide){cat("-->")}
-```
 
 
 ```{r}
@@ -319,28 +314,50 @@ if(league == "team4545"){
   
   first <- podium_places[[1]]
   first_link <- podium_places[[2]]
-  second <- podium_places[[3]]
-  second_link <- podium_places[[4]]
-  third <- podium_places[[5]]
-  third_link <- podium_places[[6]]
+  first_perf <- podium_places[[3]]
+  
+  second <- podium_places[[4]]
+  second_link <- podium_places[[5]]
+  second_perf <- podium_places[[6]]
+  
+  third <- podium_places[[7]]
+  third_link <- podium_places[[8]]
+  third_perf <- podium_places[[9]]
+  
+  prize <- ""
+  prize_link <- ""
+  prize_perf <- ""
+  
   
 } else {
   
   first <- podium_places[[1]]
   first_link <- podium_places[[2]]
-  first_score <- podium_places[[3]]
-  first_perf <- podium_places[[4]]
+  first_perf <- podium_places[[3]]
   
-  second <- podium_places[[5]]
-  second_link <- podium_places[[6]]
-  second_score <- podium_places[[7]]
-  second_perf <- podium_places[[8]]
+  second <- podium_places[[4]]
+  second_link <- podium_places[[5]]
+  second_perf <- podium_places[[6]]
   
-  third <- podium_places[[9]]
-  third_link <- podium_places[[10]]
-  third_score <- podium_places[[11]]
-  third_perf <- podium_places[[12]]
+  third <- podium_places[[7]]
+  third_link <- podium_places[[8]]
+  third_perf <- podium_places[[9]]
   
+  prize <- podium_places[[10]]
+  prize_link <- podium_places[[11]]
+  prize_perf <- podium_places[[12]]
+  
+  
+}
+
+if(league == "lonewolf"){
+  if(lw_u1800){
+    prize_label <- "Best U1600"
+  } else {
+    prize_label <- "Best U2000"
+  }
+} else {
+  prize_label <- ""
 }
 
 
@@ -349,55 +366,113 @@ if(league == "team4545"){
 
 <div class = "row">
   
-<div class = "col-md-4">
+<div class = "col-md-5">
 
 :::first
 <p style="font-size:12pt; font-weight: 900;">
 1st place
 <br>
 </p>
-<p style="font-size:16pt; font-weight: 900;">
+<p style="font-size:15pt; font-weight: 900;">
     `r paste0("[", first, "]", "(", first_link, ")")`
 </p>
-<p style="font-size:12pt; font-weight: 900;">
+<p style="font-size:11pt; font-weight: 600;">
+    `r paste0(first_perf)`
 </p>
 :::
 
 </div>
   
-<div class = "col-md-4">
+<div class = "col-md-5">
 
 :::second
 <p style="font-size:12pt; font-weight: 900;">
 2nd place
 <br>
 </p>
-<p style="font-size:14pt; font-weight: 600;">
+<p style="font-size:15pt; font-weight: 600;">
     `r paste0("[", second, "]", "(", second_link, ")")`
 </p>
-<p style="font-size:12pt; font-weight: 900;">
+<p style="font-size:11pt; font-weight: 600;">
+  `r paste0(second_perf)`
 </p>
 :::
 
 </div>
 
-<div class = "col-md-4">
+</div>
+
+<div class = "row">
+<div class = "col-md-5">
+<br>
+</div>
+</div>
+
+<div class = "row">
+
+<div class = "col-md-5">
 
 :::third
 <p style="font-size:12pt; font-weight: 900;">
 3rd place
 <br>
 </p>
-<p style="font-size:14pt; font-weight: 600;">
+<p style="font-size:15pt; font-weight: 600;">
     `r paste0("[", third, "]", "(", third_link, ")")`
 </p>
-<p style="font-size:12pt; font-weight: 900;">
+<p style="font-size:11pt; font-weight: 600;">
+  `r paste0(third_perf)`
 </p>
 :::
 
 </div>
 
+```{r results='asis', echo=FALSE}
+# Hide prize winner info in 4545 reports
+if(team_hide){cat("<!---")}
+```
+
+<div class = "col-md-5">
+
+:::prize
+<p style="font-size:12pt; font-weight: 900;">
+`r paste0(prize_label)`
+<br>
+</p>
+<p style="font-size:15pt; font-weight: 600;">
+    `r paste0("[", prize, "]", "(", prize_link, ")")`
+</p>
+<p style="font-size:11pt; font-weight: 600;">
+  `r paste0(prize_perf)`
+</p>
+:::
+
 </div>
+
+
+
+```{r results='asis', echo=FALSE}
+# Resume showing everything
+if(team_hide){cat("-->")}
+```
+
+</div>
+
+<br>
+
+```{r results='asis', echo=FALSE}
+# Hide team rosters text from LW reports
+if(lw_hide){cat("<!---")}
+```
+
+*Podium team rosters (incl. alternates, ordered by games played)*
+
+```{r results='asis', echo=FALSE}
+# Stop hiding stuff from LW reports
+if(lw_hide){cat("-->")}
+```
+
+
 
 ```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Show 4545 podium team players in a reactable tabl
@@ -446,11 +521,12 @@ See the twists and turns in every match this season through these PDF visualisat
 
 #### Board medals
 
-Here are the top player performances on each board (minimum 5 games played).^[Note that these performance ratings only account for account games played on a specific board, so they differ in this respect from the performance ratings published on the Lichess4545 rosters page.]
+Here are the top three player performances on each board (min. 5 games played). Click on the arrows next to each board number to see more details.^[Similar to the "official" board performance tables on the Lichess4545 website, board rankings are determined by performance rating alone. However, the ratings themselves only consider games played on a given board, while the website's ratings ignore board numbers altogether.]
 
 ```{r bperfs, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Board perf ratings
-bperfs <- BoardPerfRatings(pairings, fide_tpr_lookup, tos_violators)
+bperfs <- BoardPerfRatings(pairings, fide_tpr_lookup, tos_violators,
+                           team_boards)
 
 # Show board rankings in a table
 reactable(bperfs, groupBy = "board",
@@ -471,6 +547,8 @@ reactable(bperfs, groupBy = "board",
                                   format = colFormat(digits = 0))
           )
           )
+
+# "report_img/%s.svg"
 
 ```
 
@@ -728,37 +806,12 @@ if(league == "lonewolf") {
 
 #### First moves `r emo::ji("bar_chart")`
 
-```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
+The frequency of first move pairs by board (4545) or average rating band (LoneWolf).
 
-# White and Black's first moves, % games by board (stacked) 
-games %>%
-  select(board, first_moves) %>% 
-  group_by(board, first_moves) %>% 
-  summarise(games = n()) %>% 
-  arrange(desc(games)) %>% 
-  tibble::as_tibble() %>% 
-  ggplot(aes(fill = factor(first_moves, levels = c("e4 e5", "e4 c5", "e4 c6", "e4 e6",
-                                                   "e4 d5", "e4 Nf6",
-                                                    "d4 d5", "d4 Nf6", "d4 e6", "d4 d6",
-                                                   "d4 f5", "d4 b6",
-                                                   "Nf3 d5", "Nf3 Nf6", "Nf3 c5",
-                                                   "c4 c5", "c4 Nf6", "c4 e5", "c4 c6")), 
-             y = games, 
-             x = board)) +
-  geom_bar(position = "fill", stat = "identity") +
-  theme_cowplot() +
-  labs(x = "Board",
-       y = "Proportion of games") +
-  theme(legend.position = "right") +
-  scale_x_continuous(breaks = integer_breaks()) +
-  scale_fill_manual(values = c("#002d9c", "#0043ce", "#0f62fe", "#4589ff", 
-                               "#78a9ff", "#a6c8ff",
-                               "#491d8b", "#6929c4", "#8a3ffc", "#a56eff", 
-                               "#be95ff", "#d4bbff",
-                               "#00539a", "#0072c3", "#1192e8",
-                               "#005d5d", "#007d79", "#009d9a", "#08bdba"), 
-                    na.value = "#8C979A",
-                    name = "First moves")
+```{r, eval = ifelse(league %in% c("team4545", "lonewolf"), TRUE, FALSE)}
+
+firstmoves <- FirstMoves(games = games, league = league)
+firstmoves
 ```
 
 
@@ -1053,7 +1106,9 @@ Click on the image below to see a sunburst plot of all openings played in the se
 <!-- All the code to determine the awards has to be run before the awards table -->
 
  
-Assorted awards to celebrate the season. See the footnote for more details about each award.^[*Archbishop of Accuracy*: this is for the player with the lowest average centipawn loss (CPL) over all games. Note that this calculation isn't based on Lichess's ACPL figures. It excludes moves played in the first 10 moves of a game and moves with a centipawn loss < 150 in *decided* positions. These are considered to be positions with an evaluation greater than or equal to +300 centipawns for one side. All evaluation data is sourced from Lichess server analysis. To be eligible, players must have played at least five games in the season. *David Award*: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. To be eligible, a player must have played at least 5 games over the season, and their opponents must have collectively played at least 30 games against others. Suggested by Tranzoo. *Egalitarian Award*: intended for the team whose players performed most similarly to each other. First, I compute all players' *relative* performance ratings -- the difference between their actual performance rating (using FIDE's method) and their initial rating. Then I group all players by team, and give the award to the team with the lowest standard deviation across its players' relative ratings. Suggested by Silkthewanderer. *Gambit Guru*: most gambits played while scoring above 50%. *MVP Award*: minimum 5 games played. *Rookie Award*: minimum 4 games played. *Saved by the Bell*: Excludes moves made in positions with an evaluation of under +300 centipawns from the mover’s perspective. Ordering is determined first by # moves played with under 5 seconds remaining, then by least time remaining in such conditions, then by worst eval faced. *Slingshot Specialist*: the player with the highest total rating gap between their opponents and themselves when only considering wins against opponents rated at least 50 rating points higher.︎]
+Assorted awards to celebrate the season - see the footnote for more details.[^awards]
+
+[^awards]: **Aces**: all players who achieved a plus/minus score - wins minus losses - of +6 or better over the season. **Archbishop of Accuracy**: the player with the lowest average centipawn loss (ACPL) over the season, accounting for moves played. **Giri Award**: named for [Anish Giri](https://chess24.com/en/read/news/giri-s-60-memorable-draws-exclusive-excerpt). **Grischuk's Cousin**: named for [Alexander Grischuk](https://www.chessbase.in/news/Candidates-2020-21-Round-10). **Houdini Award**: the player with the most comeback "points" over the season - players earn 1 point for winning a game after being in a position with an evaluation worse than -6, 0.7 points for winning after being worse than -3, 0.5 points for drawing after being worse than -6, and 0.3 points for drawing after being worse than -3. **MVP Award**: players must play at least five games to qualify, and perf. ratings are calculated using FIDE's method. **Primates of Precision**: based on Lichess game analysis ACPLs. **Rookie Award**: to be eligible, players must have played at least four games in the season and not have played in any previous 960 league season. **Tarjan Award**: named for James Tarjan, who [famously defeated Vladimir Kramnik in 2017](https://www.chess.com/news/view/3-year-old-tarjan-beats-kramnik-in-battle-of-generations). **David Award**: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. To be eligible, a player must have played at least 5 games over the season, and their opponents must have collectively played at least 30 games against others. **Egalitarian Award**: the team with the lowest standard deviation across players' relative performance ratings. *Other*: all other awards should be self-explanatory.
  
 
 ```{r}
@@ -1122,6 +1177,12 @@ david <- DavidAward(games, perfs, min_comb_opp_games = 30, min_comb_opp_score = 
 
 # Best performance by a player making their league debut (Rookie Award)
 rookie_perfs <- RookieAward(all_games, games, perfs, min_games = 4, tos_violators)
+
+# Time Turner Award
+timeturners <- TimeTurners(moves = all_moves, games, league, season, tos_violators)
+
+# Marathon Moves Award
+marathon_moves <- MostMovesPlayed(games, rows_to_show = 100, tos_violators)
 ```
 
 
@@ -1166,7 +1227,9 @@ if(movetimes_exist){
                          gambiteer_award = gambiteer_award,
                          team_accuracy_award = team_accuracy_award,
                          egalitarian = egalitarian,
-                         aces = aces)
+                         aces = aces,
+                         marathonmovers = marathon_moves,
+                         needforspeed = timeturners)
   } else {
     awards <- SeasonAwards(league = league, 
                          league_col_dark = league_col_dark, 
@@ -1189,7 +1252,9 @@ if(movetimes_exist){
                        david = david,
                        rookie_perfs = rookie_perfs,
                        gambiteer_award = gambiteer_award,
-                       aces = aces)
+                       aces = aces,
+                       marathonmovers = marathon_moves,
+                       needforspeed = timeturners)
   }
 } else {
   if(league == "team4545"){
@@ -1217,7 +1282,9 @@ if(movetimes_exist){
                            gambiteer_award = gambiteer_award,
                            team_accuracy_award = team_accuracy_award,
                            egalitarian = egalitarian,
-                           aces = aces)
+                           aces = aces,
+                           marathonmovers = marathon_moves,
+                           needforspeed = NULL)
   } else {
     awards <- SeasonAwards(league = league, 
                          league_col_dark = league_col_dark, 
@@ -1240,7 +1307,9 @@ if(movetimes_exist){
                            david = david,
                            rookie_perfs = rookie_perfs,
                          gambiteer_award = gambiteer_award,
-                         aces = aces)
+                         aces = aces,
+                         marathonmovers = marathon_moves,
+                         needforspeed = NULL)
   }
 }
 
@@ -1448,8 +1517,9 @@ reactable(season_think,
              rank = colDef(name = "Rank", align = "center"),
     player = colDef(name = "Player", minWidth = 200),
     games = colDef(name = "Games", align = "center"),
-    duration_print = colDef(name = "Total time spent")),
-    compact = TRUE)
+    duration_print = colDef(name = "Total time spent", minWidth = 150)),
+    compact = TRUE
+    )
 } else {
   cat(no_movetimes_print)
 }
@@ -1646,7 +1716,7 @@ reactable(instamovers,
 }   
 ```
 
-#### Longest thinks, time trouble addicts, and lucky escapes {.tabset .tabset-fade .tabset-pills} 
+#### Long thinks, lucky escapes, time trouble/travel, most moves {.tabset .tabset-fade .tabset-pills} 
 
 ##### Longest thinks
 
@@ -1732,6 +1802,54 @@ reactable(savedbythebell,
 ```
 
 
+##### Marathon Movers
+
+The ten players who made the most moves across the season.
+
+```{r marathon_moves}
+reactable(marathon_moves,
+          fullWidth = FALSE,
+          resizable = TRUE,
+          compact = TRUE,
+          columns = list(
+            rank = colDef(name = "Rank", align = "center", minWidth = 60),
+            player = colDef(name = "Player", minWidth = 200),
+            moves = colDef(name = "Moves", align = "center", minWidth = 60)
+            )
+          )
+
+```
+
+
+##### Need for Speed
+
+Everyone who won or drew at least two games where they finished with more than 45 minutes left on their clock (30 for LoneWolf). Excludes losses and games shorter than 15 moves. *Inspired by NLance and pulsar512b*
+
+```{r time_turners}
+
+if(movetimes_exist){
+reactable(timeturners,
+          fullWidth = FALSE,
+          resizable = TRUE,
+          compact = TRUE,
+          columns = list(
+            rank = colDef(name = "Rank", align = "center", minWidth = 80),
+            player = colDef(name = "Player", minWidth = 200),
+            ids = colDef(show = F),
+            games = colDef(name = "Time-gaining games", align = "center", minWidth = 70),
+            max_left = colDef(name = "Max time left", align = "center", minWidth = 100),
+            avg_left = colDef(show = F)
+            )
+          )
+} else {
+  cat(no_movetimes_print)
+}
+
+```
+
+
+
+
 
 ```{r notable_checkmates, comment = "", eval = FALSE}
 # Identify all season games with notable checkmate patterns (using Python script)
@@ -1764,6 +1882,7 @@ if(notable_mates != ""){
 - Any player determined by Lichess to have violated their Terms of Service when this report was compiled should not appear in the detailed statistics.^[However, players who were banned from the Lichess4545 leagues after finishing a season in the top three places are still shown with a podium place in that season's report.]
 - [Homepage](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
 - Acknowledgements: [Noun Project](https://thenounproject.com/) for the award icons; [Simon Ilincev](https://simonilincev.com/) for [chess_graph](https://github.com/Destaq/chess_graph), which produces the openings sunburst plots.
+- [Return to season reports](https://rahulan-c.github.io/lichess4545-stats/season_stats.html)
 :::
 
 

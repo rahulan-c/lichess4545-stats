@@ -50,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -73,17 +74,18 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
 code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
+
 
   <!--radix_placeholder_meta_tags-->
   <title>Lichess4545 Statistics: Lichess4545 Stats</title>
@@ -1030,10 +1032,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     margin-top: 1.5em;
   }
 
-  .figure img {
-    width: 100%;
-  }
-
   .figure .caption {
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
@@ -1863,7 +1861,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
+          var fn = $(this).children()[0]
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -1874,6 +1881,31 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           placement: 'bottom-start'
         });
       });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
 
       // clear polling timer
       clearInterval(tid);
@@ -1973,6 +2005,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
       if ($(this).attr('data-layout') !== "l-body") {
         figures.css('width', '100%');
       } else {
@@ -1995,7 +2029,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
-        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
       });
     }
 
@@ -2495,7 +2529,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: var(--hover-color, white);
   }</style>
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2648,12 +2682,12 @@ players by continent/country</a>…</p>
 <!-- bottom element: league status table -->
 <div class="index-row-narrow l-page">
 <div class="index-column-m l-page">
-<div id="ympmozytzd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="szmtxytngr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ympmozytzd .gt_table {
+#szmtxytngr .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2678,7 +2712,7 @@ players by continent/country</a>…</p>
   border-left-color: #D3D3D3;
 }
 
-#ympmozytzd .gt_heading {
+#szmtxytngr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2690,7 +2724,7 @@ players by continent/country</a>…</p>
   border-right-color: #D3D3D3;
 }
 
-#ympmozytzd .gt_title {
+#szmtxytngr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2702,7 +2736,7 @@ players by continent/country</a>…</p>
   border-bottom-width: 0;
 }
 
-#ympmozytzd .gt_subtitle {
+#szmtxytngr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2714,13 +2748,13 @@ players by continent/country</a>…</p>
   border-top-width: 0;
 }
 
-#ympmozytzd .gt_bottom_border {
+#szmtxytngr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ympmozytzd .gt_col_headings {
+#szmtxytngr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2735,7 +2769,7 @@ players by continent/country</a>…</p>
   border-right-color: #D3D3D3;
 }
 
-#ympmozytzd .gt_col_heading {
+#szmtxytngr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2755,7 +2789,7 @@ players by continent/country</a>…</p>
   overflow-x: hidden;
 }
 
-#ympmozytzd .gt_column_spanner_outer {
+#szmtxytngr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2767,15 +2801,15 @@ players by continent/country</a>…</p>
   padding-right: 4px;
 }
 
-#ympmozytzd .gt_column_spanner_outer:first-child {
+#szmtxytngr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ympmozytzd .gt_column_spanner_outer:last-child {
+#szmtxytngr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ympmozytzd .gt_column_spanner {
+#szmtxytngr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2787,7 +2821,7 @@ players by continent/country</a>…</p>
   width: 100%;
 }
 
-#ympmozytzd .gt_group_heading {
+#szmtxytngr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2812,7 +2846,7 @@ players by continent/country</a>…</p>
   vertical-align: middle;
 }
 
-#ympmozytzd .gt_empty_group_heading {
+#szmtxytngr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2827,15 +2861,15 @@ players by continent/country</a>…</p>
   vertical-align: middle;
 }
 
-#ympmozytzd .gt_from_md > :first-child {
+#szmtxytngr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ympmozytzd .gt_from_md > :last-child {
+#szmtxytngr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ympmozytzd .gt_row {
+#szmtxytngr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2854,7 +2888,7 @@ players by continent/country</a>…</p>
   overflow-x: hidden;
 }
 
-#ympmozytzd .gt_stub {
+#szmtxytngr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2867,7 +2901,7 @@ players by continent/country</a>…</p>
   padding-right: 5px;
 }
 
-#ympmozytzd .gt_stub_row_group {
+#szmtxytngr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2881,11 +2915,11 @@ players by continent/country</a>…</p>
   vertical-align: top;
 }
 
-#ympmozytzd .gt_row_group_first td {
+#szmtxytngr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ympmozytzd .gt_summary_row {
+#szmtxytngr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2895,16 +2929,16 @@ players by continent/country</a>…</p>
   padding-right: 5px;
 }
 
-#ympmozytzd .gt_first_summary_row {
+#szmtxytngr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ympmozytzd .gt_first_summary_row.thick {
+#szmtxytngr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ympmozytzd .gt_last_summary_row {
+#szmtxytngr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2914,7 +2948,7 @@ players by continent/country</a>…</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ympmozytzd .gt_grand_summary_row {
+#szmtxytngr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2924,7 +2958,7 @@ players by continent/country</a>…</p>
   padding-right: 5px;
 }
 
-#ympmozytzd .gt_first_grand_summary_row {
+#szmtxytngr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2934,11 +2968,11 @@ players by continent/country</a>…</p>
   border-top-color: #D3D3D3;
 }
 
-#ympmozytzd .gt_striped {
+#szmtxytngr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ympmozytzd .gt_table_body {
+#szmtxytngr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2947,7 +2981,7 @@ players by continent/country</a>…</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ympmozytzd .gt_footnotes {
+#szmtxytngr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2961,7 +2995,7 @@ players by continent/country</a>…</p>
   border-right-color: #D3D3D3;
 }
 
-#ympmozytzd .gt_footnote {
+#szmtxytngr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2970,7 +3004,7 @@ players by continent/country</a>…</p>
   padding-right: 5px;
 }
 
-#ympmozytzd .gt_sourcenotes {
+#szmtxytngr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2984,7 +3018,7 @@ players by continent/country</a>…</p>
   border-right-color: #D3D3D3;
 }
 
-#ympmozytzd .gt_sourcenote {
+#szmtxytngr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2992,60 +3026,69 @@ players by continent/country</a>…</p>
   padding-right: 5px;
 }
 
-#ympmozytzd .gt_left {
+#szmtxytngr .gt_left {
   text-align: left;
 }
 
-#ympmozytzd .gt_center {
+#szmtxytngr .gt_center {
   text-align: center;
 }
 
-#ympmozytzd .gt_right {
+#szmtxytngr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ympmozytzd .gt_font_normal {
+#szmtxytngr .gt_font_normal {
   font-weight: normal;
 }
 
-#ympmozytzd .gt_font_bold {
+#szmtxytngr .gt_font_bold {
   font-weight: bold;
 }
 
-#ympmozytzd .gt_font_italic {
+#szmtxytngr .gt_font_italic {
   font-style: italic;
 }
 
-#ympmozytzd .gt_super {
+#szmtxytngr .gt_super {
   font-size: 65%;
 }
 
-#ympmozytzd .gt_footnote_marks {
+#szmtxytngr .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#szmtxytngr .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#ympmozytzd .gt_asterisk {
+#szmtxytngr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ympmozytzd .gt_slash_mark {
+#szmtxytngr .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#ympmozytzd .gt_fraction_numerator {
+#szmtxytngr .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#ympmozytzd .gt_fraction_denominator {
+#szmtxytngr .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -3067,10 +3110,10 @@ players by continent/country</a>…</p>
   </thead>
   <tbody class="gt_table_body">
     <tr><td class="gt_row gt_left"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iaGVpZ2h0OiA1MTJweDsgd2lkdGg6IDUxMnB4OyI+PHBhdGggZD0iTTAgMGg1MTJ2NTEySDB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48ZyBjbGFzcz0iIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDApIiBzdHlsZT0iIj48cGF0aCBkPSJNMTczLjYyNSAxNS43MmwxNi4xNTYgNTMuODEtOTQuMzc0LTQ4LjkwNUwxNTguNDcgOTguMjUgNDUuMTg3IDExNy40MDZsMTEzLjI4IDE5LjYyNS01OS43MTggNzUuMTkgNjUuMDMtMzMuNDA3LTEuNzggNTguODQzIDE5Ljg0NC0zNy4zNDR2LTY0LjIxOGwuNzUtMS43NSAzMS45MDYtNzQuNzUtNDAuODc1LTQzLjg3NXptMTQ2LjI1IDBMMjgyLjk3IDU1LjM0M2wzMy4zNDIgNzkuMDMuNzUgMS43NVYyMDUuODQ2bDE1LjUgMjkuMTg3LTEuNjI1LTU0LjQzNiA2NS41MzIgMzQuMDYyLTYzLjA2NC03Ny42MjUgMTEzLjI4LTE5LjYyNC0xMTMuMjgtMTkuMTU2IDYzLjA2My03Ny42MjUtOTIuNDQgNDcuOTA2IDE1Ljg0NS01Mi44MXpNMjQ5LjI4IDIzLjU2bC00OS4xODYgMTE0LjV2MTUzLjVMMjM1LjAzIDMyNi41YzIuOTE2LTY1LjQzNSA3Ljk3Ni0xMjguOTM2IDE1LjI1LTE4Ny43MiA3LjYwNiA2MS40MzMgMTIuNzQ0IDEyOC43NzUgMTUuNTMyIDE5OGwzMi42MjUtMzIuNjI0VjEzOC4wNjJsLTQ5LjE1Ni0xMTQuNXpNMzMuMTI2IDIwNi44NDVsMzcuMzQ0IDk0LjA2MiAxOTMuOTA1IDE5My45MzhoMzAuODEzYy02Ni4zNC02OC41MDMtMTI4LjQ4My0xMzkuMDAyLTE4MC42MjUtMjA1Ljg3NSA3NC43MDUgNTguMjQ2IDE1NS4xMDQgMTMwLjMzMyAyMzEuMzEyIDIwNS44NzRoMzEuMDYzTDEyNi44MTMgMjQ0LjY4OGwtOTMuNjg4LTM3Ljg0NHptNDQ0Ljg0NCAwbC05My42MjYgMzcuODEyTDI2OC43NSAzNjAuMjVsMTguMTU2IDE4LjEyNWMzNi4yNzgtMzIuMTAyIDcyLjMxNS02Mi4yNjUgMTA3LjEyNS04OS40MDYtMjcuMzAyIDM1LjAxNS01Ny4zNiA3MS4wMi04OS4zMSAxMDcuMjE3TDMyNS4wNiA0MTYuNWwxMTUuNTMyLTExNS41MyAzNy4zNzUtOTQuMTI2ek0xODYuMDYgNDQyLjkzOGwtNTEuOTA2IDUxLjkwNmgyOC41OTRjMTIuNTk2LTEyLjQ4NiAyNS4zMTQtMjQuODc1IDM4LjA5NC0zNy4xMjVsLTE0Ljc4LTE0Ljc4M3ptMzkuMzc1IDM5LjQwNmMtMy45OTUgNC4xNzMtOC4wMDMgOC4zNC0xMi4wMyAxMi41aDI0LjUzbC0xMi41LTEyLjV6IiBmaWxsPSIjM2Q1YTgwIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48L2c+PC9zdmc+" style="height:30px;"></td>
-<td class="gt_row gt_left">Season 30has finished. Registrations haven't been opened yet for a new season.</td>
+<td class="gt_row gt_left">Season 30 in progress (13 Dec to 7 Feb)</td>
 <td class="gt_row gt_center"></td></tr>
     <tr><td class="gt_row gt_left"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iaGVpZ2h0OiA1MTJweDsgd2lkdGg6IDUxMnB4OyI+PHBhdGggZD0iTTAgMGg1MTJ2NTEySDB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48ZyBjbGFzcz0iIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDApIiBzdHlsZT0iIj48cGF0aCBkPSJNMTc5LjMgMzguOTRDMTU0LjcgNzcuNyAxNDIuNyAxMzkuNyAxNjguNCAxODUuOWwtMTYuMyA5LjJjLTYuNy0xMS45LTExLjItMjQuNC0xMy45LTM3LjItMzQuNS02LjMtNjkuNDItNy41LTEwNC45OC0yLjEgMzQuMDcgMTAuMSA1Mi43NyAyMy43IDc2LjY4IDQ2LjctMjYuODIgOS43LTYwLjI1IDMwLjItOTIuOTMgNzAuMiAzNS40Ny04LjggNjQuODMtMTEuNSA4OS40My02LjMtMzYuOTQgMjIuNS02NC4wNiA1Ni4xLTg4LjM0IDExNC4xIDM1LjktMTcuMiA2NC44OS0xOC44IDEwMi45NC0xOC44LTIzLjA3IDMyLjctMzUuMjcgNzcuMi0zNi4zMSAxMTIuOCAyNC41MS0yNiA1Ny42MS02MC4yIDg3LjIxLTc5IDMgMjkuOSAxNSA1OC4zIDM1LjkgODUuMy0uMi00My45IDEwLjMtODguMyAzMS42LTEzMy40LTE4LjggOS0zMi40IDE4LjEtNDkuOSAyOS4zIDYuMi0yNy45IDEyLjQtNTUuOCAxOC43LTgzLjctMjMuMyAyLjQtMzkgMTAtNjAuNSAxOC41IDE2LjMtMzMuMSAzMi43LTY2LjEgNDkuMS05OS4ybDE2LjggOC4zLTI4LjQgNTcuNGMxOC40LTQuNCAyOC43LTQuMSA0NS43LTEuMy00LjUgMjAuNC05IDQwLjctMTMuNiA2MSA2NS4zLTM2LjIgMTQ4LjMtNDUuOSAyMjYuNy01MCA3LjYtMTIuOSAxMy44LTI0LjIgMTguOC0zNC44bC02LjMtMjQuNC0yNC40IDMwLjgtNy44LTI3LjUtMjIuNSAyOS4yLTcuNS0yNi4xLTIzLjkgMzEuNS03LjctMjguMi0yMy44IDMxLjQgMS4yLTQxLjEgMjIuNi00Mi43IDcuNiAyOC4zIDIzLjktMzEuNSA3LjYgMjguMiAyMy41LTMwIDYuNSAyNi45IDI0LjUtMzAuOCA3LjggMjcuNSAyNC42LTMyYzIuMy0xMC44IDQuNi0yMi40IDcuNC0zNS43LTU1LjUtMy43LTEwNi4zIDQuOC0xNTQgOS44LTM4LTIwLjgtODAuOC0yNi44LTEyMS45LTE4LjUtMTMuNi0yOS42OS0yNy4yLTU5LjM4LTQwLjktODkuMDZ6TTMyNS41IDE1OC4zYy00LjUgMTQuMi0xMyAxOC4zLTI0LjcgMjAuNi0xNi4xLTQuNC0yOC4zLTE1LjUtMzQuNC0zMC4yIDIwLjQtMy44IDQyLjQgMy40IDU5LjEgOS42eiIgZmlsbD0iIzNkNWE4MCIgZmlsbC1vcGFjaXR5PSIxIj48L3BhdGg+PC9nPjwvc3ZnPg==" style="height:30px;"></td>
-<td class="gt_row gt_left">Pre-season. Season 26 will run from 7 Feb to 25 Apr</td>
+<td class="gt_row gt_left">Season 26 in progress (22 Nov to 7 Feb)</td>
 <td class="gt_row gt_center"><a href="https://www.lichess4545.com/lonewolf/register/">Register</a></td></tr>
     <tr><td class="gt_row gt_left"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iaGVpZ2h0OiA1MTJweDsgd2lkdGg6IDUxMnB4OyI+PHBhdGggZD0iTTAgMGg1MTJ2NTEySDB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48ZyBjbGFzcz0iIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDApIiBzdHlsZT0iIj48cGF0aCBkPSJNMjU2IDI0LjU4NUw1MS40NyAxMTguOTg5IDI1NiAyMTMuMzk0bDIwNC41My05NC40MDV6TTM4Ljk5OCAxMzMuMDU0djI1OC4zNTNMMjQ3IDQ4Ny40MTVWMjI5LjA2M3ptNDM0LjAwNCAwTDI2NSAyMjkuMDYydjI1OC4zNTNsMjA4LjAwMi05Ni4wMDh6IiBmaWxsPSIjM2Q1YTgwIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48L2c+PC9zdmc+" style="height:30px;"></td>
 <td class="gt_row gt_left">Season 21 in progress (23 May to 11 Jul)</td>
@@ -3089,7 +3132,7 @@ players by continent/country</a>…</p>
 <!-- Show date when page was last updated -->
 <h2 class="appendix" id="last-updated-on">Last updated on</h2>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>30 May 2022</code></pre>
+<pre><code>14 Jun 2022</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <style type="text/css">

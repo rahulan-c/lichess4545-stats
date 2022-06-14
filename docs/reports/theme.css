@@ -78,6 +78,20 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     background-image: url("report_img/trophy-3.svg");
   }
   
+  div.prize {
+    padding: 0.1em;
+    margin: 0.1em 0;
+    padding-left: 70px;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    min-height: 70px;
+    color: #2c3e50;
+    background-color: #bed3ec;
+    border: solid 3px #dfedff;
+    background-image: url("report_img/lw_prize.png");
+  }
+  
   div.about {
     padding: 1em;
     margin: 1em 0;
@@ -101,8 +115,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     background-position: 15px center;
     min-height: 120px;
     color: #2c3e50;
-    background-color: #d3f5fb;
-    border: solid 5px #a4eaf7;
+    background-color: #d3dbfb;
+    border: solid 5px #a4b5f7;
     background-image: url("report_img/spell-book.svg");
   }
   
