@@ -355,11 +355,22 @@ PodiumPlayers <- function(summary_url){
   third_score <- GetSeasonScore(third_link)
   third_perf <- GetSeasonPerf(third_link)
   
+  # LW U2000 (Open) or U1600 (U1800) prize winners
+  prize <- read_html(summary_url) %>% 
+    html_element(".u1600-winner .player-link") %>% 
+    html_text()
+  prize_link <- read_html(summary_url) %>% 
+    html_element(".u1600-winner .player-link") %>%
+    html_attr("href")
+  prize_link <- paste0("https://www.lichess4545.com", prize_link)
+  prize_score <- GetSeasonScore(prize_link)
+  prize_perf <- GetSeasonPerf(prize_link)
   
   
   return(list(first, first_link, first_score, first_perf,
               second, second_link, second_score, second_perf,
-              third, third_link, third_score, third_perf))
+              third, third_link, third_score, third_perf, prize, prize_link, 
+              prize_score, prize_perf))
 }
 
 
@@ -553,7 +564,8 @@ SeasonRankTracker <- function(league = league, positions = positions, league_col
 }
 
 
-BoardPerfRatings <- function(pairings, fide_tpr_lookup, tos_violators) {
+BoardPerfRatings <- function(pairings, fide_tpr_lookup, tos_violators,
+                             team_boards) {
   bperfs_w <- pairings %>% 
     filter(winner != "forfeit/unplayed") %>% 
     group_by(white, board) %>%
@@ -605,9 +617,11 @@ BoardPerfRatings <- function(pairings, fide_tpr_lookup, tos_violators) {
     arrange(desc(bperf_rating)) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
     slice_max(order_by = bperf_rating, n = 3) %>% 
-    select(board, player, games, points, bperf_rating)
+    mutate(rank = paste0("brank_", rep(1:3, n = team_boards))) %>% 
+    select(board, rank, player, games, points, bperf_rating)
   return(bperfs)
 }
+
 
 
 GamesByDay <- function(games, league_col){
@@ -1936,7 +1950,7 @@ SeasonAwards <- function(league = NULL,
                   ifelse(nrow(rookie_perfs) > 0, paste0("+", rookie_perfs$wins[1], "-", rookie_perfs$losses[1], "=", rookie_perfs$draws[1], " perf ", round(rookie_perfs$perf_rating[1]), ", initially ", round(rookie_perfs$initial_rating[1])), ""),
                   ifelse(aces != "", "", "No eligible players"),
                   paste0(marathonmovers_winners$moves[1], " moves"),
-                  paste0(needforspeed$games[1], "time-gaining games")
+                  paste0(needforspeed$games[1], " time-gaining games")
                   )
   
   details_960 <- details_lw[c(2:8,10,12:13,16:19)]

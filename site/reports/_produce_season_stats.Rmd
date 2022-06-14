@@ -328,17 +328,17 @@ if(league == "team4545"){
   
   first <- podium_places[[1]]
   first_link <- podium_places[[2]]
-  first_score <- podium_places[[3]]
+  first_score <- podium_places[[3]] %>% str_replace("Score: ", "")
   first_perf <- podium_places[[4]]
   
   second <- podium_places[[5]]
   second_link <- podium_places[[6]]
-  second_score <- podium_places[[7]]
+  second_score <- podium_places[[7]] %>% str_replace("Score: ", "")
   second_perf <- podium_places[[8]]
   
   third <- podium_places[[9]]
   third_link <- podium_places[[10]]
-  third_score <- podium_places[[11]]
+  third_score <- podium_places[[11]] %>% str_replace("Score: ", "")
   third_perf <- podium_places[[12]]
   
 }
@@ -349,7 +349,7 @@ if(league == "team4545"){
 
 <div class = "row">
   
-<div class = "col-md-4">
+<div class = "col-md-5">
 
 :::first
 <p style="font-size:12pt; font-weight: 900;">
@@ -366,7 +366,7 @@ if(league == "team4545"){
 
 </div>
   
-<div class = "col-md-4">
+<div class = "col-md-5">
 
 :::second
 <p style="font-size:12pt; font-weight: 900;">
@@ -383,7 +383,11 @@ if(league == "team4545"){
 
 </div>
 
-<div class = "col-md-4">
+</div>
+
+<div class = "row">
+
+<div class = "col-md-5">
 
 :::third
 <p style="font-size:12pt; font-weight: 900;">
@@ -400,7 +404,28 @@ if(league == "team4545"){
 
 </div>
 
+<div class = "col-md-5">
+
+:::award
+<p style="font-size:12pt; font-weight: 900;">
+3rd place
+<br>
+</p>
+<p style="font-size:14pt; font-weight: 600;">
+    `r paste0("[", third, "]", "(", third_link, ")")`
+</p>
+<p style="font-size:11pt; font-weight: 600;">
+  `r paste0(third_score, " (", third_perf, " perf)")`
+</p>
+:::
+
 </div>
+
+
+
+</div>
+
+
 
 ```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Show 4545 podium team players in a reactable tabl
@@ -449,11 +474,12 @@ See the twists and turns in every match this season through these PDF visualisat
 
 #### Board medals
 
-Here are the top player performances on each board (minimum 5 games played).^[Note that these performance ratings only account for account games played on a specific board, so they differ in this respect from the performance ratings published on the Lichess4545 rosters page.]
+Here are the top three player performances on each board (min. 5 games played). Click on the arrows next to each board number to see more details.^[Similar to the "official" board performance tables on the Lichess4545 website, board rankings are determined by performance rating alone. However, the ratings themselves only consider games played on a given board, while the website's ratings ignore board numbers altogether.]
 
 ```{r bperfs, eval = ifelse(league == "team4545", TRUE, FALSE)}
 # Board perf ratings
-bperfs <- BoardPerfRatings(pairings, fide_tpr_lookup, tos_violators)
+bperfs <- BoardPerfRatings(pairings, fide_tpr_lookup, tos_violators,
+                           team_boards)
 
 # Show board rankings in a table
 reactable(bperfs, groupBy = "board",
@@ -464,6 +490,13 @@ reactable(bperfs, groupBy = "board",
             board = colDef(name = "Board",
                           align = "center",
                           minWidth = 100),
+            rank = colDef(cell = function(value) {
+              image <- img(src = sprintf("report_img/%s.png", value), style = "height: 24px;", alt = value)
+              tagList(
+                div(style = "display: inline-block; width: 45px;", image),
+                value
+                )
+              }),
             player = colDef(name = "Player(s)",
                             aggregate = "unique",
                            minWidth = 200),
@@ -474,6 +507,8 @@ reactable(bperfs, groupBy = "board",
                                   format = colFormat(digits = 0))
           )
           )
+
+# "report_img/%s.svg"
 
 ```
 
