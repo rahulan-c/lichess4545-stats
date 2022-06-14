@@ -70,20 +70,24 @@ season_reports <- read_html(homepage_url) %>%
 
 cli::cli_inform("Found {length(season_reports)} published reports")
 
-# # Save list of season reports locally
-# season_reports_tidied <- tibble::tibble(id = seq(1:length(season_reports)),
-#                                   link = season_reports)
-# readr::write_csv(season_reports_tidied, 
-#                  file = glue::glue(here::here(), "/data/published_reports.csv"))
+# Save list of season reports locally
+season_reports_tidied <- tibble::tibble(id = seq(1:length(season_reports)),
+                                  link = season_reports)
+readr::write_csv(season_reports_tidied,
+                 file = glue::glue(here::here(), "/data/published_reports.csv"))
 
 # Find newly published reports 
 prev_published <- readr::read_csv(glue::glue(here::here(), "/data/published_reports.csv")) %>% 
   dplyr::select(link) %>% 
   dplyr::pull()
+
 newly_published <- setdiff(season_reports, prev_published)
+newly_published <- season_reports
 
 
 if(length(newly_published) > 0) {
+  
+  cli::cli_inform("Extracting awards info from new reports...")
 
   # If new season reports have been published...
   # Need to loop through the new reports and extract award winners/details
@@ -110,10 +114,10 @@ if(length(newly_published) > 0) {
                                4,
                                
                                ifelse(league == "LW Open",
-                                     4,
+                                      ifelse(season %in% c(10, 13, 21, 22, 23, 24, 25), 4, 5),
                                       
                                       ifelse(league == "LW U1800",
-                                             4,
+                                              ifelse(season %in% c(11, 13, 22, 23, 24, 25), 4, 5),
                                              
                                              ifelse(league == "Chess960",
                                                     4,
@@ -160,51 +164,46 @@ if(length(newly_published) > 0) {
   awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
   rm(all_awards, awards_tidy)
   
-  # Exclude all ToS violators from awards table
-  source(paste0(here::here(), "/R/identify_tos_violators.R"))
-  toscrub <- str_c(tos_violators, collapse = "|") 
-  awards$Winner <- stringr::str_remove_all(awards$Winner, 
-                                                    toscrub)
-  # Tidy up any after-effects
-  awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")
-  awards$Winner <- str_replace_all(awards$Winner, ",\\s,", ",")
-  awards$Winner <- str_replace_all(awards$Winner, ",\\s,", ",")
+  # # Save new awards data
+  # readr::write_csv(awards,
+  #                  file = glue::glue(here::here(), "/data/new_award_winners.csv")
+  # )
   
-  # Save awards permanently
-  # readr::write_csv(awards, 
-  #                  file = glue::glue(here::here(), "/data/all_award_winners.csv")
+  # Read previous published all-seasons awards table
+  prev_awards <- readr::read_csv(glue::glue(here::here(), "/data/all_award_winners.csv"))
+
+  # Add newly published awards to previous all-seasons table
+  latest_awards <- rbind(prev_awards, awards)
+  latest_awards <- latest_awards %>% arrange(Winner)
   
-  # # Read previous published all-seasons awards table
-  # prev_awards <- readr::read_csv(glue::glue(here::here(), "/data/all_award_winners.csv"))
-  # 
-  # # Add newly published awards to previous all-seasons table
-  # latest_awards <- rbind(prev_awards, awards)
-  # latest_awards <- latest_awards %>% 
-  #   arrange(Winner)
+  # Save combined awards data
+  readr::write_csv(latest_awards,
+                 file = glue::glue(here::here(), "/data/all_award_winners.csv"))
   
-  latest_awards <- awards %>% arrange(Winner)
+  # latest_awards <- awards %>% arrange(Winner)
   
 } else {
-  
   
   # If no new reports have been published, we still need to check if any names
   # in the current all-seasons table need to be scrubbed due to ToS violations
   cli::cli_alert_warning("No new season reports have been published.")
   
-  # Read previous published all-seasons awards table
-  latest_awards <- readr::read_csv(glue::glue(here::here(), "/data/all_award_winners.csv"))
-  latest_awards <- latest_awards %>% tibble::as_tibble()
-  
-  source(paste0(here::here(), "/R/identify_tos_violators.R"))
-  toscrub <- str_c(tos_violators, collapse = "|") 
-  latest_awards$Winner <- stringr::str_remove_all(latest_awards$Winner, 
-                                                    toscrub)
-  # Tidy up any after-effects
-  latest_awards$Winner <- str_replace_all(latest_awards$Winner, "^,\\s", "")
-  latest_awards$Winner <- str_replace_all(latest_awards$Winner, ",\\s,", ",")
-  latest_awards$Winner <- str_replace_all(latest_awards$Winner, ",\\s,", ",")
-  
 }
+
+
+# Read previous published all-seasons awards table
+latest_awards <- readr::read_csv(glue::glue(here::here(), "/data/all_award_winners.csv"))
+latest_awards <- latest_awards %>% tibble::as_tibble()
+
+# Scrub ToS violators
+source(paste0(here::here(), "/R/identify_tos_violators.R"))
+toscrub <- str_c(tos_violators, collapse = "|") 
+latest_awards$Winner <- stringr::str_remove_all(latest_awards$Winner, 
+                                                  toscrub)
+# Tidy up any after-effects
+latest_awards$Winner <- str_replace_all(latest_awards$Winner, "^,\\s", "")
+latest_awards$Winner <- str_replace_all(latest_awards$Winner, ",\\s,", ",")
+latest_awards$Winner <- str_replace_all(latest_awards$Winner, ",\\s,", ",")
 
 # Save and publish new all-seasons table
 readr::write_csv(latest_awards,
