@@ -1762,7 +1762,8 @@ SeasonAwards <- function(league = NULL,
                          team_accuracy_award = NULL,
                          egalitarian = NULL,
                          aces = NULL,
-                         marathonmovers = NULL
+                         marathonmovers = NULL,
+                         needforspeed = NULL
                          ){
   
   # Show all eligible Primates of Precision (most games with sub-10 ACPL)
@@ -1832,6 +1833,26 @@ SeasonAwards <- function(league = NULL,
   marathonmovers_mentions <- marathonmovers %>% 
     arrange(rank, player) %>% 
     filter(rank %in% c(2:3))
+  
+  if(movetimes_exist){
+    needforspeed_winners <- needforspeed %>% 
+      filter(rank == 1) %>% 
+      arrange(player) %>% 
+      select(player) %>% 
+      dplyr::pull() %>% 
+      str_c(collapse = ", ")
+    
+    needforspeed_mentions <- needforspeed %>% 
+      filter(rank %in% c(2:3)) %>% 
+      arrange(player) %>% 
+      select(player) %>% 
+      dplyr::pull() %>% 
+      str_c(collapse = ", ")
+    
+  } else {
+    needforspeed_winners <- ""
+    needforspeed_mentions <- ""
+  }
     
   
   
@@ -1841,10 +1862,10 @@ SeasonAwards <- function(league = NULL,
                       "Houdini Award", "Tarjan Award", "Slingshot Specialist",
                       "Grischuk's Cousin", "Bullet Boss", "Musing or Snoozing",
                       "Intimate with Increment", "Saved by the Bell", 
-                      "David Award", "Rookie Award", "Aces", "Marathon Mover")
+                      "David Award", "Rookie Award", "Aces", "Marathon Mover", "Need for Speed")
   award_names_team <- c(award_names_lw, "Awesome Alt", "Team Accuracy", 
                         "Egalitarian Award")
-  award_names_960 <- award_names_lw[c(2:8,10,12:13,16:18)]
+  award_names_960 <- award_names_lw[c(2:8,10,12:13,16:19)]
 
   
   # All award descriptions
@@ -1865,10 +1886,11 @@ SeasonAwards <- function(league = NULL,
                             "Faced the strongest opposition",
                             "Best relative perf. by a new league player",
                             "Scored +6 or better",
-                            "Most moves played")
+                            "Most moves played",
+                            "Most wins/draws while gaining clock time")
   award_definitions_team <- c(award_definitions_lw, "Played for the most teams during the season", 
                               "Lowest team ACPL", "Team with the lowest SD across players' relative perfs")
-  award_definitions_960 <- award_definitions_lw[c(2:8,10,12:13,16:18)]
+  award_definitions_960 <- award_definitions_lw[c(2:8,10,12:13,16:19)]
 
   
   # Identify all award winners to show in reports
@@ -1889,9 +1911,10 @@ SeasonAwards <- function(league = NULL,
                   david$player[1],
                   ifelse(nrow(rookie_perfs) > 0, rookie_perfs$player[1], ""),
                   aces,
-                  str_c(marathonmovers_winners$player, collapse = ", ")
+                  str_c(marathonmovers_winners$player, collapse = ", "),
+                  needforspeed_winners 
   )
-  winners_960 <- winners_lw[c(2:8,10,12:13,16:17)]
+  winners_960 <- winners_lw[c(2:8,10,12:13,16:19)]
   
   
   # All award details
@@ -1912,10 +1935,11 @@ SeasonAwards <- function(league = NULL,
                   paste0("Opponents' record: ", david$opp_points[1], "/", david$opp_games[1]),
                   ifelse(nrow(rookie_perfs) > 0, paste0("+", rookie_perfs$wins[1], "-", rookie_perfs$losses[1], "=", rookie_perfs$draws[1], " perf ", round(rookie_perfs$perf_rating[1]), ", initially ", round(rookie_perfs$initial_rating[1])), ""),
                   ifelse(aces != "", "", "No eligible players"),
-                  paste0(marathonmovers_winners$moves[1], " moves")
+                  paste0(marathonmovers_winners$moves[1], " moves"),
+                  paste0(needforspeed$games[1], "time-gaining games")
                   )
   
-  details_960 <- details_lw[c(2:8,10,12:13,16:18)]
+  details_960 <- details_lw[c(2:8,10,12:13,16:19)]
   
   
   # Honourable mentions (2nd and 3rd ranked players)
@@ -1936,9 +1960,10 @@ SeasonAwards <- function(league = NULL,
                    str_c(david$player[2:3], collapse = ", "),
                    ifelse(nrow(rookie_perfs) >= 3, str_c(rookie_perfs$player[2:3], collapse = ", "), ""),
                    "",
-                   str_c(marathonmovers_mentions$player, collapse = ", ")
+                   str_c(marathonmovers_mentions$player, collapse = ", "),
+                   needforspeed_mentions
                    )
-  mentions_960 <- mentions_lw[c(2:8,10,12:13,16:18)]
+  mentions_960 <- mentions_lw[c(2:8,10,12:13,16:19)]
   
   # Construct awards table
   if(league == "team4545"){
@@ -2373,7 +2398,8 @@ TimeTurners <- function(moves = all_moves,
     arrange(desc(games), desc(max_left)) %>% 
     filter(games > 1) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
-    mutate(rank = data.table::frank(., games, max_left, ties.method = "min")) %>%
+    mutate(rank = data.table::frank(., -games, -max_left, ties.method = "min")) %>%
+    arrange(rank) %>% 
     mutate(max_left = lubridate::seconds_to_period(max_left),
            avg_left = lubridate::seconds_to_period(avg_left)) %>% 
     select(rank, player, ids, games, max_left, avg_left)

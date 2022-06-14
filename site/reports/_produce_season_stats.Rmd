@@ -356,10 +356,11 @@ if(league == "team4545"){
 1st place
 <br>
 </p>
-<p style="font-size:16pt; font-weight: 900;">
+<p style="font-size:14pt; font-weight: 900;">
     `r paste0("[", first, "]", "(", first_link, ")")`
 </p>
-<p style="font-size:12pt; font-weight: 900;">
+<p style="font-size:11pt; font-weight: 600;">
+    `r paste0(first_score, " (", first_perf, " perf)")`
 </p>
 :::
 
@@ -375,7 +376,8 @@ if(league == "team4545"){
 <p style="font-size:14pt; font-weight: 600;">
     `r paste0("[", second, "]", "(", second_link, ")")`
 </p>
-<p style="font-size:12pt; font-weight: 900;">
+<p style="font-size:11pt; font-weight: 600;">
+  `r paste0(second_score, " (", second_perf, " perf)")`
 </p>
 :::
 
@@ -391,7 +393,8 @@ if(league == "team4545"){
 <p style="font-size:14pt; font-weight: 600;">
     `r paste0("[", third, "]", "(", third_link, ")")`
 </p>
-<p style="font-size:12pt; font-weight: 900;">
+<p style="font-size:11pt; font-weight: 600;">
+  `r paste0(third_score, " (", third_perf, " perf)")`
 </p>
 :::
 
@@ -1150,7 +1153,8 @@ if(movetimes_exist){
                          team_accuracy_award = team_accuracy_award,
                          egalitarian = egalitarian,
                          aces = aces,
-                         marathonmovers = marathon_moves)
+                         marathonmovers = marathon_moves,
+                         needforspeed = timeturners)
   } else {
     awards <- SeasonAwards(league = league, 
                          league_col_dark = league_col_dark, 
@@ -1174,7 +1178,8 @@ if(movetimes_exist){
                        rookie_perfs = rookie_perfs,
                        gambiteer_award = gambiteer_award,
                        aces = aces,
-                       marathonmovers = marathon_moves)
+                       marathonmovers = marathon_moves,
+                       needforspeed = timeturners)
   }
 } else {
   if(league == "team4545"){
@@ -1203,7 +1208,8 @@ if(movetimes_exist){
                            team_accuracy_award = team_accuracy_award,
                            egalitarian = egalitarian,
                            aces = aces,
-                           marathonmovers = marathon_moves)
+                           marathonmovers = marathon_moves,
+                           needforspeed = NULL)
   } else {
     awards <- SeasonAwards(league = league, 
                          league_col_dark = league_col_dark, 
@@ -1227,7 +1233,8 @@ if(movetimes_exist){
                            rookie_perfs = rookie_perfs,
                          gambiteer_award = gambiteer_award,
                          aces = aces,
-                         marathonmovers = marathon_moves)
+                         marathonmovers = marathon_moves,
+                         needforspeed = NULL)
   }
 }
 
@@ -1739,7 +1746,7 @@ reactable(marathon_moves,
 ```
 
 
-##### Time Turners
+##### Need for Speed
 
 Everyone who won or drew at least two games where they finished with more than 45 minutes left on their clock (30 for LoneWolf). Excludes losses and games shorter than 15 moves. *Inspired by NLance and pulsar512b*
 
@@ -1751,11 +1758,11 @@ reactable(timeturners,
           resizable = TRUE,
           compact = TRUE,
           columns = list(
-            rank = colDef(name = "Rank", minWidth = 60),
+            rank = colDef(name = "Rank", minWidth = 80),
             player = colDef(name = "Player", minWidth = 200),
             ids = colDef(show = F),
-            games = colDef(name = "Time-gaining games", align = "center", minWidth = 100),
-            max_left = colDef(name = "Max time left", align = "center", minWidth = 200),
+            games = colDef(name = "Time-gaining games", align = "center", minWidth = 70),
+            max_left = colDef(name = "Max time left", align = "center", minWidth = 100),
             avg_left = colDef(show = F)
             )
           )
@@ -1800,6 +1807,7 @@ if(notable_mates != ""){
 - Any player determined by Lichess to have violated their Terms of Service when this report was compiled should not appear in the detailed statistics.^[However, players who were banned from the Lichess4545 leagues after finishing a season in the top three places are still shown with a podium place in that season's report.]
 - [Homepage](https://rahulan-c.github.io/lichess4545-stats/) / [source code](https://github.com/rahulan-c/lichess4545-stats)
 - Acknowledgements: [Noun Project](https://thenounproject.com/) for the award icons; [Simon Ilincev](https://simonilincev.com/) for [chess_graph](https://github.com/Destaq/chess_graph), which produces the openings sunburst plots.
+- [Return to season reports](https://rahulan-c.github.io/lichess4545-stats/season_stats.html)
 :::
 
 
