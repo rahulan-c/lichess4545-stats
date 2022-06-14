@@ -324,6 +324,20 @@ if(league == "team4545"){
   third <- podium_places[[5]]
   third_link <- podium_places[[6]]
   
+  first_score <- ""
+  first_perf <- ""
+  first_link <- ""
+  second_score <- ""
+  second_perf <- ""
+  second_link <- ""
+  third_score <- ""
+  third_perf <- ""
+  third_link <- ""
+  prize <- ""
+  prize_score <- ""
+  prize_perf <- ""
+  prize_link <- ""
+  
 } else {
   
   first <- podium_places[[1]]
@@ -341,6 +355,22 @@ if(league == "team4545"){
   third_score <- podium_places[[11]] %>% str_replace("Score: ", "")
   third_perf <- podium_places[[12]]
   
+  prize <- podium_places[[13]]
+  prize_link <- podium_places[[14]]
+  prize_score <- podium_places[[15]] %>% str_replace("Score: ", "")
+  prize_perf <- podium_places[[16]]
+  
+  
+}
+
+if(league == "lonewolf"){
+  if(lw_u1800){
+    prize_label <- "Best U1600"
+  } else {
+    prize_label <- "Best U2000"
+  }
+} else {
+  prize_label <- ""
 }
 
 
@@ -356,7 +386,7 @@ if(league == "team4545"){
 1st place
 <br>
 </p>
-<p style="font-size:14pt; font-weight: 900;">
+<p style="font-size:15pt; font-weight: 900;">
     `r paste0("[", first, "]", "(", first_link, ")")`
 </p>
 <p style="font-size:11pt; font-weight: 600;">
@@ -373,7 +403,7 @@ if(league == "team4545"){
 2nd place
 <br>
 </p>
-<p style="font-size:14pt; font-weight: 600;">
+<p style="font-size:15pt; font-weight: 600;">
     `r paste0("[", second, "]", "(", second_link, ")")`
 </p>
 <p style="font-size:11pt; font-weight: 600;">
@@ -386,6 +416,12 @@ if(league == "team4545"){
 </div>
 
 <div class = "row">
+<div class = "col-md-5">
+<br>
+</div>
+</div>
+
+<div class = "row">
 
 <div class = "col-md-5">
 
@@ -394,7 +430,7 @@ if(league == "team4545"){
 3rd place
 <br>
 </p>
-<p style="font-size:14pt; font-weight: 600;">
+<p style="font-size:15pt; font-weight: 600;">
     `r paste0("[", third, "]", "(", third_link, ")")`
 </p>
 <p style="font-size:11pt; font-weight: 600;">
@@ -408,20 +444,18 @@ if(league == "team4545"){
 
 :::award
 <p style="font-size:12pt; font-weight: 900;">
-3rd place
+`r paste0(prize_label)`
 <br>
 </p>
-<p style="font-size:14pt; font-weight: 600;">
-    `r paste0("[", third, "]", "(", third_link, ")")`
+<p style="font-size:15pt; font-weight: 600;">
+    `r paste0("[", prize, "]", "(", prize_link, ")")`
 </p>
 <p style="font-size:11pt; font-weight: 600;">
-  `r paste0(third_score, " (", third_perf, " perf)")`
+  `r paste0(prize_score, " (", prize_perf, " perf)")`
 </p>
 :::
 
 </div>
-
-
 
 </div>
 
@@ -1772,7 +1806,7 @@ reactable(marathon_moves,
           resizable = TRUE,
           compact = TRUE,
           columns = list(
-            rank = colDef(name = "Rank", minWidth = 60),
+            rank = colDef(name = "Rank", align = "center", minWidth = 60),
             player = colDef(name = "Player", minWidth = 200),
             moves = colDef(name = "Moves", align = "center", minWidth = 60)
             )
@@ -1793,7 +1827,7 @@ reactable(timeturners,
           resizable = TRUE,
           compact = TRUE,
           columns = list(
-            rank = colDef(name = "Rank", minWidth = 80),
+            rank = colDef(name = "Rank", align = "center", minWidth = 80),
             player = colDef(name = "Player", minWidth = 200),
             ids = colDef(show = F),
             games = colDef(name = "Time-gaining games", align = "center", minWidth = 70),
