@@ -386,7 +386,13 @@ All previous season award winners and honourable mentions.
 <span style = "font-size:1.6rem;">
 Other stuff
 </span></br>
-[Players by continent/country](https://rahulan-c.github.io/lichess4545-stats/countries.html), [team logo gallery](https://rahulan-c.github.io/lichess4545-stats/team_logos.html), [about the site](https://rahulan-c.github.io/lichess4545-stats/about.html)...
+[Players by continent/country](https://rahulan-c.github.io/lichess4545-stats/countries.html), [team logo gallery](https://rahulan-c.github.io/lichess4545-stats/team_logos.html)...
+
+<span style = "font-size:1.6rem;">
+[About the site &#10230;](about.html)
+</span></br>
+    </div>
+  </div>
 
 
 <br>
