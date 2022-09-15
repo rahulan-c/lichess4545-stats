@@ -374,9 +374,9 @@ Welcome to my unofficial [Lichess4545](https://www.lichess4545.com) stats site!
 Detailed statistical reports on every Lichess4545, LoneWolf and Lichess960 season
 
 <span style = "font-size:1.6rem;">
-[Round updates &#10230;](https://rahulan-c.github.io/lichess4545-stats/current.html)
+[Round updates &#10230;](https://rahulan-c.github.io/lichess4545-stats/round_updates.html)
 </span></br>
-Under construction. Currently match 'story' plots for recent 4545 seasons.
+Under construction. Currently shows match 'story' visualisations for recent 4545 seasons.
 
 <span style = "font-size:1.6rem;">
 [Search all awards &#10230;](awards_search.html)

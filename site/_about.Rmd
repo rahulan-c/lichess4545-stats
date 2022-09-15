@@ -15,20 +15,6 @@ pacman::p_load(tidyverse, knitr)
 ```
 
 
-
-####  Recent updates
-
-- Added [team logos gallery](https://rahulan-c.github.io/lichess4545-stats/team_logos.html) [Apr '22]
-- Published stats for [4545 S29](https://rahulan-c.github.io/lichess4545-stats/reports/stats_4545_s29.html) [Mar '22]
-- Published stats for LoneWolf S24 ([Open](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s24.html), [U1800](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwu1800_s24.html))
-- Re-designed [homepage](https://rahulan-c.github.io/lichess4545-stats/) [Feb '22]
-- Improved live standings (sort of) 
-- Published stats for all [Chess960 seasons](https://rahulan-c.github.io/lichess4545-stats/season_stats.html)
-- Published article on the estimated global distribution of league players [Jan '22]
-- Published stats for 4545 S28
-- Site first published [Aug '21]
-
-
 #### Future ideas
 
 Things that may be done tomorrow, next week, next month, next year...
