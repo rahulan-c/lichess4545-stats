@@ -1635,7 +1635,7 @@ reactable(upsets,
 
 ##### Repeated upsets
 
-Everyone who achieved multiple wins over opponents rated at least 50 points higher.
+Everyone who achieved multiple wins over opponents rated at least 100 points higher.
 
 ```{r}
 
