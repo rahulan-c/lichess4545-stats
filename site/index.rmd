@@ -8,7 +8,7 @@ site: distill::distill_website
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(tidyverse, data.table, assertthat, xml2, rvest, lubridate, knitr, gt)
+pacman::p_load(tidyverse, data.table, assertthat, xml2, rvest, lubridate, knitr, gt, cli)
 
 # Utility functions from:
 # https://github.com/mfherman/westchester-covid/blob/master/R/build/utils.R
@@ -69,7 +69,7 @@ for (l in seq(1:length(web_leagues))){
       as.integer()
   }
   
-  cli::cli_inform("league: {league} season: {season}")
+  
   assert_that(is.number(season))
   Sys.sleep(0.2)
   
@@ -106,6 +106,7 @@ for (l in seq(1:length(web_leagues))){
         as.integer()
     }
   }
+  
   assert_that(is.number(round))
 
   
@@ -147,10 +148,14 @@ for (l in seq(1:length(web_leagues))){
     active_season <- FALSE
   }
   
+  
+  
   # ----- Identify season dates -----------------------------------------------
   # Requires "Season X ends on Month DD, YYYY" to appear on the league homepage
   # Doesn't show when registrations are closed
   website_regs_open <- homepage %>% html_text2() %>% str_detect("Registration is open!")
+  
+  
   
   # If registrations are open...
   if(website_regs_open){
@@ -158,9 +163,12 @@ for (l in seq(1:length(web_leagues))){
       season_end <- homepage %>% 
         rvest::html_element(".well+ .well p") %>% 
         html_text2() %>% 
-        str_extract("(January|February|March|April|May|June|July|August|September|October|November|December)\\s\\d+,\\s\\d{4}") %>% 
+        str_extract("(Jan.|Feb.|Mar.|Apr.|May|Jun.|Jul.|Aug.|Sep.|Oct.|Nov.|Dec.)\\s\\d+,\\s\\d{4}") %>% 
+        # str_extract("(January|February|March|April|May|June|July|August|September|October|November|December)\\s\\d+,\\s\\d{4}") %>% 
         str_remove_all(",") %>% 
         lubridate::mdy()
+      
+      # cli::cli_inform("season_end: {season_end}")
       
     } else if (league == "chess960"){
       season_end <- homepage %>% 
@@ -228,7 +236,7 @@ for (l in seq(1:length(web_leagues))){
                          " ",
                          lubridate::month(season_end, label = T, abbr = T))
   
-  # cli::cli_inform("{league} starts {season_start_label} ends {season_end_label}")
+  cli::cli_inform("{league} starts {season_start_label} ends {season_end_label}")
   
   if(inactive_postseason){
     season_start_label <- NA_character_
@@ -248,6 +256,24 @@ for (l in seq(1:length(web_leagues))){
   all_leagues[[l]] <- c(league, season, round, season_start_label, season_end_label, 
                         reg_link, inactive_preseason, inactive_postseason, 
                         active_season, tv_link)
+  
+  # # Summarise league details
+  # fun <- function() {
+  # cli_ol()
+  # cli_li("League: {league}")
+  # ulid <- cli_ul()
+  # cli_li("Current season: S{season} R{round}")
+  # cli_li("Started: {season_start_label}")
+  # cli_li("To end: {season_end_label}")
+  # cli_li("Active: {active_season}")
+  # cli_li("Inactive (pre-season): {inactive_preseason}")
+  # cli_li("Inactive (post-season): {inactive_postseason}")
+  # cli::cli_inform("Regs open: {website_regs_open}")
+  # cli_end(ulid)
+  # }
+  # fun()
+  
+  
 }
 
 # Collate all leagues' status data into a tibble
