@@ -247,6 +247,10 @@ PlotMatchStory <- function(season_num, # season number
   
   all_pairings <- fix_character_encoding(all_pairings)
   all_pairings <- all_pairings %>% 
+    mutate(across(everything(), 
+                  ~ stringr::str_trim(.)))
+  
+  all_pairings <- all_pairings %>% 
     mutate(pairing = paste0(str_to_lower(white), "-", str_to_lower(black)))
   
   # Isolate individual match pairings data (unless plotting all matches in a round)
@@ -328,6 +332,7 @@ PlotMatchStory <- function(season_num, # season number
         if(season_num <= 24){team_boards <-  8} else
           if (season_num <= 29){team_boards <- 10} else
             if(season_num <= 99){team_boards <- 8}
+  
   # Then get league data using LeagueData() function scripts/all_functions.R (already sourced)
   league_data <- LeagueData("team4545", season_num, round_num, FALSE, team_boards)
   all_pairings2 <- league_data[[1]] %>% as_tibble()
@@ -429,7 +434,7 @@ PlotMatchStory <- function(season_num, # season number
       pairings <- pairings %>% 
         add_row(league = rep("Lichess4545 League", nrow(pairings2)),
                 season = as.character(pairings2$season),
-                round = pairings2$round,
+                round = as.character(pairings2$round),
                 game_id = pairings2$game_id,
                 white = pairings2$white,
                 black = pairings2$black, 

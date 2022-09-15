@@ -12,81 +12,42 @@
 # League-specific workflows:
 
 # When a 4545 season ends...
-# 1. CompileCombinedData(league_choice == "team4545)
-# 2. SaveLeaguePGN("team4545")
-# 3. CombineTeamLWSeriesGames()
-# 4. SaveTeamLWSeriesPGN()
+# - CompileCombinedData(league_choice == "team4545)
+# - SaveLeaguePGN(leagues = "team4545")
 
 # When a LW season ends...
-# 1. CompileCombinedData("lwopen")
-# 2. CompileCombinedData("lwu1800")
-# 3. SaveLeaguePGN("lwopen")
-# 4. SaveLeaguePGN("lwu1800")
-# 5. CombineTeamLWSeriesGames()
-# 6. SaveTeamLWSeriesPGN()
+# - CompileCombinedData("lwopen")
+# - SaveLeaguePGN(leagues = "lwopen")
+# - CompileCombinedData("lwu1800")
+# - SaveLeaguePGN(leagues = "lwu1800")
 
 # When a Chess960 league season ends...
-# 1. CompileCombinedData("chess960")
-# 2. SaveChess960PGN()
+# - CompileCombinedData("chess960")
+# - SaveLeaguePGN(leagues = "chess960")
 
-# When a Series season ends...
-# 1. UpdateAllSeriesGames(series_sheets)
-# 2. SaveLeaguePGN("series")
-# 3. CombineTeamLWSeriesGames()
-# 4. SaveTeamLWSeriesPGN()
-# 5. TODO: compile non-games season data across all seasons
-
-# When a Rapid Battle season ends...
-# 1. UpdateAllRapidBattleGames(rb_sheets)
-# 2. SaveLeaguePGN("rb")
-# 3. TODO: combine rapid leagues' games data into single .RDS file
-# 4. TODO: save single PGN with all rapid league games
-
-
-
-# Full list:
-
-# - CompileCombinedData(league_choice)
-#   Compiles season-specific games, pairings, website pairings, and player/team 
-#   positions datasets for all reported seasons of the 4545, LW Open, LW 
-#   U1800 and Chess960 leagues, and saves resulting all-seasons datasets in
-#   data/.
-
-# - SaveLeaguePGN(league)
-#   Saves a single PGN with all games played over all previous completed seasons 
-#   in a specified league (4545, LW Open, LW U1800 or Chess960)
-
-# - SaveTeamLWSeriesPGN()
-#   Saves a single PGN with all 4545, LW Open, LW U1800 and Series games saved in
-#   the latest versions of each league's all-seasons PGN, which is assumed to cover
-#   all previous seasons to date.
-
-# - CombineTeamLWSeriesGames()
-#   Saves a single RDS file with the games saved in the latest versions of the 
-#   individual league-specific all-seasons RDS files for 4545, LW Open, LW U1800 
-#   and Series, which are assumed to cover all previously played seasons to date.
-
-# - SaveChess960PGN() - saves a single PGN with all 960 league games played in
-#     reported seasons.
-
+# To update all-time Series games data RDS file and PGN
 # - UpdateAllSeriesGames(series_sheets)
-#     Adds new Series games to current Series version of all-seasons games data.  
+# - SaveLeaguePGN(leagues = "series")
 
+# To update all-time Rapid Battle games data RDS file and PGN
 # - UpdateAllRapidBattleGames(rb_sheets)
-#     Adds new Rapid Battle games to current RB version of all-seasons games data.  
+# - SaveLeaguePGN(leagues = "rb")
 
+# To update all-time Quest games RDS file
 # - UpdateQuestGames()
-#     Adds new Quest games to current Quest version of all-seasons games data
+# - SaveLeaguePGN(leagues = "quest")
 
-# - CombineTeamLWSeriesRBQuestGames()
-#     Combines all prev saved games datasets for 4545, LW, Series, Rapid Battle
-#     and Quest into a single .RDS file
+# To update combined 4545/LW/Series games data and PGN
+# - SaveLeaguePGN(leagues = "teamlwseries")
+
+# To update combined 4545/LW/Series/RB/Quest games data and PGN
+# - SaveLeaguePGN(leagues = "tlsrq")
 
 
 
-# - GetSeriesSeasonData(season) - UNFINISHED
 
-# - GetRapidBattleSeasonData(season) - UNFINISHED
+
+
 
 
 
@@ -160,7 +121,7 @@ rb_sheets <- tibble(
 # ---- QUEST HISTORY PARAMETERS -----------------------------------------------
 
 quest_sheet_id <- "1Y_jYuHJUnDqfYMpO3YIainspTJa7o3hgd6smeiHfe20"
-quest_sheet_name <- "Raw Data"
+quest_sheet_name <- "Results"
 
 
 # ---- FUNCTIONS ---------------------------------------------------------------
@@ -283,112 +244,12 @@ CompileCombinedData <- function(league_choice){
 }
 
 
-SaveLeaguePGN <- function(league){
-  # Save a PGN of all games played in a league (4545, LW Open, LW U1800 or Chess960)
-  tic(paste0("Save all-time games PGN for ", league))
-  league_games <- readRDS(paste0(here::here(), "/data/allgames_", league, ".rds")) %>% 
-    select(pgn)
-  # Make a first attempt to remove evals and clock times from PGN data
-  league_games$pgn <- str_replace_all(league_games$pgn, 
-                                          "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
-                                          "") %>% 
-    str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
-    str_replace_all("\\s(?=\\d+\\.)", "") %>% 
-    str_replace_all("\\s(?=1-0)", "") %>% 
-    str_replace_all("\\s(?=1/2)", "") %>% 
-    str_replace_all("\\s(?=0-1)", "")
-  pgn <- str_c(league_games$pgn, collapse = "")
-  # Save this effort locally
-  fileConn <- file(paste0(here::here(), "/data/allgames_", league, ".pgn"))
-  writeLines(pgn, fileConn)
-  close(fileConn)
-  # Then use python-chess to save a properly cleaned PGN without evals, clock times or errors
-  SaveCleanPGN(filename = paste0("allgames_", league), 
-               new_filename = paste0("allgames_", league)
-  )
-  toc(log = TRUE)
-}
-
-
-SaveTeamLWSeriesPGN <- function(){
-  # Saves a PGN of all 4545, LW and Series games (without evals or clock times)
-  
-  tic("Save all-time 4545/LW/Series PGN")
-  
-  # Read and collate 4545 / LW / Series all-time games datasets
-  team4545_games <- readRDS(paste0(here::here(), "/data/allgames_team4545.rds")) %>% select(pgn)
-  lwopen_games <- readRDS(paste0(here::here(), "/data/allgames_lwopen.rds")) %>% select(pgn)
-  lwu1800_games <- readRDS(paste0(here::here(), "/data/allgames_lwu1800.rds")) %>% select(pgn)
-  series_games <- readRDS(paste0(here::here(), "/data/allgames_series.rds")) %>% select(pgn)
-  
-  combined <- rbind(team4545_games, lwopen_games, lwu1800_games, series_games)
-  
-  # Remove evals and clock times from PGN data
-  combined$pgn <- str_replace_all(combined$pgn, 
-                                          "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
-                                          "") %>% 
-    str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
-    str_replace_all("\\s(?=\\d+\\.)", "") %>% 
-    str_replace_all("\\s(?=1-0)", "") %>% 
-    str_replace_all("\\s(?=1/2)", "") %>% 
-    str_replace_all("\\s(?=0-1)", "")
-  
-  # Produce single PGN with all leagues' games
-  pgn <- str_c(combined$pgn, collapse = "")
-  
-  # Save PGN
-  fileConn <- file(paste0(here::here(), "/data/allgames_teamlwseries.pgn"))
-  writeLines(pgn, fileConn)
-  close(fileConn)
-  # Then use python-chess to save a properly cleaned PGN without evals, clock times or errors
-  SaveCleanPGN(filename = paste0("allgames_teamlwseries"), 
-               new_filename = paste0("allgames_teamlwseries")
-  )
-  toc(log = TRUE)
-}
-
-SaveChess960PGN <- function(){
-  # Saves a PGN of all Chess960 league games without evals or clock times
-  
-  tic("Save all-time Chess960 PGN")
-  
-  # Read and collate 4545 / LW / Series all-time games datasets
-  chess960_games <- readRDS(paste0(here::here(), "/data/allgames_chess960.rds")) %>% select(pgn)
-  
-  # Remove evals and clock times from PGN data
-  pgn <- str_replace_all(chess960_games$pgn, 
-                                          "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
-                                          "") %>% 
-    str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
-    str_replace_all("\\s(?=\\d+\\.)", "") %>% 
-    str_replace_all("\\s(?=1-0)", "") %>% 
-    str_replace_all("\\s(?=1/2)", "") %>% 
-    str_replace_all("\\s(?=0-1)", "")
-  
-  # Produce single PGN with all leagues' games
-  pgn <- str_c(pgn, collapse = "")
-  
-  # Save PGN
-  fileConn <- file(paste0(here::here(), "/data/allgames_chess960.pgn"))
-  writeLines(pgn_noevals, fileConn)
-  close(fileConn)
-  # Then use python-chess to save a properly cleaned PGN without evals, clock times or errors
-  SaveCleanPGN(filename = paste0("allgames_chess960"), 
-               new_filename = paste0("allgames_chess960")
-  )
-  
-  toc(log = TRUE)
-}
-
-
 UpdateAllSeriesGames <- function(series_sheets){
   # ---- Get all Series gamelinks from season spreadsheets ----------------------
   
   cli_h1("COMPILE / UPDATE SERIES DATA")
   
   cli_h2("Step 1 - Identify all Series games from season spreadsheets")
-  
-  
   
   # Now go through each season and extract gamelinks
   all_links <- list()
@@ -687,34 +548,12 @@ GetRapidBattleSeasonData <- function(season){
 }
 
 
-
-
-
-
-
-
-
-
-CombineTeamLWSeriesGames <- function(){
-  tic("Save combined games data")
-  # Read and collate 4545 / LW / Series all-time games datasets
-  team4545_games <- readRDS(paste0(here::here(), "/data/allgames_team4545.rds"))
-  lwopen_games <- readRDS(paste0(here::here(), "/data/allgames_lwopen.rds"))
-  lwu1800_games <- readRDS(paste0(here::here(), "/data/allgames_lwu1800.rds"))
-  series_games <- readRDS(paste0(here::here(), "/data/allgames_series.rds"))
-  combined <- data.table::rbindlist(list(team4545_games, lwopen_games, lwu1800_games, series_games),
-                                    fill = T)
-  saveRDS(combined, paste0(here::here(), "/data/", "allgames_teamlwseries.rds"))
-  toc(log = TRUE)
-}
-
-
-UpdateQuestGames <- function(){
+UpdateQuestGames <- function(report_unanalysed = TRUE,
+                             stop_if_unanalysed = FALSE){
   
   # Update all-time Infinite Quest games dataset
-  
+  tic("Updated all-time Quest games data")
   cli_h1("COMPILE / UPDATE INFINITE QUEST ALL-TIME GAMES DATA")
-  
   cli_h2("Step 1 - Identify all Quest games from Quest history spreadsheet")
   
   sheetdata <- range_read_cells(
@@ -735,7 +574,7 @@ UpdateQuestGames <- function(){
   
   cli_h2("Step 2 - Identify games to add to all-time games data")
   
-  # Read current all-time RB games data (if file exists)
+  # Read current all-time Quest games data (if file exists)
   data_exists <- fs::dir_info(paste0(here::here(), "/data/")) %>% 
     filter(type == "file") %>% 
     filter(str_detect(path, "allgames_quest.rds")) %>% 
@@ -762,8 +601,15 @@ UpdateQuestGames <- function(){
     new_games <- new_data[[1]] %>% tibble::as_tibble()
     
     # ---- Check for un-analysed new games ----------------------------------------
+    if(report_unanalysed){
+      new_unanalysed <- new_data[[2]] %>% tibble::as_tibble()
+      cli::cli_alert("{nrow(new_unanalysed)} Quest games haven't yet been analysed by Lichess.")
+      cli::cli_alert("You should request analysis for these games before adding them to the dataset.")
+    }
     
-    new_unanalysed <- new_data[[2]] %>% tibble::as_tibble()
+    if(stop_if_unanalysed){
+      break
+    }
     
     # ---- Add new games data to all-time data ------------------------------------
     
@@ -775,7 +621,7 @@ UpdateQuestGames <- function(){
                                                new_games),
                                           fill = T) %>% 
       tibble::as_tibble()
-    new_allgames <- dplyr::left_join(new_allgames, all_games, by = c("id"))
+    # new_allgames <- dplyr::left_join(new_allgames, all_games, by = c("id"))
     
     # ---- Save updated all-time games data --------------------------------------- 
     saveRDS(new_allgames, 
@@ -804,6 +650,16 @@ UpdateQuestGames <- function(){
     #   Sys.sleep(0.3)
     # }
     
+    if(report_unanalysed){
+      new_unanalysed <- new_data[[2]] %>% tibble::as_tibble()
+      cli::cli_alert("{nrow(new_unanalysed)} Quest games haven't yet been analysed by Lichess.")
+      cli::cli_alert("You should request analysis for these games before adding them to the dataset.")
+    }
+    
+    if(stop_if_unanalysed){
+      break
+    }
+    
     # ---- Add new games data to all-time data ------------------------------------
     
     # Tidy new games data
@@ -818,40 +674,103 @@ UpdateQuestGames <- function(){
     
   }
   
+  toc(log = TRUE)
+  
 }
 
-CombineTeamLWSeriesRBQuestGames <- function(){
+
+
+
+SaveLeaguePGN <- function(leagues){
   
-  cli::cli_h1("Combining prev saved games from 4545, LW, Series, RB and Quest")
-  leagues <- c("team4545", "lwopen", "lwu1800", "series", "rb", "quest")
-  league_games <- list()
+  # Options for "leagues": "team4545", "lwopen", "lwu1800", "series", "rb", "quest",
+  # "teamlwseries", "tlsrq"
   
-  for (league in leagues) {
-    games <- readRDS(paste0(here::here(), 
-                            "/data/allgames_", 
-                            league, 
-                            ".rds"))
-    games <- tibble::as_tibble(games) %>% 
-      mutate(
-             "acplw" = players.white.analysis.acpl,
-             "acplb" = players.black.analysis.acpl,
-             "sum_acpl" = acplw + acplb,
-             "blundersw" = players.white.analysis.blunder,
-             "blundersb" = players.black.analysis.blunder,
-             "mistakesw" = players.white.analysis.mistake,
-             "mistakesb" = players.black.analysis.mistake,
-             "inaccuraciesw" = players.white.analysis.inaccuracy,
-             "inaccuraciesb" = players.black.analysis.inaccuracy
-      )
-    league_games[[which(leagues == league)]] <- games
+  # Save a PGN of all games played in a league (4545, LW Open, LW U1800 or Chess960)
+  # Or a combination of leagues
+  
+  allgames_label <- paste0("allgames_", as.character(leagues))
+  
+  if(leagues %in% c("team4545", "lwopen", "lwu1800", "rb", "quest", "chess960")){
+    tic(paste0("Save all-time games PGN for ", league))
+    league_games <- readRDS(paste0(here::here(), "/data/allgames_", league, ".rds"))
+    league_games <- league_games %>% tibble::as_tibble()
+    
   }
   
-  games <- data.table::rbindlist(league_games, fill = T)
+  if(leagues == "teamlwseries"){
+    tic(paste0("Save all-time games PGN for 4545/LW/Series"))
+    # Read and collate 4545 / LW / Series all-time games datasets
+    team4545_games <- readRDS(paste0(here::here(), "/data/allgames_team4545.rds")) %>% select(pgn)
+    lwopen_games <- readRDS(paste0(here::here(), "/data/allgames_lwopen.rds")) %>% select(pgn)
+    lwu1800_games <- readRDS(paste0(here::here(), "/data/allgames_lwu1800.rds")) %>% select(pgn)
+    series_games <- readRDS(paste0(here::here(), "/data/allgames_series.rds")) %>% select(pgn)
+    league_games <- rbind(team4545_games, lwopen_games, lwu1800_games, series_games)
+    saveRDS(league_games, paste0(here::here(), "/data/", "allgames_teamlwseries.rds"))
+    cli::cli_inform("Saved all-time 4545/LW/Series games data ({nrow(league_games)} games)")
+    league_games <- league_games %>% tibble::as_tibble()
+  }
   
-  games <- games %>% 
-    tibble::as_tibble()
-  saveRDS(games, paste0(here::here(), "/data/allgames_tlsrq.rds"))
-  cli::cli_alert_success("Saved combined 4545/LW/Series/RB/Quest dataset ({nrow(games)} games)")
+  if(leagues == "tlsrq"){
+    tic(paste0("Save all-time games PGN for 4545/LW/Series/Rapid Battle/Quest"))
+    cli::cli_h1("Combining prev saved games from 4545, LW, Series, RB and Quest")
+    leagues <- c("team4545", "lwopen", "lwu1800", "series", "rb", "quest")
+    league_games <- list()
+    for (league in leagues) {
+      games <- readRDS(paste0(here::here(), 
+                              "/data/allgames_", 
+                              league, 
+                              ".rds"))
+      games <- tibble::as_tibble(games) %>% 
+        mutate(
+          "acplw" = players.white.analysis.acpl,
+          "acplb" = players.black.analysis.acpl,
+          "sum_acpl" = acplw + acplb,
+          "blundersw" = players.white.analysis.blunder,
+          "blundersb" = players.black.analysis.blunder,
+          "mistakesw" = players.white.analysis.mistake,
+          "mistakesb" = players.black.analysis.mistake,
+          "inaccuraciesw" = players.white.analysis.inaccuracy,
+          "inaccuraciesb" = players.black.analysis.inaccuracy
+        )
+      league_games[[which(leagues == league)]] <- games
+    }
+    
+    league_games <- data.table::rbindlist(league_games, fill = T)
+    
+    league_games <- league_games %>% 
+      tibble::as_tibble() %>% 
+      filter(perf %in% c("rapid", "classical")) # exclude blitz games from combined data
+    
+    saveRDS(league_games, paste0(here::here(), "/data/allgames_tlsrq.rds"))
+    cli::cli_inform("Saved all-time 4545/LW/Series/RB/Quest games data ({nrow(league_games)} games)")
+  }
+  
+  
+  
+  # Make a first attempt to remove evals and clock times from PGN data
+  league_games$pgn <- str_replace_all(league_games$pgn, 
+                                      "\\{ \\[%eval [:graph:]{1,}\\] \\[%clk [0-1]{1}:[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}\\] \\}", 
+                                      "") %>% 
+    str_replace_all("\\s\\s\\d+\\.\\.\\.", "") %>% 
+    str_replace_all("\\s(?=\\d+\\.)", "") %>% 
+    str_replace_all("\\s(?=1-0)", "") %>% 
+    str_replace_all("\\s(?=1/2)", "") %>% 
+    str_replace_all("\\s(?=0-1)", "")
+  
+  # Obtain PGN string
+  pgn <- str_c(league_games$pgn, collapse = "")
+  
+  # Save this PGN to /data/
+  fileConn <- file(paste0(here::here(), "/data/", allgames_label, ".pgn"))
+  writeLines(pgn, fileConn)
+  close(fileConn)
+  
+  # Then use python-chess to save a properly cleaned PGN without evals, clock times or errors
+  SaveCleanPGN(filename = paste0(allgames_label), 
+               new_filename = paste0(allgames_label))
+  
+  toc(log = TRUE)
   
 }
 
@@ -898,7 +817,7 @@ CombineTeamLWSeriesRBQuestGames <- function(){
 # UpdateQuestGames()
 
 # Combine all prev. saved games in 4545/LW/Series/RB/Quest into one RDS file
-CombineTeamLWSeriesRBQuestGames()
+# CombineTeamLWSeriesRBQuestGames()
 
 
 

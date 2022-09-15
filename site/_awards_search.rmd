@@ -82,7 +82,7 @@ prev_published <- readr::read_csv(glue::glue(here::here(), "/data/published_repo
   dplyr::pull()
 
 newly_published <- setdiff(season_reports, prev_published)
-newly_published <- season_reports
+# newly_published <- season_reports
 
 
 if(length(newly_published) > 0) {
@@ -114,10 +114,10 @@ if(length(newly_published) > 0) {
                                4,
                                
                                ifelse(league == "LW Open",
-                                      ifelse(season %in% c(10, 13, 21, 22, 23, 24, 25), 4, 5),
+                                      ifelse(season %in% c(10, 13, 21, 22, 23, 24, 25, 26), 4, 5),
                                       
                                       ifelse(league == "LW U1800",
-                                              ifelse(season %in% c(11, 13, 22, 23, 24, 25), 4, 5),
+                                              ifelse(season %in% c(11, 13, 22, 23, 24, 25, 26), 4, 5),
                                              
                                              ifelse(league == "Chess960",
                                                     4,
@@ -298,8 +298,10 @@ Includes all eligible players mentioned in a published 4545, LoneWolf or Chess96
 - **Grischuk's Cousin**: least time remaining after move 10 while going on to win
 - **Houdini Award**: biggest comebacks
 - **Intimate with Increment**: highest % of moves played with less than a minute on the clock
+- **Marathon Mover**: most moves played across all games
 - **Musing or Snoozing**: longest time spent on a single move
 - **MVP Award**: best season performance rating relative to initial rating
+- **Need for Speed**: most wins/draws while gaining time on the clock 
 - **Primates of Precision**: most games < 10 ACPL
 - **Rookie Award**: best season performance rating for a new league player
 - **Saved by the Bell**: most moves made with < 5s left before winning

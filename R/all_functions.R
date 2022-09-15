@@ -88,8 +88,8 @@ LeagueGames <- function(league_choice, seasons_choice, rounds_choice = NULL,
         
         # Stop if there's an error
         if(r$status_code != 200){
-          print("Error!")
-          print(http_status(r)$message)
+          cli::cli_abort("lichess454.com API: 200 error")
+          cli::cli_abort("{http_status(r)$message}")
           break
           }
         
@@ -99,7 +99,7 @@ LeagueGames <- function(league_choice, seasons_choice, rounds_choice = NULL,
           jsonlite::fromJSON() %>% 
           purrr::pluck("games")
         
-        # Filter by round (if rounds_choice specified)
+        # Filter by round
         if(!(is.null(rounds_choice))){
           res <- res %>% filter(round %in% rounds_choice)
         }
@@ -340,7 +340,9 @@ TidyGames <- function(games){
     
   games <- games %>% 
     tibble::as_tibble() %>% 
-    filter(perf != "fromPosition")
+    filter(perf != "fromPosition") %>% 
+    filter(!(is.na(players.white.analysis.acpl))) %>% 
+    filter(!(is.na(players.black.analysis.acpl)))
   
   # Add number of moves per game to data
   games$num_moves <- ifelse(str_count(games$moves, "\\s") %% 2 == 1,
@@ -488,12 +490,9 @@ TidyGames <- function(games){
   # Calculated as the sum of both players' move times in the game
   # Not the same as time of last move minus time of creation
   games <- games %>% 
-    mutate(duration_official = time_length(interval(games$started, games$ended), "second")) %>% 
     mutate(duration = map_dbl(times, ~ sum(.x,  na.rm = T))) %>%
     mutate(duration_w = map_dbl(times, ~ sum(.x[c(T,F)],  na.rm = T))) %>% 
     mutate(duration_b = map_dbl(times, ~ sum(.x[c(F,T)],  na.rm = T))) %>% 
-    mutate(perc_total_clock_w = duration_w / (duration_w + duration_b),
-           perc_total_clock_b = duration_b / (duration_w + duration_b)) %>% 
     mutate(clock_used_after_move10_w = map_dbl(times, ~ sum(.x[c(T,F)][-c(1:10)],  na.rm = T))) %>% 
     mutate(clock_used_after_move10_b = map_dbl(times, ~ sum(.x[c(F,T)][-c(1:10)],  na.rm = T)))
   
