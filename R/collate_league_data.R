@@ -692,8 +692,8 @@ SaveLeaguePGN <- function(leagues){
   allgames_label <- paste0("allgames_", as.character(leagues))
   
   if(leagues %in% c("team4545", "lwopen", "lwu1800", "rb", "quest", "chess960")){
-    tic(paste0("Save all-time games PGN for ", league))
-    league_games <- readRDS(paste0(here::here(), "/data/allgames_", league, ".rds"))
+    tic(paste0("Save all-time games PGN for ", leagues))
+    league_games <- readRDS(paste0(here::here(), "/data/allgames_", leagues, ".rds"))
     league_games <- league_games %>% tibble::as_tibble()
     
   }
@@ -786,15 +786,15 @@ SaveLeaguePGN <- function(leagues){
 
 # 4545
 # CompileCombinedData(league_choice = "team4545")
-# SaveLeaguePGN("team4545") # warning: took 4 mins for S1-S29
+SaveLeaguePGN("team4545") # warning: took 4 mins for S1-S29
 
 # LW Open
 # CompileCombinedData(league_choice = "lwopen")
-# SaveLeaguePGN("lwopen")
+SaveLeaguePGN("lwopen")
 
 # LW U1800
 # CompileCombinedData(league_choice = "lwu1800")
-# SaveLeaguePGN("lwu1800")
+SaveLeaguePGN("lwu1800")
 
 # Chess960
 # CompileCombinedData(league_choice = "chess960")
