@@ -3,11 +3,8 @@
 #                         PLOT 4545 MATCH STORIES
 # =============================================================================
 
-# Last updated: March 2022
-# Created:      August 2021
+# Last updated 2022-11-26
 
-
-# DESCRIPTION
 # Plots the 'story' of matches played in the Lichess4545 Team League.
 # Shows a match as a sequence of moves played in successive games, showing the 
 # evaluation trajectory of each game as it reaches its result (1-0, 0-1, 
@@ -21,7 +18,7 @@
 # https://rahulan-c.github.io/lichess4545-stats/. 
 
 
-# IMPORTANT NOTES
+# NOTES
 # [1] Won't work for a round that hasn't been closed, because it requests team 
 #     position data for the *following* round too, so obvs if a season's still 
 #     in Round 1, there won't be any data for Round 2.
@@ -35,8 +32,7 @@
 # BUGS
 # 1) Opening names with foreign character show up as bugged characters, 
 #    presumably due to some character encoding issue that I haven't figured out
-#    how to fix. First noticed 2022-02-03. 
-#    Status: UNFIXED.
+#    how to fix. First noticed in Feb 2022, but still not fixed as at Nov 2022.
 
 
 # DEV TODOS
@@ -369,10 +365,10 @@ PlotMatchStory <- function(season_num, # season number
     games <- all_games %>% 
       filter(id %in% pairings$game_id)
     
-    # Alt. form of pairings data, with scheduled times
+    # Get pairings data with scheduled game times
     pairings2 <- all_pairings2 %>% 
-      filter(str_detect(match, pairings$white_team[1]) | 
-               str_detect(match, pairings$black_team[1]))
+      filter(str_detect(match, str_replace_all(pairings$white_team[1], "\\[|\\]", "")[[1]]) | 
+               str_detect(match, str_replace_all(pairings$black_team[1], "\\[|\\]", "")[[1]]))
     
     # Fix the result column in the alt. pairings data
     # Required because raw data extracted from the Lichess4545 pairings page 
@@ -473,13 +469,14 @@ PlotMatchStory <- function(season_num, # season number
     newmp_t2 <- all_positions_postmatch %>% filter(team == teams[[2]]) %>% dplyr::pull(mp)
     newgp_t2 <- all_positions_postmatch %>% filter(team == teams[[2]]) %>% dplyr::pull(gp)
     
-    rank_t1 <- ifelse(is.na(rank_t1), 99, rank_t1)
-    rank_t2 <- ifelse(is.na(rank_t2), 99, rank_t2)
-    newrank_t1 <- ifelse(is.na(newrank_t1), 99, newrank_t1)
-    newrank_t2 <- ifelse(is.na(newrank_t2), 99, newrank_t2)
+    # Fix any NA ranks
+    rank_t1 <- ifelse(is.numeric(rank_t1[1]), rank_t1[1], 99)
+    rank_t2 <- ifelse(is.numeric(rank_t1[1]), rank_t2[1], 99)
+    newrank_t1 <- ifelse(is.numeric(newrank_t1[1]), newrank_t1[1], 99)
+    newrank_t2 <- ifelse(is.numeric(newrank_t2[1]), newrank_t2[1], 99)
     
 
-    pairings$t1 <- rep(teams[1], nrow(pairings)) #
+    pairings$t1 <- rep(teams[1], nrow(pairings))
     pairings$t2 <- rep(teams[2], nrow(pairings))
     pairings <- pairings %>%
       arrange(order) %>%
@@ -764,7 +761,7 @@ PlotMatchStory <- function(season_num, # season number
     )
     
     # Print match summary info
-    cli::cli_alert_success("Got data: {str_trunc(teams[[1]], 8, 'right')} vs {str_trunc(teams[[2]], 8, 'right')} ({moves$finalscore_t1[1]}-{moves$finalscore_t2[1]})")
+    cli::cli_alert_success("Obtained data for {str_trunc(teams[[1]], 8, 'right')} ({moves$finalscore_t1[1]}) vs {str_trunc(teams[[2]], 8, 'right')} ({moves$finalscore_t2[1]})")
     
     # Compile statistics for plot ---------------------------------------------
     
@@ -1064,8 +1061,8 @@ PlotMatchStory <- function(season_num, # season number
         ),
         width = grid::unit(0.085, "npc"), # 8% of plot panel width
         size = 2.5,
-        fill = NA, label.color = NA,
-        label.padding = grid::unit(rep(0, 4), "pt"),
+        fill = NA, # label.color = NA,
+        # label.padding = grid::unit(rep(0, 4), "pt"),
         colour = opening_col, family = gameinfo_font,
         box.colour = NA,
         box.padding = unit(c(2.5, 2.5, 2.5, 2.5), "pt"),
@@ -1406,8 +1403,8 @@ PlotMatchStory <- function(season_num, # season number
         y = (((0 - min_eval) / y_range) * y_scale_factor) + zero_val),
         label = paste0("Current match margin + in-game evaluation"),
                    size = 2.5,
-                   fill = NA, label.color = NA,
-                   label.padding = grid::unit(rep(0, 4), "pt"),
+                   fill = NA, # label.color = NA,
+                   # label.padding = grid::unit(rep(0, 4), "pt"),
                    colour = icon_col,
                    family = gameinfo_font,
                    hjust = 0.5,
@@ -1429,8 +1426,8 @@ PlotMatchStory <- function(season_num, # season number
         ),
         width = grid::unit(0.92, "npc"), # % of plot panel width
         size = 2.25,
-        fill = NA, label.color = NA,
-        label.padding = grid::unit(rep(0, 4), "pt"),
+        fill = NA,
+        # label.padding = grid::unit(rep(0, 4), "pt"),
         colour = about_col, 
         family = plotinfo_font,
         box.colour = NA,

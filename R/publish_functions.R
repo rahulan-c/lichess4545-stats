@@ -183,9 +183,9 @@ PublishSeasonStats <- function(need_data = FALSE,
   # updating the searchable awards page
   post_publication_wait <- 10
   
-  cli::cli_rule(left = "Compiling and publishing new {.field season report(s)}")
+  cli::cli_rule(left = "Compiling and publishing new season report(s)")
   
-  sb <- cli::cli_status("{symbol$arrow_right} Preparing inputs...")
+  sb <- cli::cli_status("{symbol$arrow_right} Compiling reports...")
   
   # Load all required functions
   source(paste0(here::here(), "/R/all_functions.R"))
@@ -217,32 +217,36 @@ PublishSeasonStats <- function(need_data = FALSE,
   
   
   cli_status_update(id = sb,
-                    "{symbol$arrow_right} New season report(s) produced...")
+                    "{symbol$arrow_right} New report(s) produced...")
   Sys.sleep(5)
   
   # Re-knit and publish the all season reports page
   BuildSite(update_allreports = T)
   
   cli_status_update(id = sb,
-                    "{symbol$arrow_right} Website updated...")
+                    "{symbol$arrow_right} New reports published...")
   
   # If necessary, wait and then update the all-time awards search page
   if(update_awards){
     cli_status_update(id = sb,
-                      "{symbol$arrow_right} Waiting for {post_publication_wait} minutes before updating awards search page.")
+                      "{symbol$arrow_right} Waiting for {post_publication_wait} mins before updating awards page...")
     
     Sys.sleep(post_publication_wait * 60) # wait before updating the all-awards page
     
     cli_status_update(id = sb,
-                      "{symbol$arrow_right} Updating awards search page...")
+                      "{symbol$arrow_right} Updating awards page...")
     BuildSite(update_awards = T)
+    cli_status_update(id = sb,
+                      "{symbol$arrow_right} New awards page published...")
+    cli_status_clear(id = sb)
+    cli_alert_success("DONE")
+    
+  } else {
+    
+    cli_status_clear(id = sb)
+    cli_alert_success("DONE")
+    
   }
-  
-  cli_status_update(id = sb,
-                    "{symbol$arrow_right} Awards search page updated...")
-  cli_status_clear(id = sb)
-  cli_alert_success("Process completed")
-  
 }
 
 
