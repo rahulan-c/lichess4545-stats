@@ -72,10 +72,11 @@ series_sheets <- readr::read_csv(paste0(here::here(),
 # ---- RAPID BATTLE SHEET DATA ------------------------------------------------
 # Compile lookup data with sheet IDs for all previous Rapid Battle season 
 # spreadsheets and the sheet names where all gamelinks are recorded
+# Last updated on 2022-11-27. Includes RB 17, due to conclude by 30 Nov 2022.
 # TODO: Replace this once the RB lookup CSV has been completed.
 
 rb_sheets <- tibble(
-  "season" = c(1:17),
+  "season" = c(1:18),
   "sheetid" = c(
     "1O6XkJO6J4uB49ChiRpSoZochBUwgXn4mUKffUa9taig", # S1
     "", # S2 - sheet exists but doesn't have any gamelinks. ID 1SawXGckVVIYKHD6WLMKL0Lni6pmsGfGnoPTc7Su0T6Y 
@@ -93,8 +94,9 @@ rb_sheets <- tibble(
     "1uylkUxqGre9mJGyVWaja86PJMVjzntTWJlihMf6ZFd8", # S13
     "1esWor-776WtLePYTpsYHmbHcsBKP_13M_35uv_Wsxqg", # S14
     "1N2ixyY6r_COHhBoFrmAzBaMu3taTlEQFIEhC6wJhgSI", # S15
-    "1y2cQTKyMN01nLCRDXbv7Rq8LZ1c-xvarO335ruhuYpE"  # S16 
-  ),
+    "1y2cQTKyMN01nLCRDXbv7Rq8LZ1c-xvarO335ruhuYpE", # S16 
+    "1UsO4lIhJz2ml0JdKXjnB5pBtLKnyDqsmrwPgijsDsAY"  # S17
+    ),
   "sheetnames" = list(
     list("RR", "knock-out"),
     list(""),
@@ -112,9 +114,10 @@ rb_sheets <- tibble(
     list("Open Section Playoffs"),
     list("Div A Group Stage", "Div B Group Stage", "Div A Playoffs", "Div B Playoffs"),
     list("Copy of Copy of Section A Group Stage", "Section B Group Stage", "Playoffs A", "Playoffs B"),
+    list("Div A Group", "Div B Group", "Div A Playoffs", "Div B Playoffs"),
     list("Div A Group", "Div B Group", "Div A Playoffs", "Div B Playoffs")
   ),
-  "seasons" = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10, 11, 12, 13, 14, 15, 16)
+  "seasons" = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10, 11, 12, 13, 14, 15, 16, 17)
   # S9 has to appear twice to account for the additional S9 loser's bracket sheet
 )
 
@@ -343,7 +346,9 @@ UpdateAllSeriesGames <- function(series_sheets){
 
 
 
-UpdateAllRapidBattleGames <- function(rb_sheets){
+UpdateAllRapidBattleGames <- function(rb_sheets,
+                                      report_unanalysed = F,
+                                      stop_if_unanalysed = F){
   
   # ---- Get all Rapid Battle gamelinks from season spreadsheets ----------------------
   
@@ -447,8 +452,23 @@ UpdateAllRapidBattleGames <- function(rb_sheets){
     new_games <- new_data[[1]] %>% tibble::as_tibble()
     
     # ---- Check for un-analysed new games ----------------------------------------
+    if(report_unanalysed){
+      new_unanalysed <- new_data[[2]] %>% 
+        tibble::as_tibble() %>% select(id) %>% distinct(id) %>% arrange(id) %>% 
+        dplyr::pull() 
+      
+      cli::cli_alert("{length(new_unanalysed)} new Rapid Battle games haven't yet been analysed by Lichess.")
+      cli::cli_alert("You should request analysis for these games before adding them to the dataset.")
+      
+      # Save unanalysed game IDs in local TXT file
+      readr::write_lines(new_unanalysed, 
+                         paste0(here::here(), "/data/misc/unanalysed_gamelinks.txt"))
+      cli::cli_inform("These gamelinks have been saved to /data/misc/unanalysed_gamelinks.txt")
+    }
     
-    new_unanalysed <- new_data[[2]] %>% tibble::as_tibble()
+    if(stop_if_unanalysed){
+      break
+    }
     
     # ---- Add new games data to all-time data ------------------------------------
     
@@ -484,15 +504,15 @@ UpdateAllRapidBattleGames <- function(rb_sheets){
     new_games <- new_data[[1]] %>% tibble::as_tibble()
     
     # ---- Check for un-analysed new games ----------------------------------------
+    if(report_unanalysed){
+      new_unanalysed <- new_data[[2]] %>% tibble::as_tibble()
+      cli::cli_alert("{nrow(new_unanalysed)} Quest games haven't yet been analysed by Lichess.")
+      cli::cli_alert("You should request analysis for these games before adding them to the dataset.")
+    }
     
-    new_unanalysed <- new_data[[2]] %>% tibble::as_tibble()
-    # # Open unanalysed games in the browser in batches of max 20
-    # batch <- 1
-    # for (l in c(((20*batch)-19):min(20*batch, length(new_unanalysed$id)))) {
-    #   browseURL(new_unanalysed$id[l], browser = getOption("browser"),
-    #             encodeIfNeeded = FALSE)
-    #   Sys.sleep(0.3)
-    # }
+    if(stop_if_unanalysed){
+      break
+    }
     
     # ---- Add new games data to all-time data ------------------------------------
     
@@ -805,7 +825,9 @@ SaveLeaguePGN <- function(leagues){
 # SaveLeaguePGN("series")
 
 # # Update all-seasons Rapid Battle games data (.rds)
-# UpdateAllRapidBattleGames(rb_sheets)
+# UpdateAllRapidBattleGames(rb_sheets, 
+#                           report_unanalysed = T,
+#                           stop_if_unanalysed = T)
 # SaveLeaguePGN("rb")
 
 # Collate all-time 4545/LW/Series games data into single RDS file
@@ -815,7 +837,7 @@ SaveLeaguePGN <- function(leagues){
 # SaveTeamLWSeriesPGN()
 
 # Update Infinite Quest all-times games dataset
-# UpdateQuestGames()
+# UpdateQuestGames(report_unanalysed = T, stop_if_unanalysed = T)
 # SaveLeaguePGN("quest")
 
 # Combine all prev. saved games in 4545/LW/Series/RB/Quest into one RDS file
