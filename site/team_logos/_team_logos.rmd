@@ -69,19 +69,23 @@ pacman::p_load(magick, here, htmltools)
 
 
 ```{r, include = FALSE, eval = FALSE}
-# Make thumbnails of all full-size team logo images
+# Make thumbnail of a full-size image
+# Must already be saved in /site/team_logos/fullsize
+# Do this before updating the team logos page
 
-img_path <- paste0("fullsize/")
-thumb_path <- paste0("thumbs/")
+# Enter filename of full-size logo to convert
+fullsize_filename <- paste0("s33_sweaty.png")
 
-resize_image <- function(img_path, thumb_path) {
-  imFile <- magick::image_read(paste0(img_path))
+resize_image <- function(fullsize_filename) {
+  imFile <- magick::image_read(paste0(here::here(), "/site/team_logos/fullsize/", fullsize_filename))
   imFile_resized <- magick::image_resize(imFile, "x100")
-  magick::image_write(imFile_resized, paste0(thumb_path, "thumb-", image))
+  magick::image_write(imFile_resized, paste0(here::here(), "/site/team_logos/thumbs/thumb-", fullsize_filename))
 }
 
-# list_png <- list.files(img_path)
-# lapply(list_png, resize_image)
+# Make thumbnail
+resize_image(fullsize_filename)
+
+# NOTE: this has to be repeated for each new logo saved in /site/team_logos/fullsize
 ```
 
 
