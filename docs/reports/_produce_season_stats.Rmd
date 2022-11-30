@@ -12,7 +12,7 @@ output:
     toc_float: TRUE
     includes:
       in_header: head-custom-google-analytics.html
-    self-contained: FALSE
+    standalone: FALSE
 params:
   league: "league"
   season: "season"
@@ -510,7 +510,7 @@ if(lw_hide){cat("<!---")}
 
 **Match stories**
 
-See the twists and turns in every match this season through these PDF visualisations...assuming they've already been created and uploaded. [Source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/plot_match_story.R).
+See the twists and turns in every match this season through these PDF visualisations...assuming they've already been created and uploaded. [Source script](https://github.com/rahulan-c/lichess4545-stats/blob/2783e66cd6f257ea4ac2c1fcfaa30037887097b0/R/plot_match_story.R).
 
 [Round 1](`r paste0("stories/s", season, "_r", 1, "_allmatches.pdf")`) | [Round 2](`r paste0("stories/s", season, "_r", 2, "_allmatches.pdf")`) | [Round 3](`r paste0("stories/s", season, "_r", 3, "_allmatches.pdf")`) | [Round 4](`r paste0("stories/s", season, "_r", 4, "_allmatches.pdf")`) | [Round 5](`r paste0("stories/s", season, "_r", 5, "_allmatches.pdf")`) | [Round 6](`r paste0("stories/s", season, "_r", 6, "_allmatches.pdf")`) | [Round 7](`r paste0("stories/s", season, "_r", 7, "_allmatches.pdf")`) | [Round 8](`r paste0("stories/s", season, "_r", 8, "_allmatches.pdf")`)
 :::
@@ -1108,7 +1108,7 @@ Click on the image below to see a sunburst plot of all openings played in the se
  
 Assorted awards to celebrate the season - see the footnote for more details.[^awards]
 
-[^awards]: **Aces**: all players who achieved a plus/minus score - wins minus losses - of +6 or better over the season. **Archbishop of Accuracy**: the player with the lowest average centipawn loss (ACPL) over the season, accounting for moves played. **Giri Award**: named for [Anish Giri](https://chess24.com/en/read/news/giri-s-60-memorable-draws-exclusive-excerpt). **Grischuk's Cousin**: named for [Alexander Grischuk](https://www.chessbase.in/news/Candidates-2020-21-Round-10). **Houdini Award**: the player with the most comeback "points" over the season - players earn 1 point for winning a game after being in a position with an evaluation worse than -6, 0.7 points for winning after being worse than -3, 0.5 points for drawing after being worse than -6, and 0.3 points for drawing after being worse than -3. **MVP Award**: players must play at least five games to qualify, and perf. ratings are calculated using FIDE's method. **Primates of Precision**: based on Lichess game analysis ACPLs. **Rookie Award**: to be eligible, players must have played at least four games in the season and not have played in any previous 960 league season. **Tarjan Award**: named for James Tarjan, who [famously defeated Vladimir Kramnik in 2017](https://www.chess.com/news/view/3-year-old-tarjan-beats-kramnik-in-battle-of-generations). **David Award**: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. To be eligible, a player must have played at least 5 games over the season, and their opponents must have collectively played at least 30 games against others. **Egalitarian Award**: the team with the lowest standard deviation across players' relative performance ratings. *Other*: all other awards should be self-explanatory.
+[^awards]: **Aces**: all players who achieved a plus/minus score - wins minus losses - of +6 or better over the season. **Archbishop of Accuracy**: the player with the lowest average centipawn loss (ACPL) over the season, accounting for moves played. **Giri Award**: named for [Anish Giri](https://chess24.com/en/read/news/giri-s-60-memorable-draws-exclusive-excerpt). **Grischuk's Cousin**: named for [Alexander Grischuk](https://www.chessbase.in/news/Candidates-2020-21-Round-10). **Houdini Award**: the player with the most comeback "points" over the season - players earn 1 point for winning a game after being in a position with an evaluation worse than -6, 0.7 points for winning after being worse than -3, 0.5 points for drawing after being worse than -6, and 0.3 points for drawing after being worse than -3. **MVP Award**: players must play at least five games to qualify, and perf. ratings are calculated using FIDE's method. **Primates of Precision**: based on Lichess game analysis ACPLs. **Rookie Award**: to be eligible, players must have played at least four games in the season and not have played in any previous league season. **Tarjan Award**: named for James Tarjan, who [famously defeated Vladimir Kramnik in 2017](https://www.chess.com/news/view/3-year-old-tarjan-beats-kramnik-in-battle-of-generations). **David Award**: the player whose opponents achieved the highest percentage score across the season, excluding games against the player. To be eligible, a player must have played at least 5 games over the season, and their opponents must have collectively played at least 30 games against others. **Egalitarian Award**: the team with the lowest standard deviation across players' relative performance ratings. *Other*: all other awards should be self-explanatory.
  
 
 ```{r}

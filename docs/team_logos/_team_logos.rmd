@@ -1,14 +1,15 @@
 ---
 title: "Team logo gallery"
-description: |
-  Much requested, finally here!  
+author:
+  - name: izzie26
+date: "`r paste0(lubridate::day(lubridate::today()), " ", lubridate::month(lubridate::today(), label = T, abbr = F), " ", lubridate::year(lubridate::today()))`"
 output:
   distill::distill_article
 site: distill_website
 base_url: https://rahulan-c.github.io/lichess4545-stats/
 ---
 
-Here are all the 4545 team logos/banners that have ever been made. They're shown in reverse season order, so recent seasons are shown first. Click on each image to enlarge it.
+Here are all the Lichess4545 team logos that have ever been made, according to me. They're shown in reverse season order, with recent seasons first. Click on each image to enlarge it. Depending on your browser, some of the gallery symbols might not show up for you; they don't for me :)
 
 
 ```{r echo = FALSE}
@@ -18,7 +19,7 @@ knitr::opts_chunk$set(
 
 # Load all required packages
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(magick, here, htmltools)
+pacman::p_load(tidyverse, magick, here, htmltools, fs)
 ```
 
 <!-- Set up gallery -->
@@ -68,20 +69,62 @@ pacman::p_load(magick, here, htmltools)
 ```
 
 
-```{r, include = FALSE, eval = FALSE}
-# Make thumbnails of all full-size team logo images
+```{r, include = FALSE, eval = TRUE}
+# Make thumbnail of a full-size image
+# Must already be saved in /site/team_logos/fullsize
+# Do this before updating the team logos page
 
-img_path <- paste0("fullsize/")
-thumb_path <- paste0("thumbs/")
+cli::cli_h1("Constructing team logos gallery")
+cli::cli_h2("Checking for full-size logos that need thumbnails")
 
-resize_image <- function(img_path, thumb_path) {
-  imFile <- magick::image_read(paste0(img_path))
-  imFile_resized <- magick::image_resize(imFile, "x100")
-  magick::image_write(imFile_resized, paste0(thumb_path, "thumb-", image))
+images_path <- paste0(here::here(), "/site/team_logos/")
+
+# Identify any full-size images that need thumbnails
+current_fullsize <- fs::dir_info(paste0(images_path, "fullsize/")) %>% 
+  filter(type == "file") %>% 
+  filter(str_detect(path, "s\\d{2}_")) %>%
+  select(path) %>%
+  mutate(across(path, as.character)) %>% 
+  dplyr::pull() %>% 
+  str_remove(paste0(images_path, "fullsize/"))
+
+cli::cli_alert_info("Found {length(current_fullsize)} file{?s} in full-size logos folder.")
+
+current_thumbnails <- fs::dir_info(paste0(images_path, "thumbs/")) %>% 
+  filter(type == "file") %>% 
+  filter(str_detect(path, "s\\d{2}_")) %>%
+  select(path) %>%
+  mutate(across(path, as.character)) %>% 
+  dplyr::pull() %>% 
+  str_remove(paste0(images_path, "thumbs/")) %>% 
+  str_remove("thumb-")
+
+cli::cli_alert_info("Found {length(current_thumbnails)} file{?s} in thumbnails folder.")
+
+require_thumbs <- setdiff(current_fullsize, current_thumbnails)
+
+# Enter filename of full-size logo to convert
+# fullsize_filename <- paste0("s33_sweaty.png")
+
+if(length(require_thumbs) > 0){
+  cli::cli_alert_warning("{length(require_thumbs)} logo{?s} need thumbails")
+  
+  resize_image <- function(image, file) {
+    imFile <- magick::image_read(file)
+    imFile_resized <- magick::image_resize(imFile, "x100")
+    magick::image_write(imFile_resized, paste0(images_path, "/thumbs/thumb-", image))
+  }
+  
+  # Make thumbnails
+  for(i in require_thumbs){
+    resize_image(image = i, file = paste0(images_path, "/fullsize/", i))
+  }
+  cli::cli_alert_success("{length(require_thumbs)} new thumbnail{?s} created")
+  
+} else {
+  cli::cli_alert_info("No new logos saved")
 }
 
-# list_png <- list.files(img_path)
-# lapply(list_png, resize_image)
 ```
 
 

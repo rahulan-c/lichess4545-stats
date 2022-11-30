@@ -14,7 +14,6 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr)
 ```
 
-
 #### Future ideas
 
 Things that may be done tomorrow, next week, next month, next year...

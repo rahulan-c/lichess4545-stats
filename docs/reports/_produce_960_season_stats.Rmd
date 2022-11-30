@@ -12,13 +12,13 @@ output:
     toc_float: TRUE
     includes:
       in_header: head-custom-google-analytics.html
-    self-contained: FALSE
+    standalone: FALSE
 params:
   league: "league"
   season: "season"
   lw_section: "lw_section"
   rounds: "rounds"
-site: distill::distill_website
+# site: distill::distill_website
 ---
 
 
@@ -193,83 +193,117 @@ This `r paste0("[season's]", "(", summary_url, ")")` games were played between `
 ### Final standings
 <br>
 ```{r}
+
 # Identify top 3 players
 podium_places <- PodiumPlayers(summary_url)
+
 first <- podium_places[[1]]
 first_link <- podium_places[[2]]
-first_score <- podium_places[[3]]
-first_perf <- podium_places[[4]]
+first_perf <- podium_places[[3]]
 
-second <- podium_places[[5]]
-second_link <- podium_places[[6]]
-second_score <- podium_places[[7]]
-second_perf <- podium_places[[8]]
+second <- podium_places[[4]]
+second_link <- podium_places[[5]]
+second_perf <- podium_places[[6]]
 
-third <- podium_places[[9]]
-third_link <- podium_places[[10]]
-third_score <- podium_places[[11]]
-third_perf <- podium_places[[12]]
+third <- podium_places[[7]]
+third_link <- podium_places[[8]]
+third_perf <- podium_places[[9]]
+
+prize <- podium_places[[10]]
+prize_link <- podium_places[[11]]
+prize_perf <- podium_places[[12]]
+
+prize_label <- "Best U1600"
+
+
 
 ```
 
 
 <div class = "row">
   
-<div class = "col-md-4">
+<div class = "col-md-5">
 
 :::first
 <p style="font-size:12pt; font-weight: 900;">
 1st place
 <br>
 </p>
-<p style="font-size:14pt; font-weight: 900;">
+<p style="font-size:15pt; font-weight: 900;">
     `r paste0("[", first, "]", "(", first_link, ")")`
 </p>
 <p style="font-size:11pt; font-weight: 600;">
-    `r paste0(first_score, " (", first_perf, " perf)")`
+    `r paste0(first_perf)`
 </p>
 :::
 
 </div>
   
-<div class = "col-md-4">
+<div class = "col-md-5">
 
 :::second
 <p style="font-size:12pt; font-weight: 900;">
 2nd place
 <br>
 </p>
-<p style="font-size:14pt; font-weight: 600;">
+<p style="font-size:15pt; font-weight: 600;">
     `r paste0("[", second, "]", "(", second_link, ")")`
 </p>
 <p style="font-size:11pt; font-weight: 600;">
-  `r paste0(second_score, " (", second_perf, " perf)")`
+  `r paste0(second_perf)`
 </p>
 :::
 
 </div>
 
-<div class = "col-md-4">
+</div>
+
+<div class = "row">
+<div class = "col-md-5">
+<br>
+</div>
+</div>
+
+<div class = "row">
+
+<div class = "col-md-5">
 
 :::third
 <p style="font-size:12pt; font-weight: 900;">
 3rd place
 <br>
 </p>
-<p style="font-size:14pt; font-weight: 600;">
+<p style="font-size:15pt; font-weight: 600;">
     `r paste0("[", third, "]", "(", third_link, ")")`
 </p>
 <p style="font-size:11pt; font-weight: 600;">
-  `r paste0(third_score, " (", third_perf, " perf)")`
+  `r paste0(third_perf)`
 </p>
 :::
 
 </div>
 
+<div class = "col-md-5">
+
+:::prize
+<p style="font-size:12pt; font-weight: 900;">
+`r paste0(prize_label)`
+<br>
+</p>
+<p style="font-size:15pt; font-weight: 600;">
+    `r paste0("[", prize, "]", "(", prize_link, ")")`
+</p>
+<p style="font-size:11pt; font-weight: 600;">
+  `r paste0(prize_perf)`
+</p>
+:::
+
 </div>
 
+<br>
+<br>
 
-####  Story of the season
+#### How the title race played out
 
 ```{r position_tracker, out.width="90%", fig.align="center"}
 # Team/player position tracker
@@ -435,8 +469,8 @@ all_moves <- AllMoves(games)
 
 # Get relative perf ratings (abs and relative to initial rating)
 relative_perfs_list <- RelativePerfs(pairings, min_games = 5, fide_tpr_lookup, tos_violators)
-perfs <- relative_perfs_list[[1]]
-relative_perfs <- relative_perfs_list[[2]]
+perfs <- relative_perfs_list[[1]] %>% tibble::as_tibble()
+relative_perfs <- relative_perfs_list[[2]] %>% tibble::as_tibble()
 
 # Get season ACPLs and blunder rates
 acpl_blunders <- ErrorRates(league, games, league_col)
@@ -505,6 +539,12 @@ gambiteers <- tibble("rank" = "",
                      "player" = "",
                      "games" = "",
                      "success" = "")
+
+# Time Turner Award
+timeturners <- TimeTurners(moves = all_moves, games, league, season, tos_violators)
+
+# Marathon Moves Award
+marathon_moves <- MostMovesPlayed(games, rows_to_show = 20, tos_violators)
 ```
 
 
@@ -535,7 +575,9 @@ if(movetimes_exist){
                        david = david,
                        rookie_perfs = rookie_perfs,
                        gambiteer_award = gambiteer_award,
-                       aces = aces)
+                       aces = aces,
+                       marathonmovers = marathon_moves,
+                       needforspeed = timeturners)
 } else {
   awards <- SeasonAwards(league = league, 
                          league_col_dark = league_col_dark, 
@@ -558,7 +600,9 @@ if(movetimes_exist){
                            david = david,
                            rookie_perfs = rookie_perfs,
                          gambiteer_award = gambiteer_award,
-                         aces = aces)
+                         aces = aces,
+                         marathonmovers = marathon_moves,
+                         needforspeed = timeturners)
 }
 
 # Show player awards table

@@ -91,7 +91,6 @@ for (l in seq(1:length(web_leagues))){
   } else {
     # Non-NA season numbers...
     if(league %in% c("team4545", "chess960")){
-      # 4545, 960
       round <- read_html(paste0(root, league, "/season/", season, "/pairings/")) %>% 
         rvest::html_element(".round-switcher:nth-child(1) .dropdown-toggle") %>% 
         html_text2() %>% 
@@ -114,6 +113,7 @@ for (l in seq(1:length(web_leagues))){
   # games have been played but the season hasn't been closed yet.Looks for a 
   # winners table on the season summary page with the header "Season X Winners". 
   # If this isn't found, then the season hasn't been closed.
+  
   if((league == "team4545") & (!(is.na(round))) & (round == 8)) {
     Sys.sleep(0.2)
     inactive_postseason <- read_html(paste0(root, league, "/season/", season, "/summary/")) %>% 
@@ -121,12 +121,16 @@ for (l in seq(1:length(web_leagues))){
       html_text2() %>% 
       is.na() # reverse!
     
-  } else if ((league == "lonewolf") & (!(is.na(round))) & (round == 11)){
+  } else if ((league == "lonewol
+              .
+              .
+              0f") & (!(is.na(round))) & (round == 11)){
     Sys.sleep(0.2)
     inactive_postseason <- read_html(paste0(root, league, "/season/", season, "/summary/")) %>% 
       rvest::html_element(".col-md-8 h3") %>% 
       html_text2() %>% 
       is.na() # reverse!
+    # WAIT - THIS DIDN'T WORK FOR LW S27. THE SEASON'S CLOSED, S28 REGS AREN'T OPEN. 
   
   } else if ((league == "chess960") & (!(is.na(round))) & (round == 7)){
     Sys.sleep(0.2)
@@ -155,8 +159,7 @@ for (l in seq(1:length(web_leagues))){
   # Doesn't show when registrations are closed
   website_regs_open <- homepage %>% html_text2() %>% str_detect("Registration is open!")
   
-  
-  
+
   # If registrations are open...
   if(website_regs_open){
     if(league == "team4545"){
