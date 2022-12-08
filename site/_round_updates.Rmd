@@ -39,6 +39,10 @@ reports_md <- str_c(reports_md, collapse = ", ")
 
 These plots show how 4545 league matches unfold through the ups and downs of their games ([source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/plot_match_story.R)).
 
+#### Season 33
+
+[R1](reports/stories/s33_r1_allmatches.pdf)
+
 #### Season 32
 
 [R1](reports/stories/s32_r1_allmatches.pdf) | [R2](reports/stories/s32_r2_allmatches.pdf) | [R3](reports/stories/s32_r3_allmatches.pdf) | [R4](reports/stories/s32_r4_allmatches.pdf) | [R5](reports/stories/s32_r5_allmatches.pdf) | [R6](reports/stories/s32_r6_allmatches.pdf) | [R7](reports/stories/s32_r7_allmatches.pdf) | [R8](reports/stories/s32_r8_allmatches.pdf)
