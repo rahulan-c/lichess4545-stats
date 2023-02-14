@@ -740,7 +740,7 @@ LongestGamesByMoves <- function(games, above_perc){
            started) %>% 
     mutate(players = paste0(white, " - ", black),
            url = paste0("https://lichess.org/", id),
-           rank = dense_rank(desc(num_moves))) %>% 
+           rank = min_rank(desc(num_moves))) %>% 
     select(rank, players, started, url, num_moves) %>% 
     mutate(date = sprintf('%s %2d %2s %2d', lubridate::wday(started, label=T, abbr=T), lubridate::day(started), lubridate::month(started, label = T, abbr = T), lubridate::year(started))) %>% 
     mutate(prank = ntile(num_moves, 100)) %>% # calculate percentiles
@@ -761,7 +761,7 @@ LongestGamesByDuration <- function(games, above_perc){
            started) %>% 
     mutate(players = paste0(white, " - ", black),
            url = paste0("https://lichess.org/", id),
-           rank = dense_rank(desc(duration))) %>% 
+           rank = min_rank(desc(duration))) %>% 
     select(rank, players, started, url, duration) %>% 
     mutate(duration = lubridate::seconds_to_period(duration)) %>%
     mutate(duration_print = sprintf('%2gh %2gm %.0fs', lubridate::hour(duration), lubridate::minute(duration), lubridate::second(duration))) %>% # more readable total times
@@ -1017,7 +1017,7 @@ PopularOpenings <- function(games = games){
               black_wins = (sum(result == "0-1") / games) * 100,
               mean_eval_after_15 = mean(eval_after_15, na.rm = T) / 100) %>% 
     arrange(desc(games)) %>% 
-    mutate(rank = dense_rank(desc(games))) %>% 
+    mutate(rank = min_rank(desc(games))) %>% 
     mutate(perc_w = (score_w / games) * 100) %>%
     select(rank, opening.broad, games, perc_w, white_wins, draws, black_wins, 
            mean_eval_after_15, mean_rating)
@@ -1037,7 +1037,7 @@ PopularVariations <- function(games = games){
               black_wins = (sum(result == "0-1") / games) * 100,
               mean_eval_after_15 = mean(eval_after_15, na.rm = T) / 100) %>% 
     arrange(desc(games)) %>% 
-    mutate(rank = dense_rank(desc(games))) %>% 
+    mutate(rank = min_rank(desc(games))) %>% 
     mutate(perc_w = (score_w / games)*100) %>%
     select(rank, opening.name, games, perc_w, white_wins, draws, black_wins, 
            mean_eval_after_15, mean_rating)
@@ -1059,7 +1059,7 @@ BestOpeningsForWhite <- function(games = games){
     mutate(perc_w = (score_w / games) * 100) %>%
     arrange(desc(perc_w)) %>% 
     filter(games > 10) %>% 
-    mutate(rank = dense_rank(desc(perc_w))) %>% 
+    mutate(rank = min_rank(desc(perc_w))) %>% 
     select(rank, opening.broad, games, perc_w, white_wins, draws, black_wins,
            mean_eval_after_15, mean_rating)
   return(openings_bestwhite)
@@ -1080,7 +1080,7 @@ BestOpeningsForBlack <- function(games = games){
     mutate(perc_b = (score_b / games)*100) %>% 
     arrange(desc(perc_b)) %>% 
     filter(games > 10) %>% 
-    mutate(rank = dense_rank(desc(perc_b))) %>% 
+    mutate(rank = min_rank(desc(perc_b))) %>% 
     select(rank, opening.broad, games, perc_b, black_wins, draws, white_wins, 
            mean_eval_after_15, mean_rating)
   return(openings_bestblack)
@@ -1174,7 +1174,7 @@ RelativePerfs <- function(pairings = pairings, min_games = 5, fide_tpr_lookup = 
     filter(games >= min_games) %>% 
     filter(perf_diff >= 0) %>% 
     arrange(desc(perf_diff)) %>% 
-    mutate(perf_rank = dense_rank(desc(perf_diff))) %>% 
+    mutate(perf_rank = min_rank(desc(perf_diff))) %>% 
     select(perf_rank, player, games, wins, draws, losses, initial_rating, perf_rating, perf_diff)
   return(list(perfs, relative_perfs))
 }
@@ -1208,7 +1208,7 @@ LowestACPLs <- function(error_rates = error_rates,
               games = n_distinct(game_id)) %>% 
     filter(games >= min_games) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
-    mutate(rank = dense_rank(acpl)) %>% 
+    mutate(rank = min_rank(acpl)) %>% 
     arrange(acpl) %>% 
     mutate(prank = ntile(acpl, 100)) %>%
     filter(prank <= top_percentile_to_show) %>% 
@@ -1235,7 +1235,7 @@ LowestACPLs960 <- function(error_rates = error_rates,
     arrange(acpl) %>% 
     filter(games >= min_games) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% # remove ToS violators
-    mutate(rank = dense_rank(acpl)) %>% 
+    mutate(rank = min_rank(acpl)) %>% 
     mutate(prank = ntile(acpl, 100)) %>%
     filter(prank <= top_percentile_to_show) %>% 
     select(rank, player, games, acpl) %>%
@@ -1298,7 +1298,7 @@ MostTimeSpentPerMove <- function(games = games, min_games = 3, tos_violators = t
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
     filter(games >= min_games) %>% 
     mutate(prank = ntile(avg_time_spent_after_move10, 100)) %>%
-    mutate(rank = dense_rank(desc(avg_time_spent_after_move10))) %>% 
+    mutate(rank = min_rank(desc(avg_time_spent_after_move10))) %>% 
     mutate(duration_print = sprintf('%2dm %2.1fs', lubridate::minute(seconds_to_period(avg_time_spent_after_move10)), lubridate::second(seconds_to_period(avg_time_spent_after_move10)))) %>% 
     select(rank, player, games, moves, duration_print, prank)
   return(avg_think_times)
@@ -1314,7 +1314,7 @@ MostTimeSpentAcrossSeason <- function(games = games, players_to_show = 50, tos_v
               games = n()) %>% 
     arrange(desc(total_duration)) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
-    mutate(rank = dense_rank(desc(total_duration))) %>% 
+    mutate(rank = min_rank(desc(total_duration))) %>% 
     mutate(duration_print = sprintf('%2dh %2dm %2ds',
                                     lubridate::hour(total_duration), 
                                     lubridate::minute(total_duration), 
@@ -1386,7 +1386,7 @@ Comebacks <- function(all_moves = all_moves, tos_violators){
     ) %>% 
     arrange(desc(cb_total)) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
-    mutate(rank = dense_rank(desc(cb_total))) %>% 
+    mutate(rank = min_rank(desc(cb_total))) %>% 
     select(rank, player, cb_total, cb_games, wins_cat1, wins_cat2, draws_cat1, draws_cat2)
   return(comebacks)
 }
@@ -1403,7 +1403,7 @@ Upsets <- function(games = games, min_rating_gap = 100, tos_violators){
            link = paste0("https://lichess.org/", id)) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
     arrange(desc(rating_gap)) %>% 
-    mutate(rank = dense_rank(desc(rating_gap))) %>% 
+    mutate(rank = min_rank(desc(rating_gap))) %>% 
     select(rank, player, rating_gap, link)
               
   
@@ -1417,7 +1417,7 @@ Upsets <- function(games = games, min_rating_gap = 100, tos_violators){
     filter(upsets > 1) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
     arrange(desc(upset_pts)) %>% 
-    mutate(rank = dense_rank(desc(upset_pts))) %>% 
+    mutate(rank = min_rank(desc(upset_pts))) %>% 
     select(rank, player, upset_pts, upsets, mean_rating_gap, max_rating_gap)
   return(list(upsets, upset_specialists))
 }
@@ -1494,7 +1494,7 @@ Instamovers <- function(all_moves = all_moves, min_instamoves = 6, tos_violators
       arrange(desc(instamoves)) %>%
       filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
       filter(instamoves >= min_instamoves) %>% 
-      mutate(rank = dense_rank(desc(instamoves))) %>% 
+      mutate(rank = min_rank(desc(instamoves))) %>% 
       select(rank, player, instamoves)
   } else {
     instamovers <- tibble("rank" = 1, "player" = "n/a", "instamoves" = "n/a")
@@ -1509,7 +1509,7 @@ LongestThinks <- function(all_moves = all_moves, rows_to_show = 100, tos_violato
     arrange(desc(time_spent)) %>% 
     mutate(url = paste0("https://lichess.org/", game_id, "#", ply+1)) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
-    mutate(rank = dense_rank(desc(time_spent))) %>% 
+    mutate(rank = min_rank(desc(time_spent))) %>% 
     select(rank, player, time_spent, colour, ply, url) %>%
     mutate(time_spent = lubridate::seconds_to_period(time_spent),
            move = ifelse(ply %% 2 == 0, ply/2+1, (ply/2)+0.5)) %>% 
@@ -1550,7 +1550,7 @@ IntimateWithIncrement <- function(all_moves = all_moves, timetrouble_threshold =
     arrange(desc(tt_pc)) %>%
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
     filter(moves >= min_moves_played) %>% # min threshold 100 moves
-    mutate(rank = dense_rank(desc(tt_pc))) %>% 
+    mutate(rank = min_rank(desc(tt_pc))) %>% 
     select(rank, player, moves, tt_moves, tt_pc)
   return(timetrouble)
 }
@@ -1604,7 +1604,7 @@ DavidAward <- function(games = games, perfs = perfs,
     arrange(desc(opp_perc)) %>%
     filter(player %in% eligible_players) %>%
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
-    mutate(rank = dense_rank(desc(opp_perc))) %>% 
+    mutate(rank = min_rank(desc(opp_perc))) %>% 
     select(rank, player, opp_games, opp_points, opp_perc)
   return(david)
 }
@@ -1758,7 +1758,7 @@ RookieAward <- function(all_games = all_games, games = games, perfs = perfs, min
     filter(games >= min_games) %>% # apply lower games played threshold for rookie award
     filter(perf_diff >= 0) %>% 
     arrange(desc(perf_diff)) %>% 
-    mutate(perf_rank = dense_rank(desc(perf_diff))) %>% 
+    mutate(perf_rank = min_rank(desc(perf_diff))) %>% 
     select(perf_rank, player, games, wins, draws, losses, initial_rating, perf_rating, perf_diff)
   
   return(rookie_perfs)
@@ -2261,7 +2261,7 @@ Dawdlers <- function(all_moves = all_moves, games = games, tos_violators = tos_v
     mutate(time_print = sprintf('%2dm %2ds', lubridate::minute(time_left_2), lubridate::second(time_left_2))) %>% 
     filter(outcome == "win") %>% 
     head(games_to_show) %>% 
-    mutate("rank" = dense_rank(time_left)) %>% 
+    mutate("rank" = min_rank(time_left)) %>% 
     select(rank, player, time_print, outcome, url)
   return(dawdlers)
 }
@@ -2458,7 +2458,7 @@ MostMovesPlayed <- function(games = games,
     summarise(moves = sum(moves)) %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators))) %>% 
     slice_max(order_by = moves, n = rows_to_show) %>% 
-    mutate(rank = dense_rank(desc(moves))) %>%
+    mutate(rank = min_rank(desc(moves))) %>%
     filter(rank <= 10) %>% 
     arrange(rank) %>% 
     select(rank, player, moves)
