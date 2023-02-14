@@ -2,7 +2,7 @@
 title: "Team logo gallery"
 author:
   - name: izzie26
-date: "`r paste0(lubridate::day(lubridate::today()), " ", lubridate::month(lubridate::today(), label = T, abbr = F), " ", lubridate::year(lubridate::today()))`"
+date: "`r Sys.Date()`"
 output:
   distill::distill_article
 site: distill_website
