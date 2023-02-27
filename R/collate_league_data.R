@@ -805,8 +805,8 @@ SaveLeaguePGN <- function(leagues){
 # datasets for 4545, LW and Chess960
 
 # 4545
-# CompileCombinedData(league_choice = "team4545")
-# SaveLeaguePGN("team4545") # warning: took 4 mins for S1-S29
+CompileCombinedData(league_choice = "team4545")
+SaveLeaguePGN("team4545") # warning: took over 5 mins for S1-S33 (2023-02-15)
 
 # LW Open
 # CompileCombinedData(league_choice = "lwopen")

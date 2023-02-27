@@ -32,7 +32,7 @@ pacman::p_load(tidyverse, data.table, cli, fs, glue, here, distill)
 #' @param update_standings Update the 'live' standings page?
 #' @param update_about Update the 'about' paeg?
 #' @param update_articles If TRUE, re-knits all standalone articles
-#' @param update_roundstats If TRUE, re-knits the round stats page
+#' @param update_roundstories If TRUE, re-knits the 'round stories' page
 #' @param update_logogallery If TRUE, re-knits the team logo gallery page
 #'
 #' @return
@@ -46,7 +46,7 @@ BuildSite <- function(quiet = FALSE,
                       update_standings = FALSE,
                       update_about = FALSE,
                       update_articles = FALSE,
-                      update_roundstats = FALSE,
+                      update_roundstories = FALSE,
                       update_logogallery = FALSE){
   
   # Render frontpage
@@ -101,7 +101,7 @@ BuildSite <- function(quiet = FALSE,
   }
   
   # Update round updates page
-  if(update_roundstats){
+  if(update_roundstories){
     # Players by continent/country
     rmarkdown::render("site/_round_updates.Rmd", 
                       output_file = "round_updates.html",
