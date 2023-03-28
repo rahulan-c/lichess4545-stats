@@ -41,7 +41,7 @@ These plots show how 4545 league matches unfold through the ups and downs of the
 
 #### Season 34
 
-[R1](reports/stories/s34_r1_allmatches.pdf) | [R2](reports/stories/s34_r2_allmatches.pdf) | [R3](reports/stories/s34_r3_allmatches.pdf) | [R4](reports/stories/s34_r4_allmatches.pdf)
+[R1](reports/stories/s34_r1_allmatches.pdf) | [R2](reports/stories/s34_r2_allmatches.pdf) | [R3](reports/stories/s34_r3_allmatches.pdf) | [R4](reports/stories/s34_r4_allmatches.pdf) | [R5](reports/stories/s34_r5_allmatches.pdf)
 
 #### Season 33
 
