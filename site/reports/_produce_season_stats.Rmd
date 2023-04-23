@@ -516,7 +516,7 @@ See the twists and turns in every match this season through these PDF visualisat
 :::
 
 
-### Top players `r emo::ji("tophat")`
+### Top players 
 
 
 #### Board medals
@@ -591,7 +591,7 @@ if (lw_hide) {cat("-->")}
 ```
 
 
-#### Timing `r emo::ji("bar_chart")`
+#### Timing 
 
 ```{r games_by_day, fig.show="hold", out.width = "50%"}
 GamesByDay(games, league_col)
@@ -600,7 +600,7 @@ GamesByDayAndHour(games, league_col)
 
 
 
-#### Length `r emo::ji("bar_chart")`
+#### Length 
 
 ```{r hists, fig.show="hold", out.width = "50%"}
 MovesPerGameHist(games, league_col)
@@ -681,7 +681,7 @@ reactable(longest_duration,
 ### Stats - by board/rating {.tabset .tabset-fade .tabset-pills}
 
 
-#### ACPL and blunder rate `r emo::ji("bar_chart")`
+#### ACPL and blunder rate 
 
 ```{r acpl_blunders, fig.show="hold", out.width = "50%"}
 acpl_blunders <- ErrorRates(league, games, league_col)
@@ -804,7 +804,7 @@ if(league == "lonewolf") {
 
 ### Openings {.tabset .tabset-fade .tabset-pills} 
 
-#### First moves `r emo::ji("bar_chart")`
+#### First moves 
 
 The frequency of first move pairs by board (4545) or average rating band (LoneWolf).
 
@@ -1022,7 +1022,7 @@ reactable(top_gambits,
 }
 ```
 
-#### Gambiteers `r emo::ji("fencer")`
+#### Gambiteers 
 
 The players who enjoyed the most success when playing gambits.^[Qualifying "gambiteers" are ordered by number of gambit games played before percentage score.] *Includes everyone who scored at least 50 per cent across at least two gambit games.*
 
@@ -1091,7 +1091,7 @@ reactable(gambiteers,
 ```
 
 
-### Openings sunburst `r emo::ji("sun_with_face")`
+### Openings sunburst 
 
 Click on the image below to see a sunburst plot of all openings played in the season.
 
@@ -1101,7 +1101,7 @@ Click on the image below to see a sunburst plot of all openings played in the se
 </center>
 
 
-### Awards `r emo::ji("prize")`
+### Awards 
 
 <!-- All the code to determine the awards has to be run before the awards table -->
 
@@ -1382,7 +1382,7 @@ if(lw_hide){cat("-->")}
 ```
 
 
-### Stats - tables `r emo::ji("books")`
+### Stats - tables 
 
 Tons of detailed stats for your reading pleasure. All tables in this section are sortable and searchable - feel free to explore!
 

@@ -53,7 +53,7 @@
 
 # Load (extra) packages
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(ggrepel, cowplot, ggtext, gridExtra, qpdf, rsvg, extrafont, emo, 
+pacman::p_load(ggrepel, cowplot, ggtext, gridExtra, qpdf, rsvg, extrafont, 
                cli, grImport2, png, ggimage, grid, prettyunits)
 
 # Get env variables
