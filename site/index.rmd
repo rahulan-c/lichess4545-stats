@@ -335,7 +335,7 @@ status_tbl <-
   ) %>% 
   tab_source_note(
     md(
-      "Community leagues: Season 19 of **Series** started on 5 September, as did Season 17 of **Rapid Battle**. Naturally, **Infinite Quest** just keeps going :) Check out the Lichess4545 [overview](https://bit.ly/35w1xqH) for more details."
+      "Community leagues: Season 21 of **Series** (90+30) is in progress (27 Feb to 7 May), as is Season 18 of **Rapid Battle**, and as ever **Infinite Quest** is still going strong. Check out the Lichess4545 [overview](https://bit.ly/35w1xqH) for details on all leagues."
     )
   )
 

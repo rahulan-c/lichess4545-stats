@@ -101,7 +101,7 @@ completed <- tibble("team4545" = completed_4545,
                     "lwu1800" = completed_lwu1800,
                     "chess960" = completed_960)
 
-knitr::kable(completed, format = "simple", 
+knitr::kable(completed, 
              col.names = c("4545 / Team", 
                            "LW Open", 
                            "LW U1800",
