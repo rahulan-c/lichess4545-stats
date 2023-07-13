@@ -3,8 +3,6 @@
 #                         PLOT 4545 MATCH STORIES
 # =============================================================================
 
-# Last updated 2022-11-26
-
 # Plots the 'story' of matches played in the Lichess4545 Team League.
 # Shows a match as a sequence of moves played in successive games, showing the 
 # evaluation trajectory of each game as it reaches its result (1-0, 0-1, 
@@ -32,21 +30,7 @@
 # BUGS
 # 1) Opening names with foreign character show up as bugged characters, 
 #    presumably due to some character encoding issue that I haven't figured out
-#    how to fix. First noticed in Feb 2022, but still not fixed as at Nov 2022.
-
-
-# DEV TODOS
-# - Give single match plots a more informative name
-# - Improve team stats
-# - Make console messages more informative
-# - Explore alternative output formats (eg SVG)
-# - Refactor code to fully separate constituent functions, instead of
-#   bundling them all within PlotMatchStory()
-# - Explore other ideas: eg plotting...
-#     All matches played by a team in a season
-#     All matches played by a player in a season
-#     All matches played by a player over their career
-#     (NOTE: this probably requires re-factoring the code first!)
+#    how to fix. Not sure if fixed (July 2023).
 
 
 # Setup =======================================================================
@@ -193,14 +177,14 @@ PlotMatchStory <- function(season_num, # season number
   
   all_matches <- fix_character_encoding(all_matches)
   
-
+  # Remove player pairings (leaving only team names and match scores)
   all_matches <- all_matches %>%
-    filter(X5 == "") %>%
-    filter(X2 != "", X3 != "") %>% 
-    filter(!(str_detect(X2, "Z|F|X"))) %>% 
-    filter(!(str_detect(X3, "Z|F|X"))) %>% 
-    filter(!(str_detect(X2, "01|10"))) %>% 
-    filter(!(str_detect(X3, "01|10")))
+    filter(
+      X5 == "",
+      if_any(c(X2, X3), ~ . != ""),
+      if_any(c(X2, X3), ~ !(str_detect(., "Z|F|X|01|10|½½")))
+           )
+    
 
   # Identify match to plot ------------------------------------------------------
   
@@ -451,7 +435,7 @@ PlotMatchStory <- function(season_num, # season number
     }
   
     # Define Teams 1 and 2 - by alphabetical order
-    teams <- sort(unique((pairings$white_team))) 
+    teams <- sort(unique((pairings$white_team)))
     
     # Extract each team's league rank, and points (match/game) in the league before the match took place
     rank_t1 <- all_positions %>% filter(team == teams[[1]]) %>% dplyr::pull(rank)

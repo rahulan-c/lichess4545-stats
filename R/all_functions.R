@@ -801,7 +801,7 @@ LeagueData <- function(league_choice,
           
           # Identify first player in pairings with a bye
           first_bye <- results[find_first_bye[1]-3] %>% 
-            str_replace_all("\\([:digit:]{3,4}\\)", "")
+            str_replace_all("\\([:digit:]{3,4}\\)|\\(\\?\\)", "")
           
           # Now remove all entries in original page after this first bye
           first_bye_loc <- results %>% str_which(first_bye)
@@ -876,7 +876,7 @@ LeagueData <- function(league_choice,
           
           # Identify first player in pairings with a bye
           first_bye <- results[find_first_bye[1]-3] %>% 
-            str_replace_all("\\([:digit:]{3,4}\\)", "")
+            str_replace_all("\\([:digit:]{3,4}\\)|\\(\\?\\)", "")
           
           # Now remove all entries in original page after this first bye
           first_bye_loc <- results %>% str_which(first_bye)
@@ -891,14 +891,15 @@ LeagueData <- function(league_choice,
           
           # Extract ratings
           byes$rating <- byes$player %>% 
-            str_extract_all("\\([:digit:]{3,4}\\)") %>% 
+            str_extract_all("\\([:digit:]{3,4}\\)|\\(\\?\\)") %>% 
             str_replace_all("\\(", "") %>% 
             str_replace_all("\\)", "") %>% 
+            str_replace_all("\\?", "1500") %>% 
             as.integer()
           
           # Clean up player names
           byes$player <- byes$player %>% 
-            str_replace_all("\\([:digit:]{3,4}\\)", "") %>% 
+            str_replace_all("\\([:digit:]{3,4}\\)|\\(\\?\\)", "") %>% 
             str_squish() %>% 
             str_to_lower()
         

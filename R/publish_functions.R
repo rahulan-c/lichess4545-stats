@@ -174,13 +174,13 @@ PublishSeasonStats <- function(need_data = FALSE,
                                lwu1800_seasons = NULL,
                                chess960_seasons = NULL) {
   
+  # Creates new season stats report(s) for 4545, LW and 960
+  # Pushes new files to the repo
+  # Waits for 10 minutes
+  # Then re-compiles and publishes the all-time awards/search page
   
-  
-  # Create new season stats/awards report(s), push them to the site, wait a bit, 
-  # re-make the all-time awards search page, then publish that
-  
-  # Define how many minutes to wait after publishing season reports before 
-  # updating the searchable awards page
+  # How long to wait between publishing season reports and updating 
+  # the all-awards page
   post_publication_wait <- 10
   
   cli::cli_rule(left = "Compiling and publishing new season report(s)")
@@ -221,6 +221,7 @@ PublishSeasonStats <- function(need_data = FALSE,
   Sys.sleep(5)
   
   # Re-knit and publish the all season reports page
+  # No other page will be updated
   BuildSite(update_allreports = T)
   
   cli_status_update(id = sb,
@@ -232,7 +233,6 @@ PublishSeasonStats <- function(need_data = FALSE,
                       "{symbol$arrow_right} Waiting for {post_publication_wait} mins before updating awards page...")
     
     Sys.sleep(post_publication_wait * 60) # wait before updating the all-awards page
-    
     cli_status_update(id = sb,
                       "{symbol$arrow_right} Updating awards page...")
     BuildSite(update_awards = T)
@@ -240,11 +240,14 @@ PublishSeasonStats <- function(need_data = FALSE,
                       "{symbol$arrow_right} New awards page published...")
     cli_status_clear(id = sb)
     cli_alert_success("DONE")
+    cli_alert_success("New season reports compiled and published")
+    cli_alert_success("All-awards page re-compiled and published")
     
   } else {
     
     cli_status_clear(id = sb)
     cli_alert_success("DONE")
+    cli_alert_success("New season reports compiled and published")
     
   }
 }

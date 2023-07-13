@@ -450,7 +450,7 @@ reactable(longest_duration,
 ```
 
 
-### Awards `r emo::ji("prize")`
+### Awards 
 
 <!-- All the code to determine the awards has to be run before the awards table -->
 
@@ -655,7 +655,7 @@ reactable(awards,
 ```
 
 
-### Stats `r emo::ji("books")` {.tabset .tabset-fade .tabset-pills} 
+### Stats {.tabset .tabset-fade .tabset-pills} 
 
 
 #### Best relative performances
