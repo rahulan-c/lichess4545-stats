@@ -1,7 +1,5 @@
 ---
 title: "About"
-author:
-  - name: izzie26
 date: "`r Sys.Date()`"
 output: distill::distill_article
 site: distill::distill_website
