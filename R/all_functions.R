@@ -809,13 +809,13 @@ LeagueData <- function(league_choice,
         }
         
         # Collect the data required to construct the pairings tibble                   
-        board = results[c(T, F, F, F, F, F, F, F, F)] %>% as.integer()
-        posw = results[c(F, T, F, F, F, F, F, F, F)] %>% as.integer()
-        white = results[c(F, F, F, T, F, F, F, F, F)]
-        posb = results[c(F, F, F, F, T, F, F, F, F)] %>% as.integer()
-        black = results[c(F, F, F, F, F, F, T, F, F)]
-        result = results[c(F, F, F, F, F, F, F, T, F)]
-        date = results[c(F, F, F, F, F, F, F, F, T)]
+        board = results[c(T, F, F, F, F, F, F, F, F, F, F)] %>% as.integer()
+        posw = results[c(F, T, F, F, F, F, F, F, F, F, F)] %>% as.integer()
+        white = results[c(F, F, F, F, T, F, F, F, F, F, F)]
+        posb = results[c(F, F, F, F, F, T, F, F, F, F, F)] %>% as.integer()
+        black = results[c(F, F, F, F, F, F, F, T, F, F, F)]
+        result = results[c(F, F, F, F, F, F, F, F, F, T, F)]
+        date = results[c(F, F, F, F, F, F, F, F, F, F, T)]
         
         # Construct tibble
         results <- tibble(board = board, posw = posw, white = white, posb = posb,
@@ -883,9 +883,9 @@ LeagueData <- function(league_choice,
           results <- results[(first_bye_loc-2):length(results)]
           
           # Collect the data required for players with byes                   
-          pos = results[c(T, F, F, F, F, F, F, F, F)] %>% as.integer()
-          player = results[c(F, F, T, F, F, F, F, F, F)]
-          bye = results[c(F, F, F, F, F, T, F, F, F)]
+          pos = results[c(T, F, F, F, F, F, F, F, F, F, F)] %>% as.integer()
+          player = results[c(F, F, F, T, F, F, F, F, F, F, F)]
+          bye = results[c(F, F, F, F, F, F, T, F, F, F, F)]
           
           byes <- tibble(pos = pos, player = player, bye = bye)
           
