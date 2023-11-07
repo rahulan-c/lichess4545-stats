@@ -32,7 +32,7 @@ navbar:
       - text: "Round stats"
         href: round_updates.html
         menu:
-        - text: "Round stats"
+        - text: "Match stories"
           href: round_updates.html
         - text: "Live standings"
           href: live.html

@@ -1,7 +1,7 @@
 ---
-title: "Round stats"
+title: "Match stories"
 description: |
-  Updates on the latest league rounds
+  Visualisations of Lichess4545 matches ([source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/plot_match_story.R))
 output: distill::distill_article
 site: distill::distill_website
 ---
@@ -33,58 +33,52 @@ reports_md <- str_c(reports_md, collapse = ", ")
 
 ```
 
-
-
-### 4545 match 'stories'
-
-These plots show how 4545 league matches unfold through the ups and downs of their games ([source script](https://github.com/rahulan-c/lichess4545-stats/blob/main/scripts/plot_match_story.R)).
-
-#### Season 37
+### Season 37 (Oct 2023 - Dec 2023)
 
 [R1](reports/stories/s37_r1_allmatches.pdf) | [R2](reports/stories/s37_r2_allmatches.pdf)
 
-#### Season 36
+### Season 36 (Aug 2023 - Oct 2023)
 
 [R1](reports/stories/s36_r1_allmatches.pdf) | [R2](reports/stories/s36_r2_allmatches.pdf) | [R3](reports/stories/s36_r3_allmatches.pdf) | [R4](reports/stories/s36_r4_allmatches.pdf) | [R5](reports/stories/s36_r5_allmatches.pdf) | [R6](reports/stories/s36_r6_allmatches.pdf) | [R7](reports/stories/s36_r7_allmatches.pdf) | [R8](reports/stories/s36_r8_allmatches.pdf)
 
-#### Season 35
+### Season 35 (May 2023 - Jul 2023)
 
 [R1](reports/stories/s35_r1_allmatches.pdf) | [R2](reports/stories/s35_r2_allmatches.pdf) | [R3](reports/stories/s35_r3_allmatches.pdf) | [R4](reports/stories/s35_r4_allmatches.pdf) | [R5](reports/stories/s35_r5_allmatches.pdf) | [R6](reports/stories/s35_r6_allmatches.pdf) | [R7](reports/stories/s35_r7_allmatches.pdf) | [R8](reports/stories/s35_r8_allmatches.pdf)
 
 
-#### Season 34
+### Season 34 (Feb 2023 - Apr 2023)
 
 [R1](reports/stories/s34_r1_allmatches.pdf) | [R2](reports/stories/s34_r2_allmatches.pdf) | [R3](reports/stories/s34_r3_allmatches.pdf) | [R4](reports/stories/s34_r4_allmatches.pdf) | [R5](reports/stories/s34_r5_allmatches.pdf) | [R6](reports/stories/s34_r6_allmatches.pdf) | [R7](reports/stories/s34_r7_allmatches.pdf) | [R8](reports/stories/s34_r8_allmatches.pdf)
 
-#### Season 33
+### Season 33 (Dec 2022 - Jan 2023)
 
 [R1](reports/stories/s33_r1_allmatches.pdf) | [R2](reports/stories/s33_r2_allmatches.pdf) | [R3](reports/stories/s33_r3_allmatches.pdf) | [R4](reports/stories/s33_r4_allmatches.pdf) | [R5](reports/stories/s33_r5_allmatches.pdf) | [R6](reports/stories/s33_r6_allmatches.pdf) | [R7](reports/stories/s33_r7_allmatches.pdf) | [R8](reports/stories/s33_r8_allmatches.pdf)
 
-#### Season 32
+### Season 32 (Sep 2022 - Nov 2022)
 
 [R1](reports/stories/s32_r1_allmatches.pdf) | [R2](reports/stories/s32_r2_allmatches.pdf) | [R3](reports/stories/s32_r3_allmatches.pdf) | [R4](reports/stories/s32_r4_allmatches.pdf) | [R5](reports/stories/s32_r5_allmatches.pdf) | [R6](reports/stories/s32_r6_allmatches.pdf) | [R7](reports/stories/s32_r7_allmatches.pdf) | [R8](reports/stories/s32_r8_allmatches.pdf)
 
-#### Season 31
+### Season 31 (Jul 2022 - Aug 2022)
 
 [R1](reports/stories/s31_r1_allmatches.pdf) | [R2](reports/stories/s31_r2_allmatches.pdf) | [R3](reports/stories/s31_r3_allmatches.pdf) | [R4](reports/stories/s31_r4_allmatches.pdf) | [R5](reports/stories/s31_r5_allmatches.pdf) | [R6](reports/stories/s31_r6_allmatches.pdf) | [R7](reports/stories/s31_r7_allmatches.pdf) | [R8](reports/stories/s31_r8_allmatches.pdf)
 
 
-#### Season 30
+### Season 30 (Apr 2022 - Jun 2022)
 
 [R1](reports/stories/s30_r1_allmatches.pdf) | [R2](reports/stories/s30_r2_allmatches.pdf) | [R3](reports/stories/s30_r3_allmatches.pdf) | R4 | [R5](reports/stories/s30_r5_allmatches.pdf) | [R6](reports/stories/s30_r6_allmatches.pdf) | [R7](reports/stories/s30_r7_allmatches.pdf) | [R8](reports/stories/s30_r8_allmatches.pdf)
 
-#### Season 29
+### Season 29 (Jan 2022 - Mar 2022)
 
 [R1](reports/stories/s29_r1_allmatches.pdf) | [R2](reports/stories/s29_r2_allmatches.pdf) | [R3](reports/stories/s29_r3_allmatches.pdf) |
 [R4](reports/stories/s29_r4_allmatches.pdf) | [R5](reports/stories/s29_r5_allmatches.pdf) | [R6](reports/stories/s29_r6_allmatches.pdf) |
 [R7](reports/stories/s29_r7_allmatches.pdf) | [R8](reports/stories/s29_r8_allmatches.pdf)
 
-#### Season 28 
+### Season 28 (Nov 2021 - Jan 2022)
 
 [R1](reports/stories/s28_r1_allmatches.pdf) | [R2](reports/stories/s28_r2_allmatches.pdf) | [R3](reports/stories/s28_r3_allmatches.pdf) | 
 [R4](reports/stories/s28_r4_allmatches.pdf) | [R5](reports/stories/s28_r5_allmatches.pdf) | [R6](reports/stories/s28_r6_allmatches.pdf) | [R7](reports/stories/s28_r7_allmatches.pdf) | [R8](reports/stories/s28_r8_allmatches.pdf)
 
-#### Season 27
+### Season 27 (Aug 2021 - Oct 2021)
 
 [R1](reports/stories/s27_r1_allmatches.pdf) | [R2](reports/stories/s27_r2_allmatches.pdf) | [R3](reports/stories/s27_r3_allmatches.pdf) | [R4](reports/stories/s27_r4_allmatches.pdf) | [R5](reports/stories/s27_r5_allmatches.pdf) | [R6](reports/stories/s27_r6_allmatches.pdf) | [R7](reports/stories/s27_r7_allmatches.pdf) | [R8](reports/stories/s27_r8_allmatches.pdf)
 

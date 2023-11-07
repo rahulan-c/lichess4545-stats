@@ -335,7 +335,7 @@ status_tbl <-
   ) %>% 
   tab_source_note(
     md(
-      "Community leagues: Season 21 of **Series** (90+30) is in progress (27 Feb to 7 May), as is Season 18 of **Rapid Battle**, and as ever **Infinite Quest** is still going strong. Check out the Lichess4545 [overview](https://bit.ly/35w1xqH) for details on all leagues."
+      "Community leagues: **Infinite Quest** is going strong, Season 23 of **Series** (90+30) is wrapping up (Sep-Nov 2023), and Season 19 of **Rapid Battle** ended in October 2023. To find out more about all our leagues, check out the [Lichess4545 overview](https://bit.ly/35w1xqH)."
     )
   )
 
@@ -374,22 +374,22 @@ Welcome to my unofficial [Lichess4545](https://www.lichess4545.com) stats site!
 <span style = "font-size:1.6rem;">
 [Season stats and awards &#10230;](season_stats.html)
 </span></br>
-Detailed statistical reports on every Lichess4545, LoneWolf and Lichess960 season
+Detailed statistical reports for every Lichess4545, LoneWolf and Lichess960 season
 
 <span style = "font-size:1.6rem;">
-[Round updates &#10230;](https://rahulan-c.github.io/lichess4545-stats/round_updates.html)
+[Match stories &#10230;](https://rahulan-c.github.io/lichess4545-stats/round_updates.html)
 </span></br>
-Under construction. Currently shows match 'story' visualisations for recent 4545 seasons.
+Visualisations of Lichess4545 matches (from S27 onwards)  
 
 <span style = "font-size:1.6rem;">
 [Search all awards &#10230;](awards_search.html)
 </span></br>
-All previous season award winners and honourable mentions.
+All previous season award winners and honourable mentions
 
 <span style = "font-size:1.6rem;">
 Other stuff
 </span></br>
-[Players by continent/country](https://rahulan-c.github.io/lichess4545-stats/countries.html), [team logo gallery](https://rahulan-c.github.io/lichess4545-stats/team_logos.html)...
+Other random stuff [Team logos](https://rahulan-c.github.io/lichess4545-stats/team_logos.html) | [Players by continent/country](https://rahulan-c.github.io/lichess4545-stats/countries.html)
 
 <span style = "font-size:1.6rem;">
 [About the site &#10230;](about.html)

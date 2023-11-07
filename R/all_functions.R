@@ -805,7 +805,7 @@ LeagueData <- function(league_choice,
           
           # Now remove all entries in original page after this first bye
           first_bye_loc <- results %>% str_which(first_bye)
-          results <- results[1:(first_bye_loc-4)]
+          results <- results[1:(first_bye_loc-5)]
         }
         
         # Collect the data required to construct the pairings tibble                   
@@ -813,7 +813,7 @@ LeagueData <- function(league_choice,
         posw = results[c(F, T, F, F, F, F, F, F, F, F, F)] %>% as.integer()
         white = results[c(F, F, F, F, T, F, F, F, F, F, F)]
         posb = results[c(F, F, F, F, F, T, F, F, F, F, F)] %>% as.integer()
-        black = results[c(F, F, F, F, F, F, F, T, F, F, F)]
+        black = results[c(F, F, F, F, F, F, F, F, T, F, F)]
         result = results[c(F, F, F, F, F, F, F, F, F, T, F)]
         date = results[c(F, F, F, F, F, F, F, F, F, F, T)]
         
@@ -867,7 +867,9 @@ LeagueData <- function(league_choice,
             rvest::html_text() %>% 
             str_replace_all("[\r\n]" , "") %>% 
             str_squish() %>%
-            str_c() 
+            str_c()
+          
+          results <- c(results, "")
           
           # Locate first bye and delete rows after
           find_first_bye <- results %>% 
@@ -880,12 +882,12 @@ LeagueData <- function(league_choice,
           
           # Now remove all entries in original page after this first bye
           first_bye_loc <- results %>% str_which(first_bye)
-          results <- results[(first_bye_loc-2):length(results)]
+          results <- results[(first_bye_loc-3):length(results)]
           
           # Collect the data required for players with byes                   
-          pos = results[c(T, F, F, F, F, F, F, F, F, F, F)] %>% as.integer()
-          player = results[c(F, F, F, T, F, F, F, F, F, F, F)]
-          bye = results[c(F, F, F, F, F, F, T, F, F, F, F)]
+          pos = results[c(T, F, F, F, F, F, F, F, F, F)] %>% as.integer()
+          player = results[c(F, F, F, T, F, F, F, F, F, F)]
+          bye = results[c(F, F, F, F, F, F, T, F, F, F)]
           
           byes <- tibble(pos = pos, player = player, bye = bye)
           
