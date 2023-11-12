@@ -16,12 +16,12 @@ navbar:
   right:
       - icon: fa-home
         href: index.html
-      - text: "Season stats"
+      - text: "Stats"
         href: season_stats.html
         menu:
-        - text: "Stats by league/season"
+        - text: "By season"
           href: season_stats.html
-        - text: "All award winners"
+        - text: "Accolades"
           href: "/lichess4545-stats/awards_search.html"
         # - text: "All-time records"
         #   href: alltime.html
@@ -29,22 +29,15 @@ navbar:
         #   href: trivia.html
         - text: "Team logos"
           href: team_logos.html
-      - text: "Round stats"
+      - text: "Other"
         href: round_updates.html
         menu:
         - text: "Match stories"
           href: round_updates.html
         - text: "Live standings"
           href: live.html
-      - text: "Articles"
-        href: other.html
-        menu:
         - text: "Players by country"
           href: countries.html
-      #     # - text: "Openings (tbc)"
-      #     #   href: openings.html
-      #     # - text: "Endgames (tbc)"
-      #     #   href: endgames.html
       - text: "About"
       - icon: fa-info
         menu:

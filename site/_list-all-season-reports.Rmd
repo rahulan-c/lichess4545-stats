@@ -9,8 +9,31 @@ site: distill::distill_website
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(tidyverse, knitr)
+pacman::p_load(tidyverse, knitr, fs)
 ```
+
+```{r all_time_pgns}
+# Publish links to 4 all-seasons PGNs (4545, LW Open, LW U1800, Chess960) 
+# N.B. 4545 PGN won't have any S1 games, since its stats report hasn't been published
+
+# Copy all-seasons PGNs into /pgns
+# Overwrite existing files with the same name
+
+league_names <- c("team4545", "lwopen", "lwu1800", "chess960")
+pgn_filenames_original <- paste0("allgames_", league_names, ".pgn")
+
+for(p in pgn_filenames_original){
+  fs::file_copy(path = paste0(here::here(), "/data/", p),
+                new_path = paste0(here::here(), "/docs/pgns/",
+                                  p),
+                overwrite = TRUE)
+}
+
+
+
+```
+
+
 
 
 
@@ -108,6 +131,16 @@ knitr::kable(completed,
                            "Chess960"))
 
 ```
+
+### League PGNs
+
+*PGNs with all games in all seasons (last updated `r lubridate::today()`)*
+
+- [4545 / Team](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_team4545.pgn) (excludes S1)
+- [LoneWolf (Open)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn)
+- [LoneWolf (U1800)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn)
+- [Chess960](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_chess960.pgn)
+
 
 ### Notes
 

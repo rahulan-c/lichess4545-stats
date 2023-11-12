@@ -85,8 +85,10 @@ if(scrub_cheats){
 *Currently only available for 4545; LW, 960 (and maybe other leagues) will be added soon.*
 
 ```{r extract_4545_podium_details, eval = TRUE}
+# Extract 1st/2nd/3rd place team names and team players from previously 
+# published season reports
 
-# Extract all links from season reports table on homepage
+## Get published season stats URLs
 season_reports_url <- "https://rahulan-c.github.io/lichess4545-stats/season_stats.html"
 season_reports <- read_html(season_reports_url) %>% 
   html_nodes("table") %>% 
@@ -94,10 +96,9 @@ season_reports <- read_html(season_reports_url) %>%
   html_nodes("a") %>%
   html_attr("href")
 
-# Identify 4545 reports
+# We only want the 4545 reports
 team4545_reports <- season_reports[stringr::str_detect(season_reports, "stats_4545")]
 
-# List for storing
 all_podiums <- list()
 for(s in seq(1:length(team4545_reports))){
   
@@ -203,9 +204,10 @@ for(s in seq(1:length(team4545_reports))){
   
 }
 
+# Compile into single dataset
 alltime_podiums <- data.table::rbindlist(all_podiums) %>% tibble::as_tibble()
 
-# Remove any Lichess TOS violators from the final results
+# Remove Lichess ToS violators from compiled data
 if(scrub_cheats){
   alltime_podiums <- alltime_podiums %>% 
     filter(!(str_to_lower(player) %in% str_to_lower(tos_violators)))
@@ -213,9 +215,10 @@ if(scrub_cheats){
 
 ```
 
-```{r multiple_4545_winners, eval = TRUE}
 
-# Multiple season winners
+```{r multiple_4545_winners, eval = TRUE}
+# Produce table of players who've won multiple 4545 season titles
+
 multiple_titles <- alltime_podiums %>% 
   filter(place == 1) %>% 
   group_by(player) %>% 
@@ -248,14 +251,16 @@ for(t in titles_range){
 }
 
 gt(titles_table) %>%
-  tab_header(title = "Players with multiple 4545 titles",
-             subtitle = "Seasons 2-35") %>%
+  tab_header(title = "Most 4545 titles",
+             subtitle = paste0("Seasons ", min(alltime_podiums$season), "-", 
+                               max(alltime_podiums$season))
+             ) %>%
   cols_label(
     titles = "Titles",
     players = "Players",
   ) %>% 
   tab_source_note(
-    source_note = glue("A title winner is defined here as someone who played at least {min_games} games for a title-winning team."))
+    source_note = glue("Must have played at least {min_games} games for a title-winning team."))
 
 ```
 
@@ -279,7 +284,8 @@ success %>%
   slice_max(success_score, n = 20) %>% 
   gt() %>% 
   tab_header(title = "Most successful 4545 players",
-             subtitle = "Seasons 2-35") %>% 
+             subtitle = paste0("Seasons ", min(alltime_podiums$season), "-", 
+                               max(alltime_podiums$season))) %>% 
   cols_label(
     player = "Player",
     first = "1st",
@@ -292,7 +298,7 @@ success %>%
     locations = cells_column_labels(columns = success_score)
   ) %>% 
   tab_source_note(
-    source_note = glue("To be eligible for inclusion, players must have played at least {min_games} games for a podium-finishing team."))
+    source_note = glue("Must have played at least {min_games} games for a team that finished the season first, second or third."))
   
 ```
 
@@ -303,21 +309,44 @@ This is a searchable table that shows every eligible player who has been recogni
 
 
 
-```{r, eval = FALSE, layout="l-page"}
+```{r, eval = TRUE, layout="l-page"}
 # Crawl over the other reports and present all winners in one table
 
+# Define seasons with "old" awards table formats, so their xml_child_number is 5, not 4
+# Only applies to LW Open and U1800
+lwopen_old <- c(1:9, 11:12, 14:20)
+lwu1800_old <- c(9:10, 12, 14:20)
+
+# Specify 4545 seasons with reports that don't have team points in their podium
+# tables. Important because a different XML child number is needed to extract
+# details from those tables. 
+
+# XML child number for extracting podium team points
+# S12 --> 8
+# S30 to latest -->  9
+# All other seasons -->  6
+
+team_seasons_without_podium_points <- c(2:11, 13:29) # but S12 -> 8
+lwopen_seasons_without_podium_points <- c(1:24)
+lwu1800_seasons_without_podium_points <- c(1:24)
+
+# Identify last published 4545 season
+latest_team4545 <- str_extract(team4545_reports[1], "[:digit:]{2}(?=\\.html)") %>% 
+      as.integer()
+
+# Start process
 cli::cli_h2("Updating all-time awards search page...")
 
-# Extract all links from season reports table on homepage
-cli::cli_inform("Identifying published reports...")
-homepage_url <- "https://rahulan-c.github.io/lichess4545-stats/season_stats.html"
-
-season_reports <- xml2::read_html(homepage_url) %>% 
-  html_nodes("table") %>% 
-  html_nodes("tr") %>% 
-  html_nodes("a") %>%
-  html_attr("href") %>% 
-  sort()
+# # Extract all links from season reports table on homepage
+# cli::cli_inform("Identifying published reports...")
+# homepage_url <- "https://rahulan-c.github.io/lichess4545-stats/season_stats.html"
+# 
+# season_reports <- xml2::read_html(homepage_url) %>% 
+#   html_nodes("table") %>% 
+#   html_nodes("tr") %>% 
+#   html_nodes("a") %>%
+#   html_attr("href") %>% 
+#   sort()
 
 cli::cli_inform("{length(season_reports)} published reports need to be processed...")
 
@@ -341,8 +370,12 @@ cli::cli_inform("Extracting awards info from published reports...")
 # Need to loop through the new reports and extract award winners/details
 all_awards <- list(rep(NA, length(season_reports)))
 
+
+
 for(s in seq(1:length(season_reports))){ 
-  url <- season_reports[s] # ditto
+  
+  url <- season_reports[s]
+  
   league <- ifelse(str_detect(url, "stats_4545"), 
                    "4545", 
                    ifelse(str_detect(url, "stats_lwopen"), 
@@ -355,7 +388,7 @@ for(s in seq(1:length(season_reports))){
   
   season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
   
-  cli::cli_inform("Extracting info for {league} S{season}...")
+  # cli::cli_inform("Extracting info for {league} S{season}...")
   
   # Get the right XML child number for the league/season
   # Required because the Dec 2021 changes to season reports changed the section
@@ -365,12 +398,10 @@ for(s in seq(1:length(season_reports))){
                              4,
                              
                              ifelse(league == "LW Open",
-                                    ifelse(season %in% c(10, 13, 21:29), # seasons with latest format reports
-                                           4, 5),
+                                    ifelse(season %in% lwopen_old, 5, 4),
                                     
                                     ifelse(league == "LW U1800",
-                                            ifelse(season %in% c(11, 13, 22:29), # seasons with latest format reports
-                                                   4, 5),
+                                            ifelse(season %in% lwu1800_old, 5, 4),
                                            
                                            ifelse(league == "Chess960",
                                                   4,
@@ -401,27 +432,11 @@ for(s in seq(1:length(season_reports))){
   # Get 4545 podium players
   
   if(league == "4545"){
-    # As at 28 Nov 2022, only seasons 12, 30, 31, 32 have point info included
-    # in the podium box info, so their XML child number for extracting podium team
-    # player info is 9, whereas for all other 4545 seasons it's 6.
     
-    # Identify last published 4545 season
-    latest_published_season <- str_extract(team4545_reports[1], "[:digit:]{2}(?=\\.html)") %>% 
-      as.integer()
-    
-    # Reports where podium info includes player points
-    # Relevant for scraping
-    with_podiumpoints <- c(12, 30:latest_published_season)
-    
-    if(!(season %in% with_podiumpoints)){
-      x <- 6
-    } else {
-        if(season == 12){
-          x <- 8
-        } 
-      else {
-        x <- 9
-      }}
+    # XML child number for extracting podium team points
+    if(season %in% team_seasons_without_podium_points){x <- 6}
+    if(season == 12){x <- 8}
+    if(!(season %in% c(team_seasons_without_podium_points, 12))){x <- 9}
     
     podium_rosters <- read_html(url) %>%
     rvest::html_element("#final-standings") %>% 
@@ -515,9 +530,11 @@ for(s in seq(1:length(season_reports))){
   
   
   all_awards[[s]] <- awards_tidy
-  cli::cli_alert_success("Obtained awards data for {league} S{season}")
+  cli::cli_alert_success("{s}/{length(season_reports)} Got awards data for {league} S{season}")
   Sys.sleep(0.1)
 }
+
+cli::cli_alert_success("GOT AWARDS DATA FOR ALL PUBLISHED SEASONS")
 
 # After going through the newly published reports
 # Combine everything into a single data frame
@@ -531,10 +548,6 @@ awards <- awards %>%
   arrange(Winner) %>% 
   mutate(league_season = paste0(League, " S", Season)) %>% 
   select(Winner, league_season, Award, Details, Mentions)
-
-
-  
-  
   
     
   awards$Winner <- str_replace_all(awards$Winner, "^,\\s", "")

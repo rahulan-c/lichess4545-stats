@@ -27,12 +27,6 @@
 #     - Once all games have been analysed, then run PlotMatchStory()
 
 
-# BUGS
-# 1) Opening names with foreign character show up as bugged characters, 
-#    presumably due to some character encoding issue that I haven't figured out
-#    how to fix. Not sure if fixed (July 2023).
-
-
 # Setup =======================================================================
 
 # Load (extra) packages

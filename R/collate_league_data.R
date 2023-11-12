@@ -154,7 +154,7 @@ CompileCombinedData <- function(league_choice){
     lst_games[[s]] <- readRDS(savedgames$path[s]) %>% 
       tibble::as_tibble() %>% 
       mutate(league = league_choice)
-    Sys.sleep(0.2)
+    Sys.sleep(0.1)
     cli_progress_update()
   }
   cli_progress_done()
@@ -805,8 +805,8 @@ SaveLeaguePGN <- function(leagues){
 # datasets for 4545, LW and Chess960
 
 # 4545
-CompileCombinedData(league_choice = "team4545")
-SaveLeaguePGN("team4545") # warning: took over 5 mins for S1-S33 (2023-02-15)
+# CompileCombinedData(league_choice = "team4545")
+# SaveLeaguePGN("team4545") # warning: took over 5 mins for S1-S33 (2023-02-15)
 
 # LW Open
 # CompileCombinedData(league_choice = "lwopen")
