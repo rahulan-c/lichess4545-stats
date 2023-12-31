@@ -1,7 +1,5 @@
 
-# HELPER FUNCTIONS FOR SEASON REPORTS
-
-# Last updated: 2021-12-17
+# ==== Functions related to stats reports =====================================
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, rio, data.table, reactable, httr, jsonlite, xml2, 

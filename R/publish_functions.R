@@ -116,7 +116,7 @@ BuildSite <- function(quiet = FALSE,
                       output_dir = "docs",
                       quiet = quiet)
     
-    # Copy full-size team logos to /docs
+    # Copy full-size and thumbnail team logos to /docs
     fullsize_files <- fs::dir_info(glue::glue(here::here(), "/site/team_logos/fullsize/")) %>% 
       filter(type == "file") %>% 
       select(path) %>% 
@@ -136,8 +136,7 @@ BuildSite <- function(quiet = FALSE,
     
   }
   
-  
-  # Update remote repo with all changes
+  # Update GitHub repo with all changes
   UpdateRepo()
 }
 

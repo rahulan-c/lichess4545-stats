@@ -335,7 +335,7 @@ status_tbl <-
   ) %>% 
   tab_source_note(
     md(
-      "Community leagues: **Infinite Quest** is going strong, Season 23 of **Series** (90+30) is wrapping up (Sep-Nov 2023), and Season 19 of **Rapid Battle** ended in October 2023. To find out more about all our leagues, check out the [Lichess4545 overview](https://bit.ly/35w1xqH)."
+      "Community leagues: **Infinite Quest** is going strong, **Series** (90+30) is on Season 24 (Dec 2023 - Feb 2024), and the last season of **Rapid Battle** ended in October 2023. To find out more about all our leagues, check out the [Lichess4545 overview](https://bit.ly/35w1xqH)."
     )
   )
 

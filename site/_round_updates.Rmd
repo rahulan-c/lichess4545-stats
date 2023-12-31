@@ -35,7 +35,7 @@ reports_md <- str_c(reports_md, collapse = ", ")
 
 ### Season 37 (Oct 2023 - Dec 2023)
 
-[R1](reports/stories/s37_r1_allmatches.pdf) | [R2](reports/stories/s37_r2_allmatches.pdf)
+[R1](reports/stories/s37_r1_allmatches.pdf) | [R2](reports/stories/s37_r2_allmatches.pdf) | [R3](reports/stories/s37_r3_allmatches.pdf) | [R4](reports/stories/s37_r4_allmatches.pdf) | [R5](reports/stories/s37_r5_allmatches.pdf) | [R6](reports/stories/s37_r6_allmatches.pdf) | [R7](reports/stories/s37_r7_allmatches.pdf) | [R8](reports/stories/s37_r8_allmatches.pdf)
 
 ### Season 36 (Aug 2023 - Oct 2023)
 
