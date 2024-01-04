@@ -292,9 +292,9 @@ colnames(statuses) <- c("league", "season", "round", "starts", "ends", "reg_link
 # variable
 statuses <- statuses %>% 
   mutate(status = case_when(
-    active == TRUE ~ paste0("Season ", season, " in progress (", starts, " to ", ends, ")"),
-    preseason == TRUE ~ paste0("Pre-season. Season ", season, " will run from ", starts, " to ", ends),
-    postseason == TRUE ~ paste0("Season ", season, "has finished. Registrations haven't been opened yet for a new season."),
+    active == TRUE ~ paste0("Mid-season: Season ", season, " will end on ", ends, "."),
+    preseason == TRUE ~ paste0("Pre-season: season ", season, " will start on ", starts, "."),
+    postseason == TRUE ~ paste0("Post-season: season ", season, " has ended, but registrations for the next season aren't open yet."),
     TRUE ~ NA_character_
   ))
 

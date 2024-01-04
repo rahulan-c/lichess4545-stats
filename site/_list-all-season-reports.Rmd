@@ -13,13 +13,14 @@ pacman::p_load(tidyverse, knitr, fs)
 ```
 
 ```{r all_time_pgns}
-# Publish links to 4 all-seasons PGNs (4545, LW Open, LW U1800, Chess960) 
+# Publish links to latest all-seasons PGNs
+# For 4545, LW Open, LW U1800, Chess960, Rapid Battle, Quest, and Series
 # N.B. 4545 PGN won't have any S1 games, since its stats report hasn't been published
 
 # Copy all-seasons PGNs into /pgns
 # Overwrite existing files with the same name
 
-league_names <- c("team4545", "lwopen", "lwu1800", "chess960")
+league_names <- c("team4545", "lwopen", "lwu1800", "chess960", "quest", "rb", "series")
 pgn_filenames_original <- paste0("allgames_", league_names, ".pgn")
 
 for(p in pgn_filenames_original){
@@ -28,8 +29,6 @@ for(p in pgn_filenames_original){
                                   p),
                 overwrite = TRUE)
 }
-
-
 
 ```
 
@@ -132,15 +131,18 @@ knitr::kable(completed,
 
 ```
 
-### League PGNs
-
-*PGNs with all games in all seasons (last updated `r lubridate::today()`)*
+### PGNs
 
 - [4545 / Team](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_team4545.pgn) (excludes S1)
 - [LoneWolf (Open)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn)
 - [LoneWolf (U1800)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn)
 - [Chess960](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_chess960.pgn)
 
+*Community league PGNs*
+
+- [Series](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_rb.pgn) (90+30) - includes 3,374 games played up to Dec 2023
+- [Rapid Battle](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_rb.pgn) (15+10) - includes recorded games played up to Nov 2022
+- [Quest](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_quest.pgn) (15+10) - includes recorded games played up to Nov 2022
 
 ### Notes
 

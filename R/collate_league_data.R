@@ -316,7 +316,8 @@ UpdateAllSeriesGames <- function(series_sheets){
   
   # Request data on new games
   new_data <- GetGamesFromURLs(links = new)
-  # NOTE: returns gamelinks of un-analysed games. Good idea to check this first! 
+  # NOTE: this also returns gamelinks of un-analysed games. These should be analysed first, then the
+  # previous line should be re-run to ensure new_data includes the newly analysed games 
   
   new_games <- new_data[[1]] %>% tibble::as_tibble()
   
@@ -804,17 +805,17 @@ SaveLeaguePGN <- function(leagues){
 # Compile all previously obtained season datasets into league-specific all-time
 # datasets for 4545, LW and Chess960
 
-# 4545
+# # 4545
 # CompileCombinedData(league_choice = "team4545")
-# SaveLeaguePGN("team4545") # warning: took over 5 mins for S1-S33 (2023-02-15)
-
-# LW Open
+# SaveLeaguePGN("team4545") # took 6m 07s for S2-S37 (2024-01-03)
+# 
+# # LW Open
 # CompileCombinedData(league_choice = "lwopen")
-# SaveLeaguePGN("lwopen")
-
-# LW U1800
+# SaveLeaguePGN("lwopen") # took 2m 43s for S1-S31 (2024-01-03)
+# 
+# # LW U1800
 # CompileCombinedData(league_choice = "lwu1800")
-# SaveLeaguePGN("lwu1800")
+# SaveLeaguePGN("lwu1800") # took 1m 15s for S9-S31 (2024-01-03)
 
 # Chess960
 # CompileCombinedData(league_choice = "chess960")
@@ -822,7 +823,7 @@ SaveLeaguePGN <- function(leagues){
 
 # # Update all-seasons Series games data (.rds)
 # UpdateAllSeriesGames(series_sheets)
-# SaveLeaguePGN("series")
+# SaveLeaguePGN("series") # took 0m 24s on 2024-01-03
 
 # # Update all-seasons Rapid Battle games data (.rds)
 # UpdateAllRapidBattleGames(rb_sheets, 
@@ -837,7 +838,7 @@ SaveLeaguePGN <- function(leagues){
 # SaveTeamLWSeriesPGN()
 
 # Update Infinite Quest all-times games dataset
-# UpdateQuestGames(report_unanalysed = T, stop_if_unanalysed = T)
+UpdateQuestGames(report_unanalysed = T, stop_if_unanalysed = T)
 # SaveLeaguePGN("quest")
 
 # Combine all prev. saved games in 4545/LW/Series/RB/Quest into one RDS file
