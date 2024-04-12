@@ -838,7 +838,7 @@ SaveLeaguePGN <- function(leagues){
 # SaveTeamLWSeriesPGN()
 
 # Update Infinite Quest all-times games dataset
-UpdateQuestGames(report_unanalysed = T, stop_if_unanalysed = T)
+# UpdateQuestGames(report_unanalysed = T, stop_if_unanalysed = T)
 # SaveLeaguePGN("quest")
 
 # Combine all prev. saved games in 4545/LW/Series/RB/Quest into one RDS file

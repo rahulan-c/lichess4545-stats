@@ -8,7 +8,8 @@ site: distill::distill_website
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(tidyverse, data.table, assertthat, xml2, rvest, lubridate, knitr, gt, cli)
+pacman::p_load(tidyverse, data.table, assertthat, xml2, rvest, lubridate, knitr, 
+               gt, cli, rmarkdown)
 
 # Utility functions from:
 # https://github.com/mfherman/westchester-covid/blob/master/R/build/utils.R
@@ -119,25 +120,21 @@ for (l in seq(1:length(web_leagues))){
     inactive_postseason <- read_html(paste0(root, league, "/season/", season, "/summary/")) %>% 
       rvest::html_element(".col-md-8 h3") %>% 
       html_text2() %>% 
-      is.na() # reverse!
+      str_detect("Winners")
     
-  } else if ((league == "lonewol
-              .
-              .
-              0f") & (!(is.na(round))) & (round == 11)){
+  } else if ((league == "lonewolf") & (!(is.na(round))) & (round == 11)){
     Sys.sleep(0.2)
     inactive_postseason <- read_html(paste0(root, league, "/season/", season, "/summary/")) %>% 
       rvest::html_element(".col-md-8 h3") %>% 
       html_text2() %>% 
-      is.na() # reverse!
-    # WAIT - THIS DIDN'T WORK FOR LW S27. THE SEASON'S CLOSED, S28 REGS AREN'T OPEN. 
+      str_detect("Winners")
   
   } else if ((league == "chess960") & (!(is.na(round))) & (round == 7)){
     Sys.sleep(0.2)
     inactive_postseason <- read_html(paste0(root, league, "/season/", season, "/summary/")) %>% 
       rvest::html_element(".col-md-8 h3") %>% 
       html_text2() %>% 
-      is.na() # reverse!
+      str_detect("Winners")
   
   } else {
     inactive_postseason <- FALSE
@@ -151,8 +148,6 @@ for (l in seq(1:length(web_leagues))){
   } else {
     active_season <- FALSE
   }
-  
-  
   
   # ----- Identify season dates -----------------------------------------------
   # Requires "Season X ends on Month DD, YYYY" to appear on the league homepage
@@ -259,24 +254,6 @@ for (l in seq(1:length(web_leagues))){
   all_leagues[[l]] <- c(league, season, round, season_start_label, season_end_label, 
                         reg_link, inactive_preseason, inactive_postseason, 
                         active_season, tv_link)
-  
-  # # Summarise league details
-  # fun <- function() {
-  # cli_ol()
-  # cli_li("League: {league}")
-  # ulid <- cli_ul()
-  # cli_li("Current season: S{season} R{round}")
-  # cli_li("Started: {season_start_label}")
-  # cli_li("To end: {season_end_label}")
-  # cli_li("Active: {active_season}")
-  # cli_li("Inactive (pre-season): {inactive_preseason}")
-  # cli_li("Inactive (post-season): {inactive_postseason}")
-  # cli::cli_inform("Regs open: {website_regs_open}")
-  # cli_end(ulid)
-  # }
-  # fun()
-  
-  
 }
 
 # Collate all leagues' status data into a tibble
@@ -297,11 +274,6 @@ statuses <- statuses %>%
     postseason == TRUE ~ paste0("Post-season: season ", season, " has ended, but registrations for the next season aren't open yet."),
     TRUE ~ NA_character_
   ))
-
-
-# statuses <- statuses %>% dplyr::select(league, reg_link, active, preseason, 
-#                                        postseason, season, round, starts, ends, 
-#                                        tv_link, status)
 
 statuses <- statuses %>% dplyr::select(
   league, status, reg_link
@@ -335,13 +307,12 @@ status_tbl <-
   ) %>% 
   tab_source_note(
     md(
-      "Community leagues: **Infinite Quest** is going strong, **Series** (90+30) is on Season 24 (Dec 2023 - Feb 2024), and the last season of **Rapid Battle** ended in October 2023. To find out more about all our leagues, check out the [Lichess4545 overview](https://bit.ly/35w1xqH)."
+      "Community leagues: **Infinite Quest** is going strong, **Series** (90+30) is on Season 25 (ends May 2024), and the last season of **Rapid Battle** ended in October 2023. To find out more about all our leagues, check out the [Lichess4545 overview](https://bit.ly/35w1xqH)."
     )
-  )
+  ) # |> 
+  # gtsave("league_statuses.html", inline_css = TRUE)
 
 ```
-
-
 
 </br>
 </br>
@@ -359,17 +330,17 @@ Welcome to my unofficial [Lichess4545](https://www.lichess4545.com) stats site!
 
 <!-- central elements: 3 x 3 image matrix / main links -->
 
-<div class="index-row l-page">
+<div class="index-row l-page"> <!-- closed on line 368 -->
 
 <!-- left element: 3 x 3 image matrix -->
 
   <div class="index-column-l l-page">
   <img src="img/site_logo.png" alt="Site Logo"></img>
-  </div>
+  </div> 
   
 <!-- right element: site menu -->
 
-<div class="index-column-r l-page" style = "font-family:'Lato', sans-serif;">
+<div class="index-column-r l-page" style = "font-family:'Lato', sans-serif;"> <!-- closed on line 367 -->
 
 <span style = "font-size:1.6rem;">
 [Season stats and awards &#10230;](season_stats.html)
@@ -394,8 +365,8 @@ Other random stuff [Team logos](https://rahulan-c.github.io/lichess4545-stats/te
 <span style = "font-size:1.6rem;">
 [About the site &#10230;](about.html)
 </span></br>
-    </div>
-  </div>
+    </div> <!-- closes line 342 -->
+  </div> <!-- closes line 332 -->
 
 
 <br>
@@ -404,12 +375,11 @@ Other random stuff [Team logos](https://rahulan-c.github.io/lichess4545-stats/te
 <!-- bottom element: league status table -->
 
 <div class="index-row-narrow l-page">
-  <div class = "index-column-m l-page">
+  <!-- <div class = "index-column-m l-page"> -->
 `r status_tbl`
-  </div>
-  </div>
-
-
+  <!-- </div> -->
+  </div> <!-- closes line 385 -->
+  
 <!-- Show date when page was last updated -->
 
 ## Last updated on {.appendix}
