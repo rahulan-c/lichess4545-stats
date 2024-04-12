@@ -133,10 +133,10 @@ knitr::kable(completed,
 
 ### PGNs
 
-- [4545 / Team](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_team4545.pgn) (excludes S1)
-- [LoneWolf (Open)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn)
-- [LoneWolf (U1800)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn)
-- [Chess960](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_chess960.pgn)
+- [4545 / Team](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_team4545.pgn) (seasons 2-38, up to March 2024)
+- [LoneWolf (Open)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn) (seasons 1-32, up to April 2024)
+- [LoneWolf (U1800)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn) (seasons 9-32, up to April 2024)
+- [Chess960](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_chess960.pgn) (seasons 1-29, up to March 2024)
 
 *Community league PGNs*
 
