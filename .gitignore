@@ -1,10 +1,9 @@
 .Rproj.user
-.Rproj
+**.Rproj
 .Rhistory
 .RData
 .Ruserdata
 .Renviron
-/
 .Rprofile
 
 .env
@@ -17,3 +16,6 @@ docs/reports/stories/prod/**
 R/scratchpad.R
 R/update_repo.R
 R/identify_tos_violators.R
+R/update_frontpage.log
+R/update_frontpage.R
+R/Python/TODO.txt
