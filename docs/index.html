@@ -459,8 +459,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
 
   <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-  <link href="site_libs/font-awesome-6.2.1/css/all.min.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
   <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
   <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
@@ -830,9 +830,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     display: none !important;
   }
 
+  hr.section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0px;
+  }
+
+
+  d-byline {
+    border-top: none;
+  }
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
+    border-top: none;
   }
 
   d-appendix {
@@ -927,6 +939,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
   }
 
   d-article pre {
@@ -1688,6 +1705,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // create d-title
     $('.d-title').changeElementType('d-title');
 
+    // separator
+    var separator = '<hr class="section-separator" style="clear: both"/>';
+    // prepend separator above appendix
+    $('.d-byline').before(separator);
+    $('.d-article').before(separator);
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
@@ -1765,8 +1788,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1792,12 +1816,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
+        var author_name = front_matter.authors[i].author
         if (orcid_id) {
           var a = $('<a></a>');
           a.attr('href', 'https://orcid.org/' + orcid_id);
           var img = $('<img></img>');
           img.addClass('orcid-id');
-          img.attr('alt', 'ORCID ID');
+          img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
           img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
           a.append(img);
           $(this).append(a);
@@ -2536,7 +2561,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: var(--hover-color, white);
   }</style>
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2631,6 +2656,7 @@ Other
 
 <div class="d-title">
 <h1>Lichess4545 Stats</h1>
+
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 <p>Unofficial stats, records and other stuff</p>
@@ -2683,23 +2709,23 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
 <div class="index-row-narrow l-page">
 <div class="index-column-m l-page">
 `
-<div id="yqtceorjai" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#yqtceorjai table {
+<div id="otrpcfutdj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#otrpcfutdj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#yqtceorjai thead, #yqtceorjai tbody, #yqtceorjai tfoot, #yqtceorjai tr, #yqtceorjai td, #yqtceorjai th {
+#otrpcfutdj thead, #otrpcfutdj tbody, #otrpcfutdj tfoot, #otrpcfutdj tr, #otrpcfutdj td, #otrpcfutdj th {
   border-style: none;
 }
 
-#yqtceorjai p {
+#otrpcfutdj p {
   margin: 0;
   padding: 0;
 }
 
-#yqtceorjai .gt_table {
+#otrpcfutdj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2725,12 +2751,12 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-left-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_caption {
+#otrpcfutdj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#yqtceorjai .gt_title {
+#otrpcfutdj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2742,7 +2768,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-bottom-width: 0;
 }
 
-#yqtceorjai .gt_subtitle {
+#otrpcfutdj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2754,7 +2780,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-top-width: 0;
 }
 
-#yqtceorjai .gt_heading {
+#otrpcfutdj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2766,13 +2792,13 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-right-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_bottom_border {
+#otrpcfutdj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_col_headings {
+#otrpcfutdj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2787,7 +2813,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-right-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_col_heading {
+#otrpcfutdj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2807,7 +2833,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   overflow-x: hidden;
 }
 
-#yqtceorjai .gt_column_spanner_outer {
+#otrpcfutdj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2819,15 +2845,15 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   padding-right: 4px;
 }
 
-#yqtceorjai .gt_column_spanner_outer:first-child {
+#otrpcfutdj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yqtceorjai .gt_column_spanner_outer:last-child {
+#otrpcfutdj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yqtceorjai .gt_column_spanner {
+#otrpcfutdj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2839,11 +2865,11 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   width: 100%;
 }
 
-#yqtceorjai .gt_spanner_row {
+#otrpcfutdj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#yqtceorjai .gt_group_heading {
+#otrpcfutdj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2869,7 +2895,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   text-align: left;
 }
 
-#yqtceorjai .gt_empty_group_heading {
+#otrpcfutdj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2884,15 +2910,15 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   vertical-align: middle;
 }
 
-#yqtceorjai .gt_from_md > :first-child {
+#otrpcfutdj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yqtceorjai .gt_from_md > :last-child {
+#otrpcfutdj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yqtceorjai .gt_row {
+#otrpcfutdj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2911,7 +2937,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   overflow-x: hidden;
 }
 
-#yqtceorjai .gt_stub {
+#otrpcfutdj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2924,7 +2950,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   padding-right: 5px;
 }
 
-#yqtceorjai .gt_stub_row_group {
+#otrpcfutdj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2938,15 +2964,15 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   vertical-align: top;
 }
 
-#yqtceorjai .gt_row_group_first td {
+#otrpcfutdj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yqtceorjai .gt_row_group_first th {
+#otrpcfutdj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#yqtceorjai .gt_summary_row {
+#otrpcfutdj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2956,16 +2982,16 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   padding-right: 5px;
 }
 
-#yqtceorjai .gt_first_summary_row {
+#otrpcfutdj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_first_summary_row.thick {
+#otrpcfutdj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yqtceorjai .gt_last_summary_row {
+#otrpcfutdj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2975,7 +3001,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-bottom-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_grand_summary_row {
+#otrpcfutdj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2985,7 +3011,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   padding-right: 5px;
 }
 
-#yqtceorjai .gt_first_grand_summary_row {
+#otrpcfutdj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2995,7 +3021,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-top-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_last_grand_summary_row_top {
+#otrpcfutdj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3005,11 +3031,11 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-bottom-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_striped {
+#otrpcfutdj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yqtceorjai .gt_table_body {
+#otrpcfutdj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3018,7 +3044,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-bottom-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_footnotes {
+#otrpcfutdj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3032,7 +3058,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-right-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_footnote {
+#otrpcfutdj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3041,7 +3067,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   padding-right: 5px;
 }
 
-#yqtceorjai .gt_sourcenotes {
+#otrpcfutdj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3055,7 +3081,7 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   border-right-color: #D3D3D3;
 }
 
-#yqtceorjai .gt_sourcenote {
+#otrpcfutdj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3063,63 +3089,63 @@ Other random stuff <a href="https://rahulan-c.github.io/lichess4545-stats/team_l
   padding-right: 5px;
 }
 
-#yqtceorjai .gt_left {
+#otrpcfutdj .gt_left {
   text-align: left;
 }
 
-#yqtceorjai .gt_center {
+#otrpcfutdj .gt_center {
   text-align: center;
 }
 
-#yqtceorjai .gt_right {
+#otrpcfutdj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yqtceorjai .gt_font_normal {
+#otrpcfutdj .gt_font_normal {
   font-weight: normal;
 }
 
-#yqtceorjai .gt_font_bold {
+#otrpcfutdj .gt_font_bold {
   font-weight: bold;
 }
 
-#yqtceorjai .gt_font_italic {
+#otrpcfutdj .gt_font_italic {
   font-style: italic;
 }
 
-#yqtceorjai .gt_super {
+#otrpcfutdj .gt_super {
   font-size: 65%;
 }
 
-#yqtceorjai .gt_footnote_marks {
+#otrpcfutdj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#yqtceorjai .gt_asterisk {
+#otrpcfutdj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yqtceorjai .gt_indent_1 {
+#otrpcfutdj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#yqtceorjai .gt_indent_2 {
+#otrpcfutdj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#yqtceorjai .gt_indent_3 {
+#otrpcfutdj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#yqtceorjai .gt_indent_4 {
+#otrpcfutdj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#yqtceorjai .gt_indent_5 {
+#otrpcfutdj .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3145,7 +3171,7 @@ Current league statuses
 <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iaGVpZ2h0OiA1MTJweDsgd2lkdGg6IDUxMnB4OyI+PHBhdGggZD0iTTAgMGg1MTJ2NTEySDB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48ZyBjbGFzcz0iIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDApIiBzdHlsZT0iIj48cGF0aCBkPSJNMTczLjYyNSAxNS43MmwxNi4xNTYgNTMuODEtOTQuMzc0LTQ4LjkwNUwxNTguNDcgOTguMjUgNDUuMTg3IDExNy40MDZsMTEzLjI4IDE5LjYyNS01OS43MTggNzUuMTkgNjUuMDMtMzMuNDA3LTEuNzggNTguODQzIDE5Ljg0NC0zNy4zNDR2LTY0LjIxOGwuNzUtMS43NSAzMS45MDYtNzQuNzUtNDAuODc1LTQzLjg3NXptMTQ2LjI1IDBMMjgyLjk3IDU1LjM0M2wzMy4zNDIgNzkuMDMuNzUgMS43NVYyMDUuODQ2bDE1LjUgMjkuMTg3LTEuNjI1LTU0LjQzNiA2NS41MzIgMzQuMDYyLTYzLjA2NC03Ny42MjUgMTEzLjI4LTE5LjYyNC0xMTMuMjgtMTkuMTU2IDYzLjA2My03Ny42MjUtOTIuNDQgNDcuOTA2IDE1Ljg0NS01Mi44MXpNMjQ5LjI4IDIzLjU2bC00OS4xODYgMTE0LjV2MTUzLjVMMjM1LjAzIDMyNi41YzIuOTE2LTY1LjQzNSA3Ljk3Ni0xMjguOTM2IDE1LjI1LTE4Ny43MiA3LjYwNiA2MS40MzMgMTIuNzQ0IDEyOC43NzUgMTUuNTMyIDE5OGwzMi42MjUtMzIuNjI0VjEzOC4wNjJsLTQ5LjE1Ni0xMTQuNXpNMzMuMTI2IDIwNi44NDVsMzcuMzQ0IDk0LjA2MiAxOTMuOTA1IDE5My45MzhoMzAuODEzYy02Ni4zNC02OC41MDMtMTI4LjQ4My0xMzkuMDAyLTE4MC42MjUtMjA1Ljg3NSA3NC43MDUgNTguMjQ2IDE1NS4xMDQgMTMwLjMzMyAyMzEuMzEyIDIwNS44NzRoMzEuMDYzTDEyNi44MTMgMjQ0LjY4OGwtOTMuNjg4LTM3Ljg0NHptNDQ0Ljg0NCAwbC05My42MjYgMzcuODEyTDI2OC43NSAzNjAuMjVsMTguMTU2IDE4LjEyNWMzNi4yNzgtMzIuMTAyIDcyLjMxNS02Mi4yNjUgMTA3LjEyNS04OS40MDYtMjcuMzAyIDM1LjAxNS01Ny4zNiA3MS4wMi04OS4zMSAxMDcuMjE3TDMyNS4wNiA0MTYuNWwxMTUuNTMyLTExNS41MyAzNy4zNzUtOTQuMTI2ek0xODYuMDYgNDQyLjkzOGwtNTEuOTA2IDUxLjkwNmgyOC41OTRjMTIuNTk2LTEyLjQ4NiAyNS4zMTQtMjQuODc1IDM4LjA5NC0zNy4xMjVsLTE0Ljc4LTE0Ljc4M3ptMzkuMzc1IDM5LjQwNmMtMy45OTUgNC4xNzMtOC4wMDMgOC4zNC0xMi4wMyAxMi41aDI0LjUzbC0xMi41LTEyLjV6IiBmaWxsPSIjM2Q1YTgwIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48L2c+PC9zdmc+" style="height:30px;">
 </td>
 <td headers="status" class="gt_row gt_left">
-Pre-season: season 38 will start on 15 Jan.
+Mid-season: Season 39 will end on 27 May.
 </td>
 <td headers="reg_link" class="gt_row gt_center">
 <a href="https://www.lichess4545.com/team4545/register/">Register</a>
@@ -3156,10 +3182,9 @@ Pre-season: season 38 will start on 15 Jan.
 <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iaGVpZ2h0OiA1MTJweDsgd2lkdGg6IDUxMnB4OyI+PHBhdGggZD0iTTAgMGg1MTJ2NTEySDB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48ZyBjbGFzcz0iIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDApIiBzdHlsZT0iIj48cGF0aCBkPSJNMTc5LjMgMzguOTRDMTU0LjcgNzcuNyAxNDIuNyAxMzkuNyAxNjguNCAxODUuOWwtMTYuMyA5LjJjLTYuNy0xMS45LTExLjItMjQuNC0xMy45LTM3LjItMzQuNS02LjMtNjkuNDItNy41LTEwNC45OC0yLjEgMzQuMDcgMTAuMSA1Mi43NyAyMy43IDc2LjY4IDQ2LjctMjYuODIgOS43LTYwLjI1IDMwLjItOTIuOTMgNzAuMiAzNS40Ny04LjggNjQuODMtMTEuNSA4OS40My02LjMtMzYuOTQgMjIuNS02NC4wNiA1Ni4xLTg4LjM0IDExNC4xIDM1LjktMTcuMiA2NC44OS0xOC44IDEwMi45NC0xOC44LTIzLjA3IDMyLjctMzUuMjcgNzcuMi0zNi4zMSAxMTIuOCAyNC41MS0yNiA1Ny42MS02MC4yIDg3LjIxLTc5IDMgMjkuOSAxNSA1OC4zIDM1LjkgODUuMy0uMi00My45IDEwLjMtODguMyAzMS42LTEzMy40LTE4LjggOS0zMi40IDE4LjEtNDkuOSAyOS4zIDYuMi0yNy45IDEyLjQtNTUuOCAxOC43LTgzLjctMjMuMyAyLjQtMzkgMTAtNjAuNSAxOC41IDE2LjMtMzMuMSAzMi43LTY2LjEgNDkuMS05OS4ybDE2LjggOC4zLTI4LjQgNTcuNGMxOC40LTQuNCAyOC43LTQuMSA0NS43LTEuMy00LjUgMjAuNC05IDQwLjctMTMuNiA2MSA2NS4zLTM2LjIgMTQ4LjMtNDUuOSAyMjYuNy01MCA3LjYtMTIuOSAxMy44LTI0LjIgMTguOC0zNC44bC02LjMtMjQuNC0yNC40IDMwLjgtNy44LTI3LjUtMjIuNSAyOS4yLTcuNS0yNi4xLTIzLjkgMzEuNS03LjctMjguMi0yMy44IDMxLjQgMS4yLTQxLjEgMjIuNi00Mi43IDcuNiAyOC4zIDIzLjktMzEuNSA3LjYgMjguMiAyMy41LTMwIDYuNSAyNi45IDI0LjUtMzAuOCA3LjggMjcuNSAyNC42LTMyYzIuMy0xMC44IDQuNi0yMi40IDcuNC0zNS43LTU1LjUtMy43LTEwNi4zIDQuOC0xNTQgOS44LTM4LTIwLjgtODAuOC0yNi44LTEyMS45LTE4LjUtMTMuNi0yOS42OS0yNy4yLTU5LjM4LTQwLjktODkuMDZ6TTMyNS41IDE1OC4zYy00LjUgMTQuMi0xMyAxOC4zLTI0LjcgMjAuNi0xNi4xLTQuNC0yOC4zLTE1LjUtMzQuNC0zMC4yIDIwLjQtMy44IDQyLjQgMy40IDU5LjEgOS42eiIgZmlsbD0iIzNkNWE4MCIgZmlsbC1vcGFjaXR5PSIxIj48L3BhdGg+PC9nPjwvc3ZnPg==" style="height:30px;">
 </td>
 <td headers="status" class="gt_row gt_left">
-Pre-season: season 32 will start on 11 Mar.
+Mid-season: Season 32 will end on 5 Feb.
 </td>
 <td headers="reg_link" class="gt_row gt_center">
-<a href="https://www.lichess4545.com/lonewolf/register/">Register</a>
 </td>
 </tr>
 <tr>
@@ -3167,9 +3192,10 @@ Pre-season: season 32 will start on 11 Mar.
 <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iaGVpZ2h0OiA1MTJweDsgd2lkdGg6IDUxMnB4OyI+PHBhdGggZD0iTTAgMGg1MTJ2NTEySDB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48ZyBjbGFzcz0iIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDApIiBzdHlsZT0iIj48cGF0aCBkPSJNMjU2IDI0LjU4NUw1MS40NyAxMTguOTg5IDI1NiAyMTMuMzk0bDIwNC41My05NC40MDV6TTM4Ljk5OCAxMzMuMDU0djI1OC4zNTNMMjQ3IDQ4Ny40MTVWMjI5LjA2M3ptNDM0LjAwNCAwTDI2NSAyMjkuMDYydjI1OC4zNTNsMjA4LjAwMi05Ni4wMDh6IiBmaWxsPSIjM2Q1YTgwIiBmaWxsLW9wYWNpdHk9IjEiPjwvcGF0aD48L2c+PC9zdmc+" style="height:30px;">
 </td>
 <td headers="status" class="gt_row gt_left">
-Mid-season: Season 28 will end on 5 Feb.
+Mid-season: Season 30 will end on 13 May.
 </td>
 <td headers="reg_link" class="gt_row gt_center">
+<a href="https://www.lichess4545.com/chess960/register/">Register</a>
 </td>
 </tr>
 </tbody>
@@ -3188,7 +3214,7 @@ Community leagues: <strong>Infinite Quest</strong> is going strong, <strong>Seri
 <!-- Show date when page was last updated -->
 <h2 class="appendix" id="last-updated-on">Last updated on</h2>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>4 Jan 2024</code></pre>
+<pre><code>12 Apr 2024</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <style type="text/css">

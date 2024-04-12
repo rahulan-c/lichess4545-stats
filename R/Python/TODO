@@ -1,0 +1,9 @@
+TODO: write requirements file with Python packages that need to be installed
+
+chess
+chess-graph
+plotly
+pgnparser
+kaleido
+pandas
+numpy

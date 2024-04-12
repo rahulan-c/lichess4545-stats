@@ -20,10 +20,6 @@ path_root <- here::here()
 # Path to website directory
 path_web <- paste0(path_root, "/docs/")
 
-# Path to Python environment and chess_graph module
-path_python <- Sys.getenv("RETICULATE_PYTHON")
-chessgraph_path <- Sys.getenv("CHESSGRAPH_PATH")
-
 # Lichess API token
 token <- Sys.getenv("LICHESS_TOKEN")
 
@@ -1274,12 +1270,6 @@ SaveSeasonData <- function(league_choice, seasons){
     
     # Player/team positions data
     rio::export(positions, paste0(path_savedata, "positions_", league_save_label, "_s", season, ".csv"))
-    
-    # print(paste0("Saved all data for ", ifelse(league == "team4545", "4545 S", ifelse(lw_u1800, "LW U1800 S", "LW Open S")), 
-    #              season))
-    
-    cli::cli_alert_success("Saved season data for {ifelse(league == 'team4545', '4545 S', ifelse(lw_u1800, 'LW U1800 S', 'LW Open S'))}{season}")
-    
   }
   
   toc(log = TRUE)
@@ -1551,9 +1541,7 @@ MakeSunburst <- function(league, season){
   # Make sunburst
   pgn <- paste0(path_savedata, "games_noevals_", league, "_s", season, ".pgn")
   tic("Made openings sunburst plot")
-  
-  # Source make_openings_sunburst.py in R and call function to produce plot
-  reticulate::import_from_path("chess_graph", path = chessgraph_path, convert = TRUE)
+  reticulate::import_from_path("chess_graph", path = Sys.getenv("CHESSGRAPH_PATH"), convert = TRUE)
   reticulate::source_python(paste0(path_scripts, "/Python/make_openings_sunburst.py"))
   make_sunburst(pgn)
   
@@ -1576,16 +1564,21 @@ MakeSeasonReport <- function(league, season,
   if(from_scratch == F){tic("Produce season report from saved data")}
   
   # 1. Save season data (if necessary)
-  if(from_scratch){SaveSeasonData(league, season)}
+  if(from_scratch){
+    SaveSeasonData(league, season)
+    cli::cli_alert_success("{league} s{season}: saved season data")
+    
+  }
   
   # 2. Make openings sunburst (only for 4545/LW reports)
   if(league %in% c("team4545", "lwopen", "lwu1800")){
     MakeSunburst(league, season)
+    cli::cli_alert_success("{league} s{season}: made opening sunburst")
   }
   
   # 3. Compile and produce season stats report
   SeasonStats(league, season)
-  
+  cli::cli_alert_success("{league} s{season}: produced season stats report")
   toc(log = TRUE)
 }
 

@@ -12,7 +12,7 @@ def save_clean_pgn(read_path, write_path, new_name):
   while (game := chess.pgn.read_game(pgn)):
     game.accept(exporter)
     
-  print("Saved clean PGN (no evals or clock times)")
+  # print("Saved clean PGN (no evals or clock times)")
 
 def save_evals_pgn(read_path, write_path, new_name):
   """Saves PGN with comments (evals, clock times)."""
@@ -23,4 +23,4 @@ def save_evals_pgn(read_path, write_path, new_name):
   while (game := chess.pgn.read_game(pgn)):
     game.accept(exporter)
     
-  print("Saved PGN with evals")
+  # print("Saved PGN with evals")

@@ -32,7 +32,7 @@
 # Load (extra) packages
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(ggrepel, cowplot, ggtext, gridExtra, qpdf, rsvg, extrafont, 
-               cli, grImport2, png, ggimage, grid, prettyunits)
+               cli, grImport2, png, ggimage, grid, prettyunits, svglite)
 
 # Get env variables
 token <- Sys.getenv("LICHESS_TOKEN")       # Lichess API token
@@ -42,10 +42,8 @@ gspath <- Sys.getenv("GHOSTSCRIPT_PATH")   # Ghostscript installation path (to e
 source(glue::glue("{here::here()}/R/all_functions.R"))
 
 # Load fonts
-# Only needed once per session
-# extrafont::windowsFonts()
-extrafont::loadfonts(device = "pdf", quiet = TRUE) 
-
+# NEED TO HAVE FONTS ALREADY INSTALLED ON MACHINE
+extrafont::loadfonts(device = "pdf", quiet = TRUE)
 
 # Functions ===================================================================
 

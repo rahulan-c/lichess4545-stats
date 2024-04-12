@@ -1,7 +1,7 @@
 Version: 1.0
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
+RestoreWorkspace: No
+SaveWorkspace: No
 AlwaysSaveHistory: Default
 
 EnableCodeIndexing: Yes
@@ -13,5 +13,13 @@ RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
 BuildType: Website
+
+UseNativePipeOperator: Yes
+
+QuitChildProcessesOnExit: Yes
+
+PythonType: system
+PythonVersion: 3.12.2
+PythonPath: C:/Users/rahul/AppData/Local/Programs/Python/Python312/python.exe
 
 SpellingDictionary: en_GB
