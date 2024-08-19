@@ -30,10 +30,11 @@ pacman::p_load(tidyverse, data.table, cli, fs, glue, here, distill)
 #' @param update_allreports Update the page listing all 4545/LW/C960 season reports?
 #' @param update_awards Update the all-seasons award details page?
 #' @param update_standings Update the 'live' standings page?
-#' @param update_about Update the 'about' paeg?
+#' @param update_about Update the 'about' page?
 #' @param update_articles If TRUE, re-knits all standalone articles
 #' @param update_roundstories If TRUE, re-knits the 'round stories' page
 #' @param update_logogallery If TRUE, re-knits the team logo gallery page
+#' @param update_alltime_stats If TRUE, re-knits the all-time stats page
 #'
 #' @return
 #' @export
@@ -47,7 +48,8 @@ BuildSite <- function(quiet = FALSE,
                       update_about = FALSE,
                       update_articles = FALSE,
                       update_roundstories = FALSE,
-                      update_logogallery = FALSE){
+                      update_logogallery = FALSE,
+                      update_alltimestats = FALSE){
   
   # Render frontpage
   if(update_frontpage){
@@ -105,6 +107,14 @@ BuildSite <- function(quiet = FALSE,
     # Players by continent/country
     rmarkdown::render("site/_round_updates.Rmd", 
                       output_file = "round_updates.html",
+                      output_dir = "docs",
+                      quiet = quiet)
+  }
+  
+  # Update all-time records page
+  if(update_alltimestats){
+    rmarkdown::render("site/_alltime_stats.Rmd", 
+                      output_file = "alltime_stats.html",
                       output_dir = "docs",
                       quiet = quiet)
   }

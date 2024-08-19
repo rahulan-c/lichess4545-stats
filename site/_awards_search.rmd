@@ -1,5 +1,5 @@
 ---
-title: "All-time accolades"
+title: "Award winners"
 description: |
   Player achievements in Lichess4545, LoneWolf and Lichess960
 date: "`r Sys.Date()`"
@@ -59,7 +59,7 @@ GetPodiumPlayersFromReports <- function(url, tag){
 
 ```
 
-This page shows everyone who's achieved some form of recognition in a published season stats report. It was last updated on **`r paste0(lubridate::day(lubridate::today()), " ", lubridate::month(lubridate::today(), label = T), " ", lubridate::year(lubridate::today()))`**.
+The table below contains the details of every player recognised in a season report. It covers all three main leagues: 4545, LoneWolf (Open and U1800), and Chess960. It records season winners, second and third place finishers, board medal winners (for 4545), best U2000/U1600 award winners (LoneWolf), season award winners, and season award "honourable mentions". Details are included for award winners. See below the table for a list of award definitions.
 
 [Return to home page](https://rahulan-c.github.io/lichess4545-stats/)
 
@@ -80,242 +80,25 @@ if(scrub_cheats){
 
 
 
-### Players with multiple titles
-
-*Currently only available for 4545; LW, 960 (and maybe other leagues) will be added soon.*
-
-```{r extract_4545_podium_details, eval = TRUE}
-# Extract 1st/2nd/3rd place team names and team players from previously 
-# published season reports
-
-## Get published season stats URLs
-season_reports_url <- "https://rahulan-c.github.io/lichess4545-stats/season_stats.html"
-season_reports <- read_html(season_reports_url) %>% 
-  html_nodes("table") %>% 
-  html_nodes("tr") %>% 
-  html_nodes("a") %>%
-  html_attr("href")
-
-# We only want the 4545 reports
-team4545_reports <- season_reports[stringr::str_detect(season_reports, "stats_4545")]
-
-all_podiums <- list()
-for(s in seq(1:length(team4545_reports))){
-  
-  url <- team4545_reports[s]
-  season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
-  
-  # Extract podium team names
-  
-  first <- read_html(url) %>%
-    rvest::html_element(".first") %>% 
-    html_text2() %>% 
-    stringr::str_remove("^.+place") %>% 
-    stringr::str_remove_all("\\n")
-  
-  second <- read_html(url) %>%
-    rvest::html_element(".second") %>% 
-    html_text2() %>% 
-    stringr::str_remove("^.+place") %>% 
-    stringr::str_remove_all("\\n")
-  
-  third <- read_html(url) %>%
-    rvest::html_element(".third") %>% 
-    html_text2() %>% 
-    stringr::str_remove("^.+place") %>% 
-    stringr::str_remove_all("\\n")
-  
-  # Extract final standings table info
-  # S30 and later, extract xml_child 9
-  # S12: xml_child 8
-  # Other: xml_child 6
-  if(season >= 30){
-    podium_players <- read_html(url) %>%
-      rvest::html_element("#final-standings") %>% 
-      xml_child(9) %>% 
-      html_text2() %>% 
-      parse_json()
-  } else if (season == 12){
-    podium_players <- read_html(url) %>%
-      rvest::html_element("#final-standings") %>% 
-      xml_child(8) %>% 
-      html_text2() %>% 
-      parse_json()
-  } else {
-    podium_players <- read_html(url) %>%
-      rvest::html_element("#final-standings") %>% 
-      xml_child(6) %>% 
-      html_text2() %>% 
-      parse_json()
-  }
-
-  podium_players <- as_tibble(podium_players$x$tag$attribs$data)
-  
-  gold_subset <- tibble::enframe(podium_players$Gold) %>% 
-    mutate(season = season,
-           place = 1,
-           team = first,
-           value = unlist(value),
-           games = stringr::str_extract(value, "\\([:digit:]\\)")
-    ) %>% 
-    mutate(games = stringr::str_remove(games, "\\(")) %>% 
-    mutate(games = stringr::str_remove(games, "\\)")) %>% 
-    mutate(games = as.integer(games)) %>% 
-    mutate(value = stringr::str_remove(value, "\\s\\(.+\\)")) %>% 
-    rename("player" = value) %>% 
-    select(player, season, place, team, games) %>% 
-    filter(games >= min_games)
-  
-  silver_subset <- tibble::enframe(podium_players$Silver) %>% 
-    mutate(season = season,
-           place = 2,
-           team = second,
-           value = unlist(value),
-           games = stringr::str_extract(value, "\\([:digit:]\\)")
-    ) %>% 
-    mutate(games = stringr::str_remove(games, "\\(")) %>% 
-    mutate(games = stringr::str_remove(games, "\\)")) %>% 
-    mutate(games = as.integer(games)) %>% 
-    mutate(value = stringr::str_remove(value, "\\s\\(.+\\)")) %>% 
-    rename("player" = value) %>% 
-    select(player, season, place, team, games) %>% 
-    filter(games >= min_games)
-  
-  bronze_subset <- tibble::enframe(podium_players$Bronze) %>% 
-    mutate(season = season,
-           place = 3,
-           team = third,
-           value = unlist(value),
-           games = stringr::str_extract(value, "\\([:digit:]\\)")
-    ) %>% 
-    mutate(games = stringr::str_remove(games, "\\(")) %>% 
-    mutate(games = stringr::str_remove(games, "\\)")) %>% 
-    mutate(games = as.integer(games)) %>% 
-    mutate(value = stringr::str_remove(value, "\\s\\(.+\\)")) %>% 
-    rename("player" = value) %>% 
-    select(player, season, place, team, games) %>% 
-    filter(games >= min_games)
-  
-  all_podiums[[s]] <- rbind(gold_subset, silver_subset, bronze_subset)
-  
-  cli::cli_alert_success("Extracted podium team/player data for 4545 S{season}")
-  
-  Sys.sleep(0.2)
-  
-}
-
-# Compile into single dataset
-alltime_podiums <- data.table::rbindlist(all_podiums) %>% tibble::as_tibble()
-
-# Remove Lichess ToS violators from compiled data
-if(scrub_cheats){
-  alltime_podiums <- alltime_podiums %>% 
-    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators)))
-}
-
-```
-
-
-```{r multiple_4545_winners, eval = TRUE}
-# Produce table of players who've won multiple 4545 season titles
-
-multiple_titles <- alltime_podiums %>% 
-  filter(place == 1) %>% 
-  group_by(player) %>% 
-  summarise(titles = n()) %>% 
-  # filter(titles > 1) %>% 
-  arrange(desc(titles))
-
-# Show table of multiple title winners
-# Format: titles, players
-titles_range <- sort(unique(multiple_titles$titles),
-                     decreasing = T)
-titles_table <- tibble::tibble(
-  titles = titles_range,
-  players = rep(NA_character_, length(titles_range))
-)
-for(t in titles_range){
-  players <- multiple_titles %>% 
-    filter(titles == t) %>% 
-    select(player) %>% 
-    dplyr::pull()
-  if(t == 1){
-    # players <- paste0("(", length(players), " players")
-    players <- glue::glue("({length(players)} players - too many to list)")
-  } else {
-    # players <- paste0(length(players), " player(s): ",
-    #                   str_c(players, collapse = ", "))
-    players <- glue::glue("{str_c(players, collapse = ', ')}")
-  }
-  titles_table$players[which(titles_range == t)] <- players
-}
-
-gt(titles_table) %>%
-  tab_header(title = "Most 4545 titles",
-             subtitle = paste0("Seasons ", min(alltime_podiums$season), "-", 
-                               max(alltime_podiums$season))
-             ) %>%
-  cols_label(
-    titles = "Titles",
-    players = "Players",
-  ) %>% 
-  tab_source_note(
-    source_note = glue("Must have played at least {min_games} games for a title-winning team."))
-
-```
-
-### Most successful players
-
-*Like before, this only includes 4545 finishes at the moment. LW, 960 and other leagues will be incorporated soon.*
-
-```{r most_successful_players, eval = TRUE}
-
-# Highest-finishing players overall
-success <- alltime_podiums %>% 
-  group_by(player) %>% 
-  summarise(first = sum(place == 1),
-            second = sum(place == 2),
-            third = sum(place == 3)) %>% 
-  mutate(success_score = (first * 3) + (second * 2) + (third)) %>% 
-  arrange(desc(success_score), desc(first), desc(second), desc(third))
-
-# Show table of first 20 (ish)
-success %>% 
-  slice_max(success_score, n = 20) %>% 
-  gt() %>% 
-  tab_header(title = "Most successful 4545 players",
-             subtitle = paste0("Seasons ", min(alltime_podiums$season), "-", 
-                               max(alltime_podiums$season))) %>% 
-  cols_label(
-    player = "Player",
-    first = "1st",
-    second = "2nd",
-    third = "3rd",
-    success_score = "Success 'Score'"
-  ) %>% 
-  tab_footnote(
-    footnote = "Success score = (3 * 1st-place finishes) + (2 * 2nd-place finishes) + 3rd-place finishes",
-    locations = cells_column_labels(columns = success_score)
-  ) %>% 
-  tab_source_note(
-    source_note = glue("Must have played at least {min_games} games for a team that finished the season first, second or third."))
-  
-```
-
-
-### All accolades
-
-This is a searchable table that shows every eligible player who has been recognised in a published season report ([example](https://rahulan-c.github.io/lichess4545-stats/reports/stats_lwopen_s05.html#Awards)). Details are only included for award winners. See below the table for a list of award definitions. 
-
 
 
 ```{r, eval = TRUE, layout="l-page"}
 # Crawl over the other reports and present all winners in one table
 
+## Get published season stats URLs
+season_reports_url <- "https://rahulan-c.github.io/lichess4545-stats/season_stats.html"
+season_reports <- read_html_live(season_reports_url) %>% 
+  html_nodes("table") %>% 
+  html_nodes("tr") %>% 
+  html_nodes("a") %>%
+  html_attr("href")
+
+team4545_reports <- season_reports[stringr::str_detect(season_reports, "stats_4545")]
+
 # Define seasons with "old" awards table formats, so their xml_child_number is 5, not 4
 # Only applies to LW Open and U1800
 lwopen_old <- c(1:9, 11:12, 14:20)
-lwu1800_old <- c(9:10, 12, 14:20)
+lwu1800_old <- c(9:10, 12, 14:21)
 
 # Specify 4545 seasons with reports that don't have team points in their podium
 # tables. Important because a different XML child number is needed to extract
@@ -702,5 +485,17 @@ cli::cli_alert_success("The all-seasons awards page has been updated")
 - **Tetrarch of Time**: spent the most clock time across the season
 
 
+<!-- Show date when page was last updated -->
+
+## Last updated on {.appendix}
+```{r,echo=FALSE}
+day_month_year <- function(x, abbr = FALSE) {
+  if(all(lubridate::is.Date(x) || lubridate::is.POSIXt(x))) {
+  glue::glue("{lubridate::day(x)} {lubridate::month(x, label = TRUE, abbr = abbr)} {lubridate::year(x)}")
+  } else
+    stop("Input vector must be Date or POSIX format.")
+}
+day_month_year(Sys.Date(), abbr = TRUE)
+```
 
 

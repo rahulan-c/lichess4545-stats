@@ -21,12 +21,10 @@ navbar:
         menu:
         - text: "By season"
           href: season_stats.html
-        - text: "Accolades"
-          href: "/lichess4545-stats/awards_search.html"
-        # - text: "All-time records"
-        #   href: alltime.html
-        # - text: "Random trivia"
-        #   href: trivia.html
+        - text: "Awards"
+          href: awards_search.html
+        - text: "All-time records"
+          href: alltime_stats.html
         - text: "Team logos"
           href: team_logos.html
       - text: "Other"
