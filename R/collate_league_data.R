@@ -259,6 +259,13 @@ UpdateAllSeriesGames <- function(series_sheets){
   
   for (s in seq(1:nrow(series_sheets))) {
     
+    # Temp fix (2024-08-19)
+    # Only check S24 and later
+    
+    if(s < 24){next}
+    
+    print(s)
+    
     # Read pairings sheet data 
     pairings <- range_read_cells(
       ss = series_sheets$sheetid[s],
@@ -292,8 +299,6 @@ UpdateAllSeriesGames <- function(series_sheets){
   rm(all_links, links, contents, pairings)
   
   
-  
-  
   # --- Find new Series games to add to all-seasons games data ---------------------
   
   cli_h2("Step 2 - Identify games to add to all-time games data")
@@ -301,8 +306,8 @@ UpdateAllSeriesGames <- function(series_sheets){
   # Read current all-time Series games data
   current_allgames <- readRDS(paste0(here::here(), "/data/allgames_series.rds"))
   current_allgames <- tibble::as_tibble(current_allgames)
-  current_oldest <- current_allgames %>% slice_min(date) %>% select(date) %>% dplyr::pull()
-  current_latest <- current_allgames %>% slice_max(date) %>% select(date) %>% dplyr::pull()
+  current_oldest <- current_allgames %>% slice_min(date) %>% select(date) %>% dplyr::pull() |> head(1)
+  current_latest <- current_allgames %>% slice_max(date) %>% select(date) %>% dplyr::pull() |> head(1)
   cli::cli_inform("Reading current Series all-seasons games data...")
   cli::cli_inform("The current dataset has {nrow(current_allgames)} games.")
   cli::cli_inform("Seasons covered: S{min(current_allgames$season)} to S{max(current_allgames$season)}.")
@@ -333,10 +338,45 @@ UpdateAllSeriesGames <- function(series_sheets){
     tibble::as_tibble()
   
   # Add season numbers to all-time data
-  series_data <- series_data %>% 
-    mutate(id = str_extract(link, "(?<=https://lichess.org/)[:alnum:]{8}")) %>% 
-    select(id, season)
-  new_allgames <- dplyr::left_join(new_allgames, series_data, by = c("id"))
+  # series_data <- series_data %>% 
+  #   mutate(id = str_extract(link, "(?<=https://lichess.org/)[:alnum:]{8}")) %>% 
+  #   select(id, season)
+  # new_allgames <- dplyr::left_join(new_allgames, series_data, by = c("id"))
+  
+  # NEW METHOD
+  
+  # 1) Remove all "season." columns, season.x, season.y.y.y.y etc
+  new_allgames <- new_allgames |> select(-c(starts_with("season.")))
+  
+  # 2) Extract all season data
+  seasons <- series_sheets |> 
+    select("season_num" = season, start_date) |> 
+    mutate(start_date = lubridate::dmy(start_date)) |> 
+    mutate(season_num = as.integer(stringr::str_remove(season_num, "S"))) |> 
+    arrange(season_num) |> 
+    mutate(end_date = dplyr::lead(start_date) - hour(24))
+  
+  # Make today's date the end date for the most recent season
+  seasons$end_date[nrow(seasons)] <- lubridate::ymd(lubridate::today())
+  
+  # 3) Assign season numbers to all games based on their played dates
+  
+  ## Assignation function
+  assign_season <- function(game_date, seasons) {
+    season_num <- seasons %>%
+      filter(game_date >= start_date & game_date <= end_date) %>%
+      dplyr::pull(season_num)
+    
+    if (length(season_num) == 0) {
+      return(NA)  # Handle cases where game date doesn't fall in any season
+    } else {
+      return(season_num)
+    }
+  }
+  
+  ## Apply function
+  new_allgames <- new_allgames %>%
+    mutate(season = purrr::map_int(date, assign_season, seasons))
   
   # ---- Save updated all-time games data --------------------------------------- 
   saveRDS(new_allgames, 
@@ -807,23 +847,23 @@ SaveLeaguePGN <- function(leagues){
 
 # # 4545
 # CompileCombinedData(league_choice = "team4545")
-# SaveLeaguePGN("team4545") # took 6m 07s for S2-S37 (2024-01-03)
+# SaveLeaguePGN("team4545") # took 2m 17s for S2-S40 (2024-08-19)
 # 
 # # LW Open
 # CompileCombinedData(league_choice = "lwopen")
-# SaveLeaguePGN("lwopen") # took 2m 43s for S1-S31 (2024-01-03)
-# 
+# SaveLeaguePGN("lwopen") # took 1m 00s for S1-S33 (2024-08-19)
+#
 # # LW U1800
 # CompileCombinedData(league_choice = "lwu1800")
-# SaveLeaguePGN("lwu1800") # took 1m 15s for S9-S31 (2024-01-03)
+# SaveLeaguePGN("lwu1800") # took 0m 27s for S9-S33 (2024-08-19)
 
 # Chess960
 # CompileCombinedData(league_choice = "chess960")
-# SaveLeaguePGN("chess960")
+# SaveLeaguePGN("chess960") # took 0m 11s for S1-S31 (2024-08-19)
 
 # # Update all-seasons Series games data (.rds)
 # UpdateAllSeriesGames(series_sheets)
-# SaveLeaguePGN("series") # took 0m 24s on 2024-01-03
+# SaveLeaguePGN("series") # took 0m 9s on 2024-08-19
 
 # # Update all-seasons Rapid Battle games data (.rds)
 # UpdateAllRapidBattleGames(rb_sheets, 
@@ -831,11 +871,8 @@ SaveLeaguePGN <- function(leagues){
 #                           stop_if_unanalysed = T)
 # SaveLeaguePGN("rb")
 
-# Collate all-time 4545/LW/Series games data into single RDS file
-# CombineTeamLWSeriesGames()
-
-# Save single PGN with all 4545, LW (both sections) and Series games (no evals or clock times)
-# SaveTeamLWSeriesPGN()
+# Save single PGN with all 4545, LW (both sections) and Series games
+# SaveLeaguePGN("teamlwseries") # took 4m 04s (2024-08-19)
 
 # Update Infinite Quest all-times games dataset
 # UpdateQuestGames(report_unanalysed = T, stop_if_unanalysed = T)

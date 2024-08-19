@@ -20,7 +20,7 @@ pacman::p_load(tidyverse, knitr, fs)
 # Copy all-seasons PGNs into /pgns
 # Overwrite existing files with the same name
 
-league_names <- c("team4545", "lwopen", "lwu1800", "chess960", "quest", "rb", "series")
+league_names <- c("team4545", "lwopen", "lwu1800", "chess960", "quest", "rb", "series", "teamlwseries")
 pgn_filenames_original <- paste0("allgames_", league_names, ".pgn")
 
 for(p in pgn_filenames_original){
@@ -133,16 +133,20 @@ knitr::kable(completed,
 
 ### PGNs
 
-- [4545 / Team](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_team4545.pgn) (seasons 2-38, up to March 2024)
-- [LoneWolf (Open)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn) (seasons 1-32, up to April 2024)
-- [LoneWolf (U1800)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn) (seasons 9-32, up to April 2024)
-- [Chess960](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_chess960.pgn) (seasons 1-29, up to March 2024)
+- [4545 / Team](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_team4545.pgn) (seasons 2-40, up to Aug 2024)
+- [LoneWolf (Open)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn) (seasons 1-33, up to Jul 2024)
+- [LoneWolf (U1800)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn) (seasons 9-33, up to Jul 2024)
+- [Chess960](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_chess960.pgn) (seasons 1-31, up to Jul 2024)
 
 *Community league PGNs*
 
-- [Series](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_rb.pgn) (90+30) - includes 3,374 games played up to Dec 2023
-- [Rapid Battle](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_rb.pgn) (15+10) - includes recorded games played up to Nov 2022
+- [Series](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_rb.pgn) (90+30) - 3,939 games, S1 (Nov 2017) to S26 (Aug 2024)
+- [Rapid Battle](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_rb.pgn) (15+10) - recorded games up to Nov 2022
 - [Quest](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_quest.pgn) (15+10) - includes recorded games played up to Nov 2022
+
+*Combined*
+
+- [4545 + LoneWolf + Series](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_teamlwseries.pgn) (70,815 games, last updated 2024-08-19)
 
 ### Notes
 

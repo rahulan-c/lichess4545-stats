@@ -26,7 +26,6 @@
 #     - Manually request server analysis for these games
 #     - Once all games have been analysed, then run PlotMatchStory()
 
-
 # Setup =======================================================================
 
 # Load (extra) packages

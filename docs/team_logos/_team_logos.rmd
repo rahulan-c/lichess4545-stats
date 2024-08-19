@@ -72,7 +72,6 @@ pacman::p_load(tidyverse, magick, here, htmltools, fs)
 ```{r, include = FALSE, eval = TRUE}
 # Make thumbnail of a full-size image
 # Must already be saved in /site/team_logos/fullsize
-# Do this before updating the team logos page
 
 cli::cli_h1("Constructing team logos gallery")
 cli::cli_h2("Checking for full-size logos that need thumbnails")
