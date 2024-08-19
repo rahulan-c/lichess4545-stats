@@ -1,0 +1,328 @@
+---
+title: "All-time records"
+description: |
+  Various all-time stats and achievements
+date: "`r Sys.Date()`"
+site: distill::distill_website
+output: distill::distill_article
+---
+
+```{r packages_initial_opts, include = FALSE}
+# Set default R chunk options for Rmd file
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+# Load all required packages, incl. for functions
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, knitr, rio, data.table,
+               reactable, htmltools, httr, jsonlite, xml2, 
+               rvest, lubridate, tictoc, gt, glue, here)
+
+# Define custom default reactable theme for tables
+options(reactable.theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    searchInputStyle = list(width = "100%"),
+    headerStyle = list(
+      "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
+      "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
+      borderColor = "#555"
+    ),
+    style = list(fontSize = "16px")
+  )
+)
+
+
+Get4545PodiumPlayersFromReports <- function(pos, min_games = 2){
+      if(pos == 1){data <- podium_rosters$Gold %>% unlist()}
+      if(pos == 2){data <- podium_rosters$Silver %>% unlist()}
+      if(pos == 3){data <- podium_rosters$Bronze %>% unlist()}
+      data <- data[data != ""]
+      data <- tibble::tibble(
+        player = str_extract(data, "[:graph:]+(?=\\s)"),
+        games = as.numeric(str_extract(data, "(?<=\\()\\d(?=\\))"))
+      ) %>% 
+        filter(games >= min_games)
+      return(data)
+}
+
+
+GetPodiumPlayersFromReports <- function(url, tag){
+      place <- read_html(url) %>% 
+        rvest::html_element(tag) %>%
+        rvest::html_text2() %>% 
+        str_split("\n\n")
+      place[[1]][2] <- str_remove_all(place[[1]][2], "\n")
+      return(c(place[[1]][1], place[[1]][2], place[[1]][3]))
+    }
+
+```
+
+
+
+[Return to home page](https://rahulan-c.github.io/lichess4545-stats/)
+
+```{r setup}
+# Min games to qualify as title winner
+min_games <- 4
+
+# Exclude ToS violators from page
+scrub_cheats <- TRUE
+
+# Get list of ToS violators
+if(scrub_cheats){
+  # Get list of ToS violators
+  # Requires SourceScripts() to have been run first (in scratchpad.R)
+  source(glue("{here()}/R/identify_tos_violators.R"))
+}
+```
+
+### Most successful players
+
+*Currently only available for 4545. Similar details for the LoneWolf and Chess960 leagues will be added soon, and maybe also for some of the community leagues.*
+
+#### 4545 Team League
+
+**Multiple title winners**
+
+```{r extract_4545_podium_details, eval = TRUE}
+# Extract 1st/2nd/3rd place team names and team players from previously 
+# published season reports
+
+## Get published season stats URLs
+season_reports_url <- "https://rahulan-c.github.io/lichess4545-stats/season_stats.html"
+season_reports <- read_html_live(season_reports_url) %>% 
+  html_nodes("table") %>% 
+  html_nodes("tr") %>% 
+  html_nodes("a") %>%
+  html_attr("href")
+
+# We only want the 4545 reports
+team4545_reports <- season_reports[stringr::str_detect(season_reports, "stats_4545")]
+
+all_podiums <- list()
+for(s in seq(1:length(team4545_reports))){
+  
+  url <- team4545_reports[s]
+  season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
+  
+  # Extract podium team names
+  
+  first <- read_html(url) %>%
+    rvest::html_element(".first") %>% 
+    html_text2() %>% 
+    stringr::str_remove("^.+place") %>% 
+    stringr::str_remove_all("\\n")
+  
+  second <- read_html(url) %>%
+    rvest::html_element(".second") %>% 
+    html_text2() %>% 
+    stringr::str_remove("^.+place") %>% 
+    stringr::str_remove_all("\\n")
+  
+  third <- read_html(url) %>%
+    rvest::html_element(".third") %>% 
+    html_text2() %>% 
+    stringr::str_remove("^.+place") %>% 
+    stringr::str_remove_all("\\n")
+  
+  # Extract final standings table info
+  # S30 and later, extract xml_child 9
+  # S12: xml_child 8
+  # Other: xml_child 6
+  if(season >= 30){
+    podium_players <- read_html(url) %>%
+      rvest::html_element("#final-standings") %>% 
+      xml_child(9) %>% 
+      html_text2() %>% 
+      parse_json()
+  } else if (season == 12){
+    podium_players <- read_html(url) %>%
+      rvest::html_element("#final-standings") %>% 
+      xml_child(8) %>% 
+      html_text2() %>% 
+      parse_json()
+  } else {
+    podium_players <- read_html(url) %>%
+      rvest::html_element("#final-standings") %>% 
+      xml_child(6) %>% 
+      html_text2() %>% 
+      parse_json()
+  }
+
+  podium_players <- as_tibble(podium_players$x$tag$attribs$data)
+  
+  gold_subset <- tibble::enframe(podium_players$Gold) %>% 
+    mutate(season = season,
+           place = 1,
+           team = first,
+           value = unlist(value),
+           games = stringr::str_extract(value, "\\([:digit:]\\)")
+    ) %>% 
+    mutate(games = stringr::str_remove(games, "\\(")) %>% 
+    mutate(games = stringr::str_remove(games, "\\)")) %>% 
+    mutate(games = as.integer(games)) %>% 
+    mutate(value = stringr::str_remove(value, "\\s\\(.+\\)")) %>% 
+    rename("player" = value) %>% 
+    select(player, season, place, team, games) %>% 
+    filter(games >= min_games)
+  
+  silver_subset <- tibble::enframe(podium_players$Silver) %>% 
+    mutate(season = season,
+           place = 2,
+           team = second,
+           value = unlist(value),
+           games = stringr::str_extract(value, "\\([:digit:]\\)")
+    ) %>% 
+    mutate(games = stringr::str_remove(games, "\\(")) %>% 
+    mutate(games = stringr::str_remove(games, "\\)")) %>% 
+    mutate(games = as.integer(games)) %>% 
+    mutate(value = stringr::str_remove(value, "\\s\\(.+\\)")) %>% 
+    rename("player" = value) %>% 
+    select(player, season, place, team, games) %>% 
+    filter(games >= min_games)
+  
+  bronze_subset <- tibble::enframe(podium_players$Bronze) %>% 
+    mutate(season = season,
+           place = 3,
+           team = third,
+           value = unlist(value),
+           games = stringr::str_extract(value, "\\([:digit:]\\)")
+    ) %>% 
+    mutate(games = stringr::str_remove(games, "\\(")) %>% 
+    mutate(games = stringr::str_remove(games, "\\)")) %>% 
+    mutate(games = as.integer(games)) %>% 
+    mutate(value = stringr::str_remove(value, "\\s\\(.+\\)")) %>% 
+    rename("player" = value) %>% 
+    select(player, season, place, team, games) %>% 
+    filter(games >= min_games)
+  
+  all_podiums[[s]] <- rbind(gold_subset, silver_subset, bronze_subset)
+  
+  cli::cli_alert_success("Extracted podium team/player data for 4545 S{season}")
+  
+  Sys.sleep(0.2)
+  
+}
+
+# Compile into single dataset
+alltime_podiums <- data.table::rbindlist(all_podiums) %>% tibble::as_tibble()
+
+# Remove Lichess ToS violators from compiled data
+if(scrub_cheats){
+  alltime_podiums <- alltime_podiums %>% 
+    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators)))
+}
+
+```
+
+
+```{r multiple_4545_winners, eval = TRUE}
+# Produce table of players who've won multiple 4545 season titles
+
+multiple_titles <- alltime_podiums %>% 
+  filter(place == 1) %>% 
+  group_by(player) %>% 
+  summarise(titles = n()) %>% 
+  # filter(titles > 1) %>% 
+  arrange(desc(titles))
+
+# Show table of multiple title winners
+# Format: titles, players
+titles_range <- sort(unique(multiple_titles$titles),
+                     decreasing = T)
+titles_table <- tibble::tibble(
+  titles = titles_range,
+  players = rep(NA_character_, length(titles_range))
+)
+for(t in titles_range){
+  players <- multiple_titles %>% 
+    filter(titles == t) %>% 
+    select(player) %>% 
+    dplyr::pull()
+  if(t == 1){
+    # players <- paste0("(", length(players), " players")
+    players <- glue::glue("({length(players)} players - too many to list)")
+  } else {
+    # players <- paste0(length(players), " player(s): ",
+    #                   str_c(players, collapse = ", "))
+    players <- glue::glue("{str_c(players, collapse = ', ')}")
+  }
+  titles_table$players[which(titles_range == t)] <- players
+}
+
+gt(titles_table) %>%
+  tab_header(title = "Most 4545 titles",
+             subtitle = paste0("Seasons ", min(alltime_podiums$season), "-", 
+                               max(alltime_podiums$season))
+             ) %>%
+  cols_label(
+    titles = "Titles",
+    players = "Players",
+  ) %>% 
+  tab_source_note(
+    source_note = glue("Must have played at least {min_games} games for a title-winning team."))
+
+```
+
+**Most successful players**
+
+```{r most_successful_players, eval = TRUE}
+
+# Highest-finishing players overall
+success <- alltime_podiums %>% 
+  group_by(player) %>% 
+  summarise(first = sum(place == 1),
+            second = sum(place == 2),
+            third = sum(place == 3)) %>% 
+  mutate(success_score = (first * 3) + (second * 2) + (third)) %>% 
+  arrange(desc(success_score), desc(first), desc(second), desc(third))
+
+# Show table of first 20 (ish)
+success %>% 
+  slice_max(success_score, n = 20) %>% 
+  gt() %>% 
+  tab_header(title = "Most successful 4545 players",
+             subtitle = paste0("Seasons ", min(alltime_podiums$season), "-", 
+                               max(alltime_podiums$season))) %>% 
+  cols_label(
+    player = "Player",
+    first = "1st",
+    second = "2nd",
+    third = "3rd",
+    success_score = "Success 'Score'"
+  ) %>% 
+  tab_footnote(
+    footnote = "Success score = (3 * 1st-place finishes) + (2 * 2nd-place finishes) + 3rd-place finishes",
+    locations = cells_column_labels(columns = success_score)
+  ) %>% 
+  tab_source_note(
+    source_note = glue("Must have played at least {min_games} games for a team that finished the season first, second or third."))
+  
+```
+
+#### LoneWolf
+
+TBC
+
+#### Chess960
+
+TBC
+
+#### Other leagues
+
+TBC
+
+## Last updated on {.appendix}
+```{r,echo=FALSE}
+day_month_year <- function(x, abbr = FALSE) {
+  if(all(lubridate::is.Date(x) || lubridate::is.POSIXt(x))) {
+  glue::glue("{lubridate::day(x)} {lubridate::month(x, label = TRUE, abbr = abbr)} {lubridate::year(x)}")
+  } else
+    stop("Input vector must be Date or POSIX format.")
+}
+day_month_year(Sys.Date(), abbr = TRUE)
+```
+
+
