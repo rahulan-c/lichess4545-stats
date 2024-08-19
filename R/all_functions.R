@@ -425,19 +425,28 @@ TidyGames <- function(games){
     map(period_to_seconds) %>% 
     map2(games$clock.increment, ~ .x - .y)
   
-  # Add eval data
+  # Add evals data
   evals <- games %>% select(ends_with("eval"))
   names(evals) <- as.character(str_extract_all(names(evals), "[0-9]+"))
   evals$id <- games$id
   evals <- tidyr::pivot_longer(evals, where(is.numeric))
   evals$name <- as.numeric(as.character(evals$name))
   
-  # Isolate and melt mate data (ie moves until mate)
+  # Convert all NA values for ply 0 evals to
+  # (to avoid errors when server analysis doesn't finish, eg https://lichess.org/A5feP8OQ)
+  evals <- evals |> 
+    mutate(value = case_when(
+      name == 0 & is.na(value) ~ 0,
+      .default = value
+      )
+    )
+  
+  # Isolate and melt 'mate' evals - expressed as moves until checkmate
   mates <- games %>% select(ends_with("mate"))
   
-  # Alternative formula
-  # Source: https://www.landonlehman.com/post/2021-01-25-how-to-reproduce-a-lichess-advantage-chart-in-python/)
-  # Apparently this is used in python-chess
+  # Convert 'moves until checkmate' evals to comparable units using the formula 
+  # used in python-chess. 
+  # Source: https://www.landonlehman.com/post/2021-01-25-how-to-reproduce-a-lichess-advantage-chart-in-python/
   mates <- mates %>% mutate_at(vars(ends_with("mate")), ~((./abs(.)) * (100 * (21 - pmin(abs(.), 10)))))
   
   names(mates) <- as.character(str_extract_all(names(mates), "[0-9]+"))
@@ -447,7 +456,7 @@ TidyGames <- function(games){
     mates$name <- as.numeric(as.character(mates$name))
   }
   
-  # Combine eval and mates data and tidy
+  # Combine evals and mates then tidy
   evals <- bind_rows(evals, mates)
   rm(mates)
   evals <- na.omit(evals)
@@ -455,25 +464,23 @@ TidyGames <- function(games){
   evals$ply <- as.numeric(as.character(evals$ply))
   evals$id <- as.character(evals$id)
   
-  # Compute a scaled eval, for both plotting and statistical purposes
-  # Maps evals onto a [-1, 1] scale
-  # Based on scaling expression used in Lichess eval graphs
-  # Source: https://github.com/ornicar/lila/blob/49705e68e2fc2e0c08c929dc96447d12c844108e/public/javascripts/chart/acpl.js
-  evals <- evals %>% mutate(eval_scaled = 2 / (1 + exp(-0.004 * eval)) - 1) %>% 
-    arrange(ply)
+  # Add a scaled eval measure for plotting and stats
+  # - maps existing evals to [-1, 1]
+  # - copies the formula used by Lichess's game eval charts
+  # - source: https://github.com/ornicar/lila/blob/49705e68e2fc2e0c08c929dc96447d12c844108e/public/javascripts/chart/acpl.js
+  evals <- evals %>% mutate(eval_scaled = 2 / (1 + exp(-0.004 * eval)) - 1)
   
-  # Leela's equation: 
+  # TODO: consider using lc0's equivalent formula:
   # cp = 111.714640912 * tan(1.5620688421 * Q)
   
   
   # Extract info on individual inaccuracies, mistakes and blunders 
+  # Add to evals data
   judgments <- games %>% select(ends_with("judgment.name"))
   names(judgments) <- as.character(str_extract_all(names(judgments), "[0-9]+"))
   judgments$id <- games$id
   judgments <- melt(judgments,id.vars = c("id"), variable.name = "ply", value.name = "judgment")
   judgments$ply <- as.numeric(levels(judgments$ply))[judgments$ply]
-  
-  # Add judgments to evals data
   evals <- left_join(evals, judgments, by = c("id", "ply"))
   
   # Add initial times to times_left
@@ -484,7 +491,7 @@ TidyGames <- function(games){
   
   # Add game duration (in seconds)
   # Calculated as the sum of both players' move times in the game
-  # Not the same as time of last move minus time of creation
+  # NB. This isn't the same as "time of last move" - "time of game creation"
   games <- games %>% 
     mutate(duration = map_dbl(times, ~ sum(.x,  na.rm = T))) %>%
     mutate(duration_w = map_dbl(times, ~ sum(.x[c(T,F)],  na.rm = T))) %>% 
@@ -498,7 +505,7 @@ TidyGames <- function(games){
   nested_evals <- evals %>% 
     mutate(game_id = id) %>% 
     group_by(id) %>% 
-    nest()
+    tidyr::nest_legacy() # probably doesn't make a difference
   
   # Define function for adding movetimes and calculating CPLs
   add_movetimes_and_cpls <- function(nested_data, times, times_left){
@@ -534,9 +541,9 @@ TidyGames <- function(games){
   
   games <- as_tibble(games)
   
-  # Remove unnecessary variables from data
+  # Remove unnecessary variables from tidied games data
   games <- games %>% 
-    select(-starts_with("analysis")) %>% 
+    select(-starts_with("analysis")) %>% # don't need old eval cols any more
     select(-c(clock.totalTime, createdAt, lastMoveAt))
 
   toc(log = TRUE)
@@ -1188,7 +1195,6 @@ SaveSeasonData <- function(league_choice, seasons){
         }
       }
     }
-    
     
     # Get league games and pairings data
     games_pairings <- LeagueGames(league_choice = league, 
