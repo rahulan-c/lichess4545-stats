@@ -269,9 +269,9 @@ colnames(statuses) <- c("league", "season", "round", "starts", "ends", "reg_link
 # variable
 statuses <- statuses %>% 
   mutate(status = case_when(
-    active == TRUE ~ paste0("Mid-season: Season ", season, " will end on ", ends, "."),
-    preseason == TRUE ~ paste0("Pre-season: season ", season, " will start on ", starts, "."),
-    postseason == TRUE ~ paste0("Post-season: season ", season, " has ended, but registrations for the next season aren't open yet."),
+    active == TRUE ~ paste0("Active - Season ", season, " is ongoing and will end on ", ends, "."),
+    preseason == TRUE ~ paste0("Currently off-season. Season ", season, " will start on ", starts, "."),
+    postseason == TRUE ~ paste0("Currently off-season. Season ", season, " has ended, but registrations for the next season aren't open yet."),
     TRUE ~ NA_character_
   ))
 
@@ -307,7 +307,7 @@ status_tbl <-
   ) %>% 
   tab_source_note(
     md(
-      "Community leagues: **Infinite Quest** is going strong, **Series** (90+30) is on Season 25 (ends May 2024), and the last season of **Rapid Battle** ended in October 2023. To find out more about all our leagues, check out the [Lichess4545 overview](https://bit.ly/35w1xqH)."
+      "Current community leagues situation, as of August 2024: **Infinite Quest** is going strong, **Series** (90+30) is about to start its 27th season, and Rapid Battle is on hiatus (last season ended in Oct 2023). Check out the [Lichess4545 overview](https://bit.ly/35w1xqH) to learn more about these and other community leagues!"
     )
   ) # |> 
   # gtsave("league_statuses.html", inline_css = TRUE)
