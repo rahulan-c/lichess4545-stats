@@ -202,7 +202,7 @@ LeagueGames <- function(league_choice, seasons_choice, rounds_choice = NULL,
   for(l in seq(1:length(all_ids))){
     
     # Pause between batches of IDs
-    if(l > 1){Sys.sleep(4)}
+    if(l > 1){Sys.sleep(2)}
     
     batch_ids <- all_ids[[l]] %>% str_c(collapse = ",")
     
@@ -505,6 +505,7 @@ TidyGames <- function(games){
   nested_evals <- evals %>% 
     mutate(game_id = id) %>% 
     group_by(id) %>% 
+    arrange(ply) |>
     tidyr::nest_legacy() # probably doesn't make a difference
   
   # Define function for adding movetimes and calculating CPLs
