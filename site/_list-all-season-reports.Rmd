@@ -2,8 +2,8 @@
 title: "Season stats and awards"
 description: |
   Winners, stats, and awards by league and season
-output: distill::distill_article
 site: distill::distill_website
+output: distill::distill_article
 ---
 
 ```{r, include=FALSE}

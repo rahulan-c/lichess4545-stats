@@ -533,7 +533,7 @@ PlotMatchStory <- function(season_num, # season number
 
       for(u in seq(1:nrow(uf))){
         
-        cli::cli_alert_warning("Accounting for {uf$white[u]}-{uf$black[u]} {uf$result[u]}")
+        cli::cli_alert_warning("Accounting for {u}/{nrow(uf)} {uf$white[u]}-{uf$black[u]} {uf$result[u]}...")
           
         # Find where the missing games should go
         
@@ -601,7 +601,10 @@ PlotMatchStory <- function(season_num, # season number
           moves$black[moves$order == uf$order[u]][1]
         )
         
-        # print(glue::glue("{u} {uf$pregamediff[u]} {uf$postgamescore_t1[u] - uf$postgamescore_t2[u]}"))
+        print(glue::glue("{u} {uf$pregamediff[u]} {uf$postgamescore_t1[u] - uf$postgamescore_t2[u]}"))
+        
+        # bugfix 2024-12-08
+        print(glue::glue("{}"))
         
         # Add match eval
         moves$eval_scaled_match[moves$order == uf$order[u]] <- seq(

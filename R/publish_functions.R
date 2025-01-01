@@ -15,8 +15,6 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, data.table, cli, fs, glue, here, distill)
 
 
-
-
 # ---- FUNCTIONS --------------------------------------------------------------
 
 

@@ -84,8 +84,6 @@ if(scrub_cheats){
 
 #### 4545 Team League
 
-**Multiple title winners**
-
 ```{r extract_4545_podium_details, eval = TRUE}
 # Extract 1st/2nd/3rd place team names and team players from previously 
 # published season reports
@@ -217,6 +215,39 @@ if(scrub_cheats){
 
 ```
 
+```{r most_successful_4545, eval = TRUE}
+
+# Highest-finishing players overall
+success <- alltime_podiums %>% 
+  group_by(player) %>% 
+  summarise(first = sum(place == 1),
+            second = sum(place == 2),
+            third = sum(place == 3)) %>% 
+  mutate(success_score = (first * 3) + (second * 2) + (third)) %>% 
+  arrange(desc(success_score), desc(first), desc(second), desc(third))
+
+# Show table of first 20 (ish)
+success %>% 
+  slice_max(success_score, n = 20) %>% 
+  gt() %>% 
+  tab_header(title = "Most successful 4545 players",
+             subtitle = paste0("Seasons ", min(alltime_podiums$season), "-", 
+                               max(alltime_podiums$season))) %>% 
+  cols_label(
+    player = "Player",
+    first = "1st",
+    second = "2nd",
+    third = "3rd",
+    success_score = "Success 'Score'"
+  ) %>% 
+  tab_footnote(
+    footnote = "Success score = (3 * 1st-place finishes) + (2 * 2nd-place finishes) + 3rd-place finishes",
+    locations = cells_column_labels(columns = success_score)
+  ) %>% 
+  tab_source_note(
+    source_note = glue("Must have played at least {min_games} games for a team that finished the season first, second or third."))
+  
+```
 
 ```{r multiple_4545_winners, eval = TRUE}
 # Produce table of players who've won multiple 4545 season titles
@@ -266,9 +297,151 @@ gt(titles_table) %>%
 
 ```
 
-**Most successful players**
+#### LoneWolf
 
-```{r most_successful_players, eval = TRUE}
+```{r extract_lw_podium_details, eval = TRUE}
+# Extract 1st/2nd/3rd place team names and team players from previously 
+# published LW season reports
+
+## Get published season stats URLs
+season_reports_url <- "https://rahulan-c.github.io/lichess4545-stats/season_stats.html"
+season_reports <- read_html_live(season_reports_url) %>% 
+  html_nodes("table") %>% 
+  html_nodes("tr") %>% 
+  html_nodes("a") %>%
+  html_attr("href")
+
+# We only want the LW reports
+lwopen_reports <- season_reports[stringr::str_detect(season_reports, "stats_lwopen")]
+lwu1800_reports <- season_reports[stringr::str_detect(season_reports, "stats_lwu1800")]
+
+
+all_podiums <- list()
+
+# Start with LW Open
+for(s in seq(1:length(lwopen_reports))){
+  
+  url <- lwopen_reports[s]
+  season <- as.integer(str_extract(url, "(?<=_s)\\d+"))
+  
+  first <- GetPodiumPlayersFromReports(url, ".first")
+  second <- GetPodiumPlayersFromReports(url, ".second")
+  third <- GetPodiumPlayersFromReports(url, ".third")
+  prize <- GetPodiumPlayersFromReports(url, ".prize")
+  
+  podium_data <- tibble::tibble(
+    pos = c(first[1], second[1], third[1], prize[1]),
+    Winner = c(first[2], second[2], third[2], prize[2]),
+    Details= c(first[3], second[3], third[3], prize[3])
+  )
+  
+  podium_data <- podium_data %>% 
+    mutate(Award = case_when(
+      pos == "1st place" ~ "1ST PLACE - SEASON WINNER",
+      pos == "2nd place" ~ "2ND PLACE",
+      pos == "3rd place" ~ "3RD PLACE",
+      pos == "Best U1600" ~ "BEST U1600",
+      pos == "Best U2000" ~ "BEST U2000",
+      TRUE ~ NA_character_
+    ),
+    Mentions = "",
+    League = league,
+    Season = season) %>% 
+    select(League, Season, Award, Winner, Details, Mentions)
+  
+  
+  # Extract final standings table info
+  # S30 and later, extract xml_child 9
+  # S12: xml_child 8
+  # Other: xml_child 6
+  
+  if(season >= 30){
+    podium_players <- read_html(url) %>%
+      rvest::html_element("#final-standings") %>% 
+      xml_child(9) %>% 
+      html_text2() %>% 
+      parse_json()
+  } else if (season == 12){
+    podium_players <- read_html(url) %>%
+      rvest::html_element("#final-standings") %>% 
+      xml_child(8) %>% 
+      html_text2() %>% 
+      parse_json()
+  } else {
+    podium_players <- read_html(url) %>%
+      rvest::html_element("#final-standings") %>% 
+      xml_child(6) %>% 
+      html_text2() %>% 
+      parse_json()
+  }
+
+  podium_players <- as_tibble(podium_players$x$tag$attribs$data)
+  
+  gold_subset <- tibble::enframe(podium_players$Gold) %>% 
+    mutate(season = season,
+           place = 1,
+           team = first,
+           value = unlist(value),
+           games = stringr::str_extract(value, "\\([:digit:]\\)")
+    ) %>% 
+    mutate(games = stringr::str_remove(games, "\\(")) %>% 
+    mutate(games = stringr::str_remove(games, "\\)")) %>% 
+    mutate(games = as.integer(games)) %>% 
+    mutate(value = stringr::str_remove(value, "\\s\\(.+\\)")) %>% 
+    rename("player" = value) %>% 
+    select(player, season, place, team, games) %>% 
+    filter(games >= min_games)
+  
+  silver_subset <- tibble::enframe(podium_players$Silver) %>% 
+    mutate(season = season,
+           place = 2,
+           team = second,
+           value = unlist(value),
+           games = stringr::str_extract(value, "\\([:digit:]\\)")
+    ) %>% 
+    mutate(games = stringr::str_remove(games, "\\(")) %>% 
+    mutate(games = stringr::str_remove(games, "\\)")) %>% 
+    mutate(games = as.integer(games)) %>% 
+    mutate(value = stringr::str_remove(value, "\\s\\(.+\\)")) %>% 
+    rename("player" = value) %>% 
+    select(player, season, place, team, games) %>% 
+    filter(games >= min_games)
+  
+  bronze_subset <- tibble::enframe(podium_players$Bronze) %>% 
+    mutate(season = season,
+           place = 3,
+           team = third,
+           value = unlist(value),
+           games = stringr::str_extract(value, "\\([:digit:]\\)")
+    ) %>% 
+    mutate(games = stringr::str_remove(games, "\\(")) %>% 
+    mutate(games = stringr::str_remove(games, "\\)")) %>% 
+    mutate(games = as.integer(games)) %>% 
+    mutate(value = stringr::str_remove(value, "\\s\\(.+\\)")) %>% 
+    rename("player" = value) %>% 
+    select(player, season, place, team, games) %>% 
+    filter(games >= min_games)
+  
+  all_podiums[[s]] <- rbind(gold_subset, silver_subset, bronze_subset)
+  
+  cli::cli_alert_success("Extracted podium team/player data for 4545 S{season}")
+  
+  Sys.sleep(0.2)
+  
+}
+
+# Compile into single dataset
+alltime_podiums <- data.table::rbindlist(all_podiums) %>% tibble::as_tibble()
+
+# Remove Lichess ToS violators from compiled data
+if(scrub_cheats){
+  alltime_podiums <- alltime_podiums %>% 
+    filter(!(str_to_lower(player) %in% str_to_lower(tos_violators)))
+}
+
+```
+
+```{r most_successful_4545, eval = TRUE}
 
 # Highest-finishing players overall
 success <- alltime_podiums %>% 
@@ -302,9 +475,53 @@ success %>%
   
 ```
 
-#### LoneWolf
+```{r multiple_4545_winners, eval = TRUE}
+# Produce table of players who've won multiple 4545 season titles
 
-TBC
+multiple_titles <- alltime_podiums %>% 
+  filter(place == 1) %>% 
+  group_by(player) %>% 
+  summarise(titles = n()) %>% 
+  # filter(titles > 1) %>% 
+  arrange(desc(titles))
+
+# Show table of multiple title winners
+# Format: titles, players
+titles_range <- sort(unique(multiple_titles$titles),
+                     decreasing = T)
+titles_table <- tibble::tibble(
+  titles = titles_range,
+  players = rep(NA_character_, length(titles_range))
+)
+for(t in titles_range){
+  players <- multiple_titles %>% 
+    filter(titles == t) %>% 
+    select(player) %>% 
+    dplyr::pull()
+  if(t == 1){
+    # players <- paste0("(", length(players), " players")
+    players <- glue::glue("({length(players)} players - too many to list)")
+  } else {
+    # players <- paste0(length(players), " player(s): ",
+    #                   str_c(players, collapse = ", "))
+    players <- glue::glue("{str_c(players, collapse = ', ')}")
+  }
+  titles_table$players[which(titles_range == t)] <- players
+}
+
+gt(titles_table) %>%
+  tab_header(title = "Most 4545 titles",
+             subtitle = paste0("Seasons ", min(alltime_podiums$season), "-", 
+                               max(alltime_podiums$season))
+             ) %>%
+  cols_label(
+    titles = "Titles",
+    players = "Players",
+  ) %>% 
+  tab_source_note(
+    source_note = glue("Must have played at least {min_games} games for a title-winning team."))
+
+```
 
 #### Chess960
 

@@ -33,6 +33,10 @@ reports_md <- str_c(reports_md, collapse = ", ")
 
 ```
 
+### Season 41 (Sep 2024 - Nov 2024)
+
+[R1](reports/stories/s41_r1_allmatches.pdf) | [R2](reports/stories/s41_r2_allmatches.pdf) | [R3](reports/stories/s41_r3_allmatches.pdf) | [R4](reports/stories/s41_r4_allmatches.pdf) | [R5](reports/stories/s41_r5_allmatches.pdf) | [R6](reports/stories/s41_r6_allmatches.pdf) | [R7](reports/stories/s41_r7_allmatches.pdf) | [R8](reports/stories/s41_r8_allmatches.pdf)
+
 ### Season 40 (Jun 2024 - Aug 2024)
 
 [R1](reports/stories/s40_r1_allmatches.pdf) | [R2](reports/stories/s40_r2_allmatches.pdf) | [R3](reports/stories/s40_r3_allmatches.pdf) | [R4](reports/stories/s40_r4_allmatches.pdf) | [R5](reports/stories/s40_r5_allmatches.pdf) | [R6](reports/stories/s40_r6_allmatches.pdf) | [R7](reports/stories/s40_r7_allmatches.pdf) | [R8](reports/stories/s40_r8_allmatches.pdf)

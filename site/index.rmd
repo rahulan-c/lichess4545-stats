@@ -377,6 +377,7 @@ Other stuff
 <br>
 <br>
 
+
 <!-- bottom element: league status table -->
 
 <div class="index-row-narrow l-page">
@@ -384,6 +385,8 @@ Other stuff
 `r status_tbl`
   <!-- </div> -->
   </div> <!-- closes line 385 -->
+
+
   
 <!-- Show date when page was last updated -->
 

@@ -475,7 +475,7 @@ if(lw_hide){cat("-->")}
 
 
 ```{r, eval = ifelse(league == "team4545", TRUE, FALSE)}
-# Show 4545 podium team players in a reactable tabl
+# Show 4545 podium team players in a reactable table
 winners <- PodiumTeamPlayers(positions, games, league, season)
 
 reactable(winners,
@@ -494,7 +494,7 @@ reactable(winners,
 
 ####  How the title race played out
 
-```{r position_tracker, out.width="90%", fig.align="center"}
+```{r position_tracker, fig.align="center"}
 # Team/player position tracker
 position_tracker <- SeasonRankTracker(league, positions, league_col_dark)
 position_tracker

@@ -12,15 +12,9 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, knitr)
 ```
 
-#### Future ideas
+### Latest updates
 
-Things that may be done tomorrow, next week, next month, next year...
-
-- Stats for community leagues such as **Series** and **Rapid Battle**
-- All-time stats, records and trivia 
-- Stats for ongoing seasons
-- Stats by theme: eg openings, endgames...
-
+-  2024-08-19: Compiled and published latest season reports; updated [league PGNs](https://rahulan-c.github.io/lichess4545-stats/season_stats.html#pgns).
 
 ### Contact me {#contact}
 
@@ -66,4 +60,18 @@ Please use the form below to provide any comments, suggestions or bug reports.
   <p><small>(Powered by <a rel="nofollow" href="https://un-static.com/">Un-static Forms</a>)</small></p>
 </div>
 ```
+
+<!-- Show date when page was last updated -->
+
+## Last updated on {.appendix}
+```{r,echo=FALSE}
+day_month_year <- function(x, abbr = FALSE) {
+  if(all(lubridate::is.Date(x) || lubridate::is.POSIXt(x))) {
+  glue::glue("{lubridate::day(x)} {lubridate::month(x, label = TRUE, abbr = abbr)} {lubridate::year(x)}")
+  } else
+    stop("Input vector must be Date or POSIX format.")
+}
+day_month_year(Sys.Date(), abbr = TRUE)
+```
+
 

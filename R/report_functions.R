@@ -467,34 +467,30 @@ PodiumTeamPlayers <- function(positions, games, league, season){
 
 SeasonRankTracker <- function(league = league, positions = positions, league_col_dark = league_col_dark) {
   if(league == "team4545"){
+    
     top_places <- positions %>% 
       filter(round == 8) %>% 
       arrange(rank) %>% 
       filter(rank <= 5) %>% 
       dplyr::pull(team)
+    
     position_tracker <- positions %>% 
       mutate(round = as.factor(round)) %>% 
       ggplot(aes(x = round, y = rank, colour = team)) +
-      geom_line(aes(group = team), size = 2.5) +
-      # geom_point(aes(group = team), size = 2) +
+      geom_line(aes(group = team), linewidth = 2.5) +
       theme_minimal() +
-      # scale_y_reverse(limits = c(20, 1), breaks = integer_breaks()) +
       scale_y_reverse(limits = c(max(positions$rank), 1), breaks = floor(seq(max(positions$rank), 1, length.out = 4))) +
       scale_x_discrete(expand = expansion(add = c(0.1, 0.1))) +
       scale_color_manual(values = c("#ffd700", "#7b7b7b", "#cd7f32", "#a6c7ff", "#d9e7ff"),
                          breaks = c(top_places),
                          labels = c(top_places)) +
-      gghighlight::gghighlight(team %in% top_places, use_direct_label = F,
-                               unhighlighted_params = list(colour = alpha("grey", 0.1)),
-                               label_params = list(size = 4, 
-                                                   nudge_x = -1, 
-                                                   nudge_y = -15, 
-                                                   direction = "y",
-                                                   fill = "white",
-                                                   colour = "black")) +
+      gghighlight::gghighlight(
+        team %in% top_places,
+        use_direct_label = F,
+        unhighlighted_params = list(colour = alpha("grey", 0.1)
+      )) +
       labs(x = "Round",
            y = "Rank after each round") +
-      theme(legend.position = "top") +
       theme(panel.grid.minor = element_blank()) +
       theme(
         legend.position = c(0.5, 0.3),
@@ -554,7 +550,7 @@ SeasonRankTracker <- function(league = league, positions = positions, league_col
       scale_y_reverse(limits = c(20, 1), breaks = c(1, 10, 20, 30, 40, 50)) +
       scale_x_discrete(expand = expansion(add = c(0.1, 0.1))) +
       gghighlight::gghighlight(player %in% top_places, use_direct_label = F,
-                               unhighlighted_params = list(colour = alpha("grey", 0.1)),
+                               unhighlighted_params = list(colour = alpha("red", 0.1)),
                                label_params = list(size = 4, nudge_x = 2, nudge_y = 0, direction = "y")) +
       labs(x = "Round",
            y = "Rank before round") +
