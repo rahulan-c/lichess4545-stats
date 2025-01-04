@@ -846,20 +846,20 @@ SaveLeaguePGN <- function(leagues){
 # datasets for 4545, LW and Chess960
 
 # # 4545
-# CompileCombinedData(league_choice = "team4545")
-# SaveLeaguePGN("team4545") # took 2m 17s for S2-S40 (2024-08-19)
+CompileCombinedData(league_choice = "team4545")
+SaveLeaguePGN("team4545") # took 2m 23s for S2-S41 (2025-01-04)
 # 
 # # LW Open
-# CompileCombinedData(league_choice = "lwopen")
-# SaveLeaguePGN("lwopen") # took 1m 00s for S1-S33 (2024-08-19)
+CompileCombinedData(league_choice = "lwopen")
+SaveLeaguePGN("lwopen") # took 1m 1s for S1-S34 (2025-01--04)
 #
 # # LW U1800
-# CompileCombinedData(league_choice = "lwu1800")
-# SaveLeaguePGN("lwu1800") # took 0m 27s for S9-S33 (2024-08-19)
+CompileCombinedData(league_choice = "lwu1800")
+SaveLeaguePGN("lwu1800") # took 0m 29s for S9-S34 (2025-01-04)
 
 # Chess960
-# CompileCombinedData(league_choice = "chess960")
-# SaveLeaguePGN("chess960") # took 0m 11s for S1-S31 (2024-08-19)
+CompileCombinedData(league_choice = "chess960")
+SaveLeaguePGN("chess960") # took 0m 11s for S1-S32 (2025-01-04)
 
 # # Update all-seasons Series games data (.rds)
 # UpdateAllSeriesGames(series_sheets)

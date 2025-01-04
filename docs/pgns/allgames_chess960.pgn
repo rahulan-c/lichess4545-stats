@@ -58841,6 +58841,5314 @@ exd5 9. cxd5 Qc8 10. Nf5 Nxf5 11. Bxf5 Qd8 12. e4 Nf6 13. a4 g6 14. Bh3 O-O 15.
 Qf3 Nh5 16. Bg4 Ng7 17. Bf6 Qc7 18. Qc3 Nh5 19. Bxh5 gxh5 20. Qg3# 1-0
 
 [Event "Rated Chess960 game"]
+[Site "https://lichess.org/gVhwSd2U"]
+[Date "2024.10.27"]
+[Round "?"]
+[White "Hallokayjansen"]
+[Black "HeartOfStone"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1723"]
+[BlackRatingDiff "+5"]
+[ECO "?"]
+[FEN "bnnrkbqr/pppppppp/8/8/8/8/PPPPPPPP/BNNRKBQR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.27"]
+[UTCTime "13:57:02"]
+[Variant "Chess960"]
+[WhiteElo "1586"]
+[WhiteRatingDiff "-21"]
+
+1. b3 f6 2. g3 e5 3. e4 b6 4. Bg2 Nc6 5. Ne2 Nb4 6. Na3 Nxa2 7. Nb5 Bd6 8. d4
+a6 9. Nxd6+ cxd6 10. f4 Nb4 11. Rd2 Qe6 12. d5 Qe7 13. c3 Nc6 14. dxc6 dxc6 15.
+Qe3 b5 16. O-O O-O 17. f5 a5 18. g4 Kh8 19. Kh1 c5 20. c4 bxc4 21. bxc4 Bc6 22.
+Nc3 Nb6 23. Qe2 Ra8 24. Rfd1 Rfd8 25. Nd5 Bxd5 26. exd5 Qa7 27. Ra2 Qa6 28. Bf1
+Rd7 29. Bc3 a4 30. Rda1 Rda7 31. h4 Qc8 32. Bd2 Qd7 33. Qf2 Qe8 34. g5 Qd8 35.
+Ra3 Qe7 36. Be2 Qe8 37. Qf1 Qd8 38. Bd1 Qd7 39. Bc2 Qe8 40. Bc1 Qh5 41. Rh3 Qe8
+42. Ba3 Qh5 43. Bd1 Qe8 44. Be2 Qd8 45. Qg2 Qe7 46. Rg1 Qf8 47. Rg3 Rb8 48. h5
+Qe8 49. h6 fxg5 50. hxg7+ Rxg7 51. Rxg5 Rxg5 52. Qxg5 Qf8 53. f6 Rb7 54. Qf5
+Rf7 55. Rf1 Qh6+ 56. Kg1 Nd7 57. Bc1 Qxf6 58. Qxf6+ Rxf6 59. Rxf6 Nxf6 60. Kf2
+Ne4+ 61. Ke3 Nc3 62. Kd3 Nxe2 63. Kxe2 h5 64. Kf3 Kg7 65. Ke4 Kg6 66. Kf3 Kf5
+67. Ke3 Kg4 68. Ke4 h4 69. Ke3 Kg3 70. Ke2 Kg2 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/Mxl6tkZv"]
+[Date "2024.10.27"]
+[Round "?"]
+[White "wasileios"]
+[Black "FiveKnights"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1798"]
+[BlackRatingDiff "+7"]
+[ECO "?"]
+[FEN "rqbnnbkr/pppppppp/8/8/8/8/PPPPPPPP/RQBNNBKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.27"]
+[UTCTime "10:00:30"]
+[Variant "Chess960"]
+[WhiteElo "1608"]
+[WhiteRatingDiff "-17"]
+
+1. g3 d5 2. b3 Nf6 3. Bb2 c6 4. Bg2 e5 5. c4 Bc5 6. cxd5 cxd5 7. O-O Nc6 8. Nd3
+Bb6 9. Nc3 Be6 10. e4 d4 11. Ne2 Bg4 12. f3 Bh5 13. Qe1 O-O 14. Kh1 Nd7 15. f4
+Nc5 16. Nxc5 Bxc5 17. fxe5 Qxe5 18. d3 Bb4 19. Qd1 f5 20. a3 Bd6 21. Qc2 Rac8
+22. Nf4 Ne7 23. Qd2 fxe4 24. Bxe4 Bg6 25. Nxg6 Nxg6 26. Rac1 Qh5 27. Rxc8 Rxc8
+28. Bxb7 Re8 29. Bf3 Qh3 30. Bd5+ Kh8 31. Bc6 Qxf1# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/3t1184DA"]
+[Date "2024.10.26"]
+[Round "?"]
+[White "RSInternecio"]
+[Black "scrooge"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2044"]
+[BlackRatingDiff "-5"]
+[ECO "?"]
+[FEN "rnbnqkrb/pppppppp/8/8/8/8/PPPPPPPP/RNBNQKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.26"]
+[UTCTime "17:03:21"]
+[Variant "Chess960"]
+[WhiteElo "2108"]
+[WhiteRatingDiff "+23"]
+
+1. d4 d5 2. Ndc3 c6 3. e4 dxe4 4. Nxe4 Bf5 5. Nbc3 Ne6 6. Be3 Nd7 7. g4 Bxe4 8.
+Nxe4 g6 9. Qc3 Nb6 10. O-O-O Nd5 11. Qb3 Qc8 12. h4 Ndf4 13. Bf3 Qc7 14. Nc5
+Nxc5 15. dxc5 O-O 16. Bd4 Bxd4 17. Rxd4 Ne6 18. Rc4 Rfd8 19. Qe3 Rd7 20. g5 Ng7
+21. Bg4 Rd5 22. Re1 Re8 23. Re4 Kf8 24. Qc3 Qh2 25. Bf3 Rd7 26. h5 gxh5 27. Rh1
+Qxf2 28. Rxh5 Kg8 29. Rh1 Qg3 30. Rg4 Qf2 31. Rgh4 e5 32. Rxh7 Kf8 33. Rh8+ Ke7
+34. Rxe8+ Nxe8 35. Qxe5+ Kd8 36. Re1 Qxf3 37. Qb8# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/FiOmzzhh"]
+[Date "2024.10.26"]
+[Round "?"]
+[White "SycoraxCirce"]
+[Black "yellorambo"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1812"]
+[BlackRatingDiff "+58"]
+[ECO "?"]
+[FEN "qbrnbkrn/pppppppp/8/8/8/8/PPPPPPPP/QBRNBKRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.26"]
+[UTCTime "12:30:57"]
+[Variant "Chess960"]
+[WhiteElo "1904"]
+[WhiteRatingDiff "-10"]
+
+1. c4 Ng6 2. d4 c5 3. Ng3 cxd4 4. b3 Nc6 5. O-O O-O 6. Bd2 Be5 7. Bd3 Qb8 8.
+Qb1 f6 9. e3 Bf7 10. b4 a6 11. b5 dxe3 12. Nxe3 Nd4 13. b6 e6 14. Rfd1 f5 15.
+Ngf1 Nf4 16. Re1 Bh5 17. Ng3 Nxd3 18. Qxd3 Qd6 19. Qb1 Bg6 20. f4 Bxf4 21. Bb4
+Bxe3+ 22. Rxe3 Qf4 23. Qd3 Rfd8 24. Rf1 Qh4 25. Be1 Qf6 26. Bc3 e5 27. Bxd4
+exd4 28. Ref3 Qxb6 29. Nxf5 Kh8 30. Qxd4 Qxd4+ 31. Nxd4 h6 32. Rc1 Rf8 33. Rfc3
+Rf4 34. Nf3 Rc5 35. g3 Re4 36. Rd1 Bf5 37. Rd4 Re2 38. Rd2 Re4 39. Rd4 Re2 40.
+Rd2 Rxd2 41. Nxd2 b5 42. Rf3 Be6 43. cxb5 axb5 44. a3 Rc2 45. Rd3 Bf5 46. Rd5
+Bh3 47. Kf2 Ra2 48. Rd3 Bf5 49. Rd5 Be6 50. Rd3 Kg8 51. Ke3 Kf8 52. h4 Ke7 53.
+Rc3 d5 54. Nf3 Rg2 55. Kf4 Kd6 56. Nd4 Bd7 57. Kf3 Rd2 58. Ne2 h5 59. Nf4 Bg4+
+60. Ke3 Rd1 61. Rb3 Kc5 62. Nd3+ Kc4 63. Rb4+ Kc3 64. Nf4 d4+ 65. Ke4 Re1+ 66.
+Kd5 Bf3+ 67. Kd6 d3 68. Nxd3 Kxd3 69. Rxb5 Kc4 70. Rg5 Ra1 71. Rxg7 Rxa3 72.
+Ke5 Ra8 73. Kf4 Rf8+ 74. Kg5 Bg4 75. Rh7 Kd4 76. Ra7 Rf5+ 77. Kg6 Rf3 78. Ra4+
+Ke3 79. Ra2 Rxg3 80. Ra5 Rf3 81. Ra3+ Kf2 82. Ra5 Kg3 83. Kg5 Re3 84. Rc5 Kh3
+85. Ra5 Rg3 86. Ra1 Bf3+ 87. Kf4 Bg2 88. Ra5 Rg4+ 89. Ke3 Rxh4 90. Rg5 Kh2 91.
+Kf2 Rf4+ 92. Ke3 Rf3+ 93. Ke2 h4 94. Rg7 h3 95. Ra7 Rf1 96. Rg7 Kg1 97. Rh7 h2
+98. Rh6 h1=Q 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/saF59Rqj"]
+[Date "2024.10.25"]
+[Round "?"]
+[White "kamelstekspizza"]
+[Black "j3084"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1721"]
+[BlackRatingDiff "+13"]
+[ECO "?"]
+[FEN "qnrkbrnb/pppppppp/8/8/8/8/PPPPPPPP/QNRKBRNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.25"]
+[UTCTime "20:02:18"]
+[Variant "Chess960"]
+[WhiteElo "1448"]
+[WhiteRatingDiff "-11"]
+
+1. Nc3 Nc6 2. Nf3 g6 3. d3 Bg7 4. g3 Nf6 5. Bd2 d6 6. Bg2 Bd7 7. O-O O-O 8.
+Rfe1 Rce8 9. a3 Qc8 10. e4 Ng4 11. Nd1 Nce5 12. Ne3 Nxf3+ 13. Bxf3 Ne5 14. Bg2
+Bh3 15. d4 Bxg2 16. Kxg2 Nd7 17. c3 c5 18. d5 Ne5 19. Qb1 c4 20. Rf1 Nd3 21.
+Rcd1 e6 22. Nc2 exd5 23. exd5 Re5 24. Nb4 Rh5 25. h4 Ne5 26. Be3 Rxh4 27. Rh1
+Rxh1 28. Rxh1 Qg4 29. Rh4 Qf3+ 30. Kf1 a5 31. Nc2 Ng4 32. Qe1 Bf6 33. Rh3 Re8
+34. Qe2 Qf5 35. Qd2 Nxe3+ 36. Nxe3 Qxh3+ 37. Kg1 Bg5 38. Qe1 Bxe3 39. fxe3 Re5
+40. Qf2 Rg5 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/540cxOCU"]
+[Date "2024.10.25"]
+[Round "?"]
+[White "Magagna"]
+[Black "LuzhinAcademy"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1900"]
+[BlackRatingDiff "+5"]
+[ECO "?"]
+[FEN "brnbnkqr/pppppppp/8/8/8/8/PPPPPPPP/BRNBNKQR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.25"]
+[UTCTime "18:01:36"]
+[Variant "Chess960"]
+[WhiteElo "2008"]
+[WhiteRatingDiff "-11"]
+
+1. b3 b5 2. Nf3 Ncd6 3. h4 Nf6 4. h5 h6 5. Nd3 Nde4 6. e3 c5 7. Be2 Bc7 8. Be5
+Bxe5 9. Ndxe5 d6 10. Nd3 Qh7 11. g4 O-O 12. Nde1 Bc6 13. Rh2 a5 14. Bd3 d5 15.
+Rd1 c4 16. Bxe4 dxe4 17. Nd4 Bd7 18. g5 hxg5 19. Qxg5 Bg4 20. Rb1 Bxh5 21. Nc6
+Rbe8 22. Nxa5 cxb3 23. Rxb3 e5 24. Kg1 Rd8 25. d3 exd3 26. Nxd3 Qe4 27. Rxh5
+Nxh5 28. Qxh5 Rd6 29. Qxe5 Qg4+ 30. Kf1 Qd1+ 31. Ne1 Rh6 32. Qe4 Rd8 33. Rd3
+Rxd3 34. cxd3 Qd2 35. Qe8+ Kh7 36. Qe4+ g6 37. Qf3 Qxa5 38. Qxf7+ Kh8 39. Qf8+
+Kh7 40. Qf7+ Kh8 41. Qf8+ Kh7 42. Qf7+ 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/f9pcAFwK"]
+[Date "2024.10.25"]
+[Round "?"]
+[White "Redpartot"]
+[Black "netvoyne"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1408"]
+[BlackRatingDiff "-12"]
+[ECO "?"]
+[FEN "rkbnrnqb/pppppppp/8/8/8/8/PPPPPPPP/RKBNRNQB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Time forfeit"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.25"]
+[UTCTime "16:03:01"]
+[Variant "Chess960"]
+[WhiteElo "1676"]
+[WhiteRatingDiff "+3"]
+
+1. d4 g6 2. f4 d6 3. e4 f5 4. e5 Be6 5. Nc3 c6 6. Be3 dxe5 7. dxe5 Nd7 8. a3
+Nf7 9. O-O-O Nfxe5 10. fxe5 Bxe5 11. Bd4 Bf4+ 12. Kb1 b6 13. g3 Bd6 14. Bxc6
+Rc8 15. Qg2 Nc5 16. Bxa8 Rc7 17. Bd5 Ne4 18. Bxe4 fxe4 19. Qxe4 Rxc3 20. Bxc3
+Ba2+ 21. Ka1 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/jp8o3AwJ"]
+[Date "2024.10.25"]
+[Round "?"]
+[White "Zubenelgenubi"]
+[Black "Grizzzly1000"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1735"]
+[BlackRatingDiff "+20"]
+[ECO "?"]
+[FEN "rkqnrnbb/pppppppp/8/8/8/8/PPPPPPPP/RKQNRNBB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.25"]
+[UTCTime "15:12:15"]
+[Variant "Chess960"]
+[WhiteElo "1629"]
+[WhiteRatingDiff "-12"]
+
+1. g3 Nc6 2. f4 f5 3. e4 fxe4 4. Bxe4 d5 5. Bg2 Nd7 6. d3 e5 7. Nc3 exf4 8.
+Rxe8 Qxe8 9. Qxf4 Qe1+ 10. Qc1 Qxc1+ 11. Kxc1 Nf6 12. Kd2 O-O-O 13. Re1 g6 14.
+Bh3+ Kb8 15. Be6 Bxe6 16. Rxe6 Kc8 17. Re1 Ng4 18. h3 Nge5 19. Nh2 a6 20. Rf1
+b5 21. Ne2 Bg7 22. Nd4 Nxd4 23. Bxd4 Nc4+ 24. dxc4 Bxd4 25. c3 Be5 26. cxb5
+Bxg3 27. Ng4 axb5 28. Rf7 h5 29. Ne3 d4 30. cxd4 Rxd4+ 31. Ke2 Rf4 32. Rg7 Rf2+
+33. Kd3 Rxb2 34. Rxg6 h4 35. Ra6 Rh2 36. Ra8+ Kb7 37. Rg8 Rxh3 38. Kc2 Rh2+ 39.
+Kb3 Be1 40. Nf5 Rf2 41. Nxh4 c5 42. Rg1 c4+ 43. Ka3 Bc3 44. Rg2 Rf8 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/YwHlf5IV"]
+[Date "2024.10.24"]
+[Round "?"]
+[White "FunnyLikeAClown"]
+[Black "AACtrl"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1724"]
+[BlackRatingDiff "+21"]
+[ECO "?"]
+[FEN "rbqnbkrn/pppppppp/8/8/8/8/PPPPPPPP/RBQNBKRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.24"]
+[UTCTime "17:01:23"]
+[Variant "Chess960"]
+[WhiteElo "1785"]
+[WhiteRatingDiff "-29"]
+
+1. c4 Ng6 2. d4 c5 3. d5 Bxh2 4. Bc3 d6 5. Ng3 Bxg1 6. Kxg1 b5 7. Bxg7+ Kxg7 8.
+Nh5+ Kh8 9. Qh6 f6 10. Ne3 Nf7 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/GXCoi5RM"]
+[Date "2024.10.24"]
+[Round "?"]
+[White "sterpfi"]
+[Black "Alvaro64"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1906"]
+[BlackRatingDiff "+8"]
+[ECO "?"]
+[FEN "bqnnrkrb/pppppppp/8/8/8/8/PPPPPPPP/BQNNRKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.24"]
+[UTCTime "10:02:03"]
+[Variant "Chess960"]
+[WhiteElo "2065"]
+[WhiteRatingDiff "-6"]
+[WhiteTitle "FM"]
+
+1. b4 e5 2. d4 Nc6 3. d5 N6e7 4. c4 g6 5. Nd3 d6 6. f4 b5 7. fxe5 O-O 8. exd6
+cxd6 9. Bxh8 Kxh8 10. Qb2+ Kg8 11. g3 Nb6 12. Ne3 Nxc4 13. Nxc4 bxc4 14. Nf4
+Qb6 15. e4 Nxd5 16. Nxd5 Bxd5 17. Qf2 Qxf2+ 18. Kxf2 Be6 19. Ke3 Rb8 20. a3 a5
+21. Rb1 axb4 22. Rxb4 Rxb4 23. axb4 Kg7 24. Kd4 Ra8 25. e5 dxe5+ 26. Kxe5 Rb8
+27. Rb1 c3 28. Rc1 Rxb4 29. Rxc3 Rb2 30. h4 Rb3 31. Rxb3 Bxb3 32. g4 f6+ 33.
+Kf4 Kf7 34. g5 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/qGjcgNEY"]
+[Date "2024.10.24"]
+[Round "?"]
+[White "chatakkuma"]
+[Black "Mennonite"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1879"]
+[BlackRatingDiff "-11"]
+[ECO "?"]
+[FEN "qbbrknnr/pppppppp/8/8/8/8/PPPPPPPP/QBBRKNNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.24"]
+[UTCTime "01:00:11"]
+[Variant "Chess960"]
+[WhiteElo "1941"]
+[WhiteRatingDiff "+12"]
+
+1. d4 b5 2. Nf3 Nf6 3. a4 b4 4. a5 Ba6 5. Qa4 Qb7 6. Ng3 Ne6 7. Bd2 c5 8. dxc5
+Bb5 9. Qxb4 Nd5 10. Qa3 O-O 11. b3 Ndf4 12. c4 Bc6 13. O-O h5 14. a6 Qc7 15.
+Ba5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/w07BJton"]
+[Date "2024.10.20"]
+[Round "?"]
+[White "yellorambo"]
+[Black "root2"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2026"]
+[BlackRatingDiff "-19"]
+[ECO "?"]
+[FEN "brqkrbnn/pppppppp/8/8/8/8/PPPPPPPP/BRQKRBNN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.20"]
+[UTCTime "19:01:57"]
+[Variant "Chess960"]
+[WhiteElo "1726"]
+[WhiteRatingDiff "+86"]
+
+1. e4 e5 2. Nf3 Bc5 3. b4 Bd6 4. d4 Ng6 5. Bc4 Nh6 6. Ng3 b5 7. Bb3 exd4 8.
+Bxd4 O-O 9. O-O c5 10. bxc5 Bxc5 11. Qe3 d6 12. Rfe1 Kh8 13. c3 Qc7 14. Qg5 f6
+15. Qd2 Rfe8 16. Bd5 a6 17. Bxf6 Ng4 18. Bd4 N4e5 19. Ng5 Bxd5 20. exd5 Nc4 21.
+Qc2 Bxd4 22. cxd4 Nf8 23. Ne6 Qf7 24. Qe2 Nb6 25. Qe4 Nxd5 26. Ng5 Rxe4 27.
+Nxf7+ Kg8 28. Nxe4 Kxf7 29. Nxd6+ Kg6 30. Re5 Nc3 31. Rb3 Nxa2 32. Rg3+ Kf6 33.
+Rf3+ Kg6 34. Ne8 b4 35. Rxf8 b3 36. Re6+ Kg5 37. h4+ Kxh4 38. Rf5 g5 39. Ng7
+Nc3 40. Rh6+ Kg4 41. f3+ Kg3 42. Rh3# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/vUFTbQcz"]
+[Date "2024.10.19"]
+[Round "?"]
+[White "scrooge"]
+[Black "Magagna"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2052"]
+[BlackRatingDiff "-44"]
+[ECO "?"]
+[FEN "rnbbqkrn/pppppppp/8/8/8/8/PPPPPPPP/RNBBQKRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.19"]
+[UTCTime "18:03:12"]
+[Variant "Chess960"]
+[WhiteElo "2038"]
+[WhiteRatingDiff "+6"]
+
+1. d4 b6 2. e4 Ng6 3. f4 e6 4. Ng3 Bb7 5. Nc3 Bh4 6. Bf3 Nc6 7. Be3 Nge7 8. Qd2
+d5 9. O-O-O Qd7 10. Kb1 O-O-O 11. e5 Kb8 12. Nge2 Nf5 13. g4 Nxe3 14. Qxe3 Be7
+15. Ng3 Na5 16. Be2 c5 17. Rgf1 cxd4 18. Qxd4 Bc5 19. Qd2 f5 20. gxf5 exf5 21.
+Bb5 Qe6 22. Qd3 g6 23. Nce2 d4 24. c3 h5 25. h4 Bd5 26. Nc1 dxc3 27. Qxc3 Bc4
+28. Bxc4 Nxc4 29. Nb3 Na5 30. Nxc5 bxc5 31. Qxa5 Rxd1+ 32. Rxd1 Qc4 33. Rd7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/ueAwO7vK"]
+[Date "2024.10.19"]
+[Round "?"]
+[White "Alvaro64"]
+[Black "LuzhinAcademy"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1921"]
+[BlackRatingDiff "-21"]
+[ECO "?"]
+[FEN "rkqnbnrb/pppppppp/8/8/8/8/PPPPPPPP/RKQNBNRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.19"]
+[UTCTime "17:02:52"]
+[Variant "Chess960"]
+[WhiteElo "1883"]
+[WhiteRatingDiff "+23"]
+
+1. g3 g5 2. d3 f5 3. Bc3 Bxc3 4. Nxc3 e6 5. e4 Nc6 6. exf5 exf5 7. Nd5 Bf7 8.
+Nfe3 d6 9. Qd2 Qe6 10. f4 g4 11. Re1 O-O-O 12. Nxg4 fxg4 13. Rxe6 Bxe6 14.
+O-O-O Rg7 15. Re1 Bg8 16. Qc3 Rg6 17. Ne7+ Nxe7 18. Rxe7 Nd7 19. Qd4 Nb6 20.
+Be4 Rh6 21. Bf5+ Kb8 22. Qe4 Bd5 23. Re8 Bxe4 24. Rxd8+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/bTnrR46o"]
+[Date "2024.10.19"]
+[Round "?"]
+[White "RSInternecio"]
+[Black "SycoraxCirce"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1900"]
+[BlackRatingDiff "+4"]
+[ECO "?"]
+[FEN "bbnrkqrn/pppppppp/8/8/8/8/PPPPPPPP/BBNRKQRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.19"]
+[UTCTime "17:01:40"]
+[Variant "Chess960"]
+[WhiteElo "2124"]
+[WhiteRatingDiff "-16"]
+
+1. c4 c5 2. Bxh7 Bxh2 3. Bxg8 Qxg8 4. Ng3 Bxg1 5. Qxg1 Ng6 6. b3 b6 7. e4 e6 8.
+Nce2 d5 9. cxd5 exd5 10. exd5 f6 11. f3 Qxd5 12. Qe3+ Kf7 13. Kf2 Qd3 14. Qxd3
+Rxd3 15. Nc1 Rd7 16. d4 Nce7 17. Nce2 cxd4 18. Rxd4 Ne5 19. Rxd7 Nxd7 20. Nd4
+a6 21. Ndf5 Nxf5 22. Nxf5 g6 23. Nd6+ Ke7 24. Nc4 b5 25. Ne3 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/6UugqmNF"]
+[Date "2024.10.19"]
+[Round "?"]
+[White "HeartOfStone"]
+[Black "chatakkuma"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1935"]
+[BlackRatingDiff "+6"]
+[ECO "?"]
+[FEN "nrbnkbrq/pppppppp/8/8/8/8/PPPPPPPP/NRBNKBRQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.19"]
+[UTCTime "14:34:47"]
+[Variant "Chess960"]
+[WhiteElo "1726"]
+[WhiteRatingDiff "-3"]
+
+1. b3 g5 2. Bb2 Bg7 3. g3 c6 4. Bg2 Nc7 5. c4 d6 6. Nc2 e5 7. e4 f5 8. h4 g4 9.
+exf5 Bxf5 10. Be4 Bd7 11. Nde3 Nf7 12. Nf5 Bf8 13. d4 O-O-O 14. O-O Qf6 15.
+Nce3 Kb8 16. b4 d5 17. cxd5 cxd5 18. Bc2 e4 19. Bxe4 dxe4 20. Qxe4 Bxf5 21.
+Nxf5 Nd6 22. Nxd6 Bxd6 23. a3 Qf3 24. Qc2 Nd5 25. Qxh7 Bxg3 26. fxg3 Qxg3+ 27.
+Kh1 Qh3+ 28. Kg1 Rh8 29. Qe4 Qg3+ 30. Qg2 Qxg2+ 31. Kxg2 Ne3+ 32. Kg1 Nxf1 33.
+Kxf1 Rxh4 34. Kg2 Rdh8 35. Kg3 Rh3+ 36. Kxg4 Rd3 37. Kf4 Re8 38. Rg1 Rd2 39.
+Rb1 Rf2+ 40. Kg3 Rf7 41. Bc1 Rg8+ 42. Bg5 Rxg5+ 43. Kh4 Rg8 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/0SapcZH6"]
+[Date "2024.10.18"]
+[Round "?"]
+[White "ogennadi"]
+[Black "Forhavu"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1780"]
+[BlackRatingDiff "+6"]
+[ECO "?"]
+[FEN "nqbnrbkr/pppppppp/8/8/8/8/PPPPPPPP/NQBNRBKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.18"]
+[UTCTime "21:00:11"]
+[Variant "Chess960"]
+[WhiteElo "1707"]
+[WhiteRatingDiff "-65"]
+
+1. g4 d5 2. g5 e5 3. e3 c5 4. c4 Be6 5. Bg2 Qd6 6. Nc3 Nc7 7. Nb3 Be7 8. h4 b6
+9. Bh3 Bxh3 10. Rxh3 h6 11. Rg3 hxg5 12. hxg5 Bxg5 13. Rxg5 Qh6 14. Kf1 Qxg5
+15. f4 exf4 16. e4 Rh2 17. Re2 Rh1+ 18. Kf2 Qg3# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/DgzwnUBn"]
+[Date "2024.10.18"]
+[Round "?"]
+[White "RBorja1980"]
+[Black "sterpfi"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2061"]
+[BlackRatingDiff "+4"]
+[BlackTitle "FM"]
+[ECO "?"]
+[FEN "nnrqbkrb/pppppppp/8/8/8/8/PPPPPPPP/NNRQBKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.18"]
+[UTCTime "18:01:10"]
+[Variant "Chess960"]
+[WhiteElo "1728"]
+[WhiteRatingDiff "-26"]
+
+1. d4 g6 2. Nb3 b6 3. g3 c6 4. c4 f5 5. Bd2 Bg7 6. Nc3 Bf7 7. d5 O-O 8. Bf4 e5
+9. dxe6 dxe6 10. Nd2 e5 11. Be3 Be6 12. b3 f4 13. gxf4 exf4 14. Bxf4 Rxf4 15.
+Qc2 Qf6 16. Nde4 Qf8 17. e3 Rf5 18. Ng5 Bd7 19. Be4 Rxg5 20. Rxg5 Bh3+ 21. Bg2
+Bxg2+ 22. Rxg2 Nd7 23. Ke2 Ne5 24. Ne4 Qf3+ 25. Kf1 Rd8 26. Nd2 Qh3 27. Rd1 Nc7
+28. Qe4 Ne6 29. Ke2 Nc5 30. Rg3 Nxe4 31. Rxh3 Nc3+ 32. Ke1 Nd3+ 33. Kf1 Nxd1
+0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/FNESPFFM"]
+[Date "2024.10.18"]
+[Round "?"]
+[White "Redpartot"]
+[Black "kamelstekspizza"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1393"]
+[BlackRatingDiff "+55"]
+[ECO "?"]
+[FEN "rnknbbqr/pppppppp/8/8/8/8/PPPPPPPP/RNKNBBQR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.18"]
+[UTCTime "17:02:24"]
+[Variant "Chess960"]
+[WhiteElo "1690"]
+[WhiteRatingDiff "-14"]
+
+1. f4 Nbc6 2. e4 f6 3. Nbc3 e5 4. f5 Bf7 5. Bb5 Bb4 6. d3 d5 7. exd5 Bxd5 8.
+Ne3 Bf7 9. Ba4 Nd4 10. Qf1 N8c6 11. Bxc6 Nxc6 12. a3 Bc5 13. Bf2 O-O-O 14.
+O-O-O Ne7 15. Ne4 Bb6 16. g4 Nd5 17. Nxd5 Bxd5 18. Bxb6 axb6 19. Qe2 Bxe4 20.
+dxe4 Qa2 21. c3 Qb3 22. Qc2 Qb5 23. Kb1 Rxd1+ 24. Rxd1 Re8 25. c4 Qc6 26. Qd3
+Kb8 27. b4 Qa4 28. Kb2 Rf8 29. Rd2 Qc6 30. h4 Qe8 31. Qd7 Qxd7 32. Rxd7 Rg8 33.
+g5 Kc8 34. Rf7 fxg5 35. hxg5 Kd8 36. Kc3 h5 37. Kd3 h4 38. Ke3 h3 39. Kf3 Rh8
+40. Rxg7 h2 41. Rg8+ Rxg8 42. Kg2 Rxg5+ 43. Kxh2 Rg4 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/uU1f78bR"]
+[Date "2024.10.18"]
+[Round "?"]
+[White "Mennonite"]
+[Black "FunnyLikeAClown"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1807"]
+[BlackRatingDiff "-22"]
+[ECO "?"]
+[FEN "nrkbnqbr/pppppppp/8/8/8/8/PPPPPPPP/NRKBNQBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.18"]
+[UTCTime "01:01:41"]
+[Variant "Chess960"]
+[WhiteElo "1868"]
+[WhiteRatingDiff "+11"]
+
+1. f4 Nb6 2. Nb3 f5 3. Nf3 d6 4. Bxb6 axb6 5. e3 Nf6 6. Be2 Qe8 7. Bc4 e5 8.
+Bxg8 Rxg8 9. fxe5 dxe5 10. Qc4 Ra8 11. O-O Ra4 12. Qe2 g5 13. a3 g4 14. Nh4 g3
+15. hxg3 Rxg3 16. Nxf5 Rg6 17. c4 Qc6 18. d3 e4 19. Nbd4 exd3 20. Nxc6 dxe2 21.
+Nce7+ Bxe7 22. Nxe7+ Kd7 23. Nxg6 exf1=Q+ 24. Rxf1 hxg6 25. Rxf6 Rxc4 26. Rf2
+Rc1+ 27. Kh2 Re1 28. Rd2+ Ke7 29. Rd3 Ke6 30. Kg3 b5 31. b4 b6 32. Kf4 c5 33.
+bxc5 bxc5 34. Rb3 Rf1+ 35. Ke4 Ra1 36. Rxb5 Rxa3 37. Rxc5 Ra4+ 38. Kf3 Rb4 39.
+e4 Ra4 40. g4 Kf6 41. g5+ Ke6 42. Kf4 Ra1 43. Rc6+ Kf7 44. Rb6 Rf1+ 45. Ke5 Rg1
+46. Rb7+ Ke8 47. Kf6 Re1 48. e5 Re2 49. e6 Kd8 50. e7+ Ke8 51. Rb8+ Kd7 52.
+Rd8+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/7n6VU33x"]
+[Date "2024.10.17"]
+[Round "?"]
+[White "j3084"]
+[Black "AACtrl"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1702"]
+[BlackRatingDiff "+22"]
+[ECO "?"]
+[FEN "nrbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/NRBQKBNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.17"]
+[UTCTime "17:02:19"]
+[Variant "Chess960"]
+[WhiteElo "1767"]
+[WhiteRatingDiff "-46"]
+
+1. e4 e6 2. d4 d5 3. e5 c5 4. c3 Nc7 5. Qa4+ b5 6. Qd1 Be7 7. Qg4 g6 8. Nf3 h5
+9. Qg3 Nh6 10. Nb3 c4 11. Nc5 Na6 12. b4 Nxc5 13. dxc5 a5 14. Bxh6 Rxh6 15. Nd4
+Bh4 16. Qe3 Qg5 17. Qe2 axb4 18. cxb4 Qg4 19. Nc6 Ra8 20. Qb2 Bb7 21. Na5 Qe4+
+22. Kd1 Ba6 23. Rc1 Bg5 24. Rc2 d4 25. Re2 Qf4 26. g3 Qf3 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/rw0cYVbS"]
+[Date "2024.10.17"]
+[Round "?"]
+[White "netvoyne"]
+[Black "Asturc0n"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1547"]
+[BlackRatingDiff "-37"]
+[ECO "?"]
+[FEN "qrkbbrnn/pppppppp/8/8/8/8/PPPPPPPP/QRKBBRNN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.17"]
+[UTCTime "16:31:50"]
+[Variant "Chess960"]
+[WhiteElo "1357"]
+[WhiteRatingDiff "+51"]
+
+1. e4 b6 2. d3 e6 3. Nf3 Ng6 4. Bd2 Nf6 5. Ng3 d5 6. exd5 Nxd5 7. Re1 Ngf4 8.
+Ne5 Nxg2 9. Re4 Bf6 10. Bf3 Nh4 11. Bh1 Bc6 12. Re1 O-O 13. Nh5 Rbd8 14. Nxf6+
+Nxf6 15. Nxc6 Qxc6 16. Bxc6 Rd6 17. Be4 Nxe4 18. Rxe4 Rfd8 19. Rxh4 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/6Kqjog9n"]
+[Date "2024.10.17"]
+[Round "?"]
+[White "Grizzzly1000"]
+[Black "wasileios"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1632"]
+[BlackRatingDiff "-24"]
+[ECO "?"]
+[FEN "nrkqbrnb/pppppppp/8/8/8/8/PPPPPPPP/NRKQBRNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.17"]
+[UTCTime "15:01:21"]
+[Variant "Chess960"]
+[WhiteElo "1712"]
+[WhiteRatingDiff "+23"]
+
+1. g3 Nf6 2. d4 d5 3. Bd2 Bb5 4. Nf3 Nb6 5. Ne5 Nc4 6. Nxc4 Bxc4 7. Nb3 Qd7 8.
+Nc5 Qb5 9. a4 Qb6 10. b3 Ba6 11. Bg5 Qc6 12. Bxf6 exf6 13. Nxa6 bxa6 14. Qd2
+O-O 15. O-O Qe6 16. Rfe1 f5 17. Qa5 g6 18. Bxd5 Qd6 19. e3 Rfc8 20. Bc4 c5 21.
+Qxa6 Rb6 22. Qxc8+ Kg7 23. Qxc5 Qf6 24. Qe5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/Mj6XqNWF"]
+[Date "2024.10.13"]
+[Round "?"]
+[White "root2"]
+[Black "Grizzzly1000"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1722"]
+[BlackRatingDiff "-10"]
+[ECO "?"]
+[FEN "nrkrbnqb/pppppppp/8/8/8/8/PPPPPPPP/NRKRBNQB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.13"]
+[UTCTime "17:01:33"]
+[Variant "Chess960"]
+[WhiteElo "2017"]
+[WhiteRatingDiff "+4"]
+
+1. f4 Nb6 2. Nb3 d5 3. d3 g6 4. Bf2 Ne6 5. g3 Ba4 6. Re1 f5 7. Nfd2 Qg7 8. Nf3
+Qh6 9. h4 Bxb3 10. axb3 O-O 11. O-O-O Rbc8 12. e4 dxe4 13. dxe4 Qg7 14. e5 c5
+15. Nd2 Rfd8 16. Bxb7 Rc7 17. Bg2 Nd4 18. c3 Ne6 19. Nc4 Nxc4 20. bxc4 Qf7 21.
+Bd5 Rdc8 22. Kc2 Rb8 23. Ra1 Rb6 24. Ra5 Qe8 25. Bxc5 Kf8 26. Bxb6 axb6 27.
+Qxb6 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/mN0L95vD"]
+[Date "2024.10.13"]
+[Round "?"]
+[White "Magagna"]
+[Black "RSInternecio"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "2131"]
+[BlackRatingDiff "-7"]
+[ECO "?"]
+[FEN "rkbrqnnb/pppppppp/8/8/8/8/PPPPPPPP/RKBRQNNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.13"]
+[UTCTime "13:04:33"]
+[Variant "Chess960"]
+[WhiteElo "2041"]
+[WhiteRatingDiff "+11"]
+
+1. g3 d5 2. d4 Nf6 3. Nf3 g6 4. N1d2 Bf5 5. Nh4 N8d7 6. Nxf5 gxf5 7. Nf3 Ne4 8.
+Bf4 Nb6 9. Bg2 Nc4 10. b3 Qb5 11. a4 Qb6 12. a5 Qb5 13. Ng5 Nxg5 14. Bxg5 f6
+15. Bc1 Nd6 16. Bb2 Bg7 17. e3 e6 18. h4 Bf8 19. Bf1 Qc6 20. Bd3 a6 21. Qe2 Ne4
+22. O-O Bd6 23. Bxe4 fxe4 24. Ba3 Rg8 25. Bxd6 Qxd6 26. Kh2 O-O-O 27. c4 c6 28.
+Rfb1 Rg7 29. Qf1 Rdg8 30. Qh3 Kb8 31. Rc1 Ka8 32. b4 dxc4 33. Rxc4 f5 34. Rac1
+h5 35. Rc5 Ka7 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/eeTB5FJu"]
+[Date "2024.10.13"]
+[Round "?"]
+[White "SycoraxCirce"]
+[Black "Alvaro64"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1882"]
+[BlackRatingDiff "+1"]
+[ECO "?"]
+[FEN "brkbqnnr/pppppppp/8/8/8/8/PPPPPPPP/BRKBQNNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.13"]
+[UTCTime "12:00:44"]
+[Variant "Chess960"]
+[WhiteElo "1900"]
+[WhiteRatingDiff "+0"]
+
+1. b3 e5 2. e4 Ng6 3. g3 Be7 4. Bb2 Nf6 5. Bf3 b6 6. O-O-O Qf8 7. h4 Ba3 8. h5
+Bxb2+ 9. Kxb2 Ne7 10. d3 Nc6 11. Ne2 h6 12. Ne3 O-O-O 13. Qc3 Ne8 14. Bg2 Nd6
+15. a4 f5 16. exf5 Nxf5 17. Nxf5 Qxf5 18. Rdf1 Qg4 19. Re1 Rhf8 20. Rh4 Qg5 21.
+Rf1 Kb8 22. Be4 d5 23. Bh1 d4 24. Qe1 Ne7 25. Bxa8 Kxa8 26. Ng1 Nd5 27. Qe4 Kb8
+28. Nf3 Rxf3 29. Qxf3 Qd2 30. Qd1 Qc3+ 31. Kb1 Qb4 32. Kb2 Nc3 33. Qa1 Nd5 34.
+Qe1 Nc3 35. Qa1 Nd5 36. Qe1 Nc3 37. Qa1 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/boMaWY3U"]
+[Date "2024.10.13"]
+[Round "?"]
+[White "chatakkuma"]
+[Black "Zubenelgenubi"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1635"]
+[BlackRatingDiff "-6"]
+[ECO "?"]
+[FEN "bnrqkrnb/pppppppp/8/8/8/8/PPPPPPPP/BNRQKRNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.13"]
+[UTCTime "08:02:57"]
+[Variant "Chess960"]
+[WhiteElo "1930"]
+[WhiteRatingDiff "+5"]
+
+1. d4 g6 2. c4 b6 3. Nf3 e6 4. Nc3 a6 5. e4 Qe7 6. O-O d6 7. g3 Nf6 8. Re1 O-O
+9. b4 Qd8 10. a4 c5 11. bxc5 bxc5 12. d5 exd5 13. exd5 Re8 14. Rxe8+ Qxe8 15.
+a5 Nbd7 16. Na4 Qd8 17. Qe1 Rb8 18. Bc3 Qc7 19. Nd2 Re8 20. Qd1 Re7 21. Rb1 Qd8
+22. h4 h5 23. Nb6 Qe8 24. Nxa8 Qxa8 25. Qb3 Re8 26. Qa2 Ng4 27. Bxh8 Kxh8 28.
+Ne4 Qd8 29. Nxd6 Re5 30. Nxf7+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/DCsCXMHf"]
+[Date "2024.10.12"]
+[Round "?"]
+[White "RBorja1980"]
+[Black "kamelstekspizza"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1405"]
+[BlackRatingDiff "-12"]
+[ECO "?"]
+[FEN "qnbbrnkr/pppppppp/8/8/8/8/PPPPPPPP/QNBBRNKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.12"]
+[UTCTime "17:01:11"]
+[Variant "Chess960"]
+[WhiteElo "1690"]
+[WhiteRatingDiff "+38"]
+
+1. e4 e5 2. Ng3 d6 3. d3 Nc6 4. O-O Ne6 5. Bg4 Ned4 6. Bd1 O-O 7. c3 Ne6 8. Nd2
+Nf4 9. Bc2 a5 10. Nf3 Ne6 11. Be3 b6 12. Qd1 Ba6 13. Nf5 Bf6 14. N3h4 Qd8 15.
+Qg4 Kh8 16. Bh6 Rg8 17. Bxg7+ Nxg7 18. Nh6 Rgf8 19. Bb3 Qe7 20. N4f5 Nxf5 21.
+Nxf5 Qd7 22. Re3 Rg8 23. Qh5 Rg5 24. Qh6 Rg6 25. Qh3 Reg8 26. Rg3 Rxg3 27. fxg3
+Bxd3 28. Rf3 Bxe4 29. Rf2 Bxf5 30. Rxf5 Rg6 31. Bc2 Bg7 32. Qh5 Rh6 33. Qg5 Qe7
+34. Qg4 Qe6 35. Qf3 Rf6 36. Rxf6 Qxf6 37. Qxc6 Qe7 38. Qe4 f5 39. Qxf5 Bf6 40.
+Qc8+ Kg7 41. Bb3 Bg5 42. Qg4 Kh6 43. Qh3+ Kg7 44. Bc2 h6 45. Qf5 Qf7 46. Qh7+
+Kf8 47. Qh8+ Ke7 48. h4 Be3+ 49. Kh2 Qf8 50. Qh7+ Qf7 51. Qh8 Bc1 52. Bb3 Qf8
+53. Qh7+ Kd8 54. Qg6 Bxb2 55. Ba4 Bxc3 56. Qe6 Qe7 57. Qg8+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/9RY6nVFT"]
+[Date "2024.10.12"]
+[Round "?"]
+[White "Forhavu"]
+[Black "yellorambo"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1649"]
+[BlackRatingDiff "+77"]
+[ECO "?"]
+[FEN "rknqbbnr/pppppppp/8/8/8/8/PPPPPPPP/RKNQBBNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.12"]
+[UTCTime "16:00:18"]
+[Variant "Chess960"]
+[WhiteElo "1804"]
+[WhiteRatingDiff "-13"]
+
+1. e4 d5 2. exd5 Qxd5 3. Nf3 Bc6 4. Ne2 g6 5. Nc3 Qd6 6. d4 e6 7. Ne5 Nh6 8.
+Nb5 Qd5 9. Nc3 Qd6 10. Nb5 Qd5 11. c4 Qe4+ 12. Bd3 Qxg2 13. d5 Bxb5 14. cxb5
+Qxd5 15. Bc3 Bg7 16. Nc6+ bxc6 17. Bxg7 Rd8 18. Bxh6 Qxd3+ 19. Qxd3 Rxd3 20.
+bxc6 Ne7 21. Rc1 a5 22. a4 Ra6 23. Ka2 Nxc6 24. Rc5 Nb4+ 25. Kb1 Rad6 26. Rb5+
+Kc8 27. Rxa5 Rd1+ 28. Bc1 Rc6 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/DuJwi1FA"]
+[Date "2024.10.12"]
+[Round "?"]
+[White "LuzhinAcademy"]
+[Black "HeartOfStone"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1721"]
+[BlackRatingDiff "-4"]
+[ECO "?"]
+[FEN "qnrkbnrb/pppppppp/8/8/8/8/PPPPPPPP/QNRKBNRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.12"]
+[UTCTime "14:02:18"]
+[Variant "Chess960"]
+[WhiteElo "1910"]
+[WhiteRatingDiff "+11"]
+
+1. g4 d6 2. f4 Bc6 3. Bxc6 Nxc6 4. Nc3 g6 5. Bh4 Ne6 6. Nd5 h6 7. Nfe3 g5 8.
+fxg5 Nxg5 9. O-O-O e6 10. Nf4 O-O-O 11. c3 Rdf8 12. Qb1 Kd7 13. d4 Qe8 14. d5
+Ne5 15. dxe6+ fxe6 16. Bg3 Kc8 17. h4 Ngf7 18. Bf2 Bf6 19. Nh5 Bh8 20. Rdf1 Rg6
+21. Nf4 Rgg8 22. Qe4 Nd8 23. Nd3 Qg6 24. Qxg6 Nxg6 25. g5 hxg5 26. hxg5 Nf7 27.
+Be1 Be5 28. Nxe5 Nfxe5 29. Bd2 Kd7 30. Rf6 Ke7 31. Rgf1 Nd7 32. Rxf8 Rxf8 33.
+Rxf8 Ngxf8 34. Ng4 Ng6 35. Kc2 e5 36. e4 c6 37. c4 Ke6 38. Kd3 d5 39. cxd5+
+cxd5 40. exd5+ Kxd5 41. Nf2 Nc5+ 42. Ke3 Ke6 43. Ne4 Na4 44. b3 Nb6 45. Nc5+
+Kf5 46. Kf3 Nf8 47. Nxb7 Ne6 48. Nd6+ Kg6 49. Ke4 Nd7 50. Kd5 Nxg5 51. Bxg5
+Kxg5 52. Ke6 Nc5+ 53. Kxe5 Kg6 54. Kd5 Nd3 55. a4 Kf6 56. a5 a6 57. Kc6 Ke6 58.
+Ne4 Nb4+ 59. Kb6 Kd5 60. Nc5 Kd6 61. Nxa6 Nc6 62. b4 Nd4 63. b5 Kd7 64. Nc7 Kc8
+65. a6 Nxb5 66. Nxb5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/tMHWSgoz"]
+[Date "2024.10.11"]
+[Round "?"]
+[White "sterpfi"]
+[Black "ogennadi"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1736"]
+[BlackRatingDiff "-29"]
+[ECO "?"]
+[FEN "bbrqknnr/pppppppp/8/8/8/8/PPPPPPPP/BBRQKNNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.11"]
+[UTCTime "15:59:23"]
+[Variant "Chess960"]
+[WhiteElo "2057"]
+[WhiteRatingDiff "+4"]
+[WhiteTitle "FM"]
+
+1. b3 Nf6 2. c4 b5 3. f3 b4 4. e4 d6 5. d4 e5 6. dxe5 dxe5 7. Qxd8+ Rxd8 8.
+Bxe5 c5 9. Bxf6 gxf6 10. Ne2 Rg8 11. Nfg3 Ne6 12. O-O Nd4 13. Nxd4 Rxd4 14. Nf5
+Rd2 15. g3 Bb7 16. Rcd1 Rxd1 17. Rxd1 Bc8 18. Rd5 Be5 19. f4 Bxf5 20. fxe5 Bd7
+21. exf6 Rg4 22. Rxc5 h6 23. Rh5 Bc6 24. Kf2 Bxe4 25. Re5+ Kd7 26. Bxe4 Kd6 27.
+Rd5+ Kc7 28. Bf5 Rg5 29. h4 Rg8 30. Rd7+ Kb6 31. Rxf7 Rd8 32. Rd7 Rf8 33. f7
+Kc5 34. Ke3 h5 35. Kf4 a5 36. Ke5 a4 37. Kf6 axb3 38. axb3 Rxf7+ 39. Kxf7 Kc6
+40. Ke7 Kc5 41. Be4 Kb6 42. Kd6 Ka6 43. Kc5 Ka5 44. Ra7# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/5ObSdYAR"]
+[Date "2024.10.10"]
+[Round "?"]
+[White "j3084"]
+[Black "scrooge"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2032"]
+[BlackRatingDiff "+2"]
+[ECO "?"]
+[FEN "qrnkrbbn/pppppppp/8/8/8/8/PPPPPPPP/QRNKRBBN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.10"]
+[UTCTime "18:06:27"]
+[Variant "Chess960"]
+[WhiteElo "1785"]
+[WhiteRatingDiff "-18"]
+
+1. b3 e5 2. f4 exf4 3. Bd4 Ng6 4. Bxg7 Bd6 5. Nd3 Nce7 6. Nhf2 f5 7. Qd4 b6 8.
+e4 fxe3 9. Rxe3 O-O-O 10. Qa4 Bxh2 11. Nb4 a5 12. Rc3 Nd5 13. Nxd5 Bxd5 14. Bf6
+Bxg2 15. O-O-O Be5 16. Bxe5 Nxe5 17. Be2 Kb8 18. Bh5 Rf8 19. Qf4 d6 20. Rg1 Qd5
+21. Kb2 Rg8 22. Qh6 f4 23. Qxh7 Rd7 24. Qh6 Qxd2 25. Qe6 Qd5 26. Bf7 Rxf7 27.
+Qxd5 Bxd5 28. Rxg8+ Kb7 29. Kc1 f3 30. Kd2 Rh7 31. Rf8 Rh2 32. Ke3 Rh4 33. Rf4
+Rh7 34. Ne4 Re7 35. Kf2 Ng6 36. Re3 Nxf4 37. Nxd6+ Kc6 38. Rxe7 Kxd6 39. Rh7 b5
+40. Ke3 b4 41. Rh6+ Ne6 42. Rh5 c6 43. Rf5 Kc5 44. Kd3 Nd4 45. Rf8 Ne2 46. Ra8
+Kb6 47. Rb8+ Ka7 48. Rf8 Nc1+ 49. Kd4 Nxa2 50. Rf6 Kb6 51. Rf8 Nc3 52. Rb8+ Ka7
+53. Rf8 Ne4 54. Rxf3 Kb6 55. Rf8 Nd6 56. c4 bxc3 57. Kxc3 Ne4+ 58. Kd4 Nc5 59.
+Kc3 Nxb3 60. Rb8+ Ka7 61. Rh8 Nc5 62. Kd4 Kb6 63. Rb8+ Nb7 64. Kc3 a4 65. Kb4
+Bb3 66. Ka3 c5 67. Kb2 Kc6 68. Ka3 Nd6 69. Rh8 Nc4# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/C8d8ivxi"]
+[Date "2024.10.08"]
+[Round "?"]
+[White "AACtrl"]
+[Black "Redpartot"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1698"]
+[BlackRatingDiff "-8"]
+[ECO "?"]
+[FEN "nrbkqbrn/pppppppp/8/8/8/8/PPPPPPPP/NRBKQBRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.08"]
+[UTCTime "17:02:07"]
+[Variant "Chess960"]
+[WhiteElo "1681"]
+[WhiteRatingDiff "+21"]
+
+1. d4 g5 2. e4 Bg7 3. Nb3 h6 4. f4 gxf4 5. Bxf4 Ng6 6. Bg3 d6 7. Nf2 Nb6 8. Qa5
+e5 9. Bb5 Qe7 10. d5 a6 11. Bd3 h5 12. Nh3 Bh6 13. c4 Bg4+ 14. Kc2 h4 15. Bf2
+Nd7 16. Qe1 O-O-O 17. Be3 Bxe3 18. Qxe3 Kb8 19. Na5 Nc5 20. b4 Nxd3 21. Qxd3
+Bd7 22. b5 axb5 23. cxb5 Rdf8 24. Nc6+ Bxc6 25. bxc6 Kc8 26. Rxb7 Qf6 27. Rb8+
+Kxb8 28. Qa6 Qf2+ 29. Nxf2 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/md2uU4wM"]
+[Date "2024.10.06"]
+[Round "?"]
+[White "scrooge"]
+[Black "HeartOfStone"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1731"]
+[BlackRatingDiff "-3"]
+[ECO "?"]
+[FEN "rnqkbbnr/pppppppp/8/8/8/8/PPPPPPPP/RNQKBBNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.06"]
+[UTCTime "19:00:08"]
+[Variant "Chess960"]
+[WhiteElo "2005"]
+[WhiteRatingDiff "+3"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Nf3 c5 5. e3 Nc6 6. cxd5 exd5 7. Bd2 cxd4 8.
+exd4 Bd7 9. Bd3 Bd6 10. O-O O-O 11. Bg5 Bg4 12. Bxf6 Bxf3 13. gxf3 gxf6 14. Qh6
+f5 15. Qxd6 Nxd4 16. Qf4 Qc5 17. Kh1 Kh8 18. Rac1 Qb6 19. Nxd5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/U0QtjYAJ"]
+[Date "2024.10.06"]
+[Round "?"]
+[White "SycoraxCirce"]
+[Black "Magagna"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "2065"]
+[BlackRatingDiff "-24"]
+[ECO "?"]
+[FEN "nrbnkrqb/pppppppp/8/8/8/8/PPPPPPPP/NRBNKRQB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.06"]
+[UTCTime "18:09:39"]
+[Variant "Chess960"]
+[WhiteElo "1897"]
+[WhiteRatingDiff "+3"]
+
+1. f4 Nc6 2. c3 b6 3. d4 Bb7 4. g3 e6 5. Nf2 f5 6. e4 fxe4 7. Nxe4 d5 8. Ng5 h6
+9. Nf3 Ba6 10. Nb3 Bxf1 11. Qxf1 Qh7 12. Nbd2 g5 13. Qb5 Kd7 14. Ne5+ Bxe5 15.
+dxe5 a6 16. Qxa6 b5 17. Ra1 Qe7 18. Nb3 Rb6 19. Qa3 Qxa3 20. bxa3 gxf4 21. Bxf4
+Rh8 22. Kd2 Ke7 23. Be3 Rbb8 24. Bc5+ Kf7 25. Rf1+ Kg7 26. Nd4 Nxd4 27. cxd4
+Nb6 28. Bg2 Rhe8 29. Bh3 Ra8 30. Rf3 Nd7 31. Bb4 Rac8 32. Bf1 c6 33. Rf4 Rg8
+34. Bd3 Kh8 35. Rh4 Kg7 36. Rg4+ Kf7 37. Rf4+ Kg7 38. Rg4+ Kh8 39. Rh4 Kg7 40.
+Rg4+ 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/HeRbHnIg"]
+[Date "2024.10.06"]
+[Round "?"]
+[White "RSInternecio"]
+[Black "sterpfi"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2069"]
+[BlackRatingDiff "-12"]
+[BlackTitle "FM"]
+[ECO "?"]
+[FEN "rkbbnqrn/pppppppp/8/8/8/8/PPPPPPPP/RKBBNQRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.06"]
+[UTCTime "15:02:15"]
+[Variant "Chess960"]
+[WhiteElo "2103"]
+[WhiteRatingDiff "+28"]
+
+1. e4 e5 2. f4 exf4 3. d4 Ng6 4. Nd3 b6 5. Nxf4 Bb7 6. Nxg6 hxg6 7. Nf2 Qd6 8.
+Be3 Qxh2 9. Bf3 Qd6 10. e5 Qe6 11. Bxb7 Kxb7 12. Nd3 g5 13. Qf3+ c6 14. a4 Nc7
+15. a5 Be7 16. Rf1 Nd5 17. Bd2 g4 18. Qe4 Raf8 19. c4 Nc7 20. b3 d5 21. Qe2 f6
+22. Nf4 Qf5+ 23. Kb2 dxc4 24. Qxc4 fxe5 25. a6+ Kb8 26. Qxc6 Qc8 27. Ng6 Rf6
+28. Rxf6 Bxf6 29. dxe5 Bd8 30. Bb4 Re8 31. Nf8 Rxf8 32. Bxf8 Ne6 33. Bd6+ Bc7
+34. Bxc7+ Nxc7 35. Rc1 g5 36. e6 Qh8+ 37. Ka2 Nxa6 38. Qd6+ Ka8 39. e7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/AI1QKfOH"]
+[Date "2024.10.06"]
+[Round "?"]
+[White "wasileios"]
+[Black "root2"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2011"]
+[BlackRatingDiff "+4"]
+[ECO "?"]
+[FEN "nrkbbrnq/pppppppp/8/8/8/8/PPPPPPPP/NRKBBRNQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.06"]
+[UTCTime "14:03:31"]
+[Variant "Chess960"]
+[WhiteElo "1640"]
+[WhiteRatingDiff "-8"]
+
+1. d3 d5 2. Bc3 Nb6 3. Nf3 e6 4. Nb3 Bf6 5. Bb4 Be7 6. Bd2 O-O-O 7. c3 Ba4 8.
+Bc2 Nf6 9. O-O h6 10. Rfc1 g5 11. Be3 Ng4 12. Bc5 Qf6 13. Bxb6 axb6 14. h3 Ne5
+15. Ne1 h5 16. d4 Ng6 17. g3 h4 18. Qf3 Qg7 19. e4 Bc6 20. exd5 Bxd5 21. Be4 f5
+22. Bxd5 exd5 23. Nd3 Bd6 24. Qxd5 hxg3 25. fxg3 Bxg3 26. Qf3 Bd6 27. Re1 Nh4
+28. Qe2 Rde8 29. Qxe8+ Rxe8 30. Rxe8+ Kd7 31. Re2 g4 32. Kf2 g3+ 33. Kg1 f4 34.
+Ne5+ Bxe5 35. dxe5 f3 36. e6+ Ke8 37. Re3 Qg5 38. Re4 Qf5 39. Rd1 Qxe4 40. Rd8+
+Kxd8 41. Nd2 Qe3+ 42. Kf1 g2# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/nMglW66B"]
+[Date "2024.10.04"]
+[Round "?"]
+[White "FunnyLikeAClown"]
+[Black "Forhavu"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1813"]
+[BlackRatingDiff "-9"]
+[ECO "?"]
+[FEN "brnqkrnb/pppppppp/8/8/8/8/PPPPPPPP/BRNQKRNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.04"]
+[UTCTime "16:02:10"]
+[Variant "Chess960"]
+[WhiteElo "1777"]
+[WhiteRatingDiff "+30"]
+
+1. d4 b5 2. Nf3 f5 3. Nd3 Nf6 4. g3 Nb6 5. b3 e6 6. O-O Ne4 7. Nc5 g5 8. Nxe4
+Bxe4 9. Rc1 h5 10. c4 bxc4 11. bxc4 d6 12. c5 Nd5 13. Qa4+ Kf7 14. cxd6 Qxd6
+15. Nxg5+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/1FNzNSMa"]
+[Date "2024.10.04"]
+[Round "?"]
+[White "Redpartot"]
+[Black "chatakkuma"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1924"]
+[BlackRatingDiff "+6"]
+[ECO "?"]
+[FEN "rnkrbbqn/pppppppp/8/8/8/8/PPPPPPPP/RNKRBBQN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.04"]
+[UTCTime "02:03:42"]
+[Variant "Chess960"]
+[WhiteElo "1702"]
+[WhiteRatingDiff "-3"]
+
+1. d4 d5 2. Nc3 Nc6 3. e3 f6 4. f4 e5 5. dxe5 fxe5 6. Bh4 Be7 7. Bxe7 Nxe7 8.
+Rd2 Nhg6 9. g3 Rd6 10. O-O-O O-O-O 11. Nf2 Kb8 12. Kb1 a6 13. Nd3 Nc6 14. Bg2
+e4 15. Nc5 Nge7 16. g4 h5 17. h4 hxg4 18. Bf1 Nf5 19. Be2 g3 20. Bg4 g6 21. h5
+Nh6 22. Be6 Rxe6 23. Nxe6 Qxe6 24. hxg6 Bxg6 25. Rxd5 Rxd5 26. Rxd5 Nf5 27. a3
+Bh5 28. Kc1 Bf3 29. Rxf5 Qxf5 30. Qxg3 Ka7 31. Qg7 Qc5 32. Qg1 Ne7 33. Nd1 Nf5
+34. b4 Qc4 35. Kb2 Bxd1 36. Qxd1 Nxe3 37. Qd2 Nd5 38. f5 e3 39. Qh2 Qc3+ 40.
+Kb1 Qe1+ 41. Kb2 e2 42. Qe5 Qc3+ 43. Qxc3 Nxc3 44. Kxc3 e1=Q+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/cX25Leom"]
+[Date "2024.10.02"]
+[Round "?"]
+[White "netvoyne"]
+[Black "Hallokayjansen"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1570"]
+[BlackRatingDiff "+16"]
+[ECO "?"]
+[FEN "rqbknnrb/pppppppp/8/8/8/8/PPPPPPPP/RQBKNNRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.02"]
+[UTCTime "17:58:58"]
+[Variant "Chess960"]
+[WhiteElo "1375"]
+[WhiteRatingDiff "-18"]
+
+1. c4 g6 2. d4 Bxd4 3. Qe4 Bxf2 4. Nf3 Bxg1 5. Ng5 Nf6 6. Qf3 Ne6 7. Nxe6+ fxe6
+8. Bg5 Bd4 9. Nd2 Bxb2 10. Rb1 Be5 11. Ne4 Nxe4 12. Qf7 Re8 13. Bxe7+ Rxe7 14.
+Qf8+ Re8 15. Qf3 Nc3+ 16. Kc2 Nxb1 17. Kxb1 c6 18. g4 Qd6 19. Qe3 Qd1+ 20. Qc1
+Qxc1+ 21. Kxc1 Bxh2 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/uW2lhk8G"]
+[Date "2024.10.02"]
+[Round "?"]
+[White "Alvaro64"]
+[Black "RBorja1980"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1777"]
+[BlackRatingDiff "-87"]
+[ECO "?"]
+[FEN "nqrkbbnr/pppppppp/8/8/8/8/PPPPPPPP/NQRKBBNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.02"]
+[UTCTime "01:00:26"]
+[Variant "Chess960"]
+[WhiteElo "1904"]
+[WhiteRatingDiff "+14"]
+
+1. e4 c5 2. Nf3 e6 3. c3 d5 4. e5 Ne7 5. d4 Nf5 6. Bd3 Bd7 7. Bd2 Nb6 8. Bg5+
+Be7 9. dxc5 Rxc5 10. Nb3 Rc8 11. O-O Bxg5 12. Nxg5 O-O 13. Rfe1 h6 14. Nf3 Nc4
+15. Nbd4 a6 16. b3 Na3 17. Qb2 Nb5 18. Nxf5 exf5 19. a4 Na7 20. Nd4 f4 21. Bb1
+f5 22. e6 Bc6 23. Nxf5 Rf6 24. Ne7+ Kh8 25. Qc2 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/SHBKNazz"]
+[Date "2024.10.01"]
+[Round "?"]
+[White "Asturc0n"]
+[Black "ogennadi"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1647"]
+[BlackRatingDiff "+89"]
+[ECO "?"]
+[FEN "nrbnqkrb/pppppppp/8/8/8/8/PPPPPPPP/NRBNQKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.01"]
+[UTCTime "17:09:04"]
+[Variant "Chess960"]
+[WhiteElo "1563"]
+[WhiteRatingDiff "-16"]
+
+1. d4 g5 2. Nb3 d6 3. e4 b6 4. Ne3 Ba6+ 5. c4 b5 6. Nd2 bxc4 7. Ndxc4 Qa4 8. b3
+Qxa2 9. Bd2 Bxd4 10. Qc1 Rxb3 11. Rxb3 Qxb3 12. O-O Nb6 13. Na5 Qb2 14. Qxb2
+Bxb2 15. Nf5 Bxf1 16. Kxf1 Rg6 17. g3 e6 18. Ne3 g4 19. Nec4 Nxc4 20. Nxc4 Bd4
+21. f3 gxf3 22. Bxf3 Rf6 23. Kg2 Nc6 24. e5 Nxe5 25. Nxe5 dxe5 26. Be4 Rf2+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/c6ErYKuF"]
+[Date "2024.10.01"]
+[Round "?"]
+[White "kamelstekspizza"]
+[Black "AACtrl"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1694"]
+[BlackRatingDiff "-13"]
+[ECO "?"]
+[FEN "rbknnqbr/pppppppp/8/8/8/8/PPPPPPPP/RBKNNQBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.01"]
+[UTCTime "17:01:43"]
+[Variant "Chess960"]
+[WhiteElo "1382"]
+[WhiteRatingDiff "+23"]
+
+1. e4 e5 2. Ne3 c6 3. g3 Ne6 4. N1g2 Nf6 5. f3 Bc7 6. a3 d5 7. d3 d4 8. Nc4 Nd7
+9. Ba2 f6 10. O-O-O b5 11. Nd2 Nec5 12. Nb3 a5 13. f4 Nxb3+ 14. Bxb3 Bxb3 15.
+cxb3 Nc5 16. fxe5 fxe5 17. Qxf8+ Rxf8 18. Kc2 b4 19. a4 Kd7 20. Nh4 g6 21. Rd2
+Rf1 22. Bxd4 Rxh1 23. Bxc5 Bd6 24. d4 Bxc5 25. dxc5+ Kc7 26. Nf3 Rd8 27. Re2
+Re8 28. Nd2 Kb7 29. Nc4 Ka6 30. Rf2 Re6 31. Nd6 Re7 32. Nc8 Re8 33. Nd6 Re7 34.
+Nc8 Re8 35. Nd6 Re7 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/YdMf5tvr"]
+[Date "2024.10.01"]
+[Round "?"]
+[White "Grizzzly1000"]
+[Black "LuzhinAcademy"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1899"]
+[BlackRatingDiff "+11"]
+[ECO "?"]
+[FEN "qnbnrbkr/pppppppp/8/8/8/8/PPPPPPPP/QNBNRBKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.10.01"]
+[UTCTime "13:32:16"]
+[Variant "Chess960"]
+[WhiteElo "1742"]
+[WhiteRatingDiff "-20"]
+
+1. e4 b6 2. Ndc3 Bb7 3. Bc4 Ne6 4. d3 Nd4 5. Bb3 Nxb3 6. axb3 e5 7. Be3 g6 8.
+Nd2 Bg7 9. O-O O-O 10. f4 exf4 11. Bxf4 d6 12. Qd1 f5 13. Rf2 fxe4 14. dxe4 d5
+15. e5 Nd7 16. e6 Nc5 17. e7 Rf7 18. b4 Na6 19. b5 Nc5 20. b4 Bxc3 21. bxc5 Bd4
+22. Be3 Rfxe7 23. Rfe2 Rxe3 24. Rxe3 Rxe3 25. Rxe3 Bxe3+ 26. Kh1 Bxd2 27. Qxd2
+bxc5 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/c1CpsaBB"]
+[Date "2024.09.29"]
+[Round "?"]
+[White "hwelman"]
+[Black "RBorja1980"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1746"]
+[BlackRatingDiff "+31"]
+[ECO "?"]
+[FEN "rqkbbnrn/pppppppp/8/8/8/8/PPPPPPPP/RQKBBNRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.29"]
+[UTCTime "19:04:12"]
+[Variant "Chess960"]
+[WhiteElo "1288"]
+[WhiteRatingDiff "-12"]
+
+1. e4 e5 2. d3 Ne6 3. Nd2 Bg5 4. g3 Ng6 5. h4 Bxd2+ 6. Bxd2 a6 7. Rf1 d6 8. f4
+Nd4 9. f5 Ne7 10. Bb4 f6 11. c3 Ndc6 12. a3 Qa7 13. Bb3 Qe3+ 14. Kc2 Qe2+ 15.
+Kc1 Qxf1+ 16. Kc2 Qg2+ 17. Kd1 Bh5+ 18. Kc1 Qxh1+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/3VjG6bWF"]
+[Date "2024.09.29"]
+[Round "?"]
+[White "Magagna"]
+[Black "FunnyLikeAClown"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1788"]
+[BlackRatingDiff "-11"]
+[ECO "?"]
+[FEN "bbqrknrn/pppppppp/8/8/8/8/PPPPPPPP/BBQRKNRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.29"]
+[UTCTime "18:01:19"]
+[Variant "Chess960"]
+[WhiteElo "2042"]
+[WhiteRatingDiff "+23"]
+
+1. c4 b6 2. b3 c5 3. f3 Nhg6 4. Nf2 e6 5. g3 d5 6. cxd5 exd5 7. d4 Ne6 8. h4
+Nxd4 9. Bxd4 cxd4 10. Qxc8 Rxc8 11. Bf5 Rc7 12. Rxd4 O-O 13. Nd3 Re7 14. Kf2 a5
+15. e3 Ne5 16. Nf4 g6 17. Bh3 Rd8 18. e4 Nc6 19. Rxd5 Bxf4 20. Rxd8+ Nxd8 21.
+gxf4 Rc7 22. Ne3 Nc6 23. Nd5 Rb7 24. Rc1 Na7 25. h5 Kg7 26. f5 Rb8 27. f6+ Kf8
+28. Ne7 Nb5 29. hxg6 fxg6 30. Bg4 Kf7 31. a4 Nd4 32. e5 h5 33. Bh3 Nf5 34. Nxf5
+gxf5 35. Bxf5 Rd8 36. Rc7+ Kf8 37. e6 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/ctosV4jR"]
+[Date "2024.09.29"]
+[Round "?"]
+[White "yellorambo"]
+[Black "Alvaro64"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1894"]
+[BlackRatingDiff "+10"]
+[ECO "?"]
+[FEN "rnbnqbkr/pppppppp/8/8/8/8/PPPPPPPP/RNBNQBKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.29"]
+[UTCTime "15:00:41"]
+[Variant "Chess960"]
+[WhiteElo "1676"]
+[WhiteRatingDiff "-27"]
+
+1. g3 b6 2. Bg2 Bb7 3. e4 e5 4. c3 Ne6 5. Ne3 Nc6 6. Nc2 a5 7. a4 Nc5 8. Qd1
+Nb3 9. Ra2 Qe6 10. Ra3 Bxa3 11. Nbxa3 Nxc1 12. Qxc1 O-O 13. Nb5 Rac8 14. O-O
+Qb3 15. Nca3 Qxa4 16. Qb1 Qb3 17. f4 f6 18. Rf3 Qe6 19. Bf1 Qe7 20. Bc4+ Kh8
+21. f5 Nd8 22. Qd3 Nf7 23. Nc2 Rfd8 24. Ne3 Ng5 25. Nd5 Bxd5 26. exd5 Nxf3+ 27.
+Qxf3 Qc5+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/zoOxXt65"]
+[Date "2024.09.29"]
+[Round "?"]
+[White "root2"]
+[Black "RSInternecio"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2075"]
+[BlackRatingDiff "+28"]
+[ECO "?"]
+[FEN "rbnkbrqn/pppppppp/8/8/8/8/PPPPPPPP/RBNKBRQN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.29"]
+[UTCTime "14:03:17"]
+[Variant "Chess960"]
+[WhiteElo "2024"]
+[WhiteRatingDiff "-13"]
+
+1. d4 d5 2. Nd3 Ng6 3. a3 Bb5 4. Ba2 Bxd3 5. cxd3 c6 6. e4 e6 7. O-O-O Bc7 8.
+g3 Nd6 9. Qg2 Bb6 10. Bb4 O-O-O 11. e5 Nb5 12. Bxf8 Qxf8 13. f4 Nxd4 14. Kb1
+Ne7 15. g4 h5 16. h3 hxg4 17. hxg4 Ng6 18. Ng3 Qc5 19. Rc1 Qb5 20. Qd2 Ba5 21.
+Qd1 Nh4 22. Ne2 Nhf3 23. Nxd4 Nxd4 24. Rh1 f5 25. Rh7 Rd7 26. gxf5 Nxf5 27.
+Rh8+ Kc7 28. Ka1 Bb6 29. Qb3 Qxb3 30. Bxb3 Be3 31. Rf1 Rf7 32. Bd1 Nh6 33. Bh5
+Rxf4 34. Re1 Bd4 35. Rh7 Nf5 36. Re2 Kb6 37. Bg6 Ng3 38. Rg2 Bxe5 39. Ka2 Nf5
+40. Bxf5 Rxf5 41. Kb3 Bf6 42. Kc2 e5 43. b4 Rf4 44. Rh3 a5 45. bxa5+ Kxa5 46.
+Rhg3 c5 47. Rg4 Rxg4 48. Rxg4 Kb5 49. Kb3 Kc6 50. a4 b5 51. axb5+ Kxb5 52. Ka3
+Kc6 53. Ka4 Kb6 54. Kb3 Kb5 55. Ka3 c4 56. dxc4+ dxc4 57. Rg2 Kc5 58. Rg4 Kd5
+59. Kb4 e4 60. Rg1 c3 61. Kb3 Kd4 62. Kc2 Ke3 63. Re1+ Kf3 64. Rf1+ Ke2 65. Rh1
+Be5 66. Rh5 Bd4 67. Rh4 Kf3 68. Kd1 g5 69. Rh3+ Kf4 70. Rh7 g4 71. Ke2 g3 72.
+Rf7+ Kg4 73. Kf1 Be3 74. Rc7 Bd2 75. Kg2 Kf4 76. Rc4 Ke3 77. Kxg3 Kd3 78. Rc8
+c2 79. Rd8+ Ke2 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/jHMC0vGA"]
+[Date "2024.09.29"]
+[Round "?"]
+[White "Hallokayjansen"]
+[Black "wasileios"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1608"]
+[BlackRatingDiff "+32"]
+[ECO "?"]
+[FEN "qnrkrnbb/pppppppp/8/8/8/8/PPPPPPPP/QNRKRNBB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.29"]
+[UTCTime "11:04:39"]
+[Variant "Chess960"]
+[WhiteElo "1602"]
+[WhiteRatingDiff "-32"]
+
+1. g3 g6 2. f4 a5 3. Nc3 f5 4. e4 O-O-O 5. exf5 gxf5 6. O-O-O Nc6 7. d4 e6 8.
+h3 Ng6 9. Nh2 d6 10. Nf3 e5 11. dxe5 dxe5 12. Nxe5 Ncxe5 13. Rxd8+ Kxd8 14.
+fxe5 Rxe5 15. Rxe5 Bxe5 16. g4 Bf4+ 17. Kd1 Qa6 18. Ke1 fxg4 19. Qd1+ Kc8 20.
+Qxg4+ Be6 21. Qh5 Bg3+ 22. Bf2 Bxf2+ 23. Kxf2 Qb6+ 24. Ke1 Qg1+ 25. Kd2 Qxh1
+26. Qxh7 Qg2+ 27. Ne2 Bc4 28. Qh5 Qxe2+ 29. Qxe2 Bxe2 30. Kxe2 Nf4+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/8YToS2mn"]
+[Date "2024.09.29"]
+[Round "?"]
+[White "chatakkuma"]
+[Black "j3084"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1710"]
+[BlackRatingDiff "+75"]
+[ECO "?"]
+[FEN "rkqbbrnn/pppppppp/8/8/8/8/PPPPPPPP/RKQBBRNN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.29"]
+[UTCTime "07:08:53"]
+[Variant "Chess960"]
+[WhiteElo "1944"]
+[WhiteRatingDiff "-20"]
+
+1. d4 d5 2. Nf3 Ng6 3. c4 Nf6 4. cxd5 Qf5+ 5. Bc2 Qxd5 6. Ng3 Bb5 7. e4 Qd7 8.
+Rh1 e6 9. h4 Ne7 10. Qe3 Nc6 11. O-O-O Be7 12. Ne5 Qd6 13. f4 Nb4 14. Bb3 a5
+15. a3 Nc6 16. Nc4 Qd7 17. Ne5 Nxe5 18. dxe5 Qc6+ 19. Kb1 Nd7 20. Ne2 Bxe2 21.
+Qxe2 O-O 22. h5 Nc5 23. Bc2 b5 24. f5 b4 25. f6 gxf6 26. exf6 Bxf6 27. e5 Bg5
+28. Qg4 h6 29. Bh4 b3 30. Bd3 Nxd3 31. Rxd3 Qc2+ 32. Ka1 Qxd3 33. Bxg5 hxg5 34.
+Qxg5+ Kh7 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/EjQjSB3C"]
+[Date "2024.09.28"]
+[Round "?"]
+[White "HeartOfStone"]
+[Black "Redpartot"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1700"]
+[BlackRatingDiff "-7"]
+[ECO "?"]
+[FEN "bnrnkrqb/pppppppp/8/8/8/8/PPPPPPPP/BNRNKRQB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.28"]
+[UTCTime "17:00:19"]
+[Variant "Chess960"]
+[WhiteElo "1730"]
+[WhiteRatingDiff "+7"]
+
+1. b3 g5 2. Bxh8 Qxh8 3. g3 Nbc6 4. f4 h6 5. Nbc3 b6 6. Ne3 f5 7. fxg5 hxg5 8.
+Rxf5 Rxf5 9. Nxf5 e6 10. Ne3 d5 11. Ng4 Nf7 12. Qe3 Kd7 13. Qg1 Nd6 14. O-O-O
+Nd4 15. Kb1 c5 16. Rf1 Bc6 17. Qf2 N4f5 18. e3 a5 19. a4 Kc7 20. Bf3 c4 21. Qe2
+Kb7 22. Ka2 Rf8 23. Nd1 b5 24. axb5 Bxb5 25. d3 cxd3 26. cxd3 Rc8 27. Qd2 Ka6
+28. Re1 Nb7 29. d4 Nbd6 30. Nc3 Bd7 31. Be2+ Ka7 32. Qd3 Rc6 33. Kb2 Rb6 34.
+Ra1 a4 35. Nxa4 Bxa4 36. Rxa4+ Kb7 37. Ra6 Qd8 38. Rxb6+ Qxb6 39. Qc3 Ne4 40.
+Qd3 Nfd6 41. Ne5 Qb4 42. Qa6+ Kc7 43. Qc6+ Kb8 44. Nd7+ Ka7 45. Qa6# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/yVMmvxQX"]
+[Date "2024.09.26"]
+[Round "?"]
+[White "Zubenelgenubi"]
+[Black "Forhavu"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1804"]
+[BlackRatingDiff "+6"]
+[ECO "?"]
+[FEN "rknrbbqn/pppppppp/8/8/8/8/PPPPPPPP/RKNRBBQN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.26"]
+[UTCTime "15:02:18"]
+[Variant "Chess960"]
+[WhiteElo "1656"]
+[WhiteRatingDiff "-11"]
+
+1. d4 d5 2. Ng3 Ng6 3. e4 dxe4 4. Nxe4 e5 5. Bc3 f5 6. Ng3 Qf7 7. Be2 e4 8. Qf1
+a6 9. Bc4 Qd7 10. a4 Nd6 11. Bg8 Ne7 12. Bb3 Nc6 13. d5 Ne7 14. Nce2 g5 15. Nd4
+f4 16. Nge2 Bf7 17. Ne6 Bxe6 18. dxe6 Qe8 19. Bf6 Qg6 20. Be5 Nc6 21. Bxd6 cxd6
+22. Nd4 d5 23. Nxc6+ bxc6 24. Qe1 Qxe6 25. Qa5 Rd7 26. Qb6+ Rb7 27. Qd8+ Ka7
+28. Qxg5 Bd6 29. g3 fxg3 30. hxg3 Be5 31. Qe3+ Kb8 32. Rh1 Bf6 33. Rh6 Qe5 34.
+Qc3 Qxc3 35. bxc3 Bxc3 36. O-O-O Rc7 37. Rdh1 Raa7 38. g4 Bd4 39. R1h2 Be5 40.
+Rg2 Bf4+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/boodOg1x"]
+[Date "2024.09.25"]
+[Round "?"]
+[White "LuzhinAcademy"]
+[Black "netvoyne"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1379"]
+[BlackRatingDiff "-4"]
+[ECO "?"]
+[FEN "bqrknbnr/pppppppp/8/8/8/8/PPPPPPPP/BQRKNBNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.25"]
+[UTCTime "17:57:56"]
+[Variant "Chess960"]
+[WhiteElo "1896"]
+[WhiteRatingDiff "+3"]
+
+1. b4 e6 2. c4 Ngf6 3. Ngf3 h6 4. g3 Be7 5. Ne5 Rf8 6. Bg2 c5 7. b5 d6 8. N5f3
+Ng4 9. d3 Nxf2+ 10. Kc2 Nxh1 11. Bxh1 b6 12. e4 f5 13. e5 f4 14. g4 dxe5 15.
+Bxe5 Bd6 16. Bb2 Rf7 17. Kb3 Nf6 18. h3 g5 19. Qa1 Ke7 20. Nc2 Rd8 21. Re1 Qc8
+22. a4 a6 23. Na3 axb5 24. Nxb5 Qa6 25. d4 Qa5 26. Bc3 Qa6 27. d5 Bxd5 28.
+Bxf6+ Rxf6 29. cxd5 c4+ 30. Kc2 Bb8 31. Nfd4 Rxd5 32. Bxd5 Qa5 33. Nc6+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/MADs6WnE"]
+[Date "2024.09.24"]
+[Round "?"]
+[White "sterpfi"]
+[Black "SycoraxCirce"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1885"]
+[BlackRatingDiff "+12"]
+[ECO "?"]
+[FEN "nrkbrqbn/pppppppp/8/8/8/8/PPPPPPPP/NRKBRQBN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.24"]
+[UTCTime "20:00:47"]
+[Variant "Chess960"]
+[WhiteElo "2090"]
+[WhiteRatingDiff "-21"]
+[WhiteTitle "FM"]
+
+1. e4 f5 2. Nb3 fxe4 3. Rxe4 Bd5 4. Ra4 a6 5. f4 Nb6 6. Bxb6 cxb6 7. Bf3 Bxf3
+8. Qxf3 b5 9. Rd4 Bb6 10. Qc3+ Kd8 11. Nc5 Bxc5 12. Qxc5 Rc8 13. Qb6+ Rc7 14.
+O-O-O Qf6 15. Qa7 Qc6 16. c3 Qxg2 17. Ng3 Qc6 18. Re1 e6 19. Ne4 d5 20. b4 Ke7
+21. Ng5 Kf6 22. Rd3 b6 23. Qxa6 h6 24. Nxe6 Rxe6 25. Rxe6+ Kxe6 26. a4 bxa4 27.
+b5 Qb7 28. Qxa4 Rc4 29. Re3+ Re4 30. Rxe4+ dxe4 31. Qd4 Ng6 32. Qe3 Kf6 33. d3
+exd3 34. Qd4+ Kf7 35. Qxd3 Qh1+ 36. Kb2 Qxh2+ 37. Kb3 Qxf4 38. Qd5+ Kf6 39.
+Qc6+ Kf7 40. Qxb6 Ne7 41. Qa7 Ke6 42. c4 Qd6 43. c5 Qd3+ 44. Ka4 Qc4+ 45. Ka5
+Qa2+ 46. Kb6 Nc8+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/Y3U8ncDP"]
+[Date "2024.09.24"]
+[Round "?"]
+[White "ogennadi"]
+[Black "scrooge"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2023"]
+[BlackRatingDiff "+2"]
+[ECO "?"]
+[FEN "nnbqrbkr/pppppppp/8/8/8/8/PPPPPPPP/NNBQRBKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.24"]
+[UTCTime "18:59:19"]
+[Variant "Chess960"]
+[WhiteElo "1692"]
+[WhiteRatingDiff "-45"]
+
+1. d4 d5 2. Bf4 Bf5 3. Nc3 e6 4. e4 dxe4 5. Nxe4 Be7 6. Nb3 Nd7 7. g4 Bg6 8.
+Bg2 Nab6 9. Re2 O-O 10. c4 Nxc4 11. Rc2 Nd6 12. f3 Nb6 13. Rc1 Nd5 14. Nxd6
+Bxd6 15. Be5 Bxe5 16. dxe5 Qg5 17. h4 Qe3+ 18. Kf1 Bd3+ 19. Qxd3 Qxd3+ 20. Kg1
+Qe3+ 21. Kh2 Qxe5+ 22. Kg1 Nf4 23. Nc5 Qe3+ 24. Kh2 Qf2 25. Rhg1 Qxh4+ 26. Bh3
+Qxh3# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/qqhMjcf3"]
+[Date "2024.09.24"]
+[Round "?"]
+[White "AACtrl"]
+[Black "Grizzzly1000"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1706"]
+[BlackRatingDiff "+36"]
+[ECO "?"]
+[FEN "nbbrkqnr/pppppppp/8/8/8/8/PPPPPPPP/NBBRKQNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.24"]
+[UTCTime "17:02:55"]
+[Variant "Chess960"]
+[WhiteElo "1715"]
+[WhiteRatingDiff "-21"]
+
+1. e4 c5 2. c3 Nb6 3. Nf3 d6 4. Qe2 Bg4 5. h3 Bd7 6. d4 cxd4 7. Nxd4 Nf6 8. O-O
+e5 9. Nf5 Bxf5 10. exf5 h6 11. Be3 Bc7 12. a4 a6 13. a5 Nbd5 14. Nb3 Nxe3 15.
+Qxe3 Qe7 16. g4 O-O 17. g5 hxg5 18. Qxg5 Nd5 19. Qg2 Nf4 20. Qg4 d5 21. Rfe1
+Qf6 22. Nc5 b5 23. Nd3 Nxd3 24. Rxd3 e4 25. Rd4 Qe5 26. Ba2 Rd6 27. f4 Qe7 28.
+Bxd5 Bxa5 29. Rdxe4 Qa7+ 30. Kh2 Rxd5 31. Re7 Rd2+ 32. Kh1 Qf2 33. R7e2 Rxe2
+0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/QcXgt1uH"]
+[Date "2024.09.22"]
+[Round "?"]
+[White "j3084"]
+[Black "Magagna"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2021"]
+[BlackRatingDiff "+21"]
+[ECO "?"]
+[FEN "bbnqrnkr/pppppppp/8/8/8/8/PPPPPPPP/BBNQRNKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.22"]
+[UTCTime "18:04:55"]
+[Variant "Chess960"]
+[WhiteElo "1728"]
+[WhiteRatingDiff "-18"]
+
+1. b3 b6 2. Ng3 e5 3. e3 h6 4. Nd3 d6 5. f4 Ng6 6. fxe5 dxe5 7. c4 Nd6 8. Nb4
+Nh4 9. Nd5 a6 10. Qh5 Qg5 11. O-O Bxd5 12. cxd5 b5 13. Bc3 g6 14. Qe2 O-O 15.
+Bb4 f5 16. Nh1 Ba7 17. Rf2 f4 18. Kf1 fxe3 19. Rf3 Nxf3 20. gxf3 exd2 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/PIDGltMr"]
+[Date "2024.09.22"]
+[Round "?"]
+[White "netvoyne"]
+[Black "HeartOfStone"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1721"]
+[BlackRatingDiff "+2"]
+[ECO "?"]
+[FEN "rqnnbkrb/pppppppp/8/8/8/8/PPPPPPPP/RQNNBKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.22"]
+[UTCTime "15:01:02"]
+[Variant "Chess960"]
+[WhiteElo "1389"]
+[WhiteRatingDiff "-10"]
+
+1. d4 c5 2. dxc5 Qxh2 3. Ba5 b6 4. cxb6 Nxb6 5. g3 Rc8 6. Bg2 Qh6 7. Ne3 Nc6 8.
+Bd2 Qe6 9. c3 g6 10. Nb3 d5 11. Qc2 Nb4 12. Qd1 Nc6 13. Rc1 d4 14. Nc5 Qd6 15.
+cxd4 Nxd4 16. b4 Bb5 17. a3 Bxe2+ 18. Qxe2 Nxe2 19. Kxe2 O-O 20. Rh1 Rfd8 21.
+Rcd1 Qe5 22. Rh3 Nc4 23. Nd3 Qd4 24. Bd5 Qxd3+ 25. Kxd3 Nb2+ 26. Ke2 Nxd1 27.
+Kxd1 e6 28. Bb3 Bc3 29. Nc4 Rd3 30. Kc2 Rxd2+ 31. Kxc3 Rxf2 32. g4 Rg2 33. Bd1
+Rg1 34. Bf3 Rc1+ 35. Kb2 R8xc4 36. Rh2 Re1 37. Rd2 Re3 38. Be2 Rcc3 39. g5 Rxa3
+40. Rd8+ Kg7 41. Bc4 Ra4 42. Rb8 a5 43. b5 Rxc4 44. b6 Rg4 45. Rc8 Rb4+ 46. Kc2
+Rxb6 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/WhvL8E0l"]
+[Date "2024.09.22"]
+[Round "?"]
+[White "Grizzzly1000"]
+[Black "kamelstekspizza"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1392"]
+[BlackRatingDiff "-10"]
+[ECO "?"]
+[FEN "brkbnqrn/pppppppp/8/8/8/8/PPPPPPPP/BRKBNQRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.22"]
+[UTCTime "09:01:55"]
+[Variant "Chess960"]
+[WhiteElo "1694"]
+[WhiteRatingDiff "+12"]
+
+1. e4 b6 2. Ng3 Bb7 3. Be2 e5 4. Nf3 f6 5. Ba6 Nd6 6. Qe2 Be7 7. O-O g5 8. b3
+Ng6 9. Bxb7+ Kxb7 10. d4 Nf4 11. Qe3 g4 12. Nh4 Nf7 13. Nhf5 d6 14. c4 h5 15.
+Nxe7 Qxe7 16. Nf5 Qf8 17. b4 Nh6 18. Nh4 Re8 19. a4 Kb8 20. c5 f5 21. dxe5 dxe5
+22. cxb6 axb6 23. a5 b5 24. a6 Ng6 25. Nxg6 Rxg6 26. Rfc1 Rxa6 27. Rc5 f4 28.
+Rxb5+ Kc8 29. Qc3 g3 30. hxg3 fxg3 31. Qxg3 Ng4 32. Bxe5 Nxe5 33. Rxe5 Rae6 34.
+Qh3 Qf7 35. Rxh5 Kb8 36. f3 Qf6 37. Qg3 Qd4+ 38. Qf2 Qf6 39. Ra5 Re5 40. Qa7+
+Kc8 41. Qa8+ Kd7 42. Rd1+ Ke7 43. Rxe5+ Qxe5 44. Qd5 Qd6 45. Qg5+ Qf6 46. Rd7+
+Ke6 47. Qg4+ Ke5 48. Rd5# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/fI7R1s6w"]
+[Date "2024.09.21"]
+[Round "?"]
+[White "RSInternecio"]
+[Black "AACtrl"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1720"]
+[BlackRatingDiff "-5"]
+[ECO "?"]
+[FEN "rnqkbrnb/pppppppp/8/8/8/8/PPPPPPPP/RNQKBRNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.21"]
+[UTCTime "10:01:33"]
+[Variant "Chess960"]
+[WhiteElo "2066"]
+[WhiteRatingDiff "+9"]
+
+1. d4 g6 2. Qd2 d5 3. Nc3 Nf6 4. g3 Bc6 5. O-O-O O-O 6. f3 b5 7. e4 dxe4 8.
+Nxe4 Rd8 9. Qf2 Qe6 10. Kb1 a5 11. Ne2 Nd5 12. Nf4 Nxf4 13. gxf4 Na6 14. Ng5
+Qf6 15. Qh4 h5 16. Rg1 Bg7 17. Ne4 Qe6 18. f5 Qxf5 19. Qxe7 Bxd4 20. Rxd4 Rxd4
+21. Bc3 Rd6 22. Nxd6 cxd6 23. Qxd6 Qc5 24. Qd1 Re8 25. f4 Bxh1 26. Rxh1 b4 27.
+Be5 Qc6 28. Rg1 Kh7 29. b3 Nc5 30. Bb2 Qe6 31. Qd4 Rg8 32. Qxc5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/QD13F5HE"]
+[Date "2024.09.20"]
+[Round "?"]
+[White "RBorja1980"]
+[Black "Hallokayjansen"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1636"]
+[BlackRatingDiff "-34"]
+[ECO "?"]
+[FEN "brnkqnrb/pppppppp/8/8/8/8/PPPPPPPP/BRNKQNRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.20"]
+[UTCTime "18:01:13"]
+[Variant "Chess960"]
+[WhiteElo "1410"]
+[WhiteRatingDiff "+336"]
+
+1. d4 d5 2. g3 e6 3. e4 c6 4. Nd2 Nb6 5. b3 Qd7 6. Qe3 Ng6 7. Nd3 Ne7 8. Ne5
+Qe8 9. Bg2 f5 10. exd5 Nbxd5 11. Qf3 g5 12. Ndc4 g4 13. Qe2 Qh5 14. Nd6 Qxh2
+15. Qe1 Bxe5 16. dxe5 Rf8 17. Bb2 Ng6 18. O-O-O f4 19. Qa5+ Ke7 20. Bxd5 exd5
+21. Qc7+ Ke6 22. Rh1 Qxf2 23. Rxh7 Rbd8 24. Rh6 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/1x0w256x"]
+[Date "2024.09.20"]
+[Round "?"]
+[White "Forhavu"]
+[Black "sterpfi"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2085"]
+[BlackRatingDiff "+5"]
+[BlackTitle "FM"]
+[ECO "?"]
+[FEN "qnrkbnrb/pppppppp/8/8/8/8/PPPPPPPP/QNRKBNRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.20"]
+[UTCTime "16:00:11"]
+[Variant "Chess960"]
+[WhiteElo "1807"]
+[WhiteRatingDiff "-3"]
+
+1. d4 g5 2. O-O-O Ne6 3. e3 d5 4. g3 O-O-O 5. Bb4 Nc6 6. Ba3 b5 7. b3 b4 8. Bb2
+a5 9. a4 f5 10. c4 bxc3 11. Nxc3 Nb4 12. Ba3 Bh5 13. f3 Qc6 14. Kb2 f4 15. Bxb4
+axb4 16. Nb5 Qb6 17. Qc1 Kb7 18. Qd2 c6 19. Qxb4 cxb5 20. Qxe7+ Nc7 21. gxf4
+bxa4 22. Nd2 gxf4 23. Rxg8 Rxg8 24. Qxh7 fxe3 25. Qxg8 Qxd4+ 26. Kc2 Qc3+ 27.
+Kb1 Qb2# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/MePFWeBW"]
+[Date "2024.09.20"]
+[Round "?"]
+[White "scrooge"]
+[Black "SycoraxCirce"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1875"]
+[BlackRatingDiff "+10"]
+[ECO "?"]
+[FEN "rnqnkbbr/pppppppp/8/8/8/8/PPPPPPPP/RNQNKBBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.20"]
+[UTCTime "06:09:26"]
+[Variant "Chess960"]
+[WhiteElo "2000"]
+[WhiteRatingDiff "-14"]
+
+1. e4 c5 2. Nbc3 Nbc6 3. f4 d6 4. Be3 g6 5. Nf2 Bg7 6. Bc4 a6 7. a4 Rb8 8. O-O
+Nd4 9. Kh1 N8c6 10. a5 Qd8 11. Ba2 Nxa5 12. Nd3 Nac6 13. e5 f5 14. exf6 Bxf6
+15. Bxg8 Rxg8 16. Bxd4 Nxd4 17. Ne4 Kf7 18. Qd1 c4 19. Ne5+ dxe5 20. fxe5 Qd5
+21. Ng5+ Kg7 22. exf6+ exf6 23. Nf3 Rge8 24. d3 Rbd8 25. Nxd4 Qxd4 26. Qf3 cxd3
+27. cxd3 Rd7 28. Rf2 Re3 29. Qd1 Rxd3 30. Qg1 Qxf2 31. Qxf2 Rd1+ 32. Qf1 Rxf1+
+33. Rxf1 Rd2 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/4PtzVsbT"]
+[Date "2024.09.19"]
+[Round "?"]
+[White "root2"]
+[Black "Asturc0n"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1590"]
+[BlackRatingDiff "-4"]
+[ECO "?"]
+[FEN "rbqknnbr/pppppppp/8/8/8/8/PPPPPPPP/RBQKNNBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.19"]
+[UTCTime "18:33:37"]
+[Variant "Chess960"]
+[WhiteElo "2021"]
+[WhiteRatingDiff "+3"]
+
+1. f4 e6 2. e4 h6 3. Nf3 Bh7 4. Ng3 a6 5. Be3 Ba7 6. Bxa7 Rxa7 7. O-O d5 8. d3
+c5 9. c3 Nd7 10. f5 Nb6 11. fxe6 Qxe6 12. exd5 Nxd5 13. Re1 Qb6 14. c4 Ndf6 15.
+d4 Nd6 16. Bxh7 Nxh7 17. Re5 cxd4 18. c5 Qc6 19. cxd6 Qxd6 20. Nf5 Qb6 21. Rd5+
+1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/3tAERoV5"]
+[Date "2024.09.18"]
+[Round "?"]
+[White "wasileios"]
+[Black "ogennadi"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1356"]
+[BlackRatingDiff "+336"]
+[ECO "?"]
+[FEN "nrkrbqnb/pppppppp/8/8/8/8/PPPPPPPP/NRKRBQNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.18"]
+[UTCTime "14:02:08"]
+[Variant "Chess960"]
+[WhiteElo "1646"]
+[WhiteRatingDiff "-38"]
+
+1. g3 Nb6 2. f4 d5 3. Bf2 Nf6 4. Nb3 e6 5. d3 g6 6. Nf3 Ng4 7. Bg1 Na4 8. Bxa7
+Ra8 9. Bd4 Bxd4 10. Nbxd4 Ne3 11. Qe1 Nxd1 12. Kxd1 c5 13. b3 cxd4 14. bxa4
+Rxa4 15. Ng5 h6 16. Nf3 g5 17. fxg5 hxg5 18. Nxg5 f6 19. Nf3 Rxa2 20. Nxd4 Qc5
+21. Qb4 Qxb4 22. Rxb4 Ra1+ 23. Kd2 Rxh1 24. Nxe6 Rd6 25. Nc5 b6 26. Nb3 Rxh2
+27. Nd4 Bh5 28. c4 dxc4 29. Rxc4+ Kb7 30. Nf5 Rxe2+ 31. Kc3 Rc6 32. Rxc6 Kxc6
+33. Nd4+ Kd5 34. Nxe2 Bxe2 35. Kd2 Bg4 36. Kc3 b5 37. Kb4 Kd4 38. Kxb5 Kxd3 39.
+Kc5 f5 40. Kb4 Ke3 41. Kc3 Kf3 42. Kd3 Kxg3 43. Kd2 Kf2 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/txNUoBqT"]
+[Date "2024.09.17"]
+[Round "?"]
+[White "Redpartot"]
+[Black "LuzhinAcademy"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1930"]
+[BlackRatingDiff "-34"]
+[ECO "?"]
+[FEN "qrbbknnr/pppppppp/8/8/8/8/PPPPPPPP/QRBBKNNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.17"]
+[UTCTime "16:58:31"]
+[Variant "Chess960"]
+[WhiteElo "1678"]
+[WhiteRatingDiff "+10"]
+
+1. b4 b5 2. Qxg7 Ng6 3. Nf3 Qd5 4. c3 Qf5 5. Bb3 d5 6. d3 c6 7. Ng3 Qd7 8. Ne5
+Nxe5 9. Qxh8 Qe6 10. Qxg8+ Kd7 11. Qxh7 Bb6 12. Qf5 Bxf2+ 13. Kxf2 Ng4+ 14. Ke1
+1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/YWqdq2xV"]
+[Date "2024.09.17"]
+[Round "?"]
+[White "Alvaro64"]
+[Black "FunnyLikeAClown"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1750"]
+[BlackRatingDiff "+38"]
+[ECO "?"]
+[FEN "qnrkbbrn/pppppppp/8/8/8/8/PPPPPPPP/QNRKBBRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.17"]
+[UTCTime "15:58:57"]
+[Variant "Chess960"]
+[WhiteElo "1928"]
+[WhiteRatingDiff "-34"]
+
+1. e4 e6 2. Nc3 b6 3. Bc4 Bb4 4. d3 Ng6 5. Ng3 Ne5 6. Bb3 Nbc6 7. a3 Be7 8. Bd2
+Nd4 9. Ba2 c6 10. Be3 Nb5 11. Nce2 d5 12. c4 Nxd3 13. Rc2 dxc4 14. Bxc4 Ne5 15.
+Rd2+ Bd7 16. Bb3 Qb7 17. a4 Nd6 18. Qa2 c5 19. O-O Nxe4 20. Nxe4 Qxe4 21. Bxe6
+fxe6 22. Qxe6 Nf3+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/eMsqTvSP"]
+[Date "2024.09.16"]
+[Round "?"]
+[White "LuzhinAcademy"]
+[Black "Zubenelgenubi"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1644"]
+[BlackRatingDiff "+12"]
+[ECO "?"]
+[FEN "nrbbkqnr/pppppppp/8/8/8/8/PPPPPPPP/NRBBKQNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.16"]
+[UTCTime "11:59:58"]
+[Variant "Chess960"]
+[WhiteElo "1945"]
+[WhiteRatingDiff "-15"]
+
+1. e3 e5 2. d4 exd4 3. exd4 d5 4. Nf3 Nf6 5. Bg5 Qe7+ 6. Qe2 Qxe2+ 7. Bxe2 O-O
+8. O-O Bg4 9. h3 Bxf3 10. Bxf3 c6 11. Nb3 h6 12. Bh4 Re8 13. Rbe1 Rxe1 14. Rxe1
+Kf8 15. Nc5 Nb6 16. Bg3 Rc8 17. Nxb7 Bc7 18. Bxc7 Rxc7 19. Nc5 Nc4 20. b3 Nd6
+21. a4 Re7 22. Rxe7 Kxe7 23. Kf1 Nfe8 24. Ke1 Nc7 25. Kd2 f5 26. Be2 g6 27. f3
+Nf7 28. c4 Kd6 29. Kc3 Nd8 30. Bd3 Nde6 31. Nxe6 Nxe6 32. cxd5 cxd5 33. h4 Nf4
+34. Bf1 Ne6 35. g3 g5 36. hxg5 Nxg5 37. Bg2 a5 38. Kd3 Ne6 39. Bh3 Ng5 40. Bg2
+Ne6 41. Ke3 Ke7 42. f4 Nc7 43. Bf3 Ke6 44. g4 fxg4 45. Bxg4+ Kf6 46. Bd7 h5 47.
+Kf3 Na6 48. Be8 h4 49. Kg4 h3 50. Kxh3 Nb4 51. Kg4 Nc2 52. Bc6 Ke6 53. f5+ Kd6
+54. f6 Nxd4 55. f7 Ne6 56. Kf5 d4 57. Kf6 d3 58. Bf3 d2 59. Bg4 Nf8 60. Kf5 Ke7
+61. Bh5 Ne6 62. Ke5 Nc5 63. Kd4 Nxb3+ 64. Kc3 Nc5 65. Kxd2 Nxa4 66. Kc2 Nc5 67.
+Kc3 Ne4+ 68. Kc4 Nd6+ 69. Kb3 Nxf7 70. Bxf7 Kxf7 71. Ka4 Ke6 72. Kxa5 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/4IlkGU3x"]
+[Date "2024.09.15"]
+[Round "?"]
+[White "Hallokayjansen"]
+[Black "scrooge"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1997"]
+[BlackRatingDiff "+3"]
+[ECO "?"]
+[FEN "brqbknnr/pppppppp/8/8/8/8/PPPPPPPP/BRQBKNNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.15"]
+[UTCTime "19:01:02"]
+[Variant "Chess960"]
+[WhiteElo "1645"]
+[WhiteRatingDiff "-9"]
+
+1. b3 Nf6 2. Nf3 e6 3. Ng3 Ng6 4. d3 c5 5. e4 Qc7 6. Qe3 Be7 7. Be2 b6 8. O-O
+d5 9. exd5 Nxd5 10. Qd2 h5 11. Bxg7 Rg8 12. Bb2 Ngf4 13. Be5 Bd6 14. Bxd6 Qxd6
+15. h4 O-O-O 16. Ng5 Qc7 17. c4 Nb4 18. a3 Nbxd3 19. Bxd3 Rxd3 20. Qc2 Rgd8 21.
+Rbd1 Bxg2 22. Rxd3 Rxd3 23. Re1 Qd7 24. Nxh5 Nxh5 25. Kxg2 Nf4+ 26. Kg1 Qd4 27.
+Re4 Rg3+ 28. Kf1 Qa1+ 29. Re1 Rg1+ 30. Kxg1 Qxe1+ 31. Kh2 f6 32. Nf3 Qf1 33.
+Qh7 Qg2# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/JOZolX5d"]
+[Date "2024.09.14"]
+[Round "?"]
+[White "HeartOfStone"]
+[Black "RSInternecio"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "2094"]
+[BlackRatingDiff "-28"]
+[ECO "?"]
+[FEN "rkbqrnnb/pppppppp/8/8/8/8/PPPPPPPP/RKBQRNNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.14"]
+[UTCTime "17:01:15"]
+[Variant "Chess960"]
+[WhiteElo "1716"]
+[WhiteRatingDiff "+5"]
+
+1. d4 g6 2. e4 f5 3. e5 d6 4. f4 g5 5. g3 Ne6 6. Ne2 gxf4 7. gxf4 Nh6 8. Ne3 c5
+9. c3 Qb6 10. Nd5 Qa5 11. h3 Bd7 12. Be3 cxd4 13. cxd4 O-O-O 14. Qd2 Qxd2 15.
+Bxd2 dxe5 16. dxe5 Bc6 17. Nec3 Nc5 18. Be3 Ne4 19. O-O-O e6 20. Nb4 Nxc3 21.
+bxc3 Rxd1+ 22. Rxd1 Bxh1 23. Rxh1 a5 24. Nc2 Bg7 25. Bb6 Ng8 26. Bxa5 Bh6 27.
+Rf1 Ne7 28. c4 Nc6 29. Bc3 Rg8 30. Rf3 Rg2 31. Kb2 Kc7 32. Kb3 Bf8 33. Nd4
+Nxd4+ 34. Bxd4 Kc6 35. a3 h5 36. Bc3 h4 37. Be1 Be7 38. Bf2 Bd8 39. Be1 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/kyj23Ybn"]
+[Date "2024.09.14"]
+[Round "?"]
+[White "Magagna"]
+[Black "wasileios"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1656"]
+[BlackRatingDiff "-10"]
+[ECO "?"]
+[FEN "rbbnqnkr/pppppppp/8/8/8/8/PPPPPPPP/RBBNQNKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.14"]
+[UTCTime "15:09:08"]
+[Variant "Chess960"]
+[WhiteElo "2003"]
+[WhiteRatingDiff "+18"]
+
+1. b3 b6 2. Bb2 Bb7 3. c4 c5 4. Nc3 f6 5. Be4 Bxe4 6. Nxe4 Qg6 7. d3 Nfe6 8.
+Ne3 f5 9. Nd5 Kf8 10. Nd2 Nf4 11. Nxf4 Bxf4 12. Nf3 Nc6 13. e3 Bc7 14. d4 f4
+15. Qc3 fxe3 16. fxe3 cxd4 17. exd4 e6 18. O-O Kg8 19. Rad1 Ne7 20. d5 Nf5 21.
+dxe6 dxe6 22. Rd7 Bd8 23. Qe5 Qf6 24. Qe4 Qg6 25. Qxa8 h6 26. Rxd8+ Kf7 27.
+Rd7+ Ne7 28. Ng5# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/cVkkkGVr"]
+[Date "2024.09.13"]
+[Round "?"]
+[White "FunnyLikeAClown"]
+[Black "root2"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2048"]
+[BlackRatingDiff "-27"]
+[ECO "?"]
+[FEN "nnqrbbkr/pppppppp/8/8/8/8/PPPPPPPP/NNQRBBKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.13"]
+[UTCTime "19:00:43"]
+[Variant "Chess960"]
+[WhiteElo "1700"]
+[WhiteRatingDiff "+50"]
+
+1. d4 d5 2. c4 dxc4 3. e4 Nb6 4. Bxc4 Nxc4 5. Qxc4 g6 6. O-O Bg7 7. Bc3 O-O 8.
+d5 a6 9. Bxg7 Kxg7 10. Nc3 c6 11. Nb3 cxd5 12. Qd4+ Kg8 13. Nxd5 Nc6 14. Nxe7+
+Nxe7 15. Qxd8 Qe6 16. Qd6 Qxd6 17. Rxd6 Bc6 18. f3 Nc8 19. Rd4 Na7 20. Rfd1 f5
+21. exf5 Rxf5 22. Rd8+ Rf8 23. Rxf8+ Kxf8 24. Rd8+ Ke7 25. Rh8 h5 26. Nd4 Be8
+27. Kf2 Nc8 28. g4 Nd6 29. h3 Kf6 30. Rf8+ Kg7 31. Ne6+ Kh7 32. Rf4 Bc6 33.
+Ng5+ Kg7 34. Ne6+ Kh7 35. Rd4 Nb5 36. Rd8 hxg4 37. a4 Na7 38. Ra8 gxh3 39. Ng5+
+Kh6 40. Nxh3 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/SqbmPv2y"]
+[Date "2024.09.13"]
+[Round "?"]
+[White "kamelstekspizza"]
+[Black "Forhavu"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1806"]
+[BlackRatingDiff "+1"]
+[ECO "?"]
+[FEN "bnqrkrnb/pppppppp/8/8/8/8/PPPPPPPP/BNQRKRNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.13"]
+[UTCTime "04:00:55"]
+[Variant "Chess960"]
+[WhiteElo "1398"]
+[WhiteRatingDiff "-6"]
+
+1. b3 Nf6 2. Nc3 d5 3. Nf3 c5 4. O-O Nbd7 5. g3 b6 6. d4 cxd4 7. Nxd4 e5 8.
+Ndb5 Qc5 9. Nxa7 e4 10. e3 Ne5 11. Bb2 Rd7 12. Nab5 g6 13. Ba3 Qc8 14. Nd6+
+Rxd6 15. Bxd6 Nf3+ 16. Bxf3 exf3 17. Bxf8 Qh3 18. Qa3 Qg2# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/OR8gmMbV"]
+[Date "2024.09.11"]
+[Round "?"]
+[White "ogennadi"]
+[Black "j3084"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1707"]
+[BlackRatingDiff "+21"]
+[ECO "?"]
+[FEN "qrnkbnrb/pppppppp/8/8/8/8/PPPPPPPP/QRNKBNRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.11"]
+[UTCTime "21:29:38"]
+[Variant "Chess960"]
+[WhiteElo "1500"]
+[WhiteRatingDiff "-144"]
+
+1. g4 d6 2. a4 Bc6 3. Bxc6 bxc6 4. b3 g6 5. c3 Nd7 6. g5 Ncb6 7. Ne3 Nd5 8. d4
+c5 9. Bd2 cxd4 10. cxd4 Nb4 11. Bc3 Qe4 12. Rg4 Qh1+ 13. Kd2 Qxh2 14. d5 Bxc3+
+15. Qxc3 a5 16. Nc2 Nxd5 17. Qxa5 N7b6 18. Nd4 O-O 19. Nd3 Ra8 20. Qb5 c5 21.
+Nc6 h5 22. Re4 e5 23. Ne7+ Nxe7 24. Qxb6 Qg2 25. f3 Qxg5+ 26. Kc3 Nd5+ 27. Kc2
+Nxb6 28. b4 c4 29. Nb2 d5 30. f4 Qf5 31. Kd1 dxe4 32. a5 Rfd8+ 33. Ke1 e3 34.
+Rc1 Qxf4 35. axb6 Qf2# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/M2BjGafy"]
+[Date "2024.09.11"]
+[Round "?"]
+[White "Asturc0n"]
+[Black "Alvaro64"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1921"]
+[BlackRatingDiff "+7"]
+[ECO "?"]
+[FEN "rqnnbbkr/pppppppp/8/8/8/8/PPPPPPPP/RQNNBBKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.11"]
+[UTCTime "18:57:14"]
+[Variant "Chess960"]
+[WhiteElo "1597"]
+[WhiteRatingDiff "-7"]
+
+1. e3 d5 2. d4 e6 3. a3 c5 4. Nb3 cxd4 5. Nxd4 Nd6 6. Bb4 a5 7. Bc3 e5 8. Nb3
+Nc6 9. Nc5 b6 10. Nd3 f6 11. b4 Ne4 12. bxa5 bxa5 13. Qxb8 Rxb8 14. Be1 Bf7 15.
+Nc3 Nxc3 16. Bxc3 Bd6 17. g3 O-O 18. Bg2 Rfc8 19. O-O a4 20. Ne1 Ne7 21. Ba5
+Rb2 22. c3 d4 23. exd4 Bc4 24. dxe5 Bxe5 25. Bb4 Nc6 26. Nf3 Bxf1 27. Bxf1 Nxb4
+28. cxb4 Rb3 29. Nxe5 fxe5 30. Kg2 Kf7 31. b5 Kf6 32. h4 Rb2 33. Bd3 g6 34. h5
+Rd8 35. Be4 Rdd2 36. Rf1 Rxb5 37. hxg6 hxg6 38. Kh3 Rd4 39. f3 Rb3 40. Ra1 Rd2
+41. Bc6 Rd4 42. g4 e4 43. Kg3 exf3 44. Bxf3 Rdd3 45. Rf1 Rxa3 46. Kg2 Rxf3 47.
+Rxf3+ Rxf3 48. Kxf3 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/VvjhsdwD"]
+[Date "2024.09.11"]
+[Round "?"]
+[White "sterpfi"]
+[Black "Grizzzly1000"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1703"]
+[BlackRatingDiff "-9"]
+[ECO "?"]
+[FEN "qnbbrkrn/pppppppp/8/8/8/8/PPPPPPPP/QNBBRKRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.11"]
+[UTCTime "18:31:34"]
+[Variant "Chess960"]
+[WhiteElo "2082"]
+[WhiteRatingDiff "+3"]
+[WhiteTitle "FM"]
+
+1. e4 c6 2. Nc3 Ba5 3. b3 d6 4. Ng3 e5 5. O-O O-O 6. f4 Ng6 7. Nh5 f5 8. exf5
+Bxf5 9. Ne4 Bb6+ 10. Kh1 Bxe4 11. Rxe4 Bd4 12. Bb2 Bxb2 13. Qxb2 Nd7 14. f5 Nf6
+15. Ree1 Ne7 16. d4 exd4 17. Nxf6+ Rxf6 18. Bh5 g6 19. fxg6 Rxf1+ 20. Rxf1 hxg6
+21. Be2 c5 22. Qc1 Rf8 23. Qg5 Rxf1+ 24. Bxf1 Qe8 25. h4 Qf7 26. Bd3 Kg7 27. h5
+Qf2 28. Qxe7+ Kh6 29. hxg6 Qg3 30. Qh7+ Kg5 31. g7 Qe1+ 32. Kh2 Qe5+ 33. g3 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/HZnJ6diT"]
+[Date "2024.09.11"]
+[Round "?"]
+[White "AACtrl"]
+[Black "hwelman"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1353"]
+[BlackRatingDiff "-17"]
+[ECO "?"]
+[FEN "rbkrnqbn/pppppppp/8/8/8/8/PPPPPPPP/RBKRNQBN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.11"]
+[UTCTime "15:01:06"]
+[Variant "Chess960"]
+[WhiteElo "1715"]
+[WhiteRatingDiff "+5"]
+
+1. f4 f5 2. c3 c6 3. d4 Ng6 4. g3 d5 5. Nf3 Bd6 6. Nf2 Nf6 7. Bxf5+ Nd7 8. Qh3
+h6 9. Bxg6 Qf6 10. Qf5 Qxf5 11. Bxf5 Rf8 12. Bh3 e6 13. e4 dxe4 14. Nxe4 Bc7
+15. Ne5 Nxe5 16. dxe5 O-O-O 17. Rxd8+ Rxd8 18. O-O-O Rxd1+ 19. Kxd1 Kb8 20. Nc5
+b6 21. Nxe6 Bxe6 22. Bxe6 c5 23. Bf7 Kc8 24. a4 Kd7 25. e6+ Ke7 26. a5 Bd8 27.
+b4 cxb4 28. cxb4 bxa5 29. bxa5 Bxa5 30. Bc5+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/NMF5EF5Z"]
+[Date "2024.09.10"]
+[Round "?"]
+[White "SycoraxCirce"]
+[Black "RBorja1980"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1500"]
+[BlackRatingDiff "-90"]
+[ECO "?"]
+[FEN "rkbbrnnq/pppppppp/8/8/8/8/PPPPPPPP/RKBBRNNQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.09.10"]
+[UTCTime "18:30:33"]
+[Variant "Chess960"]
+[WhiteElo "1858"]
+[WhiteRatingDiff "+2"]
+
+1. e4 e5 2. d3 d6 3. f4 Nd7 4. Bg4 Ngf6 5. Bh3 b6 6. Nf3 h6 7. Bd2 Bb7 8. O-O-O
+g6 9. g3 exf4 10. gxf4 Nc5 11. Bc3 Qf8 12. Ne3 Nh5 13. f5 g5 14. Ng4 Nf4 15.
+Bf1 f6 16. Ne3 Qf7 17. Kb1 a5 18. Ng2 a4 19. Nxf4 gxf4 20. Bd2 Qd7 21. Bxf4 b5
+22. Bxh6 b4 23. Qg1 b3 24. cxb3 axb3 25. a3 Na4 26. Qg7 Qc6 27. Rc1 Qb6 28. Qf7
+Rh8 29. Be3 Qa5 30. Qxb3 Rh3 31. Bxh3 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/Cpraz5iK"]
+[Date "2024.12.28"]
+[Round "?"]
+[White "ATrueRavenclaw"]
+[Black "guneet97"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1205"]
+[BlackRatingDiff "-12"]
+[ECO "?"]
+[FEN "nnbrqbkr/pppppppp/8/8/8/8/PPPPPPPP/NNBRQBKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.28"]
+[UTCTime "16:02:58"]
+[Variant "Chess960"]
+[WhiteElo "1571"]
+[WhiteRatingDiff "+10"]
+
+1. d4 d5 2. Nb3 Bf5 3. Na3 e6 4. c3 Nc6 5. Bf4 a6 6. g3 Bd6 7. Bxd6 Rxd6 8. Bg2
+O-O 9. O-O Nb6 10. e4 Bg6 11. Nc5 Qc8 12. f4 dxe4 13. Bxe4 Bxe4 14. Qxe4 f5 15.
+Qe2 Re8 16. Nc4 Nxc4 17. Qxc4 b5 18. Qe2 Ne7 19. Rfe1 Nd5 20. Qc2 g6 21. Re5
+Re7 22. Rde1 c6 23. R1e2 Re8 24. h4 h5 25. Re1 Re7 26. a4 Re8 27. Ra1 Re7 28.
+axb5 axb5 29. Ree1 Kh7 30. Ra6 Rc7 31. Qe2 Re7 32. Rea1 Kh6 33. Ra8 Qc7 34. Qe5
+Nb6 35. R8a7 Qb8 36. Rxe7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/wRr8iZ4j"]
+[Date "2024.12.26"]
+[Round "?"]
+[White "FunnyLikeAClown"]
+[Black "MoistvonLipwig"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2107"]
+[BlackRatingDiff "+7"]
+[ECO "?"]
+[FEN "nnrbkrbq/pppppppp/8/8/8/8/PPPPPPPP/NNRBKRBQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.26"]
+[UTCTime "19:00:04"]
+[Variant "Chess960"]
+[WhiteElo "1779"]
+[WhiteRatingDiff "-7"]
+
+1. f4 Nc6 2. c3 f5 3. Bb3 Nb6 4. Nc2 Bxb3 5. axb3 d5 6. Nd4 Nxd4 7. Bxd4 c5 8.
+Be5 Nd7 9. g3 Nxe5 10. fxe5 e6 11. O-O g6 12. d4 Bg5 13. Rcd1 Be3+ 14. Kg2 O-O
+15. dxc5 Qxe5 16. Nd2 Bxc5 17. Nf3 Qxe2+ 18. Kh3 g5 19. Rde1 g4+ 20. Kh4 Be7+
+21. Kh5 Qa6 22. Ne5 Rf6 23. Kg5 Rg6+ 24. Kf4 Bg5# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/h47N0xJA"]
+[Date "2024.12.23"]
+[Round "?"]
+[White "RSInternecio"]
+[Black "Akshak"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "2043"]
+[BlackRatingDiff "+10"]
+[ECO "?"]
+[FEN "qrkbbnnr/pppppppp/8/8/8/8/PPPPPPPP/QRKBBNNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.23"]
+[UTCTime "10:02:40"]
+[Variant "Chess960"]
+[WhiteElo "2201"]
+[WhiteRatingDiff "-10"]
+
+1. e4 e5 2. Nf3 Ng6 3. b4 Bf6 4. d4 exd4 5. Nxd4 b6 6. Bf3 Ne5 7. Bc3 Nxf3 8.
+gxf3 c5 9. Nf5 cxb4 10. Nd6+ Kd8 11. Rxb4 Qc6 12. Bxf6+ Nxf6 13. Qd4 b5 14. Ne3
+Nh5 15. Nef5 f6 16. Qxa7 Rb6 17. a4 Qc7 18. Qxc7+ Kxc7 19. Nxb5+ Kd8 20. Nfd6
+Rc6 21. Rd1 Ke7 22. Nd4 Kxd6 23. Nxc6+ Kxc6 24. Kb2 d6 25. a5 Bd7 26. a6 Ra8
+27. Ra1 Nf4 28. a7 Kc7 29. e5 fxe5 30. Kc1 Ne2+ 31. Kd2 Nd4 32. f4 Nc6 33. Rba4
+exf4 34. Rxf4 Ne5 35. Rb4 g5 36. f4 gxf4 37. Rxf4 Bc6 38. Ke3 h5 39. Rh4 Bf3
+40. Rf4 Bc6 41. Rh4 Ng4+ 42. Kf4 Nf6 43. Kg5 Ne4+ 44. Kxh5 Rh8+ 45. Kg4 Nf2+
+46. Kg3 Nh1+ 47. Kg4 Nf2+ 48. Kg3 Nh1+ 49. Kg4 Nf2+ 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/QpV85CUT"]
+[Date "2024.12.22"]
+[Round "?"]
+[White "kamelstekspizza"]
+[Black "ztraynor"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1555"]
+[BlackRatingDiff "+37"]
+[ECO "?"]
+[FEN "rbnknqbr/pppppppp/8/8/8/8/PPPPPPPP/RBNKNQBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.22"]
+[UTCTime "16:03:57"]
+[Variant "Chess960"]
+[WhiteElo "1524"]
+[WhiteRatingDiff "-24"]
+
+1. d4 d5 2. Ncd3 Ncd6 3. Nf3 f6 4. h3 g5 5. Bh2 c6 6. a3 Bc7 7. Ba2 O-O-O 8.
+O-O-O Bf7 9. Kb1 Nb5 10. e3 Bxh2 11. Nxh2 Nec7 12. f4 gxf4 13. Nxf4 e5 14. dxe5
+fxe5 15. Nd3 e4 16. Ne5 Be6 17. Nhg4 Nxa3+ 18. bxa3 Qxa3 19. Rd2 Nb5 20. c3
+Nxc3+ 21. Ka1 d4 22. Qc1 Qxc1+ 23. Rxc1 Nxa2 24. Rxa2 Bxa2 25. Kxa2 Rhf8 26.
+exd4 Rxd4 27. Re1 Rd2+ 28. Kb3 Rxg2 29. Rxe4 Rg3+ 30. Kc2 Rxh3 31. Rd4 h5 32.
+Nh6 Rf2+ 33. Rd2 Rxd2+ 34. Kxd2 Kc7 35. Ng6 Rf3 36. Ne5 Rf6 37. Ng8 Re6 38. Nf3
+Kd6 39. Nh4 a5 40. Nf5+ Ke5 41. Ne3 Rd6+ 42. Kc3 Kf4 43. Nc4 Rg6 44. Ne7 Rg3+
+45. Kd4 h4 46. Nxa5 h3 47. Nxb7 h2 48. Nc5 h1=Q 49. Ne6+ Kg4 50. Ng6 Qd5# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/4Ef9rPZV"]
+[Date "2024.12.22"]
+[Round "?"]
+[White "HeartOfStone"]
+[Black "yellorambo"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1803"]
+[BlackRatingDiff "+21"]
+[ECO "?"]
+[FEN "nbnrkqbr/pppppppp/8/8/8/8/PPPPPPPP/NBNRKQBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.22"]
+[UTCTime "15:02:37"]
+[Variant "Chess960"]
+[WhiteElo "1685"]
+[WhiteRatingDiff "-6"]
+
+1. e4 c5 2. f3 Be5 3. c3 e6 4. Qb5 b6 5. d4 Nc7 6. Qa4 b5 7. Qa5 cxd4 8. cxd4
+Bd6 9. Nd3 Nb6 10. e5 Nc4 11. Qc3 Nd5 12. Qb3 Bb4+ 13. Ke2 a5 14. a3 a4 15. Qa2
+Ba5 16. Nc2 h5 17. Ne3 Ndxe3 18. Bxe3 d5 19. Nc5 g6 20. Bf2 Qh6 21. b3 axb3 22.
+Qxb3 Rb8 23. Bd3 Bh7 24. a4 g5 25. axb5 Bxd3+ 26. Rxd3 Ke7 27. Be1 Bb6 28. Bb4
+Kf8 29. Nd7+ Kg7 30. Nxb8 Rxb8 31. Bc5 Ba5 32. Ra1 g4 33. fxg4 hxg4 34. Rf1 Nd2
+35. Qa2 Nxf1 36. Qxa5 Nxh2 37. b6 Qf4 38. Qe1 Ra8 39. b7 Ra2+ 40. Rd2 Qe4+ 41.
+Kf2 g3+ 42. Kxg3 Qxe1+ 43. Kxh2 Qxd2 44. b8=Q Qxg2# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/IuIhqi5E"]
+[Date "2024.12.21"]
+[Round "?"]
+[White "training_account2024"]
+[Black "AACtrl"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1768"]
+[BlackRatingDiff "+5"]
+[ECO "?"]
+[FEN "rkqnnrbb/pppppppp/8/8/8/8/PPPPPPPP/RKQNNRBB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.21"]
+[UTCTime "18:01:38"]
+[Variant "Chess960"]
+[WhiteElo "1889"]
+[WhiteRatingDiff "-26"]
+
+1. d4 g6 2. Nf3 f5 3. h3 Nc6 4. e3 d6 5. Nc3 Nf6 6. Bh2 Qe8 7. Re1 e5 8. dxe5
+dxe5 9. e4 f4 10. g3 fxg3 11. Bxg3 O-O-O 12. Qg5 Nh5 13. Bh2 Bf6 14. Qg4+ Be6
+15. Qg2 Qe7 16. O-O-O g5 17. Kb1 Nf4 18. Bxf4 gxf4 19. Nd5 Qf7 20. h4 Bxd5 21.
+exd5 Rxd5 22. Qh3+ Kb8 23. Rxd5 Qxd5 24. Nxe5 Qb5 25. Nxc6+ bxc6 26. Qb3 Qxb3
+27. cxb3 Bxh4 28. Re4 Bxf2 29. Rb4+ Kc8 30. Bxc6 Bc5 31. Rc4 f3 32. Bxf3 Rxf3
+33. Rxc5 Rh3 34. Rd5 h5 35. Kc2 h4 36. Rh5 Rh1 37. Kd2 h3 38. Ke2 h2 39. Kf2
+Rb1 40. Rxh2 Rxb2+ 41. Kg3 Rxh2 42. Kxh2 Kb7 43. Kg2 Kb6 44. Kf2 Kb5 45. Ke2
+Kb4 46. Kd3 Ka3 47. Kc4 Kxa2 48. b4 Ka3 49. Kc3 Ka4 50. Kc4 c6 51. Kc5 a6 52.
+Kc4 a5 53. bxa5 Kxa5 54. Kc5 Ka4 55. Kxc6 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/D3pYrFjG"]
+[Date "2024.12.21"]
+[Round "?"]
+[White "Tranzoo"]
+[Black "Merkava777"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1512"]
+[BlackRatingDiff "+18"]
+[ECO "?"]
+[FEN "nnqbrkbr/pppppppp/8/8/8/8/PPPPPPPP/NNQBRKBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.21"]
+[UTCTime "11:01:38"]
+[Variant "Chess960"]
+[WhiteElo "1578"]
+[WhiteRatingDiff "-25"]
+
+1. c4 e5 2. Nc3 f5 3. f3 Bxc4 4. b3 Ba6 5. Bc2 O-O 6. Bd3 Bxd3 7. exd3 Nb6 8.
+Nc2 d5 9. Bxb6 cxb6 10. Nxd5 Bh4 11. g3 Qc6 12. Nde3 Qxf3+ 13. Kg1 f4 14. Rf1
+Qh5 15. gxh4 fxe3 16. Nxe3 Qg6+ 17. Ng2 Qxd3 18. Qc4+ Qxc4 19. bxc4 Nc6 20. Ne3
+Nd4 21. Kg2 Ne2 22. Rf2 Nf4+ 23. Kg3 Rd8 24. Rhf1 Rd3 25. Kg4 Rd4 26. Nf5 Nd3+
+27. Nxd4 Nxf2+ 28. Kg3 Ne4+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/bAPgjZUi"]
+[Date "2024.12.20"]
+[Round "?"]
+[White "scrooge"]
+[Black "Magagna"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2026"]
+[BlackRatingDiff "-28"]
+[ECO "?"]
+[FEN "rnbbkqrn/pppppppp/8/8/8/8/PPPPPPPP/RNBBKQRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.20"]
+[UTCTime "17:07:08"]
+[Variant "Chess960"]
+[WhiteElo "2069"]
+[WhiteRatingDiff "+5"]
+
+1. e4 Nc6 2. Ng3 e5 3. Nc3 d6 4. Nd5 a6 5. c3 Be6 6. Qd3 Ng6 7. O-O Nge7 8. f4
+f6 9. f5 Bf7 10. Qf3 Nxd5 11. exd5 Ne7 12. Bb3 c6 13. dxc6 Bb6+ 14. Kh1 Nxc6
+15. d4 O-O-O 16. d5 Ne7 17. c4 Kb8 18. Ne4 Qe8 19. Be3 Bxe3 20. Qxe3 Qd7 21.
+Qf3 Nxf5 22. Qxf5 Qxf5 23. Rxf5 Bg6 24. Ng3 Bxf5 25. Nxf5 g6 26. Ne3 f5 27. Bd1
+Rc8 28. Be2 Rgf8 29. Kg1 Ka7 30. Rd1 Rc5 31. b4 Rc7 32. a4 f4 33. Nf1 e4 34.
+Nd2 Re7 35. Bg4 Re5 36. Nb3 h5 37. Bd7 e3 38. Nd4 Re4 39. Ne6 Rg8 40. Rd4 Rxd4
+41. Nxd4 g5 42. Kf1 g4 43. Ke2 h4 44. h3 f3+ 45. gxf3 gxh3 46. Bxh3 Rg3 47. Bd7
+h3 48. Bxh3 Rxh3 49. Nf5 Kb6 50. Nxd6 Rh4 51. a5+ Kc7 52. Ne4 b6 53. axb6+ Kxb6
+54. Kxe3 Rh1 55. c5+ Kb7 56. Nd6+ Kc7 57. b5 axb5 58. Nxb5+ Kb7 59. c6+ Kb6 60.
+c7 Kb7 61. d6 Rc1 62. d7 Rxc7 63. Nxc7 Kxc7 64. Ke4 Kxd7 65. Ke5 Ke7 66. Kf5
+Kf7 67. f4 Ke7 68. Kg6 Kf8 69. Kf6 Kg8 70. Ke7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/jUP4nJVt"]
+[Date "2024.12.20"]
+[Round "?"]
+[White "Forhavu"]
+[Black "Roie"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1322"]
+[BlackRatingDiff "-3"]
+[ECO "?"]
+[FEN "qrnbnkbr/pppppppp/8/8/8/8/PPPPPPPP/QRNBNKBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.20"]
+[UTCTime "16:07:22"]
+[Variant "Chess960"]
+[WhiteElo "1826"]
+[WhiteRatingDiff "+1"]
+
+1. e4 e5 2. Ncd3 Bf6 3. Bg4 Ncd6 4. f3 Bg5 5. Nxe5 Bxd2 6. Nxd7+ Ke7 7. Nxb8 a5
+8. Nd7 Qa6+ 9. Nd3 c5 10. e5 Nc4 11. Bxc5+ Kd8 12. b3 Ne3+ 13. Bxe3 Bxe3 14.
+Qc3 Nc7 15. b4 Nb5 16. Qe1 Bd4 17. e6 fxe6 18. N7c5 Qc6 19. bxa5 Bc3 20. Nxb7+
+Qxb7 21. Qxc3 Bf7 22. Qxg7 Rg8 23. Qf6+ Ke8 24. Bxe6 Nd6 25. Rxb7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/0ZAxsrXj"]
+[Date "2024.12.18"]
+[Round "?"]
+[White "root2"]
+[Black "NameGoesInHere"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1570"]
+[BlackRatingDiff "-5"]
+[ECO "?"]
+[FEN "bbrnqknr/pppppppp/8/8/8/8/PPPPPPPP/BBRNQKNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.18"]
+[UTCTime "18:00:58"]
+[Variant "Chess960"]
+[WhiteElo "2044"]
+[WhiteRatingDiff "+2"]
+
+1. c4 c5 2. Nf3 Nf6 3. e3 b6 4. Qe2 d5 5. cxd5 Bxd5 6. d4 Ne6 7. b3 O-O 8. O-O
+Ng4 9. e4 Ba8 10. h3 Nf6 11. d5 Nf4 12. Qc2 e5 13. Nb2 Qd7 14. Nc4 Nxh3+ 15.
+gxh3 Qxh3 16. Nh2 b5 17. Nxe5 Bxe5 18. Bxe5 Ng4 19. Nxg4 Qxg4+ 20. Bg3 h5 21.
+Qd1 Qg5 22. Kh1 f5 23. Bh2 fxe4 24. Bxe4 Qh4 25. f3 Rfe8 26. Qe1 Qf6 27. Qg3
+Red8 28. Rcd1 c4 29. bxc4 Rxc4 30. Rg1 Rc5 31. Qe5 Qxe5 32. Bxe5 Rd7 33. Bf5
+Re7 34. Bd6 Rxd5 35. Rxd5 Bxd5 36. Bxe7 Bxf3+ 37. Kh2 Kf7 38. Bb4 Bd5 39. Bg6+
+Kg8 40. Rd1 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/WgBZvrL1"]
+[Date "2024.12.18"]
+[Round "?"]
+[White "Redpartot"]
+[Black "ogennadi"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1558"]
+[BlackRatingDiff "-24"]
+[ECO "?"]
+[FEN "nbnrkrbq/pppppppp/8/8/8/8/PPPPPPPP/NBNRKRBQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.18"]
+[UTCTime "15:11:41"]
+[Variant "Chess960"]
+[WhiteElo "1724"]
+[WhiteRatingDiff "+8"]
+
+1. g3 Nd6 2. d4 c6 3. c3 f6 4. Nab3 Bd5 5. e4 Bc4 6. Nd3 Qg8 7. Bc2 Nb6 8.
+O-O-O e5 9. dxe5 fxe5 10. f3 Bc7 11. Bc5 Ra8 12. Nxe5 Bxf1 13. Bxd6 Bxd6 14.
+Rxd6 Nc4 15. Nxd7 Nxd6 16. Nxf8 Bb5 17. e5 Qxf8 18. exd6 Qxd6 19. Qe1+ Qe7 20.
+Be4 g6 21. Qe3 b6 22. Nd4 Kd7 23. Nxb5 cxb5 24. Qd2+ Qd6 25. Bxa8 Qxd2+ 26.
+Kxd2 a5 27. f4 a4 28. Ke3 h5 29. Be4 Kd6 30. Bxg6 Kc5 31. f5 b4 32. f6 a3 33.
+cxb4+ Kxb4 34. bxa3+ Kxa3 35. f7 b5 36. f8=Q+ b4 37. Kd3 h4 38. Kc4 hxg3 39.
+Qxb4+ Kxa2 40. Kc3 gxh2 41. Qb2# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/SzCaKtlb"]
+[Date "2024.12.18"]
+[Round "?"]
+[White "glbert"]
+[Black "nicalvarez"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1611"]
+[BlackRatingDiff "+20"]
+[ECO "?"]
+[FEN "brknrqnb/pppppppp/8/8/8/8/PPPPPPPP/BRKNRQNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.18"]
+[UTCTime "14:01:35"]
+[Variant "Chess960"]
+[WhiteElo "1545"]
+[WhiteRatingDiff "-22"]
+
+1. d4 d5 2. Nc3 e6 3. Nf3 g6 4. e4 Qh6+ 5. Re3 dxe4 6. Nxe4 b6 7. Qd3 Nc6 8.
+Ned2 Nge7 9. O-O-O Nf5 10. Ree1 Nfxd4 11. Nxd4 Bxd4 12. Kb1 Bg7 13. Nf3 O-O-O
+14. Qe2 Qh5 15. g3 Qa5 16. a3 Bb7 17. Qe3 Rxd1+ 18. Rxd1 Qh5 19. h4 Ne5 20. Qd3
+0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/j99pLalM"]
+[Date "2024.12.18"]
+[Round "?"]
+[White "M0r1"]
+[Black "isaypotato"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1884"]
+[BlackRatingDiff "+37"]
+[ECO "?"]
+[FEN "nnbrkrqb/pppppppp/8/8/8/8/PPPPPPPP/NNBRKRQB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.18"]
+[UTCTime "12:59:40"]
+[Variant "Chess960"]
+[WhiteElo "1747"]
+[WhiteRatingDiff "-19"]
+
+1. d4 d5 2. g3 Bf5 3. Nc3 Nb6 4. Bf4 c6 5. O-O-O g5 6. Be5 N8d7 7. Bxh8 Qxh8 8.
+e4 dxe4 9. Bxe4 Bxe4 10. Nxe4 h6 11. Rfe1 O-O 12. f4 f5 13. Nc5 Nxc5 14. dxc5
+Na4 15. c3 Rxd1+ 16. Rxd1 Qf6 17. Kc2 Qe6 18. b3 Qe4+ 19. Rd3 Rd8 20. Qe3 Rxd3
+21. Qxd3 Nxc5 22. Qxe4 Nxe4 23. Kd3 Kf7 24. Nc2 g4 25. Ne3 Kf6 26. Nc4 Nc5+ 27.
+Kd4 Nd7 28. Na5 c5+ 29. Kd5 b6 30. Kc6 bxa5 31. Kxd7 e5 32. Kd6 e4 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/c0tUHKPS"]
+[Date "2024.12.18"]
+[Round "?"]
+[White "KS_Legion_Legionowo"]
+[Black "LuzhinAcademy"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1924"]
+[BlackRatingDiff "-23"]
+[ECO "?"]
+[FEN "qnbnrkrb/pppppppp/8/8/8/8/PPPPPPPP/QNBNRKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.18"]
+[UTCTime "08:05:55"]
+[Variant "Chess960"]
+[WhiteElo "1793"]
+[WhiteRatingDiff "+37"]
+
+1. g3 Nbc6 2. b3 g6 3. Bb2 Bxb2 4. Qxb2 d6 5. Bg2 a5 6. Nbc3 Nd4 7. Nd5 N4e6 8.
+Qc3 Nc6 9. Bh3 Qb8 10. N1e3 Bd7 11. Nc4 b6 12. Nf4 Qc8 13. Nxe6+ Bxe6 14. Bxe6
+fxe6 15. Qf3+ Kg7 16. Qxc6 e5 17. Ne3 e6 18. O-O Re7 19. f4 exf4 20. Rxf4 Rge8
+21. Ref1 Qa6 22. c4 a4 23. bxa4 Ra8 24. Qf3 Qxa4 25. Rf8 Rae8 26. Ng4 h5 27.
+Qf6+ Kh7 28. Qf7+ Rxf7 29. R1xf7# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/ZNJ1Rm6D"]
+[Date "2024.12.15"]
+[Round "?"]
+[White "Magagna"]
+[Black "FunnyLikeAClown"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1791"]
+[BlackRatingDiff "-12"]
+[ECO "?"]
+[FEN "rbnnbkqr/pppppppp/8/8/8/8/PPPPPPPP/RBNNBKQR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Time forfeit"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.15"]
+[UTCTime "18:40:04"]
+[Variant "Chess960"]
+[WhiteElo "2011"]
+[WhiteRatingDiff "+15"]
+
+1. d4 d5 2. Nc3 Nb6 3. Nd3 f6 4. h4 c6 5. g4 Qf7 6. f3 Ne6 7. e3 Bd7 8. a4 Bc7
+9. Ba2 Nc4 10. Bxc4 dxc4 11. Nf2 Ba5 12. Nfe4 Nc7 13. Nc5 Bc8 14. Bg3 Nd5 15.
+N5e4 f5 16. Ng5 Qg6 17. gxf5 Qh5 18. Be5 Nf6 19. Qg3 Bxf5 20. e4 Bd7 21. Ne2
+O-O 22. c3 Nxe4 23. Qg2 Nxg5 24. O-O-O Qxf3 25. Qxg5 g6 26. Nf4 Qe3+ 27. Rd2
+Bf5 28. Kd1 Qf3+ 29. Re2 Qxh1+ 30. Kd2 Qb1 31. Ke3 Qc1+ 32. Kf2 Qh1 33. h5 Qh2+
+34. Ke1 Qh1+ 35. Kd2 c5 36. hxg6 h6 37. Qxe7 Bxc3+ 38. bxc3 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/Iob6UUxo"]
+[Date "2024.12.15"]
+[Round "?"]
+[White "glbert"]
+[Black "HeartOfStone"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1682"]
+[BlackRatingDiff "+6"]
+[ECO "?"]
+[FEN "qrbbknrn/pppppppp/8/8/8/8/PPPPPPPP/QRBBKNRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.15"]
+[UTCTime "16:03:26"]
+[Variant "Chess960"]
+[WhiteElo "1566"]
+[WhiteRatingDiff "-21"]
+
+1. e4 e5 2. b4 Nhg6 3. d4 exd4 4. Qxd4 Bf6 5. Qe3 Ne6 6. Nd2 b6 7. Nf3 d6 8.
+Ng3 O-O 9. O-O Bb7 10. Bb2 Bxb2 11. Rxb2 c5 12. Be2 d5 13. exd5 Bxd5 14. c4 Bb7
+15. a3 Rfe8 16. Qc3 Ngf4 17. Bd1 Rbd8 18. Re1 Nd3 19. Ba4 Nxe1 20. Bxe8 Nxf3+
+21. gxf3 Rxe8 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/Mvjf6zEI"]
+[Date "2024.12.15"]
+[Round "?"]
+[White "sacwin"]
+[Black "root2"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2052"]
+[BlackRatingDiff "-18"]
+[ECO "?"]
+[FEN "rnbknbqr/pppppppp/8/8/8/8/PPPPPPPP/RNBKNBQR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.15"]
+[UTCTime "10:02:11"]
+[Variant "Chess960"]
+[WhiteElo "1815"]
+[WhiteRatingDiff "+19"]
+
+1. b3 g6 2. Bb2 Bg7 3. Nc3 b6 4. O-O-O Bb7 5. e3 Nc6 6. d4 e6 7. f3 d5 8. Kb1
+O-O-O 9. g4 h5 10. g5 Qf8 11. f4 Nd6 12. Bd3 Nf5 13. Bxf5 exf5 14. Nf3 a6 15.
+Qf2 Qe7 16. Rhe1 Rhe8 17. Ne5 Qe6 18. Na4 Kb8 19. Qe2 Ka7 20. a3 Bf8 21. Ka2
+Ne7 22. c4 Nc8 23. Rc1 Nd6 24. c5 Ne4 25. b4 bxc5 26. bxc5 Bc6 27. Nc3 Rb8 28.
+Rb1 Nxc3+ 29. Bxc3 Bb5 30. Qc2 Bg7 31. Ba5 Bxe5 32. fxe5 Bc4+ 33. Ka1 Qc6 34.
+a4 Rxb1+ 35. Rxb1 Bd3 36. Bb6+ Ka8 37. Qxd3 Qxa4+ 38. Kb2 cxb6 39. Ra1 Qb4+ 40.
+Kc2 a5 41. Qa6+ Kb8 42. Rb1 Qa4+ 43. Kc1 Qa3+ 44. Kd1 Re6 45. cxb6 Rc6 46. Qa7+
+Kc8 47. b7+ Kd7 48. b8=Q+ Rc7 49. Qaxc7+ Ke6 50. Qe8+ Qe7 51. Qexe7# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/2a6TPNQR"]
+[Date "2024.12.14"]
+[Round "?"]
+[White "LuzhinAcademy"]
+[Black "RSInternecio"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2191"]
+[BlackRatingDiff "+10"]
+[ECO "?"]
+[FEN "rnnqbkrb/pppppppp/8/8/8/8/PPPPPPPP/RNNQBKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.14"]
+[UTCTime "18:07:37"]
+[Variant "Chess960"]
+[WhiteElo "1931"]
+[WhiteRatingDiff "-7"]
+
+1. d4 d5 2. Nc3 g6 3. g4 e6 4. f4 Nd7 5. e3 c5 6. N3e2 Nd6 7. Nd3 Nc4 8. Qc1 b6
+9. b3 Nd6 10. Qa3 O-O 11. c4 dxc4 12. bxc4 Rc8 13. Rc1 b5 14. cxb5 Nxb5 15. Qa6
+Nb8 16. Qb7 Rc7 17. Qa8 cxd4 18. Bb4 Rxc1+ 19. Nexc1 dxe3 20. a4 Nd4 21. Bxf8
+Kxf8 22. Qxa7 Nbc6 23. Qc5+ Kg8 24. Ne2 Nxe2 25. Kxe2 Nd4+ 26. Kxe3 Nb3 27. Qb4
+Qd4+ 28. Ke2 Qxg1 29. Qxb3 Qxh1 30. Qb8 Qc6 31. a5 Bd4 32. Nb4 Qb5+ 33. Qxb5
+Bxb5+ 34. Kf3 Bc3 35. Nc2 Bxa5 36. Nd4 Ba6 37. h4 Bb7+ 38. Kg3 Be1+ 39. Kh3 f5
+40. Nxe6 fxg4+ 41. Kxg4 Bc8 42. f5 gxf5+ 43. Kxf5 Kf7 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/7qoGAAS1"]
+[Date "2024.12.14"]
+[Round "?"]
+[White "Akshak"]
+[Black "KS_Legion_Legionowo"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1805"]
+[BlackRatingDiff "-12"]
+[ECO "?"]
+[FEN "bnnbrkrq/pppppppp/8/8/8/8/PPPPPPPP/BNNBRKRQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.14"]
+[UTCTime "17:02:17"]
+[Variant "Chess960"]
+[WhiteElo "2033"]
+[WhiteRatingDiff "+10"]
+
+1. b3 e5 2. Nc3 b6 3. O-O d5 4. e3 Bf6 5. Bf3 e4 6. Be2 c5 7. d4 cxd4 8. exd4
+Bxd4 9. Bb5 Rd8 10. Rd1 g6 11. N1e2 Bf6 12. Ba4 a6 13. b4 d4 14. Nb1 d3 15.
+Bxf6 Qxf6 16. cxd3 exd3 17. Ng3 Qb2 18. Bb3 d2 19. h4 Nc6 20. h5 Nxb4 21. hxg6
+hxg6 22. Qh4 Qd4 23. Qxd4 Rxd4 24. Rxd2 Rxd2 25. Nxd2 Nd6 26. Rc1 O-O 27. Rc7
+Nb5 28. Rd7 Bc6 29. Re7 Nd4 30. Nc4 Nxb3 31. axb3 Nd5 32. Re1 Re8 33. Rc1 b5
+34. Nd6 b4 35. Rxc6 Re1+ 36. Kh2 Rb1 37. Rxa6 Rxb3 38. Ra8+ Kg7 39. Ra7 Rb2 40.
+Rxf7+ Kh6 41. Nge4 Re2 42. g4 Ra2 43. g5+ Kh5 44. Kg3 Ra3+ 45. f3 Ne3 46. Rh7#
+1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/x5eOCVhR"]
+[Date "2024.12.14"]
+[Round "?"]
+[White "isaypotato"]
+[Black "AACtrl"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1762"]
+[BlackRatingDiff "+6"]
+[ECO "?"]
+[FEN "qnbnrkrb/pppppppp/8/8/8/8/PPPPPPPP/QNBNRKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.14"]
+[UTCTime "17:01:23"]
+[Variant "Chess960"]
+[WhiteElo "1910"]
+[WhiteRatingDiff "-26"]
+
+1. e4 e5 2. Ne3 g6 3. Nc3 b6 4. d3 Ne6 5. Ned5 Bg7 6. O-O c6 7. Ne3 O-O 8. Bd2
+d6 9. Qc1 Nd7 10. g3 Nf6 11. Ng2 d5 12. f4 d4 13. Ne2 exf4 14. Ngxf4 Ng4 15. b3
+Rd8 16. h3 Ne3 17. Nxe6 Bxe6 18. Bxe3 dxe3 19. Kh2 Qc8 20. Nf4 Bh6 21. Nxe6
+Qxe6 22. Qd1 f5 23. exf5 Rxf5 24. Qg4 Rf2+ 25. Rxf2 Qxg4 26. hxg4 exf2 27. Rf1
+Be3 28. Bxc6 Rc8 29. Bd5+ Kg7 30. c4 b5 31. Kg2 bxc4 32. dxc4 Bc5 33. Rxf2 Bxf2
+34. Kxf2 Kf6 35. Ke3 Ke5 36. b4 a6 37. a4 Rb8 38. b5 axb5 39. axb5 h6 40. Bc6
+Rc8 41. c5 g5 42. b6 Rd8 43. b7 Rb8 44. Bf3 Rd8 45. c6 Kd6 46. Kd4 Kc7+ 47. Kc5
+Rd3 48. Be2 Rc3+ 49. Kb5 Rxg3 50. Ka6 Ra3+ 51. Kb5 Ra2 52. Bf3 Rb2+ 53. Ka6
+Ra2+ 54. Kb5 Ra3 55. Bd5 Rg3 56. Be6 Rc3 57. Bd7 Rb3+ 58. Kc4 Rb1 59. Kd5 Rd1+
+60. Ke4 Rd6 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/8PQuSuHn"]
+[Date "2024.12.14"]
+[Round "?"]
+[White "nicalvarez"]
+[Black "ATrueRavenclaw"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1619"]
+[BlackRatingDiff "-48"]
+[ECO "?"]
+[FEN "nrkbbrqn/pppppppp/8/8/8/8/PPPPPPPP/NRKBBRQN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.14"]
+[UTCTime "15:01:10"]
+[Variant "Chess960"]
+[WhiteElo "1554"]
+[WhiteRatingDiff "+31"]
+
+1. f4 Nb6 2. e4 f5 3. exf5 Rxf5 4. Bg4 Rf8 5. Nb3 Ng6 6. g3 e6 7. Nf2 Be7 8.
+Nd3 d6 9. Nd4 Bd7 10. Qe3 e5 11. Bxd7+ Nxd7 12. Nb5 O-O-O 13. Qxa7 Nb6 14. Bf2
+Qc4 15. Nxc7 Nd5 16. Nxd5 Qxd5 17. O-O-O exf4 18. Bb6 Rde8 19. Nxf4 Nxf4 20.
+Rxf4 Rxf4 21. gxf4 Bf6 22. Kb1 Re2 23. a4 Kd7 24. a5 Ke6 25. a6 bxa6 26. Qxa6
+Qe4 27. Be3 Rg2 28. Qc8+ Kf7 29. Qd7+ Be7 30. Qh3 Bf6 31. d3 Qc6 32. Qh5+ g6
+33. Qxh7+ Ke6 34. Re1 Kf5 35. Qh3+ Rg4 36. Rg1 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/jxsTTrAs"]
+[Date "2024.12.14"]
+[Round "?"]
+[White "MoistvonLipwig"]
+[Black "training_account2024"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1821"]
+[BlackRatingDiff "+68"]
+[ECO "?"]
+[FEN "brnbnkrq/pppppppp/8/8/8/8/PPPPPPPP/BRNBNKRQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.14"]
+[UTCTime "15:00:30"]
+[Variant "Chess960"]
+[WhiteElo "2120"]
+[WhiteRatingDiff "-13"]
+
+1. c4 e5 2. b3 d6 3. e3 c5 4. Bf3 Ba5 5. d3 Ne7 6. Ne2 Nf6 7. g3 Nc6 8. Nc3 a6
+9. Nc2 O-O 10. O-O h6 11. Rbd1 Rfd8 12. Na3 Nb4 13. Bb2 b6 14. Nab1 Bxf3 15.
+Qxf3 Qh7 16. e4 Nc2 17. Nd5 Nxd5 18. exd5 Nd4 19. Bxd4 exd4 20. Nd2 Bxd2 21.
+Rxd2 Re8 22. Re2 Qg6 23. Rfe1 Rxe2 24. Rxe2 h5 25. h4 Qh6 26. Kg2 Qg6 27. Re4
+Rf8 28. Re7 b5 29. Ra7 bxc4 30. bxc4 Rb8 31. Rxa6 Rb2 32. Ra8+ Kh7 33. Ra7 f6
+34. Rd7 Rxa2 35. Rxd6 Rd2 36. Rc6 Rxd3 37. Qe2 Rc3 38. Rxc5 d3 39. Qd1 Qe4+ 40.
+Kg1 Rxc4 41. Rxc4 Qxc4 42. Qxh5+ Kg8 43. d6 Qc1+ 44. Kh2 Qc6 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/WYpNPctU"]
+[Date "2024.12.13"]
+[Round "?"]
+[White "yellorambo"]
+[Black "RaisinBranCrunch"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1705"]
+[BlackRatingDiff "+43"]
+[ECO "?"]
+[FEN "rknbbqnr/pppppppp/8/8/8/8/PPPPPPPP/RKNBBQNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.13"]
+[UTCTime "18:31:38"]
+[Variant "Chess960"]
+[WhiteElo "1847"]
+[WhiteRatingDiff "-44"]
+
+1. d4 d5 2. Bb4 Nd6 3. Nd3 Nf6 4. f3 e6 5. e4 dxe4 6. fxe4 Nfxe4 7. Bf3 Be7 8.
+Nc5 a5 9. Ba3 Nd2+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/cpDbElSB"]
+[Date "2024.12.13"]
+[Round "?"]
+[White "Roie"]
+[Black "guneet97"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1252"]
+[BlackRatingDiff "-47"]
+[ECO "?"]
+[FEN "nrbknbqr/pppppppp/8/8/8/8/PPPPPPPP/NRBKNBQR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.13"]
+[UTCTime "10:10:35"]
+[Variant "Chess960"]
+[WhiteElo "1297"]
+[WhiteRatingDiff "+25"]
+
+1. f4 Nb6 2. Nd3 Nd6 3. b3 f5 4. Bb2 Qe6 5. g3 Nd5 6. c3 b6 7. Bg2 Bb7 8. c4
+Nf6 9. Bxb7 Nxb7 10. Nc2 g6 11. O-O-O Rg8 12. Ne5 Bg7 13. Nd4 Qd6 14. Nf7+ Kc8
+15. Nxd6+ Nxd6 16. d3 Ng4 17. h3 Nh6 18. Nf3 Bxb2+ 19. Kxb2 Nhf7 20. Ne5 Nxe5
+21. fxe5 Nf7 22. d4 Ng5 23. Qg2 a5 24. a4 Ne6 25. Rhf1 c6 26. e4 fxe4 27. Qxe4
+d5 28. cxd5 cxd5 29. Rc1+ Nc7 30. Qg4+ Kb7 31. Rf7 Ka8 32. Rxe7 Na6 33. Qd7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/xMvR4Cea"]
+[Date "2024.12.12"]
+[Round "?"]
+[White "scrooge"]
+[Black "Redpartot"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1729"]
+[BlackRatingDiff "-5"]
+[ECO "?"]
+[FEN "rbnkbrnq/pppppppp/8/8/8/8/PPPPPPPP/RBNKBRNQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.12"]
+[UTCTime "21:59:41"]
+[Variant "Chess960"]
+[WhiteElo "2021"]
+[WhiteRatingDiff "+2"]
+
+1. c4 g6 2. Nd3 Qd4 3. c5 d6 4. cxd6 Ba4+ 5. Bc2 Bxc2+ 6. Kxc2 Qa4+ 7. b3 Qc6+
+8. Kb2 cxd6 9. Nf3 a5 10. Rc1 Qa6 11. h4 Nf6 12. Qh3 b5 13. h5 Nb6 14. Nd4 a4
+15. Nb4 Qb7 16. Ndc6+ Ke8 17. d4 Nbd5 18. Na5 a3+ 19. Ka1 Nf4 20. Rc8+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/K1hNDOcb"]
+[Date "2024.12.11"]
+[Round "?"]
+[White "NameGoesInHere"]
+[Black "ogennadi"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1611"]
+[BlackRatingDiff "-53"]
+[ECO "?"]
+[FEN "qrbnkbnr/pppppppp/8/8/8/8/PPPPPPPP/QRBNKBNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.11"]
+[UTCTime "21:59:14"]
+[Variant "Chess960"]
+[WhiteElo "1530"]
+[WhiteRatingDiff "+40"]
+
+1. e4 Ne6 2. Nf3 b6 3. Nc3 Bb7 4. d3 g6 5. Be3 f5 6. exf5 gxf5 7. Be2 Bh6 8.
+Bxh6 Nxh6 9. b3 Rg8 10. Rg1 c5 11. O-O-O Nd4 12. Nxd4 cxd4 13. Nb5 Rc8 14. Bh5+
+Kf8 15. Qxd4 d6 16. Nxd6 Rd8 17. Qe5 Rxd6 18. Rde1 Rd7 19. g4 Nxg4 20. Bxg4
+fxg4 21. Rxg4 Bc8 22. Qf5+ Ke8 23. Rxg8# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/5d1qVpJc"]
+[Date "2024.12.11"]
+[Round "?"]
+[White "ztraynor"]
+[Black "M0r1"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1727"]
+[BlackRatingDiff "+20"]
+[ECO "?"]
+[FEN "brkqrbnn/pppppppp/8/8/8/8/PPPPPPPP/BRKQRBNN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.11"]
+[UTCTime "12:03:46"]
+[Variant "Chess960"]
+[WhiteElo "1582"]
+[WhiteRatingDiff "-27"]
+
+1. e4 e5 2. Bc4 Nf6 3. Ng3 b5 4. Bd3 Ng6 5. N1e2 Bc5 6. Rf1 d5 7. exd5 Bxd5 8.
+Bf5+ Nd7 9. Bxg6 hxg6 10. f3 Bxa2 11. b3 Bxb1 12. Kxb1 Re6 13. Ne4 Qe7 14. N2c3
+Ra6 15. Nxc5 Qxc5 16. Bb2 Nf6 17. Qe2 Re6 18. Ne4 Nxe4 19. Qxe4 Qd6 20. d3 f5
+21. Qh4 O-O-O 22. Qf2 Kb8 23. Re1 Rde8 24. Qd2 R8e7 25. Qa5 Qb6 26. Qd2 a5 27.
+f4 exf4 28. Rxe6 Qxe6 29. Qxf4 Qe1+ 30. Ka2 Qb4 31. Qg5 Qd6 32. Qh4 Qe6 33.
+Qh8+ Kb7 34. Bxg7 a4 35. Bb2 axb3+ 36. cxb3 Qe2 37. Qd8 Qe1 38. Qd5+ c6 39. Qd8
+Qe3 40. Qd6 Qa7+ 41. Kb1 Re1+ 42. Bc1 Qe3 43. Qd7+ Kb6 44. Qd8+ Kc5 45. Qf8+
+Qe7 46. Qh6 Qf7 47. Kc2 Re2+ 48. Bd2 Rxg2 49. Qe3+ Kd6 50. Qd4+ Qd5 51. Qf6+
+Kc7 52. Qe7+ Kb6 53. Qe3+ Qc5+ 54. Qxc5+ Kxc5 55. Kc3 Rxd2 56. b4+ Kd5 57. Kxd2
+Kd4 58. Ke2 g5 59. Kd2 g4 60. Ke2 f4 61. Kd2 f3 62. Ke1 Ke3 63. Kf1 Kxd3 64.
+Kf2 Kc4 65. Kg3 Kxb4 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/srBDNnxY"]
+[Date "2024.12.10"]
+[Round "?"]
+[White "kamelstekspizza"]
+[Black "Tranzoo"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1581"]
+[BlackRatingDiff "-3"]
+[ECO "?"]
+[FEN "rqnbbknr/pppppppp/8/8/8/8/PPPPPPPP/RQNBBKNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.10"]
+[UTCTime "19:00:08"]
+[Variant "Chess960"]
+[WhiteElo "1520"]
+[WhiteRatingDiff "+4"]
+
+1. d4 c5 2. Nf3 d5 3. Nd3 Nf6 4. Nxc5 Bc6 5. e3 Bb5+ 6. Nd3 Nd6 7. Be2 Qc7 8.
+Kg1 Rc8 9. c3 O-O 10. a4 Ba6 11. Qd1 e6 12. Nc5 Bxe2 13. Qxe2 b6 14. Na6 Qb7
+15. g3 Nc4 16. Nb4 a5 17. Nd3 Bc7 18. Kg2 Bd6 19. Rb1 Bb8 20. b4 Ne4 21. Rc1
+Bd6 22. Nb2 Nxb2 23. Qxb2 axb4 24. cxb4 Qa6 25. a5 bxa5 26. bxa5 Rb8 27. Qa1
+Rb7 28. Nd2 Nf6 29. Nf3 Ne4 30. Nd2 Nf6 31. Nf3 Ne4 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/dq4Tctdk"]
+[Date "2024.12.09"]
+[Round "?"]
+[White "Forhavu"]
+[Black "MoistvonLipwig"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2113"]
+[BlackRatingDiff "+7"]
+[ECO "?"]
+[FEN "bbnnqrkr/pppppppp/8/8/8/8/PPPPPPPP/BBNNQRKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.09"]
+[UTCTime "16:01:25"]
+[Variant "Chess960"]
+[WhiteElo "1797"]
+[WhiteRatingDiff "-3"]
+
+1. d4 d5 2. e4 dxe4 3. Qxe4 Nd6 4. Qe1 b5 5. Ne3 Ne6 6. b3 Nf4 7. Ne2 Nd5 8. c4
+Nxe3 9. fxe3 bxc4 10. bxc4 Nxc4 11. Qc3 Nd6 12. Ng3 Qc6 13. Qb2 Qb6 14. Qe2 Bd5
+15. Bd3 f6 16. Rb1 Qc6 17. O-O Bc4 18. Bxc4+ Qxc4 19. Qf2 Rc8 20. e4 O-O 21.
+Qb2 c5 22. e5 Nf7 23. Rfc1 Qxd4+ 24. Qxd4 cxd4 25. exf6 exf6 26. Bxd4 Rxc1+ 27.
+Rxc1 Rd8 28. Bf2 Ne5 29. Nf5 Kf7 30. Rb1 Nc6 31. Rb7+ Kg6 32. g4 Kg5 33. Rxg7+
+Kf4 34. Bg3+ Kf3 35. Nh4+ Ke4 36. Bxb8 Rxb8 37. Rxh7 Rb1+ 38. Kf2 Rb2+ 39. Ke1
+Rxh2 40. Rh6 Nd4 41. Nf5 Nc2+ 42. Kd1 Ne3+ 43. Kc1 Rc2+ 44. Kb1 Nxf5 45. gxf5
+Rc6 46. Rh7 Ra6 47. Rh4+ Kxf5 48. Kb2 Kg5 49. Rc4 f5 50. a4 f4 51. Kc3 Rd6 52.
+Rc7 a6 53. Rg7+ Kf5 54. Kb4 f3 55. Ka5 f2 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/F8obAyof"]
+[Date "2024.12.08"]
+[Round "?"]
+[White "RaisinBranCrunch"]
+[Black "Akshak"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2025"]
+[BlackRatingDiff "+8"]
+[ECO "?"]
+[FEN "rbbnnqkr/pppppppp/8/8/8/8/PPPPPPPP/RBBNNQKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.08"]
+[UTCTime "17:01:12"]
+[Variant "Chess960"]
+[WhiteElo "1716"]
+[WhiteRatingDiff "-11"]
+
+1. e4 c5 2. Nf3 Nc6 3. c3 e5 4. Ne3 Nf6 5. a4 Qd8 6. Qd1 d5 7. exd5 Nxd5 8. O-O
+Be6 9. Be4 O-O 10. d4 exd4 11. cxd4 Nxe3 12. Bxe3 cxd4 13. Nxd4 Qd6 14. Bxc6
+0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/1Dr8UmcW"]
+[Date "2024.12.08"]
+[Round "?"]
+[White "ATrueRavenclaw"]
+[Black "ztraynor"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1515"]
+[BlackRatingDiff "+67"]
+[ECO "?"]
+[FEN "qnbrkbrn/pppppppp/8/8/8/8/PPPPPPPP/QNBRKBRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.08"]
+[UTCTime "15:00:23"]
+[Variant "Chess960"]
+[WhiteElo "1681"]
+[WhiteRatingDiff "-62"]
+
+1. d4 b6 2. Nd2 Ba6 3. g3 Qc6 4. Qb1 Qe6 5. b3 Nc6 6. Bb2 f5 7. c4 d5 8. e3
+dxc4 9. Nxc4 g6 10. Bg2 Bxc4 11. bxc4 Qxc4 12. Qd3 Na5 13. Qa3 e5 14. Qc3 Bb4
+0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/OKVg9hys"]
+[Date "2024.12.07"]
+[Round "?"]
+[White "RSInternecio"]
+[Black "scrooge"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2021"]
+[BlackRatingDiff "-4"]
+[ECO "?"]
+[FEN "nbrqknbr/pppppppp/8/8/8/8/PPPPPPPP/NBRQKNBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.07"]
+[UTCTime "16:01:25"]
+[Variant "Chess960"]
+[WhiteElo "2175"]
+[WhiteRatingDiff "+16"]
+
+1. c4 d5 2. cxd5 Qxd5 3. f3 c6 4. Nb3 Ne6 5. e4 Qg5 6. g3 h5 7. Be3 Qf6 8. d4
+g5 9. e5 Qg7 10. d5 Nd8 11. d6 exd6 12. exd6 f6 13. Nc5 Nb6 14. Bf5 Kf8 15.
+Bxc8 Nxc8 16. d7 Nb6 17. Qc2 Nxd7 18. O-O-O Bd5 19. Nxd7+ Qxd7 20. Bc5+ Kg7 21.
+Ne3 Ne6 22. Bb4 Be5 23. Rhe1 Nd4 24. Rxd4 Bxd4 25. Nf5+ Kf7 26. Nxd4 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/npYPtFuS"]
+[Date "2024.12.07"]
+[Round "?"]
+[White "HeartOfStone"]
+[Black "kamelstekspizza"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1506"]
+[BlackRatingDiff "+14"]
+[ECO "?"]
+[FEN "nnqrkrbb/pppppppp/8/8/8/8/PPPPPPPP/NNQRKRBB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.07"]
+[UTCTime "16:01:20"]
+[Variant "Chess960"]
+[WhiteElo "1675"]
+[WhiteRatingDiff "-3"]
+
+1. g3 d5 2. f4 Nb6 3. d4 g6 4. e4 e6 5. Nb3 Na6 6. c3 Qd7 7. Na3 O-O-O 8. Qe3
+f5 9. e5 Bf7 10. Bf3 Rg8 11. h4 h5 12. Bf2 Bg7 13. Be2 Nb8 14. O-O c6 15. Qc1
+Qc7 16. Nc5 Bf8 17. b3 N8d7 18. Nc2 Nxc5 19. dxc5 Nd7 20. b4 Nb8 21. Nd4 Be7
+22. a4 Kd7 23. c4 Ke8 24. Nf3 Kf8 25. b5 a6 26. Qc3 Nd7 27. cxd5 cxd5 28. c6
+Nb6 29. Nd4 Nxa4 30. Qa1 axb5 31. Nxb5 Qa5 32. Rd4 bxc6 33. Rxa4 Qd2 34. Ra2
+Qb4 35. Rb1 Qe4 36. Ra4 Qxe2 37. Nd4 Qg4 38. Nxc6 Re8 39. Ra8 Kg7 40. Rxe8 Rxe8
+41. Nxe7 Rxe7 42. Qa8 Qe2 43. Qd8 Re8 44. Qf6+ Kg8 45. Rb7 Rf8 46. Qe7 Qd1+ 47.
+Kg2 d4 48. Rd7 d3 49. Qa3 d2 50. Qb4 Qe2 51. Rxd2 Qa6 52. Bc5 Re8 53. Rb2 Qa8+
+54. Kf2 Qh1 55. Qb7 Qh2+ 56. Kf3 Qh1+ 57. Ke2 Qh2+ 58. Bf2 Qh3 59. Qd7 Qg4+ 60.
+Ke1 Qf3 61. Qb7 Qxb7 62. Rxb7 Rc8 63. Kd2 Rd8+ 64. Kc3 Rc8+ 65. Kb3 Rd8 66. Kc4
+Rc8+ 67. Kb3 Rd8 68. Rc7 Rd2 69. Bb6 Rd3+ 70. Rc3 Rxc3+ 71. Kxc3 Be8 72. Kc4
+Bc6 73. Kc5 Bd5 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/Z08ZpWml"]
+[Date "2024.12.07"]
+[Round "?"]
+[White "guneet97"]
+[Black "NameGoesInHere"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1514"]
+[BlackRatingDiff "+16"]
+[ECO "?"]
+[FEN "brnkrbqn/pppppppp/8/8/8/8/PPPPPPPP/BRNKRBQN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.07"]
+[UTCTime "10:00:40"]
+[Variant "Chess960"]
+[WhiteElo "1278"]
+[WhiteRatingDiff "-26"]
+
+1. b3 e5 2. e4 Nd6 3. Bb2 b6 4. f3 Ng6 5. Nd3 f6 6. Qe3 O-O-O 7. Nhf2 Nb7 8.
+Be2 Nc5 9. O-O d5 10. Nxc5 d4 11. Qd3 Bxc5 12. Qa6+ Kb8 13. Bb5 Re7 14. d3 h5
+15. Ba3 Bb7 16. Qa4 Bxa3 17. Qxa3 Qh8 18. h3 Rf7 19. Rbc1 Nf4 20. Rfe1 g5 21.
+c4 g4 22. fxg4 hxg4 23. b4 gxh3 24. Nxh3 Nxh3+ 25. gxh3 Rg8+ 26. Kh2 Rh7 27.
+Rg1 Rxh3# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/OSMEXnS7"]
+[Date "2024.12.06"]
+[Round "?"]
+[White "LuzhinAcademy"]
+[Black "root2"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2043"]
+[BlackRatingDiff "-16"]
+[ECO "?"]
+[FEN "qrnkbbnr/pppppppp/8/8/8/8/PPPPPPPP/QRNKBBNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.06"]
+[UTCTime "20:17:52"]
+[Variant "Chess960"]
+[WhiteElo "1906"]
+[WhiteRatingDiff "+25"]
+
+1. b4 d5 2. a4 Nf6 3. Nf3 g6 4. d3 Bg7 5. Bc3 Bd7 6. Ne5 Be6 7. Nb3 O-O 8. Nc5
+Rd8 9. Nxe6 fxe6 10. g3 Nd6 11. Bh3 b6 12. Bxe6+ Kf8 13. O-O Nde8 14. b5 Rd6
+15. Bh3 Nh5 16. Nd7+ Kg8 17. Bxg7 Nexg7 18. Nxb8 Qxb8 19. Qe5 Qf8 20. Rb3 d4
+21. Rb4 Qd8 22. Rc4 Rd5 23. Qxc7 Qf8 24. Qb7 Rg5 25. Rc8 Ne8 26. Qxa7 Nf4 27.
+Qa8 Nxe2+ 28. Kh1 Kg7 29. Rxe8 Qf7 30. Qe4 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/QRKY7Wv3"]
+[Date "2024.12.06"]
+[Round "?"]
+[White "j3084"]
+[Black "FunnyLikeAClown"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1764"]
+[BlackRatingDiff "+27"]
+[ECO "?"]
+[FEN "qrknrnbb/pppppppp/8/8/8/8/PPPPPPPP/QRKNRNBB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.06"]
+[UTCTime "19:03:26"]
+[Variant "Chess960"]
+[WhiteElo "1790"]
+[WhiteRatingDiff "-35"]
+
+1. g3 g6 2. f4 e5 3. fxe5 Bxe5 4. Nc3 c6 5. Ne3 f5 6. a4 a5 7. Qa3 Nf7 8. Nc4
+Bc7 9. Bc5 Qa6 10. Nxa5 Bxa5 11. Bxf8 Bxc3 12. dxc3 Rxe2 13. O-O-O O-O-O 14.
+Bf3 Rxh2 15. Be7 Re8 16. Re3 Nd8 17. Red3 Be6 18. Bg5 Nf7 19. Be3 Ne5 20. Bf4
+Nxd3+ 21. Rxd3 g5 22. Be5 Bc4 23. Rxd7 Rxe5 24. Qd6 Re1+ 25. Bd1 Rxd1+ 26. Kxd1
+Be2+ 27. Kc1 Rh1+ 28. Kd2 Rd1+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/XF4Ni1Sk"]
+[Date "2024.12.06"]
+[Round "?"]
+[White "AACtrl"]
+[Black "chatakkuma"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1914"]
+[BlackRatingDiff "-18"]
+[ECO "?"]
+[FEN "nbrkrnbq/pppppppp/8/8/8/8/PPPPPPPP/NBRKRNBQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.06"]
+[UTCTime "13:04:25"]
+[Variant "Chess960"]
+[WhiteElo "1735"]
+[WhiteRatingDiff "+27"]
+
+1. e4 c5 2. g3 g6 3. c3 h5 4. f4 h4 5. Qf3 d6 6. d4 Nd7 7. Nb3 b6 8. O-O-O f6
+9. e5 c4 10. Nbd2 Nc7 11. Bxg6 Bd5 12. Qe2 fxe5 13. dxe5 Nb5 14. Bxe8 Kxe8 15.
+a4 Nxc3 16. bxc3 dxe5 17. Ne4 e6 18. f5 Qf8 19. Qh5+ Kd8 20. fxe6 Bxe6 21. Qg5+
+Kc7 22. Rxd7+ Bxd7 23. Qxe5+ Kb7 24. Qd5+ Bc6 25. Qe6 Qa3+ 26. Kd2 Re8 27. Qf7+
+Re7 28. Qxc4 Qb2+ 29. Kd3 Bxe4+ 30. Rxe4 Qb1+ 31. Ke3 Qc1+ 32. Kf3 Qd1+ 33. Kf2
+hxg3+ 34. Nxg3 Rc7 35. Qe2 Rf7+ 36. Kg2 Qd5 37. Qe3 Re7 38. Kf1 Rf7+ 39. Bf2
+Qd1+ 40. Kg2 Qd5 41. Qd4 Qg5 42. Rg4 Qh6 43. Qe4+ Kc8 44. Qe8+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/ngdPKGhC"]
+[Date "2024.12.06"]
+[Round "?"]
+[White "Merkava777"]
+[Black "glbert"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1542"]
+[BlackRatingDiff "+24"]
+[ECO "?"]
+[FEN "bbrqknnr/pppppppp/8/8/8/8/PPPPPPPP/BBRQKNNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.06"]
+[UTCTime "11:01:19"]
+[Variant "Chess960"]
+[WhiteElo "1456"]
+[WhiteRatingDiff "-16"]
+
+1. b3 Nf6 2. Ne3 b5 3. Nf5 Ne6 4. Nf3 O-O 5. h4 c5 6. h5 d5 7. d3 Qd7 8. Bxf6
+exf6 9. Qd2 Rfe8 10. O-O-O d4 11. g4 Bxf3 12. exf3 Bf4 13. Ne3 dxe3 14. fxe3
+Bb8 15. f4 c4 16. c3 cxb3 17. axb3 Nc5 18. Qc2 Qe7 19. Rde1 a5 20. d4 Ne4 21.
+g5 Rxc3 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/eMmrXbS6"]
+[Date "2024.12.05"]
+[Round "?"]
+[White "M0r1"]
+[Black "Redpartot"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1713"]
+[BlackRatingDiff "+16"]
+[ECO "?"]
+[FEN "rqnkbbnr/pppppppp/8/8/8/8/PPPPPPPP/RQNKBBNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.05"]
+[UTCTime "21:29:50"]
+[Variant "Chess960"]
+[WhiteElo "1766"]
+[WhiteRatingDiff "-39"]
+
+1. d4 d5 2. Nd3 Nd6 3. e3 Nf6 4. Nf3 Bb5 5. a4 Ba6 6. b4 c6 7. Nde5 Bxf1 8.
+Rxf1 a6 9. Ng5 Ke8 10. b5 h6 11. Ngf3 axb5 12. axb5 Rxa1 13. Qxa1 Nxb5 14. Bb4
+e6 15. Qb2 Bxb4 16. Qxb4 Qd6 17. Qa5 Ke7 18. Nd2 Qa3 19. Nb3 Ra8 20. Qxa3+ Rxa3
+21. f3 Nd7 22. Nd3 f6 23. Kd2 e5 24. Re1 b6 25. Nb4 Kd6 26. h4 c5 27. Nxd5 Kxd5
+28. e4+ Kd6 29. d5 Nd4 30. Nc1 c4 31. c3 Nb3+ 32. Nxb3 Rxb3 33. Kc2 Ra3 34. Rb1
+Ra4 35. Rb2 Kc5 36. g4 b5 37. Kb1 Nb6 38. Rd2 b4 39. d6 Nd7 40. Rd5+ Kc6 41.
+cxb4 Rxb4+ 42. Kc2 Rb3 43. Ra5 Kxd6 44. Ra6+ Ke7 45. Rc6 Rxf3 46. Rxc4 Rf4 47.
+g5 Rxh4 48. gxf6+ gxf6 49. Kd3 Rh3+ 50. Ke2 h5 51. Kf2 h4 52. Kg2 Rg3+ 53. Kh2
+Re3 54. Rb4 Nc5 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/z7P1vICW"]
+[Date "2024.12.05"]
+[Round "?"]
+[White "KS_Legion_Legionowo"]
+[Black "isaypotato"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2035"]
+[BlackRatingDiff "-125"]
+[ECO "?"]
+[FEN "rbkqbnnr/pppppppp/8/8/8/8/PPPPPPPP/RBKQBNNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.05"]
+[UTCTime "10:01:14"]
+[Variant "Chess960"]
+[WhiteElo "1764"]
+[WhiteRatingDiff "+41"]
+
+1. e4 c5 2. Nf3 Ng6 3. d4 Bf4+ 4. Ne3 cxd4 5. Qxd4 f6 6. Bd2 Ne5 7. Qc5+ Nc6 8.
+b4 Qb6 9. Qc4 a6 10. O-O Bxe3 11. fxe3 Nh6 12. a4 Bf7 13. Qc3 O-O 14. a5 Qb5
+15. Ba2 Rac8 16. Bxf7+ Nxf7 17. Qb3 Kh8 18. c4 Qh5 19. Bc3 Nd6 20. Nd2 Ne5 21.
+Bxe5 Qxe5 22. Qd3 Rfd8 23. c5 Nb5 24. Nc4 Qe6 25. Rad1 d6 26. Nb6 Rc6 27. Qd5
+Qg4 28. Qf7 Qxe4 29. Nd5 dxc5 30. Nxf6 Qxe3+ 31. Kh1 Rcd6 32. Nd5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/kuRNezek"]
+[Date "2024.12.04"]
+[Round "?"]
+[White "ogennadi"]
+[Black "yellorambo"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1829"]
+[BlackRatingDiff "+18"]
+[ECO "?"]
+[FEN "nrqbknbr/pppppppp/8/8/8/8/PPPPPPPP/NRQBKNBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.04"]
+[UTCTime "18:00:26"]
+[Variant "Chess960"]
+[WhiteElo "1636"]
+[WhiteRatingDiff "-25"]
+
+1. f4 Nb6 2. e4 d5 3. d3 e6 4. Ng3 Bh4 5. Bd4 f6 6. Bg4 Qd7 7. exd5 Qxd5 8. Qe3
+Qxg2 9. O-O-O Bxg3 10. hxg3 Qd5 11. Nb3 O-O-O 12. Kb1 Kb8 13. Bf3 Qd7 14. Nc5
+Qxd4 15. Qxd4 Rxd4 16. Bxb7 Nfd7 17. Nxd7+ Nxd7 18. Bg2 e5 19. Rhe1 Bd5 20. Bh3
+Bf3 21. Rd2 Rd8 22. c3 Rd6 23. Bxd7 R6xd7 24. fxe5 fxe5 25. Rxe5 Rxd3 26. Rxd3
+Rxd3 27. Re8+ Kb7 28. Kc2 Rd7 29. a4 Bd1+ 30. Kc1 Bxa4 31. Re4 Rd1# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/24xZf1Cj"]
+[Date "2024.12.03"]
+[Round "?"]
+[White "Tranzoo"]
+[Black "sacwin"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1817"]
+[BlackRatingDiff "+5"]
+[ECO "?"]
+[FEN "nrbbnqkr/pppppppp/8/8/8/8/PPPPPPPP/NRBBNQKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.03"]
+[UTCTime "16:00:39"]
+[Variant "Chess960"]
+[WhiteElo "1591"]
+[WhiteRatingDiff "-10"]
+
+1. c4 e6 2. b4 c5 3. Bb2 Bf6 4. Bc2 cxb4 5. Nb3 d5 6. cxd5 exd5 7. e4 Bxb2 8.
+Rxb2 Nb6 9. exd5 Nf6 10. Nf3 Qd6 11. Qe2 O-O 12. O-O Qxd5 13. Re1 Bg4 14. Bd1
+Rfe8 15. Qf1 Rxe1 16. Qxe1 Re8 17. Qf1 Na4 18. Rc2 Bf5 19. Rc4 Bd3 20. Rd4 Bxf1
+21. Rxd5 Nxd5 22. Kxf1 Nf4 23. Nbd4 Nc5 24. Nb5 a5 25. Nd6 Rb8 26. Ne5 f6 27.
+Nec4 a4 28. Bf3 b5 29. Ne3 b3 30. axb3 axb3 31. Bd1 Rb6 32. Ndf5 b2 33. Bc2 Ra6
+0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/ToYIAiqb"]
+[Date "2024.12.02"]
+[Round "?"]
+[White "MrScribbles"]
+[Black "Roie"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1318"]
+[BlackRatingDiff "-21"]
+[ECO "?"]
+[FEN "rknbqnbr/pppppppp/8/8/8/8/PPPPPPPP/RKNBQNBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.02"]
+[UTCTime "18:13:53"]
+[Variant "Chess960"]
+[WhiteElo "1442"]
+[WhiteRatingDiff "+33"]
+
+1. e4 e5 2. f4 exf4 3. d4 d5 4. Nd2 f5 5. e5 Nd6 6. Nd3 Ne4 7. Nxf4 Nxd2+ 8.
+Qxd2 Bg5 9. Be3 Nd7 10. Bf3 Nb6 11. Nxd5 Bxe3 12. Nxe3 f4 13. Ng4 h5 14. Nf2 g5
+15. O-O-O Nc4 16. Qb4 c6 17. Ne4 a5 18. Qc5 Ne3 19. Nd6 Qd7 20. Rd3 Bd5 21.
+Bxd5 Nxd5 22. Rb3 Ra7 23. Ra3 Qc7 24. Re1 b6 25. Qc4 Rf8 26. Nb5 cxb5 27. Qxd5
+b4 28. Rd3 Rd8 29. Qf3 Qc4 30. b3 Qb5 31. d5 a4 32. e6 axb3 33. Rxb3 Rxa2 34.
+e7 Re8 35. d6 Qc5 36. Qd3 Ra1+ 37. Rb1 Rxb1+ 38. Kxb1 Kb7 39. d7 Rxe7 40. Rxe7
+Qxe7 41. d8=Q Qe1+ 42. Qd1 Qc3 43. Q8d7+ Ka6 44. Q1d3+ Ka5 45. Qxc3 bxc3 46.
+Qd5+ b5 47. Qxg5 Ka4 48. Qxh5 b4 49. Qg4 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/yEjbthuU"]
+[Date "2024.12.01"]
+[Round "?"]
+[White "AACtrl"]
+[Black "LuzhinAcademy"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1895"]
+[BlackRatingDiff "+11"]
+[ECO "?"]
+[FEN "bqrknbrn/pppppppp/8/8/8/8/PPPPPPPP/BQRKNBRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.01"]
+[UTCTime "19:02:43"]
+[Variant "Chess960"]
+[WhiteElo "1746"]
+[WhiteRatingDiff "-11"]
+
+1. b4 Ng6 2. c4 c5 3. Nf3 Nd6 4. Be5 b5 5. bxc5 Rxc5 6. d4 Be4 7. Qxe4 Rxe5 8.
+Qc2 Re6 9. c5 Nc4 10. e4 Qf4 11. Bxc4 bxc4 12. Ng3 h5 13. h4 Nxh4 14. Nxh4 Qxh4
+15. Qb2 Qg4+ 16. Ne2 Rc6 17. Qb8+ Rc8 18. Qxa7 Qxe4 19. Qb6+ Ke8 20. Re1 Qd3#
+0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/WWCQUu54"]
+[Date "2024.12.01"]
+[Round "?"]
+[White "sacwin"]
+[Black "glbert"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1555"]
+[BlackRatingDiff "-13"]
+[ECO "?"]
+[FEN "rnnkbbqr/pppppppp/8/8/8/8/PPPPPPPP/RNNKBBQR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.01"]
+[UTCTime "14:01:58"]
+[Variant "Chess960"]
+[WhiteElo "1817"]
+[WhiteRatingDiff "+4"]
+
+1. d4 f5 2. e3 g5 3. Nb3 Nd6 4. f3 Nc6 5. N1d2 Bg7 6. O-O-O O-O-O 7. Kb1 Bg6 8.
+Ka1 e5 9. c3 Re8 10. Nc5 e4 11. h4 exf3 12. gxf3 gxh4 13. Bd3 Qf7 14. Bxh4 Rhg8
+15. Bg5 Kb8 16. Bf4 Nc8 17. Qh2 d6 18. Bc4 Qe7 19. Bxg8 Rxg8 20. Nd3 Nb6 21.
+Qh4 Bf6 22. Qf2 Nd5 23. Rhe1 Qe6 24. e4 fxe4 25. fxe4 Nxf4 26. Nxf4 Qf7 27.
+Nxg6 Rxg6 28. Rg1 a6 29. Rxg6 Qxg6 30. Rg1 Bh4 31. Qf8+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/TvNeFlCw"]
+[Date "2024.12.01"]
+[Round "?"]
+[White "MoistvonLipwig"]
+[Black "ATrueRavenclaw"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1690"]
+[BlackRatingDiff "-9"]
+[ECO "?"]
+[FEN "bqrbnnkr/pppppppp/8/8/8/8/PPPPPPPP/BQRBNNKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.12.01"]
+[UTCTime "14:01:12"]
+[Variant "Chess960"]
+[WhiteElo "2108"]
+[WhiteRatingDiff "+5"]
+
+1. f4 c5 2. e3 Nf6 3. Bf3 d5 4. b3 e6 5. Ng3 Ng6 6. O-O b5 7. Nd3 O-O 8. Ne5
+Be7 9. d3 Bd6 10. Ng4 Nxg4 11. Bxg4 f5 12. Be2 Qb6 13. Rce1 Be7 14. Qd1 Bf6 15.
+Bxf6 Rxf6 16. d4 Nh8 17. Nh1 Nf7 18. Nf2 Nd6 19. Bf3 Qa5 20. dxc5 Rxc5 21. b4
+Qxb4 22. Nd3 Qc3 23. Nxc5 Qxc5 24. Qd4 Qxd4 25. exd4 Nc4 26. Re2 Bc6 27. Rb1
+Kf8 28. Kf2 a6 29. Rb4 Ke7 30. c3 Kd6 31. Rc2 Na3 32. Rc1 Nc4 33. Be2 Kd7 34.
+Bxc4 dxc4 35. a4 Rg6 36. g3 Kd6 37. axb5 Bxb5 38. Re1 Rf6 39. Re5 Kc6 40. Rc5+
+Kd6 41. Rb2 Rf7 42. Re2 g6 43. Rce5 Rf6 44. h4 Bd7 45. Ke3 Bc6 46. Kd2 Bd5 47.
+Kc1 Rf7 48. Ra2 Ra7 49. Ra5 Kc6 50. Re2 Kb6 51. Rea2 Bc6 52. Rc5 Bb5 53. Re2
+Re7 54. Rce5 Kc6 55. Rxe6+ Rxe6 56. Rxe6+ Kd5 57. Re5+ Kd6 58. Kb2 Kd7 59. Ka3
+Kd6 60. Kb4 Kd7 61. Rxb5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/ITW0T6ni"]
+[Date "2024.11.30"]
+[Round "?"]
+[White "root2"]
+[Black "RSInternecio"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2156"]
+[BlackRatingDiff "+19"]
+[ECO "?"]
+[FEN "bbnqrkrn/pppppppp/8/8/8/8/PPPPPPPP/BBNQRKRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.30"]
+[UTCTime "19:31:23"]
+[Variant "Chess960"]
+[WhiteElo "2051"]
+[WhiteRatingDiff "-8"]
+
+1. c4 Ng6 2. b4 c5 3. Ng3 cxb4 4. d4 d5 5. c5 b6 6. Nd3 a5 7. f3 e6 8. e4 Nce7
+9. e5 Ba7 10. O-O Bc6 11. f4 Qd7 12. cxb6 Bxb6 13. Nc5 Bxc5 14. dxc5 O-O 15. f5
+exf5 16. Bxf5 Qa7 17. Qd4 Bb5 18. Rf3 Bc4 19. h4 Nc6 20. Qg4 Ncxe5 21. Rxe5
+Rxe5 22. h5 Re1+ 23. Kh2 Rxa1 24. Bxg6 hxg6 25. hxg6 Qxc5 26. Qf5 Qe7 27. Qh3
+fxg6 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/iOOZk3tL"]
+[Date "2024.11.30"]
+[Round "?"]
+[White "Roie"]
+[Black "ogennadi"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1618"]
+[BlackRatingDiff "+18"]
+[ECO "?"]
+[FEN "rbqknrbn/pppppppp/8/8/8/8/PPPPPPPP/RBQKNRBN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.30"]
+[UTCTime "18:01:19"]
+[Variant "Chess960"]
+[WhiteElo "1329"]
+[WhiteRatingDiff "-11"]
+
+1. d4 c5 2. f3 cxd4 3. Bxd4 Ng6 4. Nd3 e5 5. Bxe5 Nxe5 6. Nxe5 Bxe5 7. f4 Bf6
+8. e4 d6 9. O-O Qc5+ 10. Nf2 Bd4 11. c3 Bxf2+ 12. Rxf2 Nf6 13. b4 Qc4 14. Qe3
+Ng4 15. Qd4 Qxd4 16. cxd4 Nxf2 17. Kxf2 Rc8 18. Bd3 f5 19. e5 dxe5 20. dxe5 Bc4
+21. Bxc4 Rxc4 22. Rd1+ Kc8 23. g3 Rd8 24. Rxd8+ Kxd8 25. a3 Rc2+ 26. Ke3 Rxh2
+27. Kd4 Rh3 28. Kd5 Rxg3 29. Ke6 Rxa3 30. Kf7 h5 31. e6 Re3 32. Kg6 h4 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/ZcMp8iWg"]
+[Date "2024.11.30"]
+[Round "?"]
+[White "Akshak"]
+[Black "scrooge"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "2030"]
+[BlackRatingDiff "-1"]
+[ECO "?"]
+[FEN "rqknrnbb/pppppppp/8/8/8/8/PPPPPPPP/RQKNRNBB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.30"]
+[UTCTime "15:01:41"]
+[Variant "Chess960"]
+[WhiteElo "2024"]
+[WhiteRatingDiff "+1"]
+
+1. g3 g6 2. f4 f5 3. Nc3 e5 4. fxe5 Bxe5 5. Ne3 c6 6. Ng2 d5 7. e3 Nd7 8. Nf4
+Bxf4 9. gxf4 Qxf4 10. exf4 Rxe1+ 11. Nd1 Rxg1 12. Bf3 Ne6 13. b4 Nd4 14. c3
+Nxf3 15. Qd3 O-O-O 16. Qxf3 Re8 17. Qf2 Ree1 18. Kc2 d4 19. Qxd4 Bd5 20. b5 b6
+21. c4 Bf3 22. bxc6 Bxc6 23. a4 Nc5 24. a5 Be4+ 25. Kc3 Rxd1 26. Qh8+ Kd7 27.
+Qg7+ Ke6 28. Qe5+ Kf7 29. Qc7+ Kg8 30. Qd8+ Kg7 31. Qe7+ Kh6 32. Rxd1 Rxd1 33.
+Qg5+ Kg7 34. Qe7+ Kh6 35. Qg5+ Kg7 36. Qe7+ Kh6 1/2-1/2
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/YQhgTjoU"]
+[Date "2024.11.30"]
+[Round "?"]
+[White "NameGoesInHere"]
+[Black "Merkava777"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1427"]
+[BlackRatingDiff "+29"]
+[ECO "?"]
+[FEN "rnkqbnrb/pppppppp/8/8/8/8/PPPPPPPP/RNKQBNRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.30"]
+[UTCTime "14:08:48"]
+[Variant "Chess960"]
+[WhiteElo "1566"]
+[WhiteRatingDiff "-52"]
+
+1. d4 g5 2. Bc3 a5 3. Ne3 c6 4. d5 cxd5 5. Qxd5 Qc7 6. O-O Ne6 7. g3 d6 8. Bxh8
+Rxh8 9. Nc3 Bc6 10. Qf5 Bxh1 11. Qxf7 Nf4 12. gxf4 gxf4 13. Qxf4 Bc6 14. f3 Nd7
+15. Ned5 Bxd5 16. Nxd5 Qc5+ 17. Ne3 O-O-O 18. Kh1 Rdf8 19. Qe4 Kb8 20. Qxe7 Ne5
+21. Ng2 Rf7 22. Qe6 Rhf8 23. Rad1 Rf6 24. Qb3 Ng4 25. e3 Qh5 26. h4 Ne5 27. Qd5
+Qg6 28. Nf4 Qg3 29. h5 Ng6 30. Rg1 Qh4+ 31. Kg2 Ne7 32. Qe4 Nf5 33. Kf1 Nxe3+
+34. Qxe3 Rxf4 35. Rd3 Rxf3+ 36. Qxf3 Rxf3+ 37. Rxf3 Qxh5 38. Rd3 Qf7+ 39. Ke2
+Qxa2 40. Rb3 a4 41. Rb4 a3 42. Rg7 Qe6+ 43. Kd3 Qd5+ 44. Rd4 Qb5+ 45. Kd2 axb2
+46. Rg8+ Ka7 47. Rd3 b1=Q 48. Ra3+ Kb6 49. Rb3 Q5xb3 50. cxb3 Qxb3 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/V8OeSNac"]
+[Date "2024.11.30"]
+[Round "?"]
+[White "Tranzoo"]
+[Black "guneet97"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1303"]
+[BlackRatingDiff "-25"]
+[ECO "?"]
+[FEN "brknqnrb/pppppppp/8/8/8/8/PPPPPPPP/BRKNQNRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.30"]
+[UTCTime "13:01:00"]
+[Variant "Chess960"]
+[WhiteElo "1583"]
+[WhiteRatingDiff "+8"]
+
+1. g4 e5 2. Ng3 Nc6 3. b3 b6 4. Ne3 Ne6 5. d3 Nf4 6. Nh5 O-O-O 7. Nxf4 exf4 8.
+Nf5 Qe6 9. O-O-O g5 10. Bxh8 Rxh8 11. Be4 Rhg8 12. Qc3 d5 13. Bf3 Ne5 14. Nd4
+Qf6 15. Nb5 Qc6 16. Nxa7+ Kb8 17. Nxc6+ Nxc6 18. Kd2 d4 19. Qc4 Ne5 20. Qa6
+Nxf3+ 21. exf3 Bb7 22. Qa4 c5 23. Qb5 Kc7 24. b4 Bc6 25. Qc4 Bd5 26. Qb5 Bc6
+27. Qa6 Ra8 28. Qc4 Kd6 29. bxc5+ bxc5 30. Qxf7 Bd5 31. Qf6+ Be6 32. Rge1 Rge8
+33. Qe5+ Kd7 34. Qxg5 Rxa2 35. Ra1 Rxa1 36. Rxa1 Rc8 37. Ra7+ Rc7 38. Rxc7+
+Kxc7 39. Qxc5+ Kd7 40. Qxd4+ Ke7 41. Qg7+ Bf7 42. Qxh7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/vpVN5ubH"]
+[Date "2024.11.29"]
+[Round "?"]
+[White "FunnyLikeAClown"]
+[Black "kamelstekspizza"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1519"]
+[BlackRatingDiff "-13"]
+[ECO "?"]
+[FEN "brnkrqnb/pppppppp/8/8/8/8/PPPPPPPP/BRNKRQNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.29"]
+[UTCTime "16:02:05"]
+[Variant "Chess960"]
+[WhiteElo "1752"]
+[WhiteRatingDiff "+12"]
+
+1. e4 e5 2. Nd3 g6 3. f4 d6 4. b3 f6 5. g4 exf4 6. Nxf4 Nb6 7. Nf3 O-O-O 8. Nd4
+Kd7 9. Qb5+ c6 10. Qa5 Nc8 11. O-O-O Nh6 12. h3 Nf7 13. Nf3 Ne5 14. d4 Nxf3 15.
+Bxf3 b6 16. Qd2 Kc7 17. d5 c5 18. Ne6+ Rxe6 19. dxe6 f5 20. Bxh8 Qxh8 21. Kb1
+Ne7 22. Qf4 fxe4 23. Bxe4 Bxe4 24. Qxe4 d5 25. Qf4+ Kc6 26. Rf1 Qg7 27. Qa4+
+Kb7 28. Rf7 Qe5 29. Rxe7+ Kc8 30. Qc6+ Kb8 31. Qb7# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/XXvDETq6"]
+[Date "2024.11.28"]
+[Round "?"]
+[White "isaypotato"]
+[Black "Forhavu"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1792"]
+[BlackRatingDiff "-5"]
+[ECO "?"]
+[FEN "rnqnkbbr/pppppppp/8/8/8/8/PPPPPPPP/RNQNKBBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.28"]
+[UTCTime "20:01:31"]
+[Variant "Chess960"]
+[WhiteElo "1991"]
+[WhiteRatingDiff "+44"]
+
+1. e4 e5 2. Ne3 f6 3. Nc3 Ndc6 4. Ned5 Ne7 5. f3 c6 6. Nxe7 Bxe7 7. d4 exd4 8.
+Bxd4 Qd8 9. Qe3 b6 10. e5 Be6 11. Ne4 d5 12. exf6 dxe4 13. fxe7 Qxe7 14. Qxe4
+O-O 15. Bd3 g6 16. O-O-O Qf7 17. Qe5 Qf4+ 18. Kb1 Qxe5 19. Bxe5 Nd7 20. Bd6
+Rfc8 21. Ba6 Re8 22. Bb7 Rad8 23. Bc7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/xbm4fINg"]
+[Date "2024.11.28"]
+[Round "?"]
+[White "yellorambo"]
+[Black "KS_Legion_Legionowo"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1724"]
+[BlackRatingDiff "+40"]
+[ECO "?"]
+[FEN "brkrnbnq/pppppppp/8/8/8/8/PPPPPPPP/BRKRNBNQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.28"]
+[UTCTime "16:00:55"]
+[Variant "Chess960"]
+[WhiteElo "1879"]
+[WhiteRatingDiff "-50"]
+
+1. e4 g6 2. d4 Bh6+ 3. Rd2 Bxd2+ 4. Kxd2 Qxd4+ 5. Nd3 Qxe4 6. Re1 Qd5 7. a3 b6
+8. Re5 Qa2 9. Re1 Qd5 10. Re5 Qd4 11. Ne2 Qd6 12. b4 f6 13. Re3 e5 14. Kc1 Ne7
+15. Nc3 Bc6 16. Be2 Nd5 17. Ne4 Qe7 18. Rh3 Nf4 19. Re3 Nxe2+ 20. Rxe2 Bxe4 21.
+Rxe4 d5 22. Rh4 Nd6 23. Qd1 Nc4 24. Qg4+ f5 25. Qh3 O-O 26. f4 exf4 27. Rxf4
+Qe3+ 28. Qxe3 Nxe3 29. Ne5 Nxg2 30. Rd4 Rbd8 31. Nc6 Rd6 32. Ne7+ Kf7 33. Nxd5
+Rfd8 34. c4 c6 35. Nf4 Rxd4 36. Nxg2 Rd1+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/oPZ3eQYO"]
+[Date "2024.11.27"]
+[Round "?"]
+[White "M0r1"]
+[Black "HeartOfStone"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1681"]
+[BlackRatingDiff "-6"]
+[ECO "?"]
+[FEN "bnrqnbkr/pppppppp/8/8/8/8/PPPPPPPP/BNRQNBKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.27"]
+[UTCTime "21:00:46"]
+[Variant "Chess960"]
+[WhiteElo "1735"]
+[WhiteRatingDiff "+31"]
+
+1. e4 e5 2. Bc4 b6 3. d3 d5 4. exd5 Bxd5 5. Nd2 Nc6 6. Nef3 Bc5 7. Qe2 f6 8. h4
+Bxc4 9. Nxc4 Nd6 10. b3 Nxc4 11. bxc4 Nd4 12. Nxd4 Bxd4 13. c3 Bc5 14. d4 Bd6
+15. Rd1 Qe8 16. c5 bxc5 17. dxc5 Be7 18. h5 h6 19. Rh3 O-O 20. Qg4 Qf7 21. Rg3
+Bxc5 22. Rd7 Be7 23. Bb2 Rfd8 24. Rgd3 Rxd7 25. Rxd7 f5 26. Qa4 Qe6 27. Rd3 Rb8
+28. Rg3 Rxb2 29. Qe8+ Kh7 30. Rg6 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/j0P3M3QQ"]
+[Date "2024.11.27"]
+[Round "?"]
+[White "chatakkuma"]
+[Black "RaisinBranCrunch"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1659"]
+[BlackRatingDiff "+57"]
+[ECO "?"]
+[FEN "bqnnrkrb/pppppppp/8/8/8/8/PPPPPPPP/BQNNRKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.27"]
+[UTCTime "03:06:11"]
+[Variant "Chess960"]
+[WhiteElo "1934"]
+[WhiteRatingDiff "-20"]
+
+1. b4 b5 2. Nb3 Nb6 3. Ne3 O-O 4. d3 e5 5. c4 bxc4 6. dxc4 d5 7. cxd5 Nxd5 8.
+Nxd5 Bxd5 9. Nc5 Qc8 10. O-O Nb7 11. Rd1 c6 12. Qc2 g6 13. e4 Be6 14. Nxb7 Qxb7
+15. Rd6 Qxb4 16. Rxc6 Rc8 17. Rxc8 Rxc8 18. Qb1 Qxb1 19. Rxb1 Bxa2 20. Re1 a5
+21. g3 Bb3 22. f4 exf4 23. Bxh8 Kxh8 24. gxf4 Rc2 25. Ra1 a4 26. Bf3 Ra2 27.
+Rb1 Bc2 28. Rb8+ Kg7 29. Ra8 a3 30. e5 Bb3 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/hBMFGjmy"]
+[Date "2024.11.26"]
+[Round "?"]
+[White "nicalvarez"]
+[Black "MrScribbles"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1363"]
+[BlackRatingDiff "+79"]
+[ECO "?"]
+[FEN "rqnknrbb/pppppppp/8/8/8/8/PPPPPPPP/RQNKNRBB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.26"]
+[UTCTime "13:09:51"]
+[Variant "Chess960"]
+[WhiteElo "1542"]
+[WhiteRatingDiff "-49"]
+
+1. f4 e5 2. fxe5 f6 3. e4 Bc4 4. d3 Ba6 5. Be3 d6 6. e6 Nb6 7. e7+ Kxe7 8. Nf3
+d5 9. Bc5+ Nd6 10. exd5 Nxd5 11. Nb3 Re8 12. Nbd4 Kf7 13. Bxd6 cxd6 14. Ng5+
+Kg8 15. Nge6 Ne3+ 16. Ke2 Nxf1 17. Qxf1 Qc8 18. g3 Rxe6+ 19. Nxe6 Qxe6+ 20. Be4
+Qxe4+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/mv3iWyLy"]
+[Date "2024.11.25"]
+[Round "?"]
+[White "Redpartot"]
+[Black "sacwin"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1838"]
+[BlackRatingDiff "-15"]
+[ECO "?"]
+[FEN "rkbnrbnq/pppppppp/8/8/8/8/PPPPPPPP/RKBNRBNQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.25"]
+[UTCTime "01:00:31"]
+[Variant "Chess960"]
+[WhiteElo "1695"]
+[WhiteRatingDiff "+18"]
+
+1. e4 b6 2. f4 Bb7 3. Nf3 Nc6 4. Nc3 e5 5. fxe5 Nxe5 6. Nxe5 Rxe5 7. Bc4 f6 8.
+d3 O-O-O 9. Bf4 Rc5 10. a3 a6 11. b4 b5 12. bxc5 bxc4 13. d4 d6 14. cxd6 cxd6
+15. d5 g5 16. Bd2 Ne7 17. Qf1 Kb8 18. Qxc4 Bg7 19. O-O f5 20. Rab1 Ka7 21. Qc7
+Bd4+ 22. Kh1 Rb8 23. Qxe7 Bxc3 24. Bxg5 fxe4 25. Rf7 Qc8 26. Qxe4 Ka8 27. Qxh7
+Bd4 28. Rbxb7 Rxb7 29. Rxb7 Qg4 30. Rb1 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/MA3r8wNi"]
+[Date "2024.11.24"]
+[Round "?"]
+[White "Merkava777"]
+[Black "ATrueRavenclaw"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1667"]
+[BlackRatingDiff "+23"]
+[ECO "?"]
+[FEN "qrbnkrnb/pppppppp/8/8/8/8/PPPPPPPP/QRBNKRNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.24"]
+[UTCTime "15:07:16"]
+[Variant "Chess960"]
+[WhiteElo "1437"]
+[WhiteRatingDiff "-10"]
+
+1. b4 b5 2. e3 Nf6 3. Ne2 Bb7 4. Ndc3 Bxg2 5. Bxg2 Qxg2 6. Bb2 Nc6 7. a3 O-O 8.
+O-O-O Qxh2 9. Ng3 g6 10. Nce4 e5 11. Rh1 Qg2 12. Rdg1 Qf3 13. Bxe5 Nxe5 14.
+Qxe5 Nxe4 15. Qxe4 Qxe4 16. Nxe4 Bg7 17. Nc5 Rbd8 18. Na6 Rc8 19. Rh4 d6 20. c4
+c5 21. d3 cxb4 22. Nxb4 bxc4 23. dxc4 Rb8 24. Rgh1 h5 25. Nc6 Rb7 26. f4 Re8
+27. R4h3 Rb3 28. Nxa7 Rxa3 29. Nb5 Raxe3 30. Nxd6 Rxh3 31. Rxh3 Rd8 32. c5 Bf8
+33. Nb7 Rc8 34. Rc3 Rc6 35. Kd2 Rc7 36. c6 Bb4 37. Nd8 Rc8 38. Nb7 Rxc6 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/dSL4d8LP"]
+[Date "2024.11.23"]
+[Round "?"]
+[White "kamelstekspizza"]
+[Black "Magagna"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2007"]
+[BlackRatingDiff "+4"]
+[ECO "?"]
+[FEN "bnrknbrq/pppppppp/8/8/8/8/PPPPPPPP/BNRKNBRQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.23"]
+[UTCTime "17:01:45"]
+[Variant "Chess960"]
+[WhiteElo "1524"]
+[WhiteRatingDiff "-5"]
+
+1. e4 Nf6 2. Nc3 e6 3. Nf3 Ng4 4. Ke1 Bb4 5. b3 Nc6 6. Be2 O-O 7. h3 Nf6 8. e5
+Bxc3 9. Bxc3 Nd5 10. Bb2 Rcd8 11. Qh2 h6 12. d3 Qh7 13. Kd2 Qf5 14. g4 Qf4+ 15.
+Qxf4 Nxf4 16. Bf1 b6 17. a3 d6 18. Re1 a5 19. Kc1 b5 20. h4 g6 21. exd6 cxd6
+22. Kb1 Rc8 23. Bc1 e5 24. Nd2 d5 25. Nf3 Rfe8 26. Bxf4 exf4 27. Bh3 Rcd8 28.
+g5 h5 29. Nd2 b4 30. a4 Nd4 31. Bg2 Rc8 32. Rxe8+ Rxe8 33. Nf3 Nf5 34. Bh1 Re2
+35. Rf1 Kf8 36. Kc1 Re8 37. Kd1 d4 38. Kd2 Bxf3 39. Bxf3 Nxh4 40. Bc6 Re6 41.
+Bd5 Re5 42. Bc6 Ke7 43. Rg1 Kd6 44. Bb7 f3 45. Ba8 Re2+ 46. Kd1 Rxf2 47. Be4
+Ng2 48. Kc1 Ne3 49. Bb7 Rxc2+ 50. Kb1 f2 51. Rf1 Re2 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/aMDWEqF7"]
+[Date "2024.11.23"]
+[Round "?"]
+[White "training_account2024"]
+[Black "souzamoraes"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1665"]
+[BlackRatingDiff "-37"]
+[ECO "?"]
+[FEN "rbnqknbr/pppppppp/8/8/8/8/PPPPPPPP/RBNQKNBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.23"]
+[UTCTime "16:00:23"]
+[Variant "Chess960"]
+[WhiteElo "1732"]
+[WhiteRatingDiff "+89"]
+
+1. d4 d5 2. c3 h6 3. Nb3 Bh7 4. Nc5 Nd6 5. Qb3 c6 6. Nxb7 Nxb7 7. Qxb7 Bd6 8.
+Qxc6+ Nd7 9. Bxh7 Rxh7 10. Qxd5 Rb8 11. Rb1 Nf6 12. Qf5 e6 13. Qc2 Kf8 14. e4
+e5 15. f3 h5 16. Ng3 g6 17. dxe5 Bxe5 18. Bxa7 Bxg3+ 19. hxg3 Rc8 20. O-O h4
+21. Rfd1 Qc7 22. Bd4 h3 23. Bxf6 Qxg3 24. Rd8+ Rxd8 25. Bxd8 Qb8 26. Rd1 Qa7+
+27. Kh1 Kg7 28. a3 Qe3 29. Qd3 Qf4 30. Qd4+ Kg8 31. Qd6 hxg2+ 32. Kxg2 Rh2+ 33.
+Kg1 Qe3+ 34. Kxh2 Qf2+ 35. Kh1 Qxf3+ 36. Kg1 Qe3+ 37. Kf1 Qf3+ 38. Ke1 Qe3+ 39.
+Kf1 Qf3+ 40. Kg1 Qe3+ 41. Kg2 Qe2+ 42. Kg3 Qe3+ 43. Kg4 Qe2+ 44. Kg5 Qh5+ 45.
+Kf6 Qh4+ 46. Ke5 Qh5+ 47. Kf4 Qh6+ 48. Bg5 Qh2+ 49. Kg4 Qh5+ 50. Kf4 Qh2+ 51.
+Kf3 Qh5+ 52. Kf2 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/04c8a46y"]
+[Date "2024.11.23"]
+[Round "?"]
+[White "RSInternecio"]
+[Black "chatakkuma"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1940"]
+[BlackRatingDiff "-6"]
+[ECO "?"]
+[FEN "bqrnknrb/pppppppp/8/8/8/8/PPPPPPPP/BQRNKNRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.23"]
+[UTCTime "13:31:37"]
+[Variant "Chess960"]
+[WhiteElo "2142"]
+[WhiteRatingDiff "+14"]
+
+1. b3 b5 2. d3 Nfe6 3. e4 c5 4. Nde3 Nc6 5. g3 O-O 6. Nd2 Ned4 7. c3 Ne6 8. O-O
+g6 9. Bg2 Ned8 10. f4 f6 11. d4 cxd4 12. cxd4 Nf7 13. e5 Nb4 14. Nf3 Nd5 15.
+Qd3 Rxc1 16. Rxc1 Rc8 17. Bb2 Rxc1+ 18. Bxc1 Qc8 19. Bd2 a6 20. Ne1 Nxe3 21.
+Bxe3 Bxg2 22. Kxg2 d6 23. exf6 Bxf6 24. Bd2 Nh6 25. Nc2 Nf5 26. g4 Nh4+ 27. Kg3
+h5 28. h3 Qb7 29. d5 e5 30. f5 gxf5 31. gxf5 Qg7+ 32. Kf2 Qg2+ 33. Ke1 Qg1+ 34.
+Ke2 Qg2+ 35. Kd1 Qh1+ 36. Ne1 e4 37. Qg3+ Kh8 38. Qxd6 Kg7 39. Bh6+ Kxh6 40.
+Qxf6+ Kh7 41. Qxh4 e3 42. Qxh5+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/Kx2beHTe"]
+[Date "2024.11.23"]
+[Round "?"]
+[White "guneet97"]
+[Black "AACtrl"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1743"]
+[BlackRatingDiff "+3"]
+[ECO "?"]
+[FEN "nbrkbqnr/pppppppp/8/8/8/8/PPPPPPPP/NBRKBQNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.23"]
+[UTCTime "09:57:46"]
+[Variant "Chess960"]
+[WhiteElo "1316"]
+[WhiteRatingDiff "-13"]
+
+1. e4 c5 2. Nf3 e5 3. c4 d6 4. Nb3 Bc7 5. d3 b6 6. Qe2 Bd7 7. Bd2 Ne7 8. O-O a6
+9. Bg5 f6 10. Bh4 g5 11. Bg3 h5 12. h3 b5 13. cxb5 axb5 14. Rcd1 g4 15. Nh4
+gxh3 16. gxh3 Bxh3 17. Rfe1 Bb6 18. Qf3 Bg4 19. Qe3 c4 20. Qd2 cxb3 21. Rc1
+Rxc1 22. Rxc1 Qh6 23. Qc3 Kd7 24. Kg2 Rc8 25. Qe1 Qxc1 26. Qxc1 Rxc1 27. axb3
+Rxb1 28. f3 Rxb2+ 29. Bf2 Bh3+ 30. Kxh3 Bxf2 31. Nf5 Nxf5 32. exf5 Rxb3 33. Kg2
+Bd4 34. Kg3 Rxd3 35. Kh4 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/0RrxTaqT"]
+[Date "2024.11.22"]
+[Round "?"]
+[White "ogennadi"]
+[Black "nicalvarez"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1636"]
+[BlackRatingDiff "-49"]
+[ECO "?"]
+[FEN "rkrnnqbb/pppppppp/8/8/8/8/PPPPPPPP/RKRNNQBB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.22"]
+[UTCTime "22:30:33"]
+[Variant "Chess960"]
+[WhiteElo "1548"]
+[WhiteRatingDiff "+70"]
+
+1. g4 g5 2. f4 gxf4 3. Qxf4 Nc6 4. Nd3 e5 5. Qf5 Rd8 6. Bc5 Nd6 7. Bxd6 Qxd6 8.
+Nc3 f6 9. Rg1 Nd4 10. Qe4 h6 11. Qxb7# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/cOvbDiFK"]
+[Date "2024.11.22"]
+[Round "?"]
+[White "glbert"]
+[Black "Forhavu"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1787"]
+[BlackRatingDiff "+5"]
+[ECO "?"]
+[FEN "rknnbrqb/pppppppp/8/8/8/8/PPPPPPPP/RKNNBRQB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.22"]
+[UTCTime "18:27:56"]
+[Variant "Chess960"]
+[WhiteElo "1572"]
+[WhiteRatingDiff "-17"]
+
+1. g4 Nb6 2. f4 d5 3. Nb3 g6 4. Nc3 f5 5. Qc5 e6 6. Bh4 Nc6 7. Nb5 a6 8. Nd6
+cxd6 9. Qxb6 fxg4 10. Na5 Qg7 11. c3 Qc7 12. Qxc7+ Kxc7 13. Nb3 Bf7 14. Kc2 b5
+15. d4 a5 16. e4 a4 17. Nd2 Rfe8 18. Bg2 a3 19. b3 b4 20. Rac1 Kb7 21. c4 Nxd4+
+22. Kd3 dxe4+ 23. Bxe4+ d5 24. cxd5 exd5 25. Bg2 Rac8 26. Bg3 Be6 27. Rxc8 Bf5+
+0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/ToDoxFXx"]
+[Date "2024.11.22"]
+[Round "?"]
+[White "RaisinBranCrunch"]
+[Black "MoistvonLipwig"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2154"]
+[BlackRatingDiff "-46"]
+[ECO "?"]
+[FEN "nqrbbnkr/pppppppp/8/8/8/8/PPPPPPPP/NQRBBNKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.22"]
+[UTCTime "14:08:30"]
+[Variant "Chess960"]
+[WhiteElo "1593"]
+[WhiteRatingDiff "+66"]
+
+1. d4 d5 2. c4 dxc4 3. Ne3 b5 4. b3 cxb3 5. Nxb3 Nb6 6. Nc5 e6 7. O-O Ng6 8.
+Bb3 Nd7 9. Nxe6 O-O 10. Nxf8 Ndxf8 11. Bb4 Nf4 12. Qb2 c6 13. Nf5 a5 14. Bd6
+Bc7 15. Ne7+ Kh8 16. Nxc8 Bxd6 17. Nxd6 Qxd6 18. Qd2 Qxd4 19. Qxd4 Nxe2+ 20.
+Kh1 Nxd4 21. Rcd1 c5 22. Rfe1 Nfe6 23. Bxe6 fxe6 24. Re5 Kg8 25. Rxc5 Nc6 26.
+Rxb5 Kf7 27. Rb7+ Kf6 28. Rd3 Ne5 29. Rd8 Bc6 30. Ra7 a4 31. Rf8+ Kg6 32. Rg8
+Nf7 33. Rc8 Bb5 34. Rcc7 Be8 35. Re7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/pdqMpzav"]
+[Date "2024.11.22"]
+[Round "?"]
+[White "KS_Legion_Legionowo"]
+[Black "manuever_knight"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1605"]
+[BlackRatingDiff "-51"]
+[ECO "?"]
+[FEN "brnkrbqn/pppppppp/8/8/8/8/PPPPPPPP/BRNKRBQN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Time forfeit"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.22"]
+[UTCTime "06:04:12"]
+[Variant "Chess960"]
+[WhiteElo "1702"]
+[WhiteRatingDiff "+22"]
+
+1. f4 f5 2. Ng3 g6 3. b3 b6 4. Qd4 Nf7 5. e4 fxe4 6. Nxe4 Ncd6 7. Bd3 Nf5 8.
+Qf2 Bg7 9. c3 e5 10. g4 N5d6 11. f5 gxf5 12. gxf5 Nxe4 13. Bxe4 d5 14. Bc2 Bf6
+15. Rg1 Qf8 16. Bb2 O-O-O 17. Ne2 Qh6 18. O-O-O Rg8 19. Kb1 Nd6 20. d3 Bh4 21.
+Ng3 Rdf8 22. Bc1 Bg5 23. Bxg5 Rxg5 24. Qe2 Nxf5 25. Nxf5 Rgxf5 26. Qg4 Kb8 27.
+d4 e4 28. c4 Rf2 29. h4 Bc6 30. cxd5 Bxd5 31. Qd7 Rxc2 32. Kxc2 Rf2+ 33. Kb1
+Be6 34. Qd8+ Kb7 35. Qg5 Qf8 36. Rg2 Rf5 37. Qe3 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/fMaEjqDS"]
+[Date "2024.11.21"]
+[Round "?"]
+[White "ztraynor"]
+[Black "garrincha11"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1352"]
+[BlackRatingDiff "-39"]
+[ECO "?"]
+[FEN "qnrbbkrn/pppppppp/8/8/8/8/PPPPPPPP/QNRBBKRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.21"]
+[UTCTime "13:09:11"]
+[Variant "Chess960"]
+[WhiteElo "1482"]
+[WhiteRatingDiff "+33"]
+
+1. e4 b6 2. Ng3 e5 3. b3 Nc6 4. f3 Bg5 5. Bf2 Ng6 6. Be2 Nf4 7. Rd1 Nb4 8. Qxe5
+Nxe2 9. Nxe2 Bf6 10. Qb5 Nxc2 11. Qc4 Qc6 12. Qxc6 dxc6 13. d4 Bd7 14. e5 Bg5
+15. f4 Be7 16. Nbc3 O-O-O 17. g4 Bh4 18. Bxh4 Ne3+ 19. Kf2 Nxd1+ 20. Nxd1 f6
+21. h3 g5 22. fxg5 fxg5 23. Bg3 Rgf8+ 24. Ke3 c5 25. d5 Bb5 26. Nec3 Ba6 27.
+Nf2 Bb7 28. Rd1 b5 29. Nxb5 Bxd5 30. Nxa7+ Kb8 31. Nb5 Rf3+ 32. Ke2 Rxg3 33.
+Rd3 Bf3+ 34. Rxf3 Rd2+ 35. Ke3 Rxf3+ 36. Kxf3 Rxa2 37. Ne4 Ra6 38. Nxc5 Ra5 39.
+e6 Rxb5 40. e7 Rxc5 41. e8=Q+ Kb7 42. Qe4+ Rc6 43. b4 Kb6 44. Qxh7 Rf6+ 45. Ke3
+Re6+ 46. Kd4 Rd6+ 47. Ke5 Rd1 48. Qg6+ c6 49. Qxg5 Rd5+ 50. Kf6 Rxg5 51. Kxg5
+Kc7 52. Kf6 Kd6 53. g5 c5 54. bxc5+ Kxc5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/0TR6FiiJ"]
+[Date "2024.11.20"]
+[Round "?"]
+[White "root2"]
+[Black "yellorambo"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1903"]
+[BlackRatingDiff "-24"]
+[ECO "?"]
+[FEN "brnnkrqb/pppppppp/8/8/8/8/PPPPPPPP/BRNNKRQB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.20"]
+[UTCTime "18:02:26"]
+[Variant "Chess960"]
+[WhiteElo "2044"]
+[WhiteRatingDiff "+7"]
+
+1. d4 d5 2. g3 Ne6 3. e3 b6 4. Nd3 c5 5. b3 cxd4 6. exd4 g6 7. Ne5 f6 8. Nd3
+Ng5 9. Ne3 Qe6 10. O-O-O Nd6 11. Nf4 Qd7 12. h4 Nh3 13. Nxh3 Qxh3 14. Nxd5 O-O
+15. Nxe7+ Kf7 16. Bxa8 Rxa8 17. Nd5 Rac8 18. Qh1 Qf5 19. Ne3 Qa5 20. Qd5+ Qxd5
+21. Nxd5 Ke6 22. c4 Kd7 23. Rfe1 Nf5 24. g4 Nxh4 25. Re7+ Kd6 26. Rde1 Nf3 27.
+R1e6# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/xfb4kcHn"]
+[Date "2024.11.19"]
+[Round "?"]
+[White "scrooge"]
+[Black "isaypotato"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2142"]
+[BlackRatingDiff "-151"]
+[ECO "?"]
+[FEN "nrbkrqnb/pppppppp/8/8/8/8/PPPPPPPP/NRBKRQNB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.19"]
+[UTCTime "20:01:19"]
+[Variant "Chess960"]
+[WhiteElo "2013"]
+[WhiteRatingDiff "+7"]
+
+1. d4 d5 2. g3 Nf6 3. Nb3 Bf5 4. f3 e6 5. e4 dxe4 6. fxe4 Bg4+ 7. Nf3 Nb6 8. h3
+Bh5 9. Bf4 h6 10. O-O-O g5 11. Bd2 O-O-O 12. g4 Bg6 13. Ne5 Bh7 14. a3 Qg7 15.
+Bc3 Na4 16. Bb4 h5 17. Qb5 Nb6 18. Nc5 Nfd7 19. Nexd7 Rxd7 20. Nxd7 Nxd7 21. e5
+c6 22. Bxc6 bxc6 23. Qxc6+ Kd8 24. Bd6 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/lKd1ouaY"]
+[Date "2024.11.19"]
+[Round "?"]
+[White "LuzhinAcademy"]
+[Black "M0r1"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1762"]
+[BlackRatingDiff "-27"]
+[ECO "?"]
+[FEN "brqknbrn/pppppppp/8/8/8/8/PPPPPPPP/BRQKNBRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.19"]
+[UTCTime "19:59:11"]
+[Variant "Chess960"]
+[WhiteElo "1883"]
+[WhiteRatingDiff "+12"]
+
+1. c4 e5 2. b4 Ng6 3. Ng3 b6 4. e4 a5 5. b5 Bc5 6. Nd3 Bd6 7. Be2 Nf6 8. f3 O-O
+9. Nf5 Nh5 10. g3 Ne7 11. Nxd6 cxd6 12. Qa3 Qc7 13. Nxe5 dxe5 14. Qxe7 Rbe8 15.
+Qa3 f5 16. d3 fxe4 17. fxe4 Rf2 18. Bxh5 Ref8 19. Qe7 Bxe4 20. Bxe5 R8f7 21.
+Bxf7+ Rxf7 22. Qxf7+ Kxf7 23. Bxc7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/BqPpJpZP"]
+[Date "2024.11.18"]
+[Round "?"]
+[White "NameGoesInHere"]
+[Black "MrScribbles"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1402"]
+[BlackRatingDiff "-39"]
+[ECO "?"]
+[FEN "rnkbbrqn/pppppppp/8/8/8/8/PPPPPPPP/RNKBBRQN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.18"]
+[UTCTime "19:22:01"]
+[Variant "Chess960"]
+[WhiteElo "1542"]
+[WhiteRatingDiff "+24"]
+
+1. e4 d5 2. exd5 Bb5 3. d3 c6 4. Nc3 Ba6 5. Ng3 f5 6. Bf3 Bb6 7. Bd2 Qf7 8. Re1
+cxd5 9. Bxd5 Qf6 10. Nxf5 Nc6 11. Be6+ Kd8 12. Nd5 Qg6 13. Ndxe7 Nxe7 14. Nxe7
+Qf6 15. Nd5 Bxf2 16. Nxf6 Bxg1 17. Rxg1 Rxf6 18. Bg5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/XIwTv8AE"]
+[Date "2024.11.18"]
+[Round "?"]
+[White "HeartOfStone"]
+[Black "Tranzoo"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1602"]
+[BlackRatingDiff "-19"]
+[ECO "?"]
+[FEN "nbrkbqnr/pppppppp/8/8/8/8/PPPPPPPP/NBRKBQNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.18"]
+[UTCTime "18:59:42"]
+[Variant "Chess960"]
+[WhiteElo "1682"]
+[WhiteRatingDiff "+5"]
+
+1. d4 e5 2. e3 Nb6 3. Qb5 d6 4. Qb3 Bc6 5. Nf3 Bd5 6. c4 Bc6 7. Bf5 Ba4 8. Bxc8
+Bxb3+ 9. Nxb3 Nxc8 10. dxe5 dxe5 11. O-O-O+ Ke8 12. Nxe5 c6 13. Bc3 Bxe5 14.
+Bxe5 f6 15. Bf4 Nge7 16. Nc5 Qf7 17. b3 b5 18. Rd4 bxc4 19. Rhd1 Nd5 20. Rxc4
+Nxf4 21. Re4+ Ne7 22. Rxf4 g5 23. Ra4 Kf8 24. Rxa7 Kg7 25. Rdd7 Re8 26. Ne4 Qe6
+27. Nd6 Qe5 28. Nxe8+ Kg6 29. Rxe7 Qa1+ 30. Kc2 Qf1 31. Rxh7 Qxf2+ 32. Kb1 Qe1+
+33. Kb2 Qd2+ 34. Ka3 Qc1+ 35. Ka4 Qxe3 36. Rhg7+ Kh6 37. Rh7+ Kg6 38. Rag7+ Kf5
+39. Nd6+ Kg4 40. Nc4 Qe8 41. Ra7 c5+ 42. Ka3 Qe1 43. Rae7 Qc1+ 44. Ka4 Qc3 45.
+Ne3+ Kf4 46. Nd5+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/NQ7QS9Mf"]
+[Date "2024.11.17"]
+[Round "?"]
+[White "scrooge"]
+[Black "FunnyLikeAClown"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1763"]
+[BlackRatingDiff "-11"]
+[ECO "?"]
+[FEN "qbrkbrnn/pppppppp/8/8/8/8/PPPPPPPP/QBRKBRNN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.17"]
+[UTCTime "19:26:53"]
+[Variant "Chess960"]
+[WhiteElo "2011"]
+[WhiteRatingDiff "+2"]
+
+1. c4 Nf6 2. Nf3 c6 3. d4 d5 4. Ng3 Bd7 5. Bb4 Ng6 6. O-O O-O 7. Bxg6 fxg6 8.
+Bxe7 Rf7 9. Ba3 Bxg3 10. hxg3 Bf5 11. Ne5 Rfc7 12. Bd6 Ne4 13. Bxc7 Rxc7 14.
+cxd5 Qd8 15. dxc6 Qxd4 16. cxb7 Rxb7 17. b3 Qb6 18. e3 Re7 19. Rfd1 Nxg3 20.
+Nc4 Qc7 21. fxg3 Qxg3 22. Rd8+ Kf7 23. Rf1 h5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/Z6B4z95d"]
+[Date "2024.11.17"]
+[Round "?"]
+[White "Akshak"]
+[Black "HeartOfStone"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1704"]
+[BlackRatingDiff "-2"]
+[ECO "?"]
+[FEN "rbnqbnkr/pppppppp/8/8/8/8/PPPPPPPP/RBNQBNKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.17"]
+[UTCTime "14:59:53"]
+[Variant "Chess960"]
+[WhiteElo "2016"]
+[WhiteRatingDiff "+8"]
+
+1. c4 c5 2. Ne3 e6 3. Be4 Nd6 4. Bf3 Ng6 5. g3 Bc7 6. Nb3 Bb6 7. a4 a5 8. d3
+Ne5 9. Bg2 Nc6 10. Bc3 Nd4 11. Bxd4 cxd4 12. Nc2 Qc7 13. Ncxd4 Rb8 14. Rc1 Bxd4
+15. Nxd4 b6 16. Qd2 Nb7 17. Nb5 Qd8 18. Qf4 d6 19. Bxb7 Bxb5 20. cxb5 Rxb7 21.
+Rc6 e5 22. Qc4 Rb8 23. e4 O-O 24. O-O Qd7 25. Qd5 Rfd8 26. Kg2 Qe6 27. Qc4 Kf8
+28. Rd1 Ke7 29. Rc7+ Rd7 30. Qc6 Rxc7 31. Qxc7+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/pmnUU4Z1"]
+[Date "2024.11.17"]
+[Round "?"]
+[White "Forhavu"]
+[Black "RSInternecio"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2135"]
+[BlackRatingDiff "+7"]
+[ECO "?"]
+[FEN "nnbrkqrb/pppppppp/8/8/8/8/PPPPPPPP/NNBRKQRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.17"]
+[UTCTime "14:59:36"]
+[Variant "Chess960"]
+[WhiteElo "1790"]
+[WhiteRatingDiff "-3"]
+
+1. d4 d5 2. g3 Nb6 3. Bf4 Na6 4. Nb3 Bf5 5. O-O-O e6 6. a3 g5 7. Bd2 c5 8. e3
+c4 9. Na1 Qe7 10. Nc3 Qd7 11. Na2 Bf6 12. Nb4 Nc7 13. b3 Be7 14. Kb2 Rc8 15. a4
+Nxa4+ 16. bxa4 Qxa4 17. c3 Nb5 18. Nbc2 Ba3+ 19. Kb1 Bxc2+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/wbAUUPuF"]
+[Date "2024.11.16"]
+[Round "?"]
+[White "ATrueRavenclaw"]
+[Black "kamelstekspizza"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1476"]
+[BlackRatingDiff "+48"]
+[ECO "?"]
+[FEN "nbbnrkqr/pppppppp/8/8/8/8/PPPPPPPP/NBBNRKQR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.16"]
+[UTCTime "21:03:35"]
+[Variant "Chess960"]
+[WhiteElo "1757"]
+[WhiteRatingDiff "-90"]
+
+1. e4 e5 2. Nb3 Ne6 3. Ne3 d6 4. c3 Nb6 5. d4 exd4 6. cxd4 Bd7 7. g3 a6 8. Bd2
+Ba7 9. Bc3 O-O-O 10. O-O-O f6 11. Qe1 Qe8 12. Qe2 Ng5 13. f3 Bb5 14. Bd3 Ba4
+15. h4 Bxb3 16. axb3 Ne6 17. h5 Kb8 18. h6 Qg6 19. Nf5 Rhe8 20. Qh2 gxh6 21.
+Qxh6 Qg5+ 22. Qxg5 Nxg5 23. Rhf1 Nc8 24. f4 Nxe4 25. Bxe4 Rxe4 26. Rh1 Rd7 27.
+Rh6 Rf7 28. d5 Ne7 29. Nxe7 Rexe7 30. Rxf6 Bf2 31. Rd3 b5 32. Rf3 Rxf6 33. Bxf6
+Rf7 34. Rxf2 Rxf6 35. Rh2 Rf7 36. Kd2 Kb7 37. Ke3 Kb6 38. b4 a5 39. bxa5+ Kxa5
+40. Ke4 Kb4 41. g4 Kc4 42. Rh6 Kb3 43. g5 Kxb2 44. Rf6 Rg7 45. Kf5 b4 46. Ke6
+b3 47. Rf8 Kc2 48. Rh8 b2 49. Rb8 b1=Q 50. Rxb1 Kxb1 51. f5 Rxg5 52. f6 Rg3 53.
+Kd7 Rf3 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/SXQFLYTj"]
+[Date "2024.11.16"]
+[Round "?"]
+[White "MoistvonLipwig"]
+[Black "NameGoesInHere"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1545"]
+[BlackRatingDiff "-3"]
+[ECO "?"]
+[FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.16"]
+[UTCTime "19:03:31"]
+[Variant "Chess960"]
+[WhiteElo "2152"]
+[WhiteRatingDiff "+2"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 a6 5. c4 Nf6 6. Nc3 Qc7 7. a3 b6 8. Bd3
+d6 9. O-O Be7 10. Be3 Nbd7 11. f4 Bb7 12. b4 O-O 13. Rc1 Rac8 14. g4 h6 15. h4
+Kh8 16. g5 Nh7 17. g6 Nhf6 18. gxf7 Rxf7 19. Nxe6 Qb8 20. Kh2 h5 21. Rg1 Ng4+
+22. Rxg4 hxg4 23. Qxg4 Nf6 24. Qg6 Kg8 25. Bd4 d5 26. exd5 Bd6 27. Bxf6 Rxf6
+28. Qxg7# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/7b9v6BmW"]
+[Date "2024.11.16"]
+[Round "?"]
+[White "souzamoraes"]
+[Black "Roie"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1341"]
+[BlackRatingDiff "-12"]
+[ECO "?"]
+[FEN "bnnbrkqr/pppppppp/8/8/8/8/PPPPPPPP/BNNBRKQR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.16"]
+[UTCTime "15:01:28"]
+[Variant "Chess960"]
+[WhiteElo "1647"]
+[WhiteRatingDiff "+18"]
+
+1. d4 b5 2. e4 d5 3. Nd2 Nd6 4. e5 Nc4 5. Nxc4 dxc4 6. b3 e6 7. f4 Bd5 8. Qf2
+b4 9. Bf3 c6 10. Ne2 c3 11. Ng3 Bb6 12. Ne4 Nd7 13. Nd6 Rd8 14. Qh4 c5 15. Bxd5
+exd5 16. O-O cxd4 17. Kh1 Bc7 18. f5 Bxd6 19. Qxd8# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/A5O3a9mq"]
+[Date "2024.11.15"]
+[Round "?"]
+[White "Tranzoo"]
+[Black "nicalvarez"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1528"]
+[BlackRatingDiff "-50"]
+[ECO "?"]
+[FEN "rqnkbbrn/pppppppp/8/8/8/8/PPPPPPPP/RQNKBBRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Time forfeit"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.15"]
+[UTCTime "17:00:14"]
+[Variant "Chess960"]
+[WhiteElo "1582"]
+[WhiteRatingDiff "+20"]
+
+1. g4 g5 2. Bg2 c6 3. Ng3 Ng6 4. Nd3 Bg7 5. c3 d5 6. Qc2 Bd7 7. Nf5 Qxh2 8.
+Nxg7 Qxg1 9. Bxd5 cxd5 10. Qb3 Nd6 11. Nf5 Bxf5 12. gxf5 Nf4 13. Nxf4 gxf4 14.
+O-O-O O-O-O 15. Qxd5 Qg2 16. Qc5+ Kb8 17. Qe5 Qe4 18. Qa5 Qxf5 19. Qb4 Rc8 20.
+f3 Rc4 21. Qa3 Rgc8 22. Bf2 Nb5 23. Qxe7 Nd4 24. Qd6+ Ka8 25. Bxd4 Qa5 26. a3
+R4c6 27. Qxf4 Qd5 28. Rg1 Qa2 29. Kc2 Rc4 30. Rg7 Ra4 31. Qg4 Re8 32. Rg8 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/Dl2AREev"]
+[Date "2024.11.15"]
+[Round "?"]
+[White "MrScribbles"]
+[Black "RaisinBranCrunch"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1571"]
+[BlackRatingDiff "+22"]
+[ECO "?"]
+[FEN "rbqnkrbn/pppppppp/8/8/8/8/PPPPPPPP/RBQNKRBN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.15"]
+[UTCTime "14:04:11"]
+[Variant "Chess960"]
+[WhiteElo "1451"]
+[WhiteRatingDiff "-49"]
+
+1. Ng3 d5 2. f4 c6 3. Bd4 f6 4. b4 Ng6 5. f5 Nh4 6. O-O Bxg3 7. hxg3 Nxf5 8.
+Bb2 Nxg3 9. Rf3 Nxe2+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/9Qyyhaoh"]
+[Date "2024.11.14"]
+[Round "?"]
+[White "yellorambo"]
+[Black "Redpartot"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1701"]
+[BlackRatingDiff "-6"]
+[ECO "?"]
+[FEN "rnkrqbbn/pppppppp/8/8/8/8/PPPPPPPP/RNKRQBBN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.14"]
+[UTCTime "21:01:18"]
+[Variant "Chess960"]
+[WhiteElo "1881"]
+[WhiteRatingDiff "+22"]
+
+1. e4 e5 2. f4 exf4 3. d4 Nc6 4. Nc3 Bb4 5. d5 Ne5 6. a3 Ba5 7. Bd4 f6 8. Qf2
+g5 9. d6 Bxc3 10. Bxc3 c6 11. Ba5 b6 12. Bxb6 Nc4 13. Bxd8 Kxd8 14. Qd4 Ne3 15.
+Qxf6+ Kc8 16. Ba6+ Kb8 17. Qc3 Qd8 18. Rd4 c5 19. Qxc5 Qb6 20. Qc8# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/WB6v1hKS"]
+[Date "2024.11.14"]
+[Round "?"]
+[White "j3084"]
+[Black "LuzhinAcademy"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1909"]
+[BlackRatingDiff "-26"]
+[ECO "?"]
+[FEN "nnrkbrqb/pppppppp/8/8/8/8/PPPPPPPP/NNRKBRQB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.14"]
+[UTCTime "20:07:41"]
+[Variant "Chess960"]
+[WhiteElo "1739"]
+[WhiteRatingDiff "+51"]
+
+1. f4 f5 2. g4 fxg4 3. Bxb7 Nb6 4. Bxc8 Kxc8 5. Nc3 Nc6 6. Nb3 h5 7. O-O-O Qc4
+8. d3 Qa6 9. Kb1 g6 10. Nc5 Qa5 11. N3e4 Qb5 12. Bc3 e5 13. fxe5 Rxf1 14. Rxf1
+Bg7 15. e6 Bxc3 16. exd7+ Bxd7 17. Nxc3 Qb4 18. Rf8+ Nd8 19. a3 Qa5 20. Rxd8+
+Kxd8 21. Nb7+ Ke7 22. Nxa5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/CG3OKOam"]
+[Date "2024.11.14"]
+[Round "?"]
+[White "AACtrl"]
+[Black "root2"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2040"]
+[BlackRatingDiff "+4"]
+[ECO "?"]
+[FEN "nbnrbkrq/pppppppp/8/8/8/8/PPPPPPPP/NBNRBKRQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.14"]
+[UTCTime "18:02:46"]
+[Variant "Chess960"]
+[WhiteElo "1749"]
+[WhiteRatingDiff "-6"]
+
+1. d4 d5 2. b3 Nd6 3. Nd3 g6 4. Ne5 c5 5. g3 e6 6. c3 Bb5 7. a4 Ba6 8. Bd2 Qg7
+9. Ng4 g5 10. dxc5 f5 11. cxd6 fxg4 12. Nc2 Bxd6 13. Ne3 h5 14. h3 gxh3 15.
+Qxh3 Qf7 16. Nc2 O-O-O 17. Nd4 g4 18. Qh1 Rgf8 19. Be3 Nc7 20. b4 Bc4 21. Rg2
+Ne8 22. Ke1 Ng7 23. Nb5 Bxb5 24. axb5 Kb8 25. Rh2 Be5 26. Rd3 Rc8 27. Bc5 Rfd8
+28. Re3 Qf6 29. Kd2 b6 30. Bd4 Bxd4 31. cxd4 Qxd4+ 32. Rd3 Qxb4+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/kJisbbiY"]
+[Date "2024.11.14"]
+[Round "?"]
+[White "garrincha11"]
+[Black "glbert"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1550"]
+[BlackRatingDiff "+22"]
+[ECO "?"]
+[FEN "brknnbrq/pppppppp/8/8/8/8/PPPPPPPP/BRKNNBRQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.14"]
+[UTCTime "17:32:59"]
+[Variant "Chess960"]
+[WhiteElo "1394"]
+[WhiteRatingDiff "-42"]
+
+1. Nf3 b6 2. Nc3 g6 3. O-O-O Bg7 4. e3 Nf6 5. d4 Ne6 6. Ne5 O-O 7. d5 Nc5 8.
+Bb5 Nfe4 9. Nxe4 Nxe4 10. Nd3 Bxd5 11. Bxd7 Rbd8 12. Bg4 Be6 13. Bf3 Ng5 14.
+Bc6 Rd6 15. g3 Bxa2 16. h4 Ne6 17. Qe4 a5 18. Bb5 Rfd8 19. Qf3 h5 20. Qe2 c6
+21. Ba6 b5 22. Qd2 a4 23. Qb4 Nc7 24. Nc5 Nxa6 25. Nxa6 Kh7 26. Nc5 Bd5 27. e4
+Bc4 28. Rxd6 Rxd6 29. Rd1 Rxd1+ 30. Kxd1 Qd8+ 31. Qd2 Qd6 32. Qxd6 exd6 33. Nd3
+Bxd3 34. cxd3 a3 35. Kc2 b4 36. Kb3 c5 37. f3 Bd4 38. g4 hxg4 39. fxg4 Kg7 40.
+Kc2 Kh6 41. Kb3 f6 42. Kc2 Kg7 43. Kb3 Kf7 44. Kc2 Ke6 45. Kb1 a2+ 46. Kxa2 d5
+47. exd5+ Kxd5 48. b3 Bxa1 49. Kxa1 f5 50. gxf5 gxf5 51. h5 Ke6 52. h6 Kf6 53.
+h7 Kg7 54. h8=Q+ Kxh8 55. Kb1 Kg7 56. Kc2 Kf6 57. Kd2 Ke5 58. Ke3 f4+ 59. Kf3
+Kd4 60. Kxf4 Kxd3 61. Ke5 Kc3 62. Kd5 Kxb3 63. Kxc5 Kc3 64. Kb5 b3 65. Ka4 Kc2
+66. Ka3 b2 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/BkEaeyap"]
+[Date "2024.11.13"]
+[Round "?"]
+[White "manuever_knight"]
+[Black "ogennadi"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1625"]
+[BlackRatingDiff "-77"]
+[ECO "?"]
+[FEN "rknbbrqn/pppppppp/8/8/8/8/PPPPPPPP/RKNBBRQN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.13"]
+[UTCTime "18:00:00"]
+[Variant "Chess960"]
+[WhiteElo "1505"]
+[WhiteRatingDiff "+100"]
+
+1. d4 f6 2. Bb4 Nd6 3. Nd3 Nc4 4. e3 e5 5. dxe5 fxe5 6. Be2 a5 7. Bxf8 Qxf8 8.
+Rd1 a4 9. Nc1 Qb4 10. Bxc4 Qxc4 11. Qf1 Qe6 12. a3 e4 13. Na2 Bf6 14. Qe1 Qe5
+15. Nc3 Nf7 16. Ng3 Nd6 17. Rd5 Qe6 18. O-O-O Bxc3 19. Qxc3 g6 20. Kb1 Ra6 21.
+Qe5 Qxe5 22. Rxe5 Bf7 23. Nxe4 Nxe4 24. Rxe4 Rd6 25. Rxd6 cxd6 26. Rxa4 Kc7 27.
+Rh4 h5 28. g4 Kc6 29. gxh5 gxh5 30. Rf4 Bg6 31. Rf6 Be8 32. b3 b5 33. Kb2 h4
+34. h3 Bh5 35. Rh6 Bf3 36. Rxh4 Kc5 37. Rf4 Be2 38. h4 d5 39. e4 dxe4 40. h5
+Bxh5 41. Rf5+ Kd4 42. Rxh5 d5 43. a4 b4 44. a5 e3 45. fxe3+ Kxe3 46. Rxd5 Ke4
+47. Rd3 Kf4 48. a6 Ke4 49. a7 Ke5 50. a8=Q Kf6 51. Qg2 Kf5 52. Qe2 Kf4 53. Rf3+
+Kg4 54. Qg2+ Kh4 55. Rh3# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/hWVDn5Vq"]
+[Date "2024.11.13"]
+[Round "?"]
+[White "isaypotato"]
+[Black "training_account2024"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1782"]
+[BlackRatingDiff "-50"]
+[ECO "?"]
+[FEN "nrqnbbkr/pppppppp/8/8/8/8/PPPPPPPP/NRQNBBKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.13"]
+[UTCTime "17:00:39"]
+[Variant "Chess960"]
+[WhiteElo "2094"]
+[WhiteRatingDiff "+48"]
+
+1. e4 e5 2. Nb3 Nc6 3. Ne3 Nb6 4. c3 Qd8 5. Nd5 Nxd5 6. exd5 Ne7 7. c4 Ng6 8.
+d4 d6 9. dxe5 dxe5 10. Qe3 b6 11. Bd3 Nf4 12. Bc3 Nxd3 13. Qxd3 Bd6 14. O-O-O
+Qg5+ 15. Nd2 Qxg2 16. Ne4 Qg4 17. Nf6+ gxf6 18. Rdg1 Qxg1+ 19. Rxg1+ Kf8 20.
+Qf5 Ke7 21. f4 Bd7 22. Qd3 Rbe8 23. fxe5 fxe5 24. b4 Kd8 25. Qe3 f6 26. c5 Bf8
+27. c6 Bc8 28. Kb2 h5 29. Rg6 Bh6 30. Rxh6 Bg4 31. Rxh8 Rxh8 32. Qf2 Rf8 33.
+Bxe5 Ke7 34. Bxc7 Rg8 35. d6+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/cWj0Uga3"]
+[Date "2024.11.13"]
+[Round "?"]
+[White "sacwin"]
+[Black "ztraynor"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1494"]
+[BlackRatingDiff "-12"]
+[ECO "?"]
+[FEN "rkrnnqbb/pppppppp/8/8/8/8/PPPPPPPP/RKRNNQBB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.13"]
+[UTCTime "13:02:00"]
+[Variant "Chess960"]
+[WhiteElo "1894"]
+[WhiteRatingDiff "+8"]
+
+1. g3 g6 2. f4 f5 3. e4 fxe4 4. Bxe4 d5 5. Bg2 Nd6 6. d4 Nc6 7. c3 Re8 8. Nd3
+b6 9. b3 Nb5 10. a4 Nxc3+ 11. Nxc3 Nxd4 12. Ka2 O-O-O 13. Ne5 Bxe5 14. Qa6+ Kd7
+15. fxe5 Nc6 16. Nxd5 e6 17. Nf6+ Ke7 18. Bxc6 Rd2+ 19. Kb1 Red8 20. Be4 c5 21.
+Qxa7+ R8d7 22. Qxb6 Qd8 23. Bxc5+ Kf7 24. Nxd7 Qxd7 25. Bd6 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/pJJhodnz"]
+[Date "2024.11.13"]
+[Round "?"]
+[White "M0r1"]
+[Black "Merkava777"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1451"]
+[BlackRatingDiff "-8"]
+[ECO "?"]
+[FEN "nrnqbkrb/pppppppp/8/8/8/8/PPPPPPPP/NRNQBKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.13"]
+[UTCTime "11:14:29"]
+[Variant "Chess960"]
+[WhiteElo "1748"]
+[WhiteRatingDiff "+14"]
+
+1. d4 g6 2. Bb4 Nab6 3. e4 d6 4. O-O h5 5. g3 a6 6. c3 Na7 7. Nab3 Nc6 8. Nd3
+h4 9. Bg2 hxg3 10. fxg3 Bd7 11. Qf3 Rg7 12. Nf4 Kg8 13. Bh3 Kh7 14. Bxd7 Nxd7
+15. Nd5 e6 16. Nf6+ Nxf6 17. Qxf6 Qxf6 18. Rxf6 Nxb4 19. cxb4 Kg8 20. Rc1 c6
+21. Rf3 Kh7 22. Rcf1 Kg8 23. Nd2 Rh7 24. Nb3 b6 25. Rc1 Rc8 26. Rfc3 c5 27.
+bxc5 dxc5 28. Rc4 Bf6 29. R1c2 Be7 30. dxc5 b5 31. Rd4 Rh5 32. c6 a5 33. Rd7
+Bf6 34. Rf2 a4 35. Na5 Bd8 36. Nb7 Bb6 37. c7 Rxc7 38. Rxc7 Bxc7 39. Rc2 Bb6+
+40. Kg2 Re5 41. Kf3 Rh5 42. h4 Kf8 43. Nd6 b4 44. Rc4 Kg7 45. Rxb4 Bc5 46. Ne8+
+Kf8 47. Rb8 Ke7 48. Rc8 Bd4 49. Rc4 Bxb2 50. Nc7 a3 51. Na6 Rb5 52. Ke3 Be5 53.
+g4 Rb3+ 54. axb3 a2 55. Ra4 a1=Q 56. Rxa1 Bxa1 57. b4 e5 58. Kd3 Ke8 59. Kc4
+Bd4 60. Kd5 Kd7 61. Nc5+ Kc7 62. Nd3 Kb6 63. Nxe5 Bxe5 64. Kxe5 Kb5 65. Kf6
+Kxb4 66. Kxf7 Kc5 67. Kxg6 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/HNs45aph"]
+[Date "2024.11.12"]
+[Round "?"]
+[White "chatakkuma"]
+[Black "KS_Legion_Legionowo"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1717"]
+[BlackRatingDiff "-15"]
+[ECO "?"]
+[FEN "bnrbkrnq/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRNQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.12"]
+[UTCTime "11:09:36"]
+[Variant "Chess960"]
+[WhiteElo "1936"]
+[WhiteRatingDiff "+7"]
+
+1. Nf3 c5 2. c4 Nc6 3. b3 Ba5 4. O-O Nf6 5. Nc3 Nd4 6. e3 Nc6 7. d4 b6 8. d5
+Bxc3 9. Bxc3 Nb4 10. Bxb4 cxb4 11. Re1 Ne4 12. Bc2 Nc3 13. h4 a5 14. a3 bxa3
+15. Ra1 a2 16. e4 g6 17. e5 b5 18. Bd3 b4 19. Nd2 Qg7 20. Ne4 Qxe5 21. Qh3 f5
+22. Nxc3 Qxc3 23. Qe3 O-O 24. Rxa2 Qxb3 25. Rxa5 Rfe8 26. h5 e5 27. hxg6 hxg6
+28. Qh6 Kf7 29. Qh7+ Kf6 30. Ra6+ Bc6 31. dxc6 dxc6 32. Qh4+ Ke6 33. Qd4 Kf6
+34. Qh4+ Ke6 35. f4 Qxd3 36. Rxe5+ Kd6 37. Qf6+ Kd7 38. Rd5+ Qxd5 39. cxd5 Re1+
+40. Kf2 Rce8 41. Ra7+ Kc8 42. Qxc6+ Kd8 43. Qd7# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/k53UpUGQ"]
+[Date "2024.11.11"]
+[Round "?"]
+[White "Redpartot"]
+[Black "MoistvonLipwig"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "2199"]
+[BlackRatingDiff "-47"]
+[ECO "?"]
+[FEN "rbnnkqbr/pppppppp/8/8/8/8/PPPPPPPP/RBNNKQBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.11"]
+[UTCTime "17:21:53"]
+[Variant "Chess960"]
+[WhiteElo "1679"]
+[WhiteRatingDiff "+22"]
+
+1. f4 f5 2. c3 a6 3. d4 Ba7 4. Nd3 d5 5. Ne5 Nd6 6. Nf2 Ne4 7. Bc2 Nf7 8. Nfd3
+O-O-O 9. O-O-O Nfd6 10. Bf2 Bf7 11. Bh4 h6 12. Bb3 g5 13. fxg5 hxg5 14. Be1 e6
+15. Nxf7 Nxf7 16. Kb1 c5 17. dxc5 Nxc5 18. Nxc5 Qxc5 19. e4 Nh6 20. exd5 exd5
+21. Qf3 f4 22. Rxd5 Rxd5 23. Qxd5 Qxd5 24. Bxd5 Kc7 25. g3 Ng4 26. gxf4 gxf4
+27. h4 Rd8 28. Bf3 Ne5 29. Be4 Be3 30. Kc2 b5 31. h5 Kd6 32. h6 Nf7 33. h7 Ke5
+34. Bg6 Nh8 35. Bd3 f3 36. Bg3+ Kd5 37. Rh5+ Kc6 38. Be4+ Kb6 39. Bxf3 Rd2+ 40.
+Kb3 a5 41. a3 Bc5 42. Rh6+ Ka7 43. Be5 Rd8 44. Bxh8 Rxh8 45. Rc6 a4+ 46. Kc2
+Bb6 47. Be4 Re8 48. Rh6 Rh8 49. Rf6 Bc7 50. Rf7 Kb6 51. Re7 Bd6 52. Re6 Kc5 53.
+Kd3 Rd8 54. Ke3 Rf8 55. Rg6 Bf4+ 56. Ke2 Rh8 57. Rc6# 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/07DrEIyo"]
+[Date "2024.11.10"]
+[Round "?"]
+[White "ogennadi"]
+[Black "isaypotato"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2057"]
+[BlackRatingDiff "+37"]
+[ECO "?"]
+[FEN "nnbbqrkr/pppppppp/8/8/8/8/PPPPPPPP/NNBBQRKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.10"]
+[UTCTime "22:01:37"]
+[Variant "Chess960"]
+[WhiteElo "1642"]
+[WhiteRatingDiff "-17"]
+
+1. Nc3 e5 2. Nb3 Nb6 3. e4 d6 4. d4 f5 5. exf5 Bxf5 6. dxe5 Qg6 7. exd6 Re8 8.
+Qd2 Bh3 9. Bf3 O-O 10. Re1 Rxe1+ 11. Qxe1 Rxf3 12. g3 cxd6 13. Nd4 Rf8 14. Ncb5
+Qf6 15. Bf4 Nc6 16. Bxd6 Nxd4 17. Nxd4 Qxd6 18. Qc3 Qd5 19. Qb3 Nc4 20. f3
+Qxd4+ 21. Qe3 Qxe3# 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/cpsNFPOa"]
+[Date "2024.11.10"]
+[Round "?"]
+[White "RaisinBranCrunch"]
+[Black "scrooge"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "2019"]
+[BlackRatingDiff "+1"]
+[ECO "?"]
+[FEN "nqrnbkrb/pppppppp/8/8/8/8/PPPPPPPP/NQRNBKRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.10"]
+[UTCTime "20:03:47"]
+[Variant "Chess960"]
+[WhiteElo "1576"]
+[WhiteRatingDiff "-5"]
+
+1. c4 g6 2. b4 e5 3. O-O Ne6 4. Nb3 d6 5. g3 c6 6. Nc3 Nac7 7. d3 Bd7 8. Bd2
+Bg7 9. a4 O-O 10. Ne4 Ne8 11. b5 f5 12. Nc3 Nf6 13. Na5 Qc7 14. Nb3 Qd8 15. e3
+Qe7 16. Na5 Nc5 17. d4 Nce4 18. Nxe4 Nxe4 19. Bxe4 fxe4 20. bxc6 bxc6 21. Qxe4
+Bf5 22. Nxc6 Qb7 23. Qd5+ Kh8 24. Nb4 Qxd5 25. Nxd5 Bd3 26. Rfd1 Be2 27. Re1
+Bxc4 28. Nb4 exd4 29. exd4 Kg8 30. Bc3 Kf7 31. f4 Rfe8 32. Rxe8 Rxe8 33. Re1
+Bxd4+ 34. Bxd4 Rxe1+ 35. Kg2 a5 36. Nc6 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/RTCDQD2M"]
+[Date "2024.11.10"]
+[Round "?"]
+[White "RSInternecio"]
+[Black "souzamoraes"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1656"]
+[BlackRatingDiff "-9"]
+[ECO "?"]
+[FEN "nrkbbqnr/pppppppp/8/8/8/8/PPPPPPPP/NRKBBQNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.10"]
+[UTCTime "17:00:41"]
+[Variant "Chess960"]
+[WhiteElo "2131"]
+[WhiteRatingDiff "+4"]
+
+1. e4 e5 2. Nb3 Nf6 3. d3 d6 4. Ne2 d5 5. f4 dxe4 6. fxe5 exd3 7. exf6 dxe2 8.
+Bxe2 Bxf6 9. Bg4+ Bd7 10. Bxd7+ Kxd7 11. O-O-O+ Ke8 12. Bg3 Qb4 13. Qf5 Rd8 14.
+Rxd8+ Bxd8 15. Re1+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/TvqNYcRf"]
+[Date "2024.11.10"]
+[Round "?"]
+[White "LuzhinAcademy"]
+[Black "manuever_knight"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1527"]
+[BlackRatingDiff "-22"]
+[ECO "?"]
+[FEN "rnbbqkrn/pppppppp/8/8/8/8/PPPPPPPP/RNBBQKRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.10"]
+[UTCTime "10:06:39"]
+[Variant "Chess960"]
+[WhiteElo "1905"]
+[WhiteRatingDiff "+4"]
+
+1. e4 e5 2. Ng3 Ng6 3. O-O O-O 4. d3 b6 5. Nc3 Bb7 6. Nf5 Nc6 7. g3 Nce7 8. g4
+d5 9. Bf3 d4 10. Ne2 Nxf5 11. gxf5 Nh4 12. Bh1 Qd7 13. f4 exf4 14. Rxf4 c5 15.
+Rxh4 Bxh4 16. Qxh4 Rac8 17. f6 Rc6 18. e5 Re6 19. Qg5 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/5iZ0FGfd"]
+[Date "2024.11.09"]
+[Round "?"]
+[White "ztraynor"]
+[Black "yellorambo"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1870"]
+[BlackRatingDiff "+11"]
+[ECO "?"]
+[FEN "bbrnkrnq/pppppppp/8/8/8/8/PPPPPPPP/BBRNKRNQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.09"]
+[UTCTime "21:04:34"]
+[Variant "Chess960"]
+[WhiteElo "1509"]
+[WhiteRatingDiff "-15"]
+
+1. e4 b6 2. f3 c5 3. Ne3 h5 4. h4 Bg3+ 5. Kd1 Be5 6. Ne2 g6 7. c4 Nc6 8. Bc2
+Nd4 9. Nxd4 cxd4 10. Nd5 e6 11. Nb4 Rxc4 12. Nd3 Ne7 13. b3 Rc7 14. f4 Bd6 15.
+e5 Ba3 16. Bb2 Bxb2 17. Nxb2 O-O 18. Qh3 Rfc8 19. Nc4 Nf5 20. Bxf5 exf5 21. a4
+a6 22. Rc2 Kh7 23. Qd3 Bxg2 24. Re1 Be4 25. Rxe4 fxe4 26. Qxe4 b5 27. axb5 axb5
+28. Na3 Qf8 29. Rxc7 Rxc7 30. Nxb5 Rc6 31. Qxd4 Qc8 32. Nc3 Qb7 33. Qd5 Kg7 34.
+Qb5 Qxb5 35. Nxb5 Rb6 36. Nd4 Rb4 37. Nc2 Rxf4 38. b4 Rxh4 39. b5 Rc4 40. b6
+Rc8 41. Ne3 f6 42. exf6+ Kxf6 43. Nd5+ Ke6 44. Nf4+ Kf5 45. Nd5 Rb8 46. Ne7+
+Kf6 47. Nd5+ Ke5 48. Ne3 Kd4 49. Nc2+ Kc5 50. Ke2 Kxb6 51. Kf3 Rf8+ 52. Kg3 Kc5
+53. Ne3 Kd4 54. Kh4 Kd3 55. Kg5 Rg8 56. Nd5 Kxd2 57. Nf6 Rh8 58. Kh4 g5+ 59.
+Kxg5 h4 60. Kg4 h3 61. Ne4+ Ke3 62. Ng3 Kf2 63. Ne4+ Kg2 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/IgXMXiRX"]
+[Date "2024.11.09"]
+[Round "?"]
+[White "nicalvarez"]
+[Black "j3084"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1734"]
+[BlackRatingDiff "+5"]
+[ECO "?"]
+[FEN "nbbrkrnq/pppppppp/8/8/8/8/PPPPPPPP/NBBRKRNQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.09"]
+[UTCTime "17:01:55"]
+[Variant "Chess960"]
+[WhiteElo "1172"]
+[WhiteRatingDiff "-21"]
+
+1. d4 Nf6 2. Bf4 Nh5 3. Bg3 Nxg3 4. hxg3 b6 5. e4 Bb7 6. f3 c5 7. O-O-O cxd4 8.
+Rxd4 Bxg3 9. Qh3 Bf4+ 10. Kd1 g6 11. c3 Be3 12. Rd3 Ba6 13. Rxe3 Bxf1 14. Ne2
+Bxe2+ 15. Kxe2 Nc7 16. Bc2 Ne6 17. Ba4 Nf4+ 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/r3qU3Y2C"]
+[Date "2024.11.09"]
+[Round "?"]
+[White "Magagna"]
+[Black "NameGoesInHere"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1552"]
+[BlackRatingDiff "-7"]
+[ECO "?"]
+[FEN "nbnqrkbr/pppppppp/8/8/8/8/PPPPPPPP/NBNQRKBR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.09"]
+[UTCTime "17:01:43"]
+[Variant "Chess960"]
+[WhiteElo "2002"]
+[WhiteRatingDiff "+5"]
+
+1. d4 d5 2. h3 c6 3. Nab3 e5 4. c3 e4 5. e3 h6 6. Qg4 Bd6 7. Bh2 Bh7 8. Bxd6+
+Nxd6 9. f3 Nb6 10. fxe4 Bxe4 11. Nd3 Ndc4 12. Qf4 O-O 13. O-O Bxd3 14. Bxd3
+Nxb2 15. Bb1 Qg5 16. Qf2 N2c4 17. e4 dxe4 18. Bxe4 Nd5 19. Bxd5 Qxd5 20. Nc5 b6
+21. Nd3 Rxe1 22. Rxe1 Nd6 23. Qf4 Re8 24. Rxe8+ Nxe8 25. Qb8 Qe4 26. Ne5 Kf8
+27. Qxa7 Qe1+ 28. Kh2 Qf2 29. Nf3 Qe3 30. Qxb6 Qf4+ 31. Kh1 Qc1+ 32. Ng1 Qxc3
+33. a4 Nd6 34. Qd8+ Ne8 35. a5 Qa1 36. Qb6 Qa4 37. a6 Qb5 38. Qa7 Kg8 39. Qa8
+Kf8 40. a7 Ke7 41. Qb8 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/zv0MdLkt"]
+[Date "2024.11.08"]
+[Round "?"]
+[White "root2"]
+[Black "Tranzoo"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1586"]
+[BlackRatingDiff "-4"]
+[ECO "?"]
+[FEN "brqknbnr/pppppppp/8/8/8/8/PPPPPPPP/BRQKNBNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.08"]
+[UTCTime "19:02:54"]
+[Variant "Chess960"]
+[WhiteElo "2039"]
+[WhiteRatingDiff "+1"]
+
+1. b3 b5 2. Ngf3 f6 3. g3 Nd6 4. Bg2 Nh6 5. d4 Qa6 6. a3 Nhf5 7. Nd3 Ne4 8. O-O
+h5 9. h4 Rg8 10. Nf4 g5 11. hxg5 Nxg5 12. Nxh5 Rh8 13. Nf4 e6 14. Bb2 Bd6 15.
+c4 Be4 16. Nxg5 fxg5 17. Bxe4 gxf4 18. c5 fxg3 19. cxd6 gxf2+ 20. Kxf2 Qxd6 21.
+Qg5+ Ne7 22. Qe5 Rh2+ 23. Kg1 O-O-O 24. Qxd6 cxd6 25. Kxh2 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/52tuPDna"]
+[Date "2024.11.08"]
+[Round "?"]
+[White "FunnyLikeAClown"]
+[Black "garrincha11"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1416"]
+[BlackRatingDiff "-22"]
+[ECO "?"]
+[FEN "brqbkrnn/pppppppp/8/8/8/8/PPPPPPPP/BRQBKRNN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.08"]
+[UTCTime "16:01:53"]
+[Variant "Chess960"]
+[WhiteElo "1756"]
+[WhiteRatingDiff "+7"]
+
+1. b3 Nf6 2. Nf3 b6 3. c4 e6 4. Ng3 Be7 5. Bc2 O-O 6. Qb2 Ng6 7. O-O Rd8 8. e4
+d5 9. exd5 exd5 10. Rfe1 dxc4 11. Bxg6 hxg6 12. Rxe7 cxb3 13. Qxb3 Rf8 14. Ne5
+Bd5 15. Qc3 Qd8 16. Rxc7 Rc8 17. Rc1 Be6 18. Rxc8 Bxc8 19. h3 Bb7 20. Ng4 Qd5
+21. Nxf6+ gxf6 22. f3 Rc8 23. Qb2 Rxc1+ 24. Qxc1 Qd6 25. Qe1 Bc6 26. Ne4 Bxe4
+27. Qxe4 Qc5+ 28. Bd4 Qc1+ 29. Kh2 Qc7+ 30. g3 Qc1 31. Qe2 Qc6 32. Bc3 b5 33.
+Qd3 Qe8 34. Bxf6 Qe6 35. Qd8+ 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/sZ8yiH8I"]
+[Date "2024.11.08"]
+[Round "?"]
+[White "Forhavu"]
+[Black "MrScribbles"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1478"]
+[BlackRatingDiff "-27"]
+[ECO "?"]
+[FEN "nbbrkqrn/pppppppp/8/8/8/8/PPPPPPPP/NBBRKQRN w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.08"]
+[UTCTime "15:01:58"]
+[Variant "Chess960"]
+[WhiteElo "1786"]
+[WhiteRatingDiff "+4"]
+
+1. c4 d5 2. Bxh7 Ng6 3. Bxg8 Qxg8 4. cxd5 e6 5. dxe6 Bxe6 6. b3 Nb6 7. Ng3 c6
+8. d4 Bc7 9. e4 O-O-O 10. Nc2 Qh7 11. h3 Qh4 12. e5 Nd5 13. Qe2 c5 14. dxc5
+Bxe5 15. Ne4 Ngf4 16. Qf3 g5 17. g3 Qxh3 18. Rh1 Ng2+ 19. Kd2 Bc3+ 20. Kd3
+Ngf4+ 21. Bxf4 Qf5 22. Ke2 gxf4 23. Nd6+ Rxd6 24. cxd6 Qg6 25. Qd3 Qg4+ 26. f3
+Qxg3 27. Rdg1 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/zdQ4q2Bf"]
+[Date "2024.11.08"]
+[Round "?"]
+[White "Roie"]
+[Black "AACtrl"]
+[Result "0-1"]
+[Annotator "lichess.org"]
+[BlackElo "1745"]
+[BlackRatingDiff "+4"]
+[ECO "?"]
+[FEN "rnbqknrb/pppppppp/8/8/8/8/PPPPPPPP/RNBQKNRB w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.08"]
+[UTCTime "10:03:40"]
+[Variant "Chess960"]
+[WhiteElo "1348"]
+[WhiteRatingDiff "-7"]
+
+1. g3 g6 2. Nc3 c6 3. d4 d5 4. e4 e6 5. e5 Nfd7 6. Bh6 c5 7. f4 Nc6 8. Nb5 Qa5+
+9. Nc3 cxd4 10. Qd2 dxc3 11. bxc3 b6 12. a4 Ba6 13. Bf3 Nc5 14. Bxd5 O-O-O 15.
+Bg5 Rxd5 0-1
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/3SqLdeVO"]
+[Date "2024.11.07"]
+[Round "?"]
+[White "training_account2024"]
+[Black "guneet97"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1334"]
+[BlackRatingDiff "-18"]
+[ECO "?"]
+[FEN "nbnrbqkr/pppppppp/8/8/8/8/PPPPPPPP/NBNRBQKR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.07"]
+[UTCTime "02:01:39"]
+[Variant "Chess960"]
+[WhiteElo "1743"]
+[WhiteRatingDiff "+39"]
+
+1. d4 d5 2. Nab3 e6 3. Nd3 Ne7 4. Bb4 c6 5. c3 Bd6 6. Nbc5 Bxc5 7. Nxc5 b6 8.
+Na6 f6 9. Qe1 Bh5 10. Rd3 Qf7 11. O-O Nf5 12. e4 dxe4 13. Qxe4 Ne7 14. Re1 Bg6
+15. Qe3 Bxd3 16. Bxd3 Nd5 17. Qxe6 Qxe6 18. Rxe6 Nxb4 19. Nxb4 Nc7 20. Rxc6 Ne8
+21. Bc4+ Kf8 22. Nd3 Rd6 23. Rc8 Ke7 24. Nf4 Kd7 25. Ra8 Kc7 26. Rxa7+ Kb8 27.
+Ra6 Nc7 28. Ra3 g5 29. Nd3 b5 30. Rb3 Kc8 31. Bxb5 Nxb5 32. Rxb5 Re8 33. Kf1
+Ra6 34. Rc5+ Kb7 35. a3 Rc6 36. Rd5 Kb6 37. a4 Rc4 38. Rb5+ Ka6 39. Nc5+ Ka7
+40. Rb7+ Ka8 41. Rxh7 Rb8 42. b4 Rxc3 43. b5 Re8 44. g3 Rc4 45. b6 Rb4 46. Ra7+
+Kb8 47. Na6+ Kc8 48. Nxb4 Re6 49. a5 Rd6 50. d5 Kd8 51. b7 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/nDjDeG8C"]
+[Date "2024.11.06"]
+[Round "?"]
+[White "KS_Legion_Legionowo"]
+[Black "sacwin"]
+[Result "1-0"]
+[Annotator "lichess.org"]
+[BlackElo "1500"]
+[BlackRatingDiff "-142"]
+[ECO "?"]
+[FEN "nrnbbkrq/pppppppp/8/8/8/8/PPPPPPPP/NRNBBKRQ w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.06"]
+[UTCTime "06:02:53"]
+[Variant "Chess960"]
+[WhiteElo "1704"]
+[WhiteRatingDiff "+13"]
+
+1. g3 O-O 2. d4 c6 3. c4 Nab6 4. b3 d5 5. c5 Nd7 6. Nd3 Bc7 7. Bc3 h5 8. h4 Qh6
+9. Nc2 f6 10. Qh3 f5 11. f4 e6 12. b4 Nf6 13. a4 Ne4 14. Be1 a6 15. Ne5 Bxe5
+16. dxe5 Qg6 17. Nd4 Qf7 18. a5 Ne7 19. e3 g6 20. Be2 Kg7 21. Nf3 Ng8 22. Ng5
+Qe7 23. Bf3 Nxg5 24. hxg5 Qc7 25. Bc3 Ne7 26. Bd4 Rh8 27. Rh1 Bf7 28. Qg2 Rh7
+29. Rh4 Nc8 30. Qh1 Bg8 31. Kf2 Na7 32. Qg2 Nb5 33. Rbh1 Qf7 34. R1h2 Na3 35.
+Qh1 Rd8 36. g4 fxg4 37. Bxg4 Nc2 38. Bxh5 gxh5 39. g6 Qf5 40. gxh7 Qxh7 41.
+Rxh5 Qd3 42. Qg2+ Kf7 43. f5 Qd2+ 44. Kg1 Qe1+ 45. Qf1 Qxf1+ 46. Kxf1 exf5 47.
+Rxc2 1-0
+
+[Event "Rated Chess960 game"]
+[Site "https://lichess.org/G3kgklyS"]
+[Date "2024.11.05"]
+[Round "?"]
+[White "kamelstekspizza"]
+[Black "M0r1"]
+[Result "1/2-1/2"]
+[Annotator "lichess.org"]
+[BlackElo "1778"]
+[BlackRatingDiff "-30"]
+[ECO "?"]
+[FEN "bqrbknnr/pppppppp/8/8/8/8/PPPPPPPP/BQRBKNNR w KQkq - 0 1"]
+[Opening "?"]
+[SetUp "1"]
+[Termination "Normal"]
+[TimeControl "1200+20"]
+[UTCDate "2024.11.05"]
+[UTCTime "21:00:57"]
+[Variant "Chess960"]
+[WhiteElo "1456"]
+[WhiteRatingDiff "+20"]
+
+1. e4 b6 2. d3 Nf6 3. Ne3 e6 4. b3 Ng6 5. Nf3 O-O 6. O-O Be7 7. Be2 Nf4 8. Bd1
+N6h5 9. Ne5 Rcd8 10. g3 Nh3+ 11. Kg2 N5f4+ 12. gxf4 Nxf4+ 13. Kg1 d6 14. N5c4
+e5 15. Nxe5 dxe5 16. Bxe5 Ng6 17. Bg3 Bd6 18. Bf3 Nf4 19. Nf5 Nh3+ 20. Kg2 Bxg3
+21. hxg3 Ng5 22. Qb2 f6 23. Be2 Rde8 24. f3 Qc8 25. Qa3 Qe6 26. Qxa7 g6 27. Nd4
+Qh3+ 28. Kf2 Qh2+ 29. Ke1 Qxg3+ 30. Kd1 Qd6 31. Nb5 Qb4 32. Qa4 Qe7 33. Qa3 Qe5
+34. Qb4 f5 35. Qc4+ Qe6 36. Qxe6+ Nxe6 37. c3 Bc6 38. Na3 Nf4 39. Kd2 Rd8 40.
+Ke3 fxe4 41. dxe4 Ng2+ 42. Kf2 Rd2 43. Rc2 Rxc2 44. Nxc2 Nf4 45. Bc4+ Kg7 46.
+Nd4 Bb7 47. Ke3 Bc8 48. Ne2 Ng2+ 49. Kf2 Nh4 50. Kg3 g5 51. Nd4 Ng6 52. Ne6+
+Bxe6 53. Bxe6 Nf4 54. Bf5 Rd8 55. Rf2 Rd1 56. c4 Rg1+ 57. Kh2 Re1 58. Rd2 Kf6
+59. Bxh7 Re3 60. Kg3 Nh5+ 61. Kf2 Rc3 62. Bf5 Nf4 63. Bg4 Ke5 64. Bc8 Nd3+ 65.
+Ke2 Nf4+ 66. Kf2 Nd3+ 67. Kg3 Kd4 68. Re2 Ne5 69. Bg4 Kd3 70. Rf2 Ke3 71. Bh5
+Nd3 72. Rh2 Rc1 73. Kg4 Rg1+ 74. Kf5 Ne1 75. Bg4 Rg3 76. Rh5 Nxf3 77. Bxf3
+Rxf3+ 78. Ke5 g4 79. Rh2 Rf8 80. Rg2 Kf3 81. Rg1 g3 82. Kd4 Kf2 83. Ra1 g2 84.
+e5 Rd8+ 85. Ke4 g1=Q 86. Rxg1 Kxg1 87. e6 Kf2 88. Ke5 Kg3 89. Kf6 Rd1 90. e7
+Rf1+ 91. Ke6 Re1+ 92. Kd7 Rd1+ 93. Kxc7 Re1 94. Kd8 Rd1+ 95. Kc7 Re1 96. Kd8
+Rd1+ 97. Kc7 1/2-1/2
+
+[Event "Rated Chess960 game"]
 [Site "https://lichess.org/LhrWz860"]
 [Date "2018.12.17"]
 [Round "?"]

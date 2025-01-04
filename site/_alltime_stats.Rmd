@@ -299,7 +299,9 @@ gt(titles_table) %>%
 
 #### LoneWolf
 
-```{r extract_lw_podium_details, eval = TRUE}
+TBC
+
+```{r extract_lw_podium_details, eval = FALSE}
 # Extract 1st/2nd/3rd place team names and team players from previously 
 # published LW season reports
 
@@ -441,7 +443,9 @@ if(scrub_cheats){
 
 ```
 
-```{r most_successful_4545, eval = TRUE}
+
+```{r most_successful_lw, eval = FALSE}
+# TODO
 
 # Highest-finishing players overall
 success <- alltime_podiums %>% 
@@ -475,7 +479,7 @@ success %>%
   
 ```
 
-```{r multiple_4545_winners, eval = TRUE}
+```{r multiple_lw_winners, eval = FALSE}
 # Produce table of players who've won multiple 4545 season titles
 
 multiple_titles <- alltime_podiums %>% 
