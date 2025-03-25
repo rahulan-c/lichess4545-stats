@@ -847,23 +847,23 @@ SaveLeaguePGN <- function(leagues){
 
 # # 4545
 CompileCombinedData(league_choice = "team4545")
-SaveLeaguePGN("team4545") # took 2m 23s for S2-S41 (2025-01-04)
+SaveLeaguePGN("team4545") # took 2m 23s for S2-S42 (2025-03-25)
 # 
 # # LW Open
 CompileCombinedData(league_choice = "lwopen")
-SaveLeaguePGN("lwopen") # took 1m 1s for S1-S34 (2025-01--04)
+SaveLeaguePGN("lwopen") # took 1m 1s for S1-S35 (2025-03-25)
 #
 # # LW U1800
 CompileCombinedData(league_choice = "lwu1800")
-SaveLeaguePGN("lwu1800") # took 0m 29s for S9-S34 (2025-01-04)
+SaveLeaguePGN("lwu1800") # took 0m 29s for S9-S35 (2025-03-25)
 
 # Chess960
 CompileCombinedData(league_choice = "chess960")
-SaveLeaguePGN("chess960") # took 0m 11s for S1-S32 (2025-01-04)
+SaveLeaguePGN("chess960") # took 0m 11s for S2-S34 (2025-03-25)
 
 # # Update all-seasons Series games data (.rds)
-# UpdateAllSeriesGames(series_sheets)
-# SaveLeaguePGN("series") # took 0m 9s on 2024-08-19
+UpdateAllSeriesGames(series_sheets)
+SaveLeaguePGN("series") # took 0m 9s on 2025-03-25
 
 # # Update all-seasons Rapid Battle games data (.rds)
 # UpdateAllRapidBattleGames(rb_sheets, 
@@ -872,7 +872,7 @@ SaveLeaguePGN("chess960") # took 0m 11s for S1-S32 (2025-01-04)
 # SaveLeaguePGN("rb")
 
 # Save single PGN with all 4545, LW (both sections) and Series games
-# SaveLeaguePGN("teamlwseries") # took 4m 04s (2024-08-19)
+SaveLeaguePGN("teamlwseries") # took 4m 11s (2025-03-25), 75,366 games
 
 # Update Infinite Quest all-times games dataset
 # UpdateQuestGames(report_unanalysed = T, stop_if_unanalysed = T)
