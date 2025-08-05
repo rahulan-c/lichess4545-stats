@@ -1067,7 +1067,7 @@ if(nrow(gambiteers) > 0){
                        "success" = "")
 }
 
-if(nrow(gambiteers) > 0){
+if(gambiteer_award){
 reactable(gambiteers,
           pagination = TRUE, 
           fullWidth = TRUE,

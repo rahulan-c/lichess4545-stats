@@ -133,18 +133,18 @@ knitr::kable(completed,
 
 ### PGNs
 
-- [4545 / Team](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_team4545.pgn) (seasons 2-42, up to Jan 2025)
-- [LoneWolf (Open)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn) (seasons 1-35, up to Jan 2025)
-- [LoneWolf (U1800)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwu1800.pgn) (seasons 9-35, up to Jan 2025)
-- [Chess960](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_chess960.pgn) (seasons 2-34, up to Mar 2025)
+- [4545 / Team](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_team4545.pgn) (44,799 games, seasons 2-44, played 2015-10-27 to 2025-07-07)
+- [LoneWolf (Open)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwopen.pgn) (20,413 games, seasons 1-36, played 2015-11-17 to 2025-05-05)
+- [LoneWolf (U1800)](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_lwu1800.pgn) (9,193 games, seasons 9-36, played 2017-11-14 to 2025-05-05)
+- [Chess960](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_chess960.pgn) (3,010 games, seasons 2-36, played 2018-6-11 to 2025-07-27)
 
-*Community league PGNs*
+*Community leagues*
 
-- [Series](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_series.pgn) (90+30) - 4,390 games, S1 (Nov 2017) to S28 (Dec 2025 - Feb 2025)
+- [Series](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_series.pgn) (90+30) - 4,390 games, S1 (Nov 2017) to S28 (Dec 2024 - Feb 2025)
 - [Rapid Battle](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_rb.pgn) (15+10) - recorded games up to Nov 2022
 - [Quest](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_quest.pgn) (15+10) - includes recorded games played up to Nov 2022
 
-*Combined*
+*Combined - classical leagues*
 
 - [4545 + LoneWolf + Series](https://rahulan-c.github.io/lichess4545-stats/pgns/allgames_teamlwseries.pgn) (75,366 games, last updated 2025-03-25)
 

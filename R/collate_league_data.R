@@ -847,19 +847,19 @@ SaveLeaguePGN <- function(leagues){
 
 # # 4545
 CompileCombinedData(league_choice = "team4545")
-SaveLeaguePGN("team4545") # took 2m 23s for S2-S42 (2025-03-25)
+SaveLeaguePGN("team4545") # took 2m 42s for S2-S44 (2025-08-05)
 # 
 # # LW Open
 CompileCombinedData(league_choice = "lwopen")
-SaveLeaguePGN("lwopen") # took 1m 1s for S1-S35 (2025-03-25)
+SaveLeaguePGN("lwopen") # took 1m 6s for S1-S36 (2025-08-05)
 #
 # # LW U1800
 CompileCombinedData(league_choice = "lwu1800")
-SaveLeaguePGN("lwu1800") # took 0m 29s for S9-S35 (2025-03-25)
+SaveLeaguePGN("lwu1800") # took 0m 32s for S9-S36 (2025-08-05)
 
 # Chess960
 CompileCombinedData(league_choice = "chess960")
-SaveLeaguePGN("chess960") # took 0m 11s for S2-S34 (2025-03-25)
+SaveLeaguePGN("chess960") # took 0m 13s for S2-S36 (2025-08-05)
 
 # # Update all-seasons Series games data (.rds)
 UpdateAllSeriesGames(series_sheets)
